@@ -1,0 +1,65 @@
+package inf112.skeleton.view.screens;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import inf112.skeleton.model.Map;
+import inf112.skeleton.view.ViewableEntity;
+
+public class GameScreen extends AbstractScreen{
+    private Map map;
+    private ViewableEntity player;
+    private ExtendViewport viewport;
+    private OrthographicCamera camera;
+    private OrthogonalTiledMapRenderer renderer;
+
+    public GameScreen(Game game){
+        super(game);
+        map = new Map();
+        player = map.getPlayer();
+    }
+
+    @Override
+    public void show(){
+        super.show();
+        camera = new OrthographicCamera();
+        camera.position.set(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2, 0);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        renderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
+    }
+
+    @Override
+    public void render(float deltaTime) {
+        super.render(deltaTime);
+
+        map.update(deltaTime);
+        followPlayerWithCamera(deltaTime);
+
+        renderer.setView(camera);
+        renderer.render();
+        viewport.apply();
+        /// Temporary
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        // player
+        shapeRenderer.setColor(1,1,1,1f);
+        shapeRenderer.rect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        shapeRenderer.end();
+        ///
+    }
+
+    private void followPlayerWithCamera(float deltaTime){
+        float cameraDx = (player.getX() + player.getWidth()/2 - camera.position.x)*5*deltaTime;
+        float cameraDy = (player.getY() + player.getHeight()/2 - camera.position.y)*5*deltaTime;
+        camera.position.add(cameraDx, cameraDy, 0);
+    }
+
+    @Override
+    public void resize(int width, int height){
+        viewport.update(width, height);
+    }
+
+}
