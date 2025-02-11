@@ -24,7 +24,7 @@ public class UI {
 //    private Viewport viewport = new ScreenViewport();
 //    private Viewport viewport = new FitViewport(40,30);
     private Viewport viewport = new ExtendViewport(40,30);
-    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/x12y16pxMaruMonica.fnt"));
+    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
 
     private SpriteBatch batch = new SpriteBatch();
 
