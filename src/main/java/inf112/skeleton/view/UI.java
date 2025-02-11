@@ -50,7 +50,7 @@ public class UI {
         batch.setProjectionMatrix(stage.getCamera().combined);
         batch.begin();
         String pos = "("+df.format(player.getX())+", "+df.format(player.getY())+")";
-        font.draw(batch, ""+pos, 2, viewport.getWorldHeight()-2);
+        font.draw(batch, pos, 2, viewport.getWorldHeight()-2);
         font.draw(batch, "gdxHeight = "+Gdx.graphics.getHeight(), 2, 4);
         font.draw(batch, "gdxWidth = "+Gdx.graphics.getWidth(), 2, 6);
         font.draw(batch, "viewportWorldHeight = "+viewport.getWorldHeight(), 2, 8);
