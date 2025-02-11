@@ -8,4 +8,8 @@ public interface ViewableEntity {
     float getWidth();
 
     float getHeight();
+
+    float getCenterX();
+
+    float getCenterY();
 }

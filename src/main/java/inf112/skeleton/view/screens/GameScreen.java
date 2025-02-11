@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.view.UI;
@@ -20,7 +21,7 @@ public class GameScreen extends AbstractScreen{
 
     public GameScreen(Game game){
         super(game);
-        map = new Map();
+        map = new Map("maps/grassMap.tmx");
         player = map.getPlayer();
     }
 
@@ -28,7 +29,7 @@ public class GameScreen extends AbstractScreen{
     public void show(){
         super.show();
         camera = new OrthographicCamera();
-        camera.position.set(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2, 0);
+        camera.position.set(player.getCenterX(), player.getCenterY(), 0);
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         ui = new UI(player);
@@ -48,8 +49,7 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.rect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
         shapeRenderer.end();
-
-        batch.setProjectionMatrix(camera.combined);
+//        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         ui.debug(deltaTime);
         batch.end();

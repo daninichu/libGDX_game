@@ -11,17 +11,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  * An abstract class that leaves unneeded methods empty.
  */
 public abstract class AbstractScreen implements Screen{
-    /**
-     * Is needed to switch screens.
-     */
+    /** Is needed to switch screens.*/
     protected final Game game;
-    /**
-     * Responsible for drawing images and sprites.
-     */
+    /** Responsible for drawing images and sprites.*/
     protected SpriteBatch batch;
-    /**
-     * Responsible for drawing simple shapes.
-     */
+    /** Responsible for drawing simple shapes.*/
     protected ShapeRenderer shapeRenderer;
 
     public AbstractScreen(Game game) {

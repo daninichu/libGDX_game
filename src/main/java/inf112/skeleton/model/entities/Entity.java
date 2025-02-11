@@ -40,4 +40,14 @@ public abstract class Entity implements ViewableEntity{
     public float getHeight() {
         return hitbox.height;
     }
+
+    @Override
+    public float getCenterX(){
+        return pos.x + hitbox.width/2;
+    }
+
+    @Override
+    public float getCenterY(){
+        return pos.y + hitbox.height/2;
+    }
 }
