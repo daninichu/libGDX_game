@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.model.Map;
+import inf112.skeleton.view.UI;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameScreen extends AbstractScreen{
@@ -14,7 +15,8 @@ public class GameScreen extends AbstractScreen{
     private ViewableEntity player;
     private ExtendViewport viewport;
     private OrthographicCamera camera;
-    private OrthogonalTiledMapRenderer renderer;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private UI ui;
 
     public GameScreen(Game game){
         super(game);
@@ -28,7 +30,8 @@ public class GameScreen extends AbstractScreen{
         camera = new OrthographicCamera();
         camera.position.set(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2, 0);
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-        renderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
+        mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
+        ui = new UI(player);
     }
 
     @Override
@@ -38,17 +41,18 @@ public class GameScreen extends AbstractScreen{
         map.update(deltaTime);
         followPlayerWithCamera(deltaTime);
 
-        renderer.setView(camera);
-        renderer.render();
+        mapRenderer.setView(camera);
+        mapRenderer.render();
         viewport.apply();
-        /// Temporary
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        // player
-        shapeRenderer.setColor(1,1,1,1f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.rect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
         shapeRenderer.end();
-        ///
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        ui.debug(deltaTime);
+        batch.end();
     }
 
     private void followPlayerWithCamera(float deltaTime){
@@ -60,6 +64,12 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void resize(int width, int height){
         viewport.update(width, height);
+        ui.resize(width, height);
     }
 
+    @Override
+    public void dispose(){
+        super.dispose();
+        ui.dispose();
+    }
 }

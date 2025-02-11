@@ -13,7 +13,7 @@ public abstract class Entity implements ViewableEntity{
     protected Rectangle hitbox;
     protected Direction dir = Direction.DOWN;
     protected float speed;
-    protected float dx, dy;
+    protected Vector2 velocity = new Vector2(0, 0);
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);

@@ -17,39 +17,38 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     private void move(float deltaTime){
-        if(dx != 0 && dy != 0){
-            dx /= (float) Math.sqrt(2);
-            dy /= (float) Math.sqrt(2);
-        }
-        if(dy > 0)
-            dir = Direction.UP;
-        if(dy < 0)
+        if(velocity.len() == 0)
+            return;
+        float angle = velocity.angleDeg();
+        if(angle > 225 && angle < 315)
             dir = Direction.DOWN;
-        if(dx > 0)
-            dir = Direction.RIGHT;
-        if(dx < 0)
+        else if(angle >= 135 && angle <= 225)
             dir = Direction.LEFT;
-        pos.add(dx*deltaTime, dy*deltaTime);
-        dx = dy = 0;
+        else if(angle > 45 && angle < 135)
+            dir = Direction.UP;
+        else
+            dir = Direction.RIGHT;
+        pos.add(velocity.clamp(0, speed*deltaTime));
+        velocity.set(0, 0);
     }
 
     @Override
     public void moveRight(){
-        dx += speed;
+        velocity.x += speed;
     }
 
     @Override
     public void moveLeft(){
-        dx -= speed;
+        velocity.x -= speed;
     }
 
     @Override
     public void moveUp(){
-        dy += speed;
+        velocity.y += speed;
     }
 
     @Override
     public void moveDown(){
-        dy -= speed;
+        velocity.y -= speed;
     }
 }
