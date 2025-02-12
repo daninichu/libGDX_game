@@ -2,11 +2,12 @@ package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import inf112.skeleton.app.GdxGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.view.UI;
 import inf112.skeleton.view.ViewableEntity;
@@ -30,7 +31,7 @@ public class GameScreen extends AbstractScreen{
         super.show();
         camera = new OrthographicCamera();
         camera.position.set(player.getCenterX(), player.getCenterY(), 0);
-        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        viewport = new ExtendViewport(GdxGame.SCREEN_WIDTH, GdxGame.SCREEN_HEIGHT, camera);
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         ui = new UI(player);
     }
@@ -53,6 +54,9 @@ public class GameScreen extends AbstractScreen{
         batch.begin();
         ui.debug(deltaTime);
         batch.end();
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     private void followPlayerWithCamera(float deltaTime){
