@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import inf112.skeleton.app.GdxGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.view.UI;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameScreen extends AbstractScreen{
+    private static final float VIEW_WIDTH = 24*32;
+    private static final float VIEW_HEIGHT = 18*32;
+
     private Map map;
     private ViewableEntity player;
     private ExtendViewport viewport;
@@ -31,7 +33,7 @@ public class GameScreen extends AbstractScreen{
         super.show();
         camera = new OrthographicCamera();
         camera.position.set(player.getCenterX(), player.getCenterY(), 0);
-        viewport = new ExtendViewport(GdxGame.SCREEN_WIDTH, GdxGame.SCREEN_HEIGHT, camera);
+        viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
         ui = new UI(player);
     }

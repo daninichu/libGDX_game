@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import inf112.skeleton.app.GdxGame;
+import inf112.skeleton.app.MyGame;
 
 import java.text.DecimalFormat;
 
@@ -14,10 +14,10 @@ public class UI {
     private ViewableEntity player;
     private Stage stage;
 
-    private static final float VIEWPORT_WIDTH = 40;
-    private static final float VIEWPORT_HEIGHT = 30;
+    private static final int VIEW_WIDTH = 40;
+    private static final int VIEW_HEIGHT = 30;
 
-    private Viewport viewport = new ExtendViewport(VIEWPORT_WIDTH,VIEWPORT_HEIGHT);
+    private Viewport viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT);
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
 
     private SpriteBatch batch = new SpriteBatch();
@@ -29,7 +29,7 @@ public class UI {
         this.stage = new Stage(viewport, batch);
 
         font.setUseIntegerPositions(false);
-        font.getData().setScale(VIEWPORT_HEIGHT / GdxGame.SCREEN_HEIGHT);
+        font.getData().setScale(VIEW_HEIGHT / MyGame.SCREEN_HEIGHT);
     }
 
     public void render (float deltaTime) {

@@ -10,16 +10,48 @@ public abstract class Entity implements ViewableEntity{
     }
 
     protected Vector2 pos;
-    protected Rectangle hitbox;
+    protected Vector2 velocity = new Vector2(0, 0);
+    protected Rectangle hurtbox;
     protected Direction dir = Direction.DOWN;
     protected float speed;
-    protected Vector2 velocity = new Vector2(0, 0);
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
     }
 
+    /**
+     * Where we decide what this entity should do each frame.
+     * @param deltaTime The time interval between each frame.
+     */
     public abstract void update(float deltaTime);
+
+    /**
+     * Adds the velocity vector to the position vector.
+     * @param deltaTime Is used to make sure that the change of position is
+     * consistent even for different frame rates.
+     */
+    protected boolean move(float deltaTime){
+        if(velocity.len() == 0)
+            return false;
+        updateDirection();
+        pos.add(velocity.setLength(speed*deltaTime));
+        return true;
+    }
+
+    /**
+     * Change where the entity is facing based on the direction of velocity.
+     */
+    private void updateDirection(){
+        float angle = velocity.angleDeg();
+        if(225 < angle && angle < 315)
+            dir = Direction.DOWN;
+        else if(135 <= angle && angle <= 225)
+            dir = Direction.LEFT;
+        else if(45 < angle && angle < 135)
+            dir = Direction.UP;
+        else
+            dir = Direction.RIGHT;
+    }
 
     @Override
     public float getX() {
@@ -33,21 +65,21 @@ public abstract class Entity implements ViewableEntity{
 
     @Override
     public float getWidth() {
-        return hitbox.width;
+        return hurtbox.width;
     }
 
     @Override
     public float getHeight() {
-        return hitbox.height;
+        return hurtbox.height;
     }
 
     @Override
     public float getCenterX(){
-        return pos.x + hitbox.width/2;
+        return pos.x + hurtbox.width/2;
     }
 
     @Override
     public float getCenterY(){
-        return pos.y + hitbox.height/2;
+        return pos.y + hurtbox.height/2;
     }
 }

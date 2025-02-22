@@ -14,20 +14,20 @@ public class PlayerTest{
         assertEquals(new Vector2(0, 0), player.pos);
 
         player.moveRight();
-        player.update(1f/60f);
+        player.update(1);
         assertTrue(player.getX() > 0);
         assertEquals(0, player.getY());
 
         player.moveDown();
-        player.update(1f/60f);
+        player.update(1);
         assertTrue(player.getY() < 0);
 
         player.moveLeft();
-        player.update(2f/60f);
+        player.update(2);
         assertTrue(player.getX() < 0);
 
         player.moveUp();
-        player.update(2f/60f);
+        player.update(2);
         assertTrue(player.getY() > 0);
     }
 
