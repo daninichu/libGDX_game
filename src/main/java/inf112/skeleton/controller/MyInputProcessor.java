@@ -1,67 +1,35 @@
 package inf112.skeleton.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 
-public class MyInputProcessor implements InputProcessor{
-    ControllablePlayer player;
+public class MyInputProcessor extends InputAdapter {
+    private ControllablePlayer player;
 
     public MyInputProcessor(ControllablePlayer player) {
         this.player = player;
     }
 
     @Override
-    public boolean keyDown(int i){
-        if(Gdx.input.isKeyPressed(Input.Keys.D))
-            player.moveRight();
-        if(Gdx.input.isKeyPressed(Input.Keys.A))
-            player.moveLeft();
-        if(Gdx.input.isKeyPressed(Input.Keys.W))
-            player.moveUp();
-        if(Gdx.input.isKeyPressed(Input.Keys.S))
-            player.moveDown();
+    public boolean keyDown(int keycode){
+        switch(keycode){
+            case Input.Keys.A -> player.setLeftMove(true);
+            case Input.Keys.D -> player.setRightMove(true);
+            case Input.Keys.W -> player.setUpMove(true);
+            case Input.Keys.S -> player.setDownMove(true);
+        }
         return true;
     }
 
     @Override
-    public boolean keyUp(int i){
-        return false;
+    public boolean keyUp(int keycode){
+        switch(keycode){
+            case Input.Keys.A -> player.setLeftMove(false);
+            case Input.Keys.D -> player.setRightMove(false);
+            case Input.Keys.W -> player.setUpMove(false);
+            case Input.Keys.S -> player.setDownMove(false);
+        }
+        return true;
     }
 
-    @Override
-    public boolean keyTyped(char c){
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3){
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3){
-        return false;
-    }
-
-    @Override
-    public boolean touchCancelled(int i, int i1, int i2, int i3){
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int i, int i1, int i2){
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1){
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float v, float v1){
-        return false;
-    }
 }

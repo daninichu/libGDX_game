@@ -8,9 +8,8 @@ public abstract class Entity implements ViewableEntity{
     protected enum Direction {
         RIGHT, LEFT, UP, DOWN
     }
-
     protected Vector2 pos;
-    protected Vector2 velocity = new Vector2(0, 0);
+    protected Vector2 velocity = new Vector2();
     protected Rectangle hurtbox;
     protected Direction dir = Direction.DOWN;
     protected float speed;

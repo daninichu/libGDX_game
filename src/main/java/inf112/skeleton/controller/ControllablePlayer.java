@@ -1,11 +1,11 @@
 package inf112.skeleton.controller;
 
 public interface ControllablePlayer {
-    void moveRight();
+    void setRightMove(boolean t);
 
-    void moveLeft();
+    void setLeftMove(boolean t);
 
-    void moveUp();
+    void setUpMove(boolean t);
 
-    void moveDown();
+    void setDownMove(boolean t);
 }
