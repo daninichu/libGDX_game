@@ -5,17 +5,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.model.states.enemies.PursueState;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.UI;
 import inf112.skeleton.view.ViewableEntity;
+
+import java.util.HashMap;
 
 public class GameScreen extends AbstractScreen{
     private static final float VIEW_WIDTH = 24*32;
@@ -31,9 +36,9 @@ public class GameScreen extends AbstractScreen{
     private OrthogonalTiledMapRenderer mapRenderer;
     private UI ui;
 
-    public GameScreen(Game game, Map map) {
+    public GameScreen(MyGame game) {
         super(game);
-        this.map = map;
+        this.map = game.getMap();
         this.entities = map.getEntities();
         this.player = entities.get(0);
     }
@@ -48,8 +53,10 @@ public class GameScreen extends AbstractScreen{
         ui = new UI(player);
     }
 
+    Texture t = new Texture(Gdx.files.internal("sprite.png"));
     @Override
     public void render(float deltaTime) {
+        long time = System.nanoTime();
         ScreenUtils.clear(Color.BLACK);
 
         map.update(deltaTime);
@@ -62,6 +69,9 @@ public class GameScreen extends AbstractScreen{
 
         entities.sort(comparator);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
         for(ViewableEntity e : entities){
             if(e instanceof Player)
                 shapeRenderer.setColor(Color.WHITE);
@@ -69,22 +79,25 @@ public class GameScreen extends AbstractScreen{
                 shapeRenderer.setColor(Color.RED);
             }
             shapeRenderer.rect(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+//            batch.draw(t, e.getX(), e.getY());
         }
+        batch.end();
+
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
         for(ViewableEntity e : entities){
-            if(e instanceof Enemy){
+            if(e instanceof Enemy enemy){
                 shapeRenderer.setColor(Color.BLUE);
-                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.vision);
+                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), PursueState.vision);
                 shapeRenderer.setColor(Color.RED);
-                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.attackRange);
+                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), enemy.attackRange);
             }
         }
         shapeRenderer.end();
         ui.debug(deltaTime);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setScreen(new MainMenuScreen(game));
-        }
+
+        Gdx.app.log("Render time: ", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.controller.ControllablePlayer;
 import inf112.skeleton.controller.MyInputProcessor;
+import inf112.skeleton.model.states.IState;
 
 public class Player extends Entity implements ControllablePlayer{
     enum State {
@@ -15,14 +16,13 @@ public class Player extends Entity implements ControllablePlayer{
 
     public Player(float x, float y){
         super(x, y);
-        Gdx.input.setInputProcessor(new MyInputProcessor(this));
         this.hurtbox = new Rectangle(0, 0, 32, 32);
         this.speed = 140;
     }
 
     @Override
     public void update(float deltaTime){
-        switch(state){
+        switch (state){
             case NonAttack -> updateNonAttack(deltaTime);
             case Attack -> updateAttack(deltaTime);
         }
@@ -37,6 +37,7 @@ public class Player extends Entity implements ControllablePlayer{
 
     // Can transition to: NonAttack
     private void updateAttack(float deltaTime){
+        // TODO
     }
 
     private void updateMotion(){

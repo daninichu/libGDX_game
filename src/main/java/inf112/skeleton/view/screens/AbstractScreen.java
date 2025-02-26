@@ -6,19 +6,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import inf112.skeleton.app.MyGame;
 
 /**
  * An abstract class that leaves unneeded methods empty.
  */
 public abstract class AbstractScreen implements Screen{
     /** Is needed to switch screens.*/
-    protected final Game game;
+    protected final MyGame game;
     /** Responsible for drawing images and sprites.*/
     protected SpriteBatch batch;
     /** Responsible for drawing simple shapes.*/
     protected ShapeRenderer shapeRenderer;
 
-    public AbstractScreen(Game game) {
+    public AbstractScreen(MyGame game) {
         this.game = game;
     }
 

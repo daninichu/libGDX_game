@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.skeleton.app.MyGame;
 
 public class MainMenuScreen extends AbstractScreen {
     private Stage stage;
@@ -18,7 +19,7 @@ public class MainMenuScreen extends AbstractScreen {
     private Label title;
     private Label start;
 
-    public MainMenuScreen(Game game){
+    public MainMenuScreen(MyGame game){
         super(game);
     }
 

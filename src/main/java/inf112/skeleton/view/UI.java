@@ -45,14 +45,14 @@ public class UI {
         batch.begin();
         String pos = "("+df.format(player.getX())+", "+df.format(player.getY())+")";
         font.draw(batch, pos, 2, viewport.getWorldHeight()-2);
-        font.draw(batch, "gdxHeight = "+Gdx.graphics.getHeight(), 2, 4);
-        font.draw(batch, "gdxWidth = "+Gdx.graphics.getWidth(), 2, 6);
-        font.draw(batch, "viewportWorldHeight = "+viewport.getWorldHeight(), 2, 8);
-        font.draw(batch, "viewportWorldWidth = "+viewport.getWorldWidth(), 2, 10);
-        font.draw(batch, "viewportScreenHeight = "+viewport.getScreenHeight(), 2, 12);
-        font.draw(batch, "viewportScreenWidth = "+viewport.getScreenWidth(), 2, 14);
-        font.draw(batch, "fontScaleY = "+font.getScaleY(), 2, 16);
-        font.draw(batch, "fontScaleX = "+font.getScaleX(), 2, 18);
+//        font.draw(batch, "gdxHeight = "+Gdx.graphics.getHeight(), 2, 4);
+//        font.draw(batch, "gdxWidth = "+Gdx.graphics.getWidth(), 2, 6);
+//        font.draw(batch, "viewportWorldHeight = "+viewport.getWorldHeight(), 2, 8);
+//        font.draw(batch, "viewportWorldWidth = "+viewport.getWorldWidth(), 2, 10);
+//        font.draw(batch, "viewportScreenHeight = "+viewport.getScreenHeight(), 2, 12);
+//        font.draw(batch, "viewportScreenWidth = "+viewport.getScreenWidth(), 2, 14);
+//        font.draw(batch, "fontScaleY = "+font.getScaleY(), 2, 16);
+//        font.draw(batch, "fontScaleX = "+font.getScaleX(), 2, 18);
 
         batch.end();
     }

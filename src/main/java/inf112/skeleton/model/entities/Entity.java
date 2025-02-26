@@ -53,6 +53,11 @@ public abstract class Entity implements ViewableEntity{
     }
 
     @Override
+    public Vector2 getCenterPos(){
+        return new Vector2(getCenterX(), getCenterY());
+    }
+
+    @Override
     public float getX() {
         return pos.x;
     }

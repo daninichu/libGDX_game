@@ -23,6 +23,10 @@ public class Map {
     }
 
     private void spawnEntities() {
+        for(int i = 0; i < 3; i++){
+//            enemies.add(new EvilSquare(i*16, 350, player));
+//            enemies.add(new EvilSquare(200, 250, player));
+        }
         enemies.add(new EvilSquare(200, 250, player));
     }
 
