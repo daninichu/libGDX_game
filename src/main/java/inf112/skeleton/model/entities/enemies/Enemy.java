@@ -1,47 +1,85 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.model.states.enemies.EnemyState;
-import inf112.skeleton.model.states.enemies.PatrolState;
+import inf112.skeleton.model.FsmBlueprint;
+import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.view.ViewableEntity;
 
-public abstract class Enemy extends Entity {
-    private EnemyState currentState;
+public abstract class Enemy extends Entity{
+    private static FsmBlueprint blueprint = new FsmBlueprint();
+    static {
+        blueprint.addTransition("init", "init", "idle");
+        blueprint.addTransition("idle", "playerVisible", "chase");
+        blueprint.addTransition("idle", "timeout", "roaming");
+        blueprint.addTransition("roaming", "timeout", "idle");
+        blueprint.addTransition("roaming", "playerVisible", "chase");
+        blueprint.addTransition("chase", "playerFar", "idle");
+        blueprint.addTransition("chase", "playerClose", "attacking");
+        blueprint.addTransition("attacking", "timeout", "chase");
+    }
 
-    protected Vector2 target = new Vector2();
-    public final float attackRange;
+    private StateMachine stateMachine = new StateMachine(blueprint, "init");
 
-    public Enemy(float x, float y, float attackRange, ViewableEntity player) {
+    private ViewableEntity player;
+    private float timer;
+    public static final float vision = MyGame.TILE_SIZE * 8;
+    protected float attackRange;
+
+    public Enemy(float x, float y, ViewableEntity player) {
         super(x, y);
-        this.currentState = new PatrolState(this, player);
-        this.attackRange = attackRange;
+        this.player = player;
+
+        stateMachine.onEnter("idle", () -> {
+            timer = MathUtils.random(2) + 1;
+            velocity.setLength(0);
+        });
+        stateMachine.onEnter("roaming", () -> {
+            timer = MathUtils.random(2);
+            velocity.setToRandomDirection();
+            velocity.setLength(speed / 2f);
+        });
+        stateMachine.onEnter("chase", () -> {
+            velocity.set(speed, 0);
+        });
+        stateMachine.onEnter("attacking", () -> {
+            timer = 1;
+            velocity.setLength(0);
+        });
+        stateMachine.fireEvent("init");
     }
 
     @Override
-    public void update(float deltaTime){
-        currentState.update(deltaTime);
+    public void update(float deltaTime) {
+        float distance = getCenterPos().dst(player.getCenterPos());
+        if (distance <= attackRange)
+            stateMachine.fireEvent("playerClose");
+        else if (distance <= vision)
+            stateMachine.fireEvent("playerVisible");
+        else if (distance > vision)
+            stateMachine.fireEvent("playerFar");
+
+        move(deltaTime);
+
+        if (stateMachine.getState().equals("chase")) {
+//            player.getCenterPos().angleRad(getCenterPos());
+            float angle = MathUtils.atan2(player.getCenterY() - getCenterY(), player.getCenterX() - getCenterX());
+            velocity.setAngleRad(angle);
+        }
+
+        timer -= deltaTime;
+        if (timer <= 0) {
+            stateMachine.fireEvent("timeout");
+        }
     }
 
-    public void changeState(EnemyState newState) {
-        currentState.exit();
-        currentState = newState;
-        currentState.enter();
+    public String getState() {
+        return stateMachine.getState();
     }
 
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    public void setTarget(Vector2 newTarget) {
-        target.set(newTarget);
-    }
-
-    public boolean moveEnemy(float deltaTime){
-        return move(deltaTime);
-    }
-
-    public String currentState(){
-        return currentState.toString();
+    public float getAttackRange(){
+        return attackRange;
     }
 }

@@ -33,7 +33,7 @@ public abstract class Entity implements ViewableEntity{
         if(velocity.len() == 0)
             return false;
         updateDirection();
-        pos.add(velocity.setLength(speed*deltaTime));
+        pos.add(velocity.cpy().scl(deltaTime));
         return true;
     }
 

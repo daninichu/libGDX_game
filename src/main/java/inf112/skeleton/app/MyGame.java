@@ -14,8 +14,9 @@ import inf112.skeleton.view.screens.MainMenuScreen;
  * A class that leaves the majority of the work to screens.
  */
 public class MyGame extends Game{
-    public static float SCREEN_WIDTH = 480;
-    public static float SCREEN_HEIGHT = 320;
+    public static int SCREEN_WIDTH = 480;
+    public static int SCREEN_HEIGHT = 320;
+    public static int TILE_SIZE = 32/2;
 
     private Player player;
     private Map map;

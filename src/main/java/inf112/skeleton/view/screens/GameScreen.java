@@ -1,6 +1,5 @@
 package inf112.skeleton.view.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -13,18 +12,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
-import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.model.states.enemies.PursueState;
+import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.UI;
 import inf112.skeleton.view.ViewableEntity;
 
-import java.util.HashMap;
-
 public class GameScreen extends AbstractScreen{
-    private static final float VIEW_WIDTH = 24*32;
-    private static final float VIEW_HEIGHT = 18*32;
+    private static final float VIEW_WIDTH = 24*MyGame.TILE_SIZE;
+    private static final float VIEW_HEIGHT = 18*MyGame.TILE_SIZE;
     private static final DrawOrderComparator comparator = new DrawOrderComparator();
 
     private Map map;
@@ -50,7 +46,7 @@ public class GameScreen extends AbstractScreen{
         camera.position.set(player.getCenterX(), player.getCenterY(), 0);
         viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
-        ui = new UI(player);
+        ui = new UI(entities);
     }
 
     Texture t = new Texture(Gdx.files.internal("sprite.png"));
@@ -69,6 +65,7 @@ public class GameScreen extends AbstractScreen{
 
         entities.sort(comparator);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -89,15 +86,15 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             if(e instanceof Enemy enemy){
                 shapeRenderer.setColor(Color.BLUE);
-                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), PursueState.vision);
+                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), Enemy.vision);
                 shapeRenderer.setColor(Color.RED);
-                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), enemy.attackRange);
+                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), enemy.getAttackRange());
             }
         }
         shapeRenderer.end();
         ui.debug(deltaTime);
 
-        Gdx.app.log("Render time: ", (System.nanoTime()-time)/1000000f+" ms");
+//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){

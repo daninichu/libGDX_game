@@ -1,11 +1,10 @@
 package inf112.skeleton.model.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Rectangle;
+import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
-import inf112.skeleton.controller.MyInputProcessor;
-import inf112.skeleton.model.states.IState;
+
+import java.util.HashMap;
 
 public class Player extends Entity implements ControllablePlayer{
     enum State {
@@ -16,8 +15,9 @@ public class Player extends Entity implements ControllablePlayer{
 
     public Player(float x, float y){
         super(x, y);
-        this.hurtbox = new Rectangle(0, 0, 32, 32);
-        this.speed = 140;
+        this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.speed = 4.5f * MyGame.TILE_SIZE;
+        HashMap<String,String> map = new HashMap<>();
     }
 
     @Override
@@ -31,6 +31,7 @@ public class Player extends Entity implements ControllablePlayer{
     // Can transition to: Attack
     private void updateNonAttack(float deltaTime){
         updateMotion();
+        velocity.setLength(speed);
         move(deltaTime);
         velocity.set(0,0);
     }
@@ -38,6 +39,7 @@ public class Player extends Entity implements ControllablePlayer{
     // Can transition to: NonAttack
     private void updateAttack(float deltaTime){
         // TODO
+
     }
 
     private void updateMotion(){

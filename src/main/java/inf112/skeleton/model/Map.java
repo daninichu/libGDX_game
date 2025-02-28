@@ -3,9 +3,9 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.enemies.EvilSquare;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.view.ViewableEntity;
 
 /**
@@ -27,6 +27,7 @@ public class Map {
 //            enemies.add(new EvilSquare(i*16, 350, player));
 //            enemies.add(new EvilSquare(200, 250, player));
         }
+//        enemies.add(new Enemy2(200, 300, player));
         enemies.add(new EvilSquare(200, 250, player));
     }
 
