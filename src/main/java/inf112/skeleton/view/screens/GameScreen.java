@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -49,7 +51,7 @@ public class GameScreen extends AbstractScreen{
         ui = new UI(entities);
     }
 
-    Texture t = new Texture(Gdx.files.internal("sprite.png"));
+    Texture t = new Texture(Gdx.files.internal("sprite16.png"));
     @Override
     public void render(float deltaTime) {
         long time = System.nanoTime();
@@ -64,8 +66,8 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         entities.sort(comparator);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -80,27 +82,31 @@ public class GameScreen extends AbstractScreen{
         }
         batch.end();
 
+        for(Rectangle r : map.collisionBoxes){
+            shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        }
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         for(ViewableEntity e : entities){
             if(e instanceof Enemy enemy){
-                shapeRenderer.setColor(Color.BLUE);
-                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), Enemy.vision);
-                shapeRenderer.setColor(Color.RED);
-                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), enemy.getAttackRange());
+//                shapeRenderer.setColor(Color.BLUE);
+//                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), Enemy.vision);
+//                shapeRenderer.setColor(Color.RED);
+//                shapeRenderer.circle(e.getCenterX(), enemy.getCenterY(), enemy.getAttackRange());
             }
         }
         shapeRenderer.end();
-        ui.debug(deltaTime);
+//        ui.debug(deltaTime);
 
 //        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){
-        float cameraDx = (player.getCenterX() - camera.position.x)*5*deltaTime;
-        float cameraDy = (player.getCenterY() - camera.position.y)*5*deltaTime;
-        camera.position.add(cameraDx, cameraDy, 0);
+        viewport.getCamera().position.lerp(new Vector3(player.getCenterX(), player.getCenterY(), 0), 5*deltaTime);
+//        float cameraDx = (player.getCenterX() - camera.position.x)*5*deltaTime;
+//        float cameraDy = (player.getCenterY() - camera.position.y)*5*deltaTime;
+//        camera.position.add(cameraDx, cameraDy, 0);
     }
 
     @Override

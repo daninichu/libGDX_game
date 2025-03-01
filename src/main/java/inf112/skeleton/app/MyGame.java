@@ -25,7 +25,7 @@ public class MyGame extends Game{
     public void create(){
         player = new Player(0, 0);
         Gdx.input.setInputProcessor(new MyInputProcessor(player));
-        map = new Map("maps/grassMap.tmx", player);
+        map = new Map("maps/untitled.tmx", player);
         setScreen(new MainMenuScreen(this));
     }
 

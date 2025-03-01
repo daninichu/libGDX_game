@@ -2,13 +2,15 @@ package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.CollidableEntity;
 import inf112.skeleton.view.ViewableEntity;
 
-public abstract class Entity implements ViewableEntity{
+public abstract class Entity implements ViewableEntity, CollidableEntity{
     protected enum Direction {
         RIGHT, LEFT, UP, DOWN
     }
     protected Vector2 pos;
+    protected Vector2 prevPos;
     protected Vector2 velocity = new Vector2();
     protected Rectangle hurtbox;
     protected Direction dir = Direction.DOWN;
@@ -16,6 +18,7 @@ public abstract class Entity implements ViewableEntity{
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
+        this.prevPos = new Vector2(x, y);
     }
 
     /**
@@ -53,8 +56,32 @@ public abstract class Entity implements ViewableEntity{
     }
 
     @Override
+    public void setPos(float x, float y){
+        pos.set(x, y);
+    }
+
+    @Override
+    public void setPos(Vector2 newPos){
+        pos.set(newPos);
+    }
+
+    @Override
+    public Vector2 getPos(){
+        return pos.cpy();
+    }
+
+    public Vector2 getPrevPos(){
+        return prevPos.cpy();
+    }
+
+    @Override
     public Vector2 getCenterPos(){
         return new Vector2(getCenterX(), getCenterY());
+    }
+
+    @Override
+    public Rectangle locateHurtbox(){
+        return new Rectangle(hurtbox.x + pos.x, hurtbox.y + pos.y, hurtbox.width, hurtbox.height);
     }
 
     @Override

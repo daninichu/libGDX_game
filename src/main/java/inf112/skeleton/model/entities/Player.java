@@ -30,10 +30,11 @@ public class Player extends Entity implements ControllablePlayer{
 
     // Can transition to: Attack
     private void updateNonAttack(float deltaTime){
+        velocity.set(0,0);
         updateMotion();
         velocity.setLength(speed);
+        prevPos.set(pos);
         move(deltaTime);
-        velocity.set(0,0);
     }
 
     // Can transition to: NonAttack

@@ -1,8 +1,6 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
