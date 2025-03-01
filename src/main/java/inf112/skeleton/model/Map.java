@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.enemies.EvilSquare;
@@ -18,7 +17,7 @@ import inf112.skeleton.view.ViewableEntity;
 public class Map {
     private Player player;
     private Array<Enemy> enemies = new Array<>();
-    public Array<Rectangle> collisionBoxes = new Array<>();
+    private Array<Rectangle> collisionBoxes = new Array<>();
     private CollisionChecker collisionChecker;
 
     private TiledMap tiledMap;
@@ -46,10 +45,11 @@ public class Map {
 
     public void update(float deltaTime) {
         player.update(deltaTime);
+        collisionChecker.checkCollisions(player);
         for(Enemy e : enemies) {
             e.update(deltaTime);
+            collisionChecker.checkCollisions(e);
         }
-        collisionChecker.checkCollisions(player);
     }
 
     public TiledMap getTiledMap() {
@@ -61,5 +61,9 @@ public class Map {
         entities.add(player);
         entities.addAll(enemies);
         return entities;
+    }
+
+    public Array<Rectangle> getCollisionBoxes() {
+        return new Array<>(collisionBoxes);
     }
 }

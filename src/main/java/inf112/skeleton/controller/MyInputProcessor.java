@@ -17,6 +17,11 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.D -> player.setRightMove(true);
             case Input.Keys.W -> player.setUpMove(true);
             case Input.Keys.S -> player.setDownMove(true);
+
+            case Input.Keys.LEFT -> player.setLeftMove(true);
+            case Input.Keys.RIGHT -> player.setRightMove(true);
+            case Input.Keys.UP -> player.setUpMove(true);
+            case Input.Keys.DOWN -> player.setDownMove(true);
         }
         return true;
     }
@@ -28,6 +33,11 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.D -> player.setRightMove(false);
             case Input.Keys.W -> player.setUpMove(false);
             case Input.Keys.S -> player.setDownMove(false);
+
+            case Input.Keys.LEFT -> player.setLeftMove(false);
+            case Input.Keys.RIGHT -> player.setRightMove(false);
+            case Input.Keys.UP -> player.setUpMove(false);
+            case Input.Keys.DOWN -> player.setDownMove(false);
         }
         return true;
     }

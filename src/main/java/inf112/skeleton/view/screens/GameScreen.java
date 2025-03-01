@@ -58,16 +58,16 @@ public class GameScreen extends AbstractScreen{
         ScreenUtils.clear(Color.BLACK);
 
         map.update(deltaTime);
-        followPlayerWithCamera(deltaTime);
 
+        followPlayerWithCamera(deltaTime);
+        viewport.apply();
         mapRenderer.setView(camera);
         mapRenderer.render();
-        viewport.apply();
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         entities.sort(comparator);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -81,12 +81,13 @@ public class GameScreen extends AbstractScreen{
 //            batch.draw(t, e.getX(), e.getY());
         }
         batch.end();
+        shapeRenderer.end();
 
-        for(Rectangle r : map.collisionBoxes){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.WHITE);
+        for(Rectangle r : map.getCollisionBoxes()){
             shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         }
-        shapeRenderer.end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         for(ViewableEntity e : entities){
             if(e instanceof Enemy enemy){
@@ -97,16 +98,13 @@ public class GameScreen extends AbstractScreen{
             }
         }
         shapeRenderer.end();
-//        ui.debug(deltaTime);
+        ui.debug(deltaTime);
 
-//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){
-        viewport.getCamera().position.lerp(new Vector3(player.getCenterX(), player.getCenterY(), 0), 5*deltaTime);
-//        float cameraDx = (player.getCenterX() - camera.position.x)*5*deltaTime;
-//        float cameraDy = (player.getCenterY() - camera.position.y)*5*deltaTime;
-//        camera.position.add(cameraDx, cameraDy, 0);
+        viewport.getCamera().position.lerp(new Vector3(player.getPos(), 0), 5*deltaTime);
     }
 
     @Override

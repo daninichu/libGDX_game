@@ -61,10 +61,10 @@ public abstract class Enemy extends Entity{
         else if (distance > vision)
             stateMachine.fireEvent("playerFar");
 
+        prevPos.set(pos);
         move(deltaTime);
 
         if (stateMachine.getState().equals("chase")) {
-//            player.getCenterPos().angleRad(getCenterPos());
             float angle = MathUtils.atan2(player.getCenterY() - getCenterY(), player.getCenterX() - getCenterX());
             velocity.setAngleRad(angle);
         }

@@ -4,8 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.view.ViewableEntity;
 
 public interface CollidableEntity extends ViewableEntity{
-    Vector2 getPos();
-
+    /**
+     * @return A copy of the previous position.
+     */
     Vector2 getPrevPos();
 
     void setPos(float x, float y);
