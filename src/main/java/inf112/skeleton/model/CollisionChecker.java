@@ -9,9 +9,17 @@ import inf112.skeleton.app.MyGame;
 
 import java.awt.Point;
 
+/**
+ * Structures the map like a grid. Every cell in the grid keeps track of which
+ * collision box/boxes they are occupied by.
+ */
 public class CollisionChecker {
     private ObjectMap<Point, Array<Rectangle>> grid = new ObjectMap<>();
 
+    /**
+     * Fill the grid with collision boxes and assign them to the cells that they occupy.
+     * @param collisionBoxes
+     */
     public CollisionChecker(Array<Rectangle> collisionBoxes) {
         for (Rectangle box : collisionBoxes){
             for(Point cell : getOccupiedCells(box)){
