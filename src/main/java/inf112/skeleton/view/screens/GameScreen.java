@@ -66,8 +66,8 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         entities.sort(comparator);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -78,7 +78,7 @@ public class GameScreen extends AbstractScreen{
                 shapeRenderer.setColor(Color.RED);
             }
             shapeRenderer.rect(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-//            batch.draw(t, e.getX(), e.getY());
+            batch.draw(e.getTexture(), e.getX(), e.getY());
         }
         batch.end();
         shapeRenderer.end();
@@ -100,11 +100,11 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.end();
         ui.debug(deltaTime);
 
-        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){
-        viewport.getCamera().position.lerp(new Vector3(player.getPos(), 0), 5*deltaTime);
+        viewport.getCamera().position.lerp(new Vector3(player.getCenterPos(), 0), 5*deltaTime);
     }
 
     @Override

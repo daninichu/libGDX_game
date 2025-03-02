@@ -1,5 +1,6 @@
 package inf112.skeleton.model.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.CollidableEntity;
@@ -9,6 +10,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     protected enum Direction {
         RIGHT, LEFT, UP, DOWN
     }
+    protected Texture texture;
     protected Vector2 pos;
     protected Vector2 prevPos;
     protected Vector2 velocity = new Vector2();
@@ -132,5 +134,10 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     @Override
     public float getBottomY(){
         return locateHurtbox().y + hurtbox.height;
+    }
+
+    @Override
+    public Texture getTexture(){
+        return texture;
     }
 }

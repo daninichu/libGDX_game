@@ -1,5 +1,7 @@
 package inf112.skeleton.model.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
@@ -15,6 +17,7 @@ public class Player extends Entity implements ControllablePlayer{
 
     public Player(float x, float y){
         super(x, y);
+        this.texture = new Texture("sprite16.png");
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.speed = 4.5f * MyGame.TILE_SIZE;
         HashMap<String,String> map = new HashMap<>();
