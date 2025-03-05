@@ -1,0 +1,83 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "maps",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 7.44
+        },
+        "/Users/daniel/INF112/grassSet.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/maps/grassSet.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/maps/sign.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/sign.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/maps/grassSet.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "maps/grassSet.tsx": {
+            "scaleInDock": 1
+        },
+        "maps/sign.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 7.44
+        },
+        "maps/signMap.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 8.84,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 262.0475113122172,
+                "y": 492.02488687782807
+            }
+        },
+        "maps/signMap.tmx#grassSet": {
+            "scaleInDock": 1
+        },
+        "maps/untitled.tmx": {
+            "scale": 0.8118,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -96.69869425966988,
+                "y": 591.8945553091894
+            }
+        }
+    },
+    "last.externalTilesetPath": "/Users/daniel/INF112/team-rocket/src/main/resources/maps",
+    "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/maps",
+    "map.lastUsedFormat": "tmx",
+    "map.renderOrder": "1",
+    "openFiles": [
+    ],
+    "project": "untitled.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "maps/untitled.tmx",
+        "maps/sign.tsx",
+        "maps/signMap.tmx",
+        "/Users/daniel/INF112/sign.tsx",
+        "/Users/daniel/INF112/team-rocket/src/main/resources/maps/grassSet.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx"
+}

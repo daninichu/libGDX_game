@@ -1,5 +1,6 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
@@ -30,14 +31,16 @@ public abstract class Enemy extends Entity{
 
     public Enemy(float x, float y, ViewableEntity player) {
         super(x, y);
+        texture = new Texture("sprite16.png");
         this.player = player;
 
         stateMachine.onEnter("idle", () -> {
+//            timer = 0;
             timer = MathUtils.random(2) + 1;
             velocity.setLength(0);
         });
         stateMachine.onEnter("roaming", () -> {
-            timer = MathUtils.random(2);
+            timer = MathUtils.random(2)+3;
             velocity.setToRandomDirection();
             velocity.setLength(speed / 2f);
         });
@@ -61,13 +64,13 @@ public abstract class Enemy extends Entity{
         else if (distance > vision)
             stateMachine.fireEvent("playerFar");
 
-        prevPos.set(pos);
-        move(deltaTime);
-
         if (stateMachine.getState().equals("chase")) {
             float angle = MathUtils.atan2(player.getCenterY() - getCenterY(), player.getCenterX() - getCenterX());
             velocity.setAngleRad(angle);
         }
+
+        prevPos.set(pos);
+        move(deltaTime);
 
         timer -= deltaTime;
         if (timer <= 0) {

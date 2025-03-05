@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         cfg.setTitle("hello-world");
-        cfg.setWindowedMode(480*2, 320*2);
+        cfg.setWindowedMode(MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 
         new Lwjgl3Application(new MyGame(), cfg);
     }

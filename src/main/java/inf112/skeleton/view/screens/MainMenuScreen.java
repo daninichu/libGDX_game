@@ -43,10 +43,10 @@ public class MainMenuScreen extends AbstractScreen {
     public void render(float deltaTime){
         super.render(deltaTime);
         viewport.apply();
-        stage.act(deltaTime);
+        stage.act();
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(game.getGameScreen());
         }
     }
 

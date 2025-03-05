@@ -15,12 +15,14 @@ import java.awt.Point;
  */
 public class CollisionChecker {
     private ObjectMap<Point, Array<Rectangle>> grid = new ObjectMap<>();
+    private Array<Rectangle> collisionBoxes = new Array<>();
 
     /**
      * Fill the grid with collision boxes and assign them to the cells that they occupy.
      * @param collisionBoxes
      */
     public CollisionChecker(Array<Rectangle> collisionBoxes) {
+        this.collisionBoxes = collisionBoxes;
         for (Rectangle box : collisionBoxes){
             for(Point cell : getOccupiedCells(box)){
                 if(!grid.containsKey(cell))
@@ -49,6 +51,7 @@ public class CollisionChecker {
 
     public void checkCollisions(CollidableEntity entity) {
         ObjectSet<Rectangle> localBoxes = new ObjectSet<>();
+//        localBoxes.addAll(collisionBoxes);
         for(Point cell : getOccupiedCells(entity.locateHurtbox()))
             localBoxes.addAll(grid.get(cell, new Array<>()));
         for (Rectangle box : localBoxes) {

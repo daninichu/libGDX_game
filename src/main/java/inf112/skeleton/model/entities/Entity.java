@@ -72,6 +72,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
         return pos.cpy();
     }
 
+    @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
     }
@@ -114,26 +115,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     @Override
     public float getCenterY(){
         return pos.y + hurtbox.height/2;
-    }
-
-    @Override
-    public float getLeftX(){
-        return locateHurtbox().x;
-    }
-
-    @Override
-    public float getRightX(){
-        return locateHurtbox().x + hurtbox.width;
-    }
-
-    @Override
-    public float getTopY(){
-        return locateHurtbox().y;
-    }
-
-    @Override
-    public float getBottomY(){
-        return locateHurtbox().y + hurtbox.height;
     }
 
     @Override

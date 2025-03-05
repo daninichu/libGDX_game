@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.entities.Player;
@@ -33,26 +32,22 @@ public class Map {
         this.tiledMap = new TmxMapLoader().load(mapFile);
         this.player = player;
         loadObjects();
+        player.nearbyObjects = objects;
         loadCollisionBoxes();
         spawnEntities();
         this.collisionChecker = new CollisionChecker(collisionBoxes);
     }
 
     private void loadObjects(){
-        for(MapObject obj : tiledMap.getLayers().get("Objects").getObjects()){
-            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
-            float x = tileObj.getX();
-            float y = tileObj.getY();
-            TiledMapTile tile = tileObj.getTile();
-            RectangleMapObject mapObj = (RectangleMapObject) tile.getObjects().get(0);
-            Rectangle rect = new Rectangle(mapObj.getRectangle());
-            collisionBoxes.add(rect.setPosition(rect.x + x, rect.y + y));
-
-            String type = tile.getProperties().get("type", String.class);
+        for(MapObject mapObject : tiledMap.getLayers().get("Objects").getObjects()){
+            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) mapObject;
+            GameObject object = null;
+            String type = tileObj.getTile().getProperties().get("type", String.class);
             if (type.equals("Sign")) {
-                String text = tileObj.getProperties().get("Text", String.class);
-                objects.add(new Sign(x, y, text));
+                object = new Sign(tileObj);
             }
+            objects.add(object);
+            collisionBoxes.add(object.locateHurtbox());
         }
     }
 
@@ -63,7 +58,9 @@ public class Map {
     }
 
     private void spawnEntities() {
-//        enemies.add(new EvilSquare(200, 250, player));
+        for(int i = 0; i < 10; i++){
+            enemies.add(new EvilSquare(200, 250, player));
+        }
     }
 
     public void update(float deltaTime) {
@@ -89,5 +86,15 @@ public class Map {
 
     public Array<Rectangle> getCollisionBoxes() {
         return new Array<>(collisionBoxes);
+    }
+
+    public Array<Sign> getSigns(){
+        Array<Sign> signArray = new Array<>();
+        for(GameObject object : objects){
+            if(object instanceof Sign){
+                signArray.add((Sign) object);
+            }
+        }
+        return signArray;
     }
 }

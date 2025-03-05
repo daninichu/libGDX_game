@@ -1,12 +1,12 @@
 package inf112.skeleton.model.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
-
-import java.util.HashMap;
+import inf112.skeleton.model.entities.objects.GameObject;
+import inf112.skeleton.view.UI;
 
 public class Player extends Entity implements ControllablePlayer{
     enum State {
@@ -15,12 +15,13 @@ public class Player extends Entity implements ControllablePlayer{
     private State state = State.NonAttack;
     private boolean rightMove, leftMove, upMove, downMove;
 
+    public Array<GameObject> nearbyObjects = new Array<>();
+
     public Player(float x, float y){
         super(x, y);
         this.texture = new Texture("sprite16.png");
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.speed = 4.5f * MyGame.TILE_SIZE;
-        HashMap<String,String> map = new HashMap<>();
     }
 
     @Override
@@ -43,7 +44,6 @@ public class Player extends Entity implements ControllablePlayer{
     // Can transition to: NonAttack
     private void updateAttack(float deltaTime){
         // TODO
-
     }
 
     private void updateMotion(){
@@ -71,5 +71,16 @@ public class Player extends Entity implements ControllablePlayer{
     @Override
     public void setDownMove(boolean t){
         downMove = t;
+    }
+
+    @Override
+    public boolean interact(UI ui){
+        for(GameObject object : nearbyObjects){
+            if(object.canInteract(this)){
+                ui.setDialogue(object.dialogue());
+                return true;
+            }
+        }
+        return false;
     }
 }

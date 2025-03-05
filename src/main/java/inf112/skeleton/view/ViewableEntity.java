@@ -3,6 +3,7 @@ package inf112.skeleton.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.entities.Entity;
 
 public interface ViewableEntity {
     /**
@@ -29,13 +30,14 @@ public interface ViewableEntity {
 
     float getCenterY();
 
-    float getLeftX();
+//    float getLeftX();
+//
+//    float getRightX();
+//
+//    float getTopY();
+//
+//    float getBottomY();
 
-    float getRightX();
-
-    float getTopY();
-
-    float getBottomY();
 
     Texture getTexture();
 }
