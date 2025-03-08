@@ -13,7 +13,7 @@ import java.awt.Point;
  * Structures the map like a grid. Every cell in the grid keeps track of which
  * collision box/boxes they are occupied by.
  */
-public class CollisionChecker {
+public class CollisionHandler{
     private ObjectMap<Point, Array<Rectangle>> grid = new ObjectMap<>();
     private Array<Rectangle> collisionBoxes = new Array<>();
 
@@ -21,7 +21,7 @@ public class CollisionChecker {
      * Fill the grid with collision boxes and assign them to the cells that they occupy.
      * @param collisionBoxes
      */
-    public CollisionChecker(Array<Rectangle> collisionBoxes) {
+    public CollisionHandler(Array<Rectangle> collisionBoxes) {
         this.collisionBoxes = collisionBoxes;
         for (Rectangle box : collisionBoxes){
             for(Point cell : getOccupiedCells(box)){
@@ -49,7 +49,7 @@ public class CollisionChecker {
         return (int) (mapCoords / MyGame.TILE_SIZE);
     }
 
-    public void checkCollisions(CollidableEntity entity) {
+    public void handleCollisions(CollidableEntity entity) {
         ObjectSet<Rectangle> localBoxes = new ObjectSet<>();
 //        localBoxes.addAll(collisionBoxes);
         for(Point cell : getOccupiedCells(entity.locateHurtbox()))
@@ -69,11 +69,10 @@ public class CollisionChecker {
         }
     }
 
-    private static boolean collidesAny(CollidableEntity entity, ObjectSet<Rectangle> localBoxes) {
-        for (Rectangle box : localBoxes) {
-            if (entity.locateHurtbox().overlaps(box))
+    public static boolean collidesAny(CollidableEntity entity, Iterable<Rectangle> localBoxes) {
+        for (Rectangle box : localBoxes)
+            if(entity.locateHurtbox().overlaps(box))
                 return true;
-        }
         return false;
     }
 }

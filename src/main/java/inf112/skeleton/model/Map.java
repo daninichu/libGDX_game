@@ -23,7 +23,7 @@ public class Map {
     private Array<Enemy> enemies = new Array<>();
     private Array<GameObject> objects = new Array<>();
     private Array<Rectangle> collisionBoxes = new Array<>();
-    private CollisionChecker collisionChecker;
+    private CollisionHandler collisionHandler;
     private TiledMap tiledMap;
 
     public Map(String mapFile, Player player) {
@@ -33,7 +33,7 @@ public class Map {
         player.nearbyObjects = objects;
         loadCollisionBoxes();
         spawnEntities();
-        this.collisionChecker = new CollisionChecker(collisionBoxes);
+        this.collisionHandler = new CollisionHandler(collisionBoxes);
     }
 
     private void loadObjects(){
@@ -69,10 +69,10 @@ public class Map {
 
     public void update(float deltaTime) {
         player.update(deltaTime);
-        collisionChecker.checkCollisions(player);
+        collisionHandler.handleCollisions(player);
         for(Enemy e : enemies) {
             e.update(deltaTime);
-            collisionChecker.checkCollisions(e);
+            collisionHandler.handleCollisions(e);
         }
     }
 

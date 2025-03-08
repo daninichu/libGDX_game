@@ -26,13 +26,6 @@ public class CollisionTest {
         player = new Player(0, 0);
     }
 
-    boolean collidesAny(){
-        for(Rectangle box : collisionBoxes)
-            if(player.locateHurtbox().overlaps(box))
-                return true;
-        return false;
-    }
-
     /**
      * Player starts far from the box and moves to the right.
      * When collision occurs, make sure that the player backtracks to a non-collision state.
@@ -40,16 +33,16 @@ public class CollisionTest {
     @Test
     void testStopWhenCollides() {
         collisionBoxes.add(new Rectangle(50, 0, 100, 100));
-        CollisionChecker collisionChecker = new CollisionChecker(collisionBoxes);
+        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
 
         player.setRightMove(true);
-        while(!collidesAny()){
+        while(!CollisionHandler.collidesAny(player, collisionBoxes)){
             player.update(0.01f);
             assertNotEquals(player.getPrevPos(), player.getPos());
         }
 
-        collisionChecker.checkCollisions(player);
-        assertFalse(collidesAny());
+        collisionHandler.handleCollisions(player);
+        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
     }
 
     /**
@@ -58,18 +51,18 @@ public class CollisionTest {
     @Test
     void testCantMoveDown() {
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
-        CollisionChecker collisionChecker = new CollisionChecker(collisionBoxes);
+        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
 
-        assertFalse(collidesAny());
+        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
 
         Vector2 stuckPos = player.getPos().cpy();
         player.setDownMove(true);
         for(int i = 0; i < 1000; i++){
             player.update(0.01f);
-            collisionChecker.checkCollisions(player);
+            collisionHandler.handleCollisions(player);
 
             assertEquals(stuckPos, player.getPos());
-            assertFalse(collidesAny());
+            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -80,9 +73,9 @@ public class CollisionTest {
     @Test
     void testSlideAgainstBox() {
         collisionBoxes.add(new Rectangle(0, -50, 1000, 50));
-        CollisionChecker collisionChecker = new CollisionChecker(collisionBoxes);
+        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
 
-        assertFalse(collidesAny());
+        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
 
         float stuckY = player.getY();
         player.setRightMove(true);
@@ -91,10 +84,10 @@ public class CollisionTest {
             assertEquals(stuckY, player.getY());
 
             player.update(0.01f);
-            collisionChecker.checkCollisions(player);
+            collisionHandler.handleCollisions(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(collidesAny());
+            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -109,16 +102,19 @@ public class CollisionTest {
         collisionBoxes.add(new Rectangle(-20, -50, 10, 50));
         collisionBoxes.add(new Rectangle(-40, -50, 10, 50));
         collisionBoxes.add(new Rectangle(-60, -50, 10, 50));
-        CollisionChecker collisionChecker = new CollisionChecker(collisionBoxes);
+        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
 
+        float stuckY = player.getY();
         player.setLeftMove(true);
         player.setDownMove(true);
         while(player.getX() > -60){ // While player x > leftmost box x
+            assertEquals(stuckY, player.getY());
+
             player.update(0.01f);
-            collisionChecker.checkCollisions(player);
+            collisionHandler.handleCollisions(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(collidesAny());
+            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -131,7 +127,7 @@ public class CollisionTest {
     void testSlipThroughGap(){
         collisionBoxes.add(new Rectangle(-100, 0, 100, 100));
         collisionBoxes.add(new Rectangle(-100, 150, 100, 100));
-        CollisionChecker collisionChecker = new CollisionChecker(collisionBoxes);
+        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
 
         float stuckX = player.getX();
         player.setLeftMove(true);
@@ -140,15 +136,15 @@ public class CollisionTest {
             assertEquals(stuckX, player.getX());
 
             player.update(0.01f);
-            collisionChecker.checkCollisions(player);
+            collisionHandler.handleCollisions(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(collidesAny());
+            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
         }
 
         for(int i = 0; i < 100; i++){
             player.update(0.01f);
-            collisionChecker.checkCollisions(player);
+            collisionHandler.handleCollisions(player);
             assertTrue(player.getX() < player.getPrevPos().x);
         }
     }
