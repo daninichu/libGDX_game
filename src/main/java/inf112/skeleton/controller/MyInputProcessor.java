@@ -13,13 +13,11 @@ import inf112.skeleton.view.screens.GameScreen;
 
 public class MyInputProcessor extends InputAdapter {
     private ControllablePlayer player;
-    private Array<Sign> signs;
     private MyGame game;
 
-    public MyInputProcessor(ControllablePlayer player, MyGame game) {
+    public MyInputProcessor(MyGame game, ControllablePlayer player) {
         this.player = player;
         this.game = game;
-        this.signs = game.getMap().getSigns(); // Assuming the Map class has a method to get all Sign objects
     }
 
     @Override
@@ -29,11 +27,11 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.D -> player.setRightMove(true);
             case Input.Keys.W -> player.setUpMove(true);
             case Input.Keys.S -> player.setDownMove(true);
-            case Input.Keys.SPACE -> {
+            case Input.Keys.E -> {
                 if(game.getGameScreen().getState() == GameScreen.State.Dialogue){
                     game.getGameScreen().setState(GameScreen.State.Play);
                 }
-                else if(player.interact(game.ui)){
+                else if(player.interact(game.ui, game.getMap().getObjects())){
                     game.getGameScreen().setState(GameScreen.State.Dialogue);
                 }
             }
@@ -49,7 +47,6 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.W -> player.setUpMove(false);
             case Input.Keys.S -> player.setDownMove(false);
             case Input.Keys.E -> {
-//                game.getGameScreen().hideSignText();
             }
         }
         return true;

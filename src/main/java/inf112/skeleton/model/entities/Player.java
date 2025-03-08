@@ -1,6 +1,7 @@
 package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
@@ -19,7 +20,7 @@ public class Player extends Entity implements ControllablePlayer{
 
     public Player(float x, float y){
         super(x, y);
-        this.texture = new Texture("sprite16.png");
+        this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.speed = 4.5f * MyGame.TILE_SIZE;
     }
@@ -47,9 +48,9 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     private void updateMotion(){
-        if (rightMove) velocity.x++;
-        if (leftMove) velocity.x--;
-        if(upMove) velocity.y++;
+        if(rightMove)velocity.x++;
+        if(leftMove) velocity.x--;
+        if(upMove)   velocity.y++;
         if(downMove) velocity.y--;
     }
 
@@ -57,25 +58,22 @@ public class Player extends Entity implements ControllablePlayer{
     public void setRightMove(boolean t){
         rightMove = t;
     }
-
     @Override
     public void setLeftMove(boolean t){
         leftMove = t;
     }
-
     @Override
     public void setUpMove(boolean t){
         upMove = t;
     }
-
     @Override
     public void setDownMove(boolean t){
         downMove = t;
     }
 
     @Override
-    public boolean interact(UI ui){
-        for(GameObject object : nearbyObjects){
+    public boolean interact(UI ui, Array.ArrayIterable<GameObject> objects){
+        for(GameObject object : objects){
             if(object.canInteract(this)){
                 ui.setDialogue(object.dialogue());
                 return true;

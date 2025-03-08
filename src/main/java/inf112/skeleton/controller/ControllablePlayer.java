@@ -1,5 +1,7 @@
 package inf112.skeleton.controller;
 
+import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.entities.objects.GameObject;
 import inf112.skeleton.view.UI;
 
 public interface ControllablePlayer {
@@ -11,5 +13,5 @@ public interface ControllablePlayer {
 
     void setDownMove(boolean t);
 
-    boolean interact(UI ui);
+    boolean interact(UI ui, Array.ArrayIterable<GameObject> objects);
 }

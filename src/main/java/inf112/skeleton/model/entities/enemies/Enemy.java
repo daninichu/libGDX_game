@@ -1,8 +1,6 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.FsmBlueprint;
@@ -31,16 +29,14 @@ public abstract class Enemy extends Entity{
 
     public Enemy(float x, float y, ViewableEntity player) {
         super(x, y);
-        texture = new Texture("sprite16.png");
         this.player = player;
 
         stateMachine.onEnter("idle", () -> {
-//            timer = 0;
-            timer = MathUtils.random(2) + 1;
+            timer = MathUtils.random(1.2f, 3f);
             velocity.setLength(0);
         });
         stateMachine.onEnter("roaming", () -> {
-            timer = MathUtils.random(2)+3;
+            timer = MathUtils.random(0.2f, 2);
             velocity.setToRandomDirection();
             velocity.setLength(speed / 2f);
         });

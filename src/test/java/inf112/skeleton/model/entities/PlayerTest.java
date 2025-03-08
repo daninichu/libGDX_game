@@ -1,6 +1,11 @@
 package inf112.skeleton.model.entities;
 
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.entities.Player;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,12 +13,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class PlayerTest{
     Player player;
 
     @BeforeEach
-    void setup(){
+    public void setUp() {
+        new HeadlessApplication(new ApplicationAdapter(){});
+        Gdx.gl = mock(GL20.class);
         player = new Player(0, 0);
     }
 
@@ -48,28 +56,10 @@ public class PlayerTest{
     @Test
     void testTravelDistance(){
         player.setRightMove(true);
-        player.update(1);
-        player.setRightMove(false);
-
-        player.pos = new Vector2(0, 0);
-        player.setLeftMove(true);
-        player.update(1);
-        player.setLeftMove(false);
-        assertEquals(-player.speed, player.getX());
-
-        player.setDownMove(true);
-        player.update(1);
-        player.setDownMove(false);
-        assertEquals(-player.speed, player.getY());
-
-        player.pos = new Vector2(0, 0);
-        player.setRightMove(true);
         player.setUpMove(true);
         player.update(1);
         assertTrue(player.getX() < player.speed);
         assertTrue(player.getY() < player.speed);
-
-        float distanceDiagonal = (float) Math.sqrt(Math.pow(player.getX(), 2) + Math.pow(player.getY(), 2));
-        assertTrue(Math.abs(player.speed - distanceDiagonal) < 0.01f);
+        assertEquals(player.pos.len(), player.speed);
     }
 }

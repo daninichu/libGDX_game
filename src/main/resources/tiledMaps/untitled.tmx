@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="2627">
- <tileset firstgid="1" source="grassSet.tsx"/>
- <tileset firstgid="3" source="sign.tsx"/>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3939">
+ <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
+ <tileset firstgid="3" source="tilesets/sign.tsx"/>
+ <tileset firstgid="4" source="tilesets/64Objects.tsx"/>
  <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -32,19 +33,28 @@
     <property name="Text" value="This took way too long."/>
    </properties>
   </object>
-  <object id="2623" gid="3" x="128" y="576" width="32" height="32">
+  <object id="2623" gid="3" x="96" y="576" width="32" height="32">
    <properties>
     <property name="Text" value="I felt like banging my head against a wall."/>
    </properties>
   </object>
-  <object id="2624" gid="3" x="192" y="576" width="32" height="32">
+  <object id="2624" gid="3" x="128" y="576" width="32" height="32">
    <properties>
     <property name="Text" value="But in the end, I managed to pull through."/>
    </properties>
   </object>
+  <object id="3936" gid="4" x="288" y="576" width="64" height="64"/>
+  <object id="3938" gid="5" x="64" y="512" width="64" height="64">
+   <properties>
+    <property name="Text">It's a board filled with praise for Tiled.
+Without Tiled, this would not have been possible.</property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="Collision">
-  <object id="2608" x="64" y="448" width="224" height="32"/>
-  <object id="2609" x="128" y="384" width="32" height="128"/>
+  <object id="2608" x="160" y="448" width="160" height="16"/>
+  <object id="2609" x="320" y="320" width="16" height="128"/>
+  <object id="2627" x="160" y="304" width="160" height="16"/>
+  <object id="2628" x="144" y="320" width="16" height="128"/>
  </objectgroup>
 </map>

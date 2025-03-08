@@ -1,16 +1,16 @@
 package inf112.skeleton.model.entities;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.CollidableEntity;
 import inf112.skeleton.view.ViewableEntity;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity{
-    protected enum Direction {
+    public enum Direction {
         RIGHT, LEFT, UP, DOWN
     }
-    protected Texture texture;
+    protected TextureRegion texture;
     protected Vector2 pos;
     protected Vector2 prevPos;
     protected Vector2 velocity = new Vector2();
@@ -63,11 +63,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     }
 
     @Override
-    public void setPos(Vector2 newPos){
-        pos.set(newPos);
-    }
-
-    @Override
     public Vector2 getPos(){
         return pos.cpy();
     }
@@ -78,23 +73,13 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     }
 
     @Override
-    public Vector2 getCenterPos(){
-        return new Vector2(getCenterX(), getCenterY());
-    }
-
-    @Override
     public Rectangle locateHurtbox(){
         return new Rectangle(hurtbox.x + pos.x, hurtbox.y + pos.y, hurtbox.width, hurtbox.height);
     }
 
     @Override
-    public float getX() {
-        return pos.x;
-    }
-
-    @Override
-    public float getY() {
-        return pos.y;
+    public Direction getDir(){
+        return dir;
     }
 
     @Override
@@ -108,17 +93,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     }
 
     @Override
-    public float getCenterX(){
-        return pos.x + hurtbox.width/2;
-    }
-
-    @Override
-    public float getCenterY(){
-        return pos.y + hurtbox.height/2;
-    }
-
-    @Override
-    public Texture getTexture(){
+    public TextureRegion getTexture(){
         return texture;
     }
 }

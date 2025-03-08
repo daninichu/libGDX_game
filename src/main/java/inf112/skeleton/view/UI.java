@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.entities.enemies.Enemy;
 
 import java.text.DecimalFormat;
 
@@ -18,19 +15,17 @@ public class UI {
     private static final int VIEW_WIDTH = 40;
     private static final int VIEW_HEIGHT = 30;
     private static DecimalFormat df = new DecimalFormat("#.#");
-//    private String currentDialogue = "";
 
-//    private ViewableEntity player;
-//    private Array<ViewableEntity> entities;
+    private ViewableEntity player;
     private Stage stage;
 
     private Viewport viewport;
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
-//    private SpriteBatch batch = new SpriteBatch();
     private Label.LabelStyle labelStyle;
     private Label dialogue;
 
-    public UI() {
+    public UI(ViewableEntity player) {
+        this.player = player;
         this.viewport = new FitViewport(VIEW_WIDTH, VIEW_HEIGHT);
         this.stage = new Stage(viewport);
 
@@ -79,5 +74,4 @@ public class UI {
     public void dispose () {
         stage.dispose();
     }
-
 }

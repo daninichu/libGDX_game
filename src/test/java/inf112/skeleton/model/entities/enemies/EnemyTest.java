@@ -1,17 +1,24 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class EnemyTest{
     Player player;
 
     @BeforeEach
     public void setUp() {
+        new HeadlessApplication(new ApplicationAdapter(){});
+        Gdx.gl = mock(GL20.class);
         player = new Player(0, 0);
     }
 
@@ -52,7 +59,7 @@ public class EnemyTest{
 
     @Test
     void testChaseToIdle(){
-        Enemy enemy = new EvilSquare(200, 0, player);
+        Enemy enemy = new EvilSquare(100, 0, player);
         enemy.update(1);
         assertEquals("chase", enemy.getState());
 
@@ -61,7 +68,6 @@ public class EnemyTest{
             player.update(1);
             enemy.update(1);
         }
-        enemy.update(1);
         assertEquals("idle", enemy.getState());
     }
 

@@ -54,20 +54,26 @@ public class CollisionChecker {
 //        localBoxes.addAll(collisionBoxes);
         for(Point cell : getOccupiedCells(entity.locateHurtbox()))
             localBoxes.addAll(grid.get(cell, new Array<>()));
-        for (Rectangle box : localBoxes) {
-            if (entity.locateHurtbox().overlaps(box))
-                handleCollision(entity, box);
+
+        Vector2 destPos = entity.getPos();
+        Vector2 prevPos = entity.getPrevPos();
+        if(collidesAny(entity, localBoxes)){
+            entity.setPos(prevPos.x, destPos.y); // Backtrack horizontally, proceed vertically
+
+            if(collidesAny(entity, localBoxes)){
+                entity.setPos(destPos.x, prevPos.y); // Backtrack vertically, proceed horizontally
+
+                if(collidesAny(entity, localBoxes))
+                    entity.setPos(prevPos); // Backtrack altogether
+            }
         }
     }
 
-    private void handleCollision(CollidableEntity entity, Rectangle box) {
-        Vector2 destPos = entity.getPos();
-        Vector2 prevPos = entity.getPrevPos();
-        entity.setPos(prevPos.x, destPos.y); // Backtrack horizontally, proceed vertically
-        if(entity.locateHurtbox().overlaps(box)){
-            entity.setPos(destPos.x, prevPos.y); // Backtrack vertically, proceed horizontally
-            if(entity.locateHurtbox().overlaps(box))
-                entity.setPos(prevPos); // Backtrack altogether
+    private static boolean collidesAny(CollidableEntity entity, ObjectSet<Rectangle> localBoxes) {
+        for (Rectangle box : localBoxes) {
+            if (entity.locateHurtbox().overlaps(box))
+                return true;
         }
+        return false;
     }
 }

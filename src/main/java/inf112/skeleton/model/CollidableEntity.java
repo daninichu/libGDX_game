@@ -11,5 +11,7 @@ public interface CollidableEntity extends ViewableEntity{
 
     void setPos(float x, float y);
 
-    void setPos(Vector2 newPos);
+    default void setPos(Vector2 newPos){
+        setPos(newPos.x, newPos.y);
+    }
 }

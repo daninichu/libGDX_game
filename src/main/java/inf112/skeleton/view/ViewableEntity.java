@@ -1,6 +1,6 @@
 package inf112.skeleton.view;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Entity;
@@ -14,30 +14,33 @@ public interface ViewableEntity {
     /**
      * @return A copy of the center position.
      */
-    Vector2 getCenterPos();
+    default Vector2 getCenterPos(){
+        return new Vector2(getCenterX(), getCenterY());
+    }
 
     Rectangle locateHurtbox();
 
-    float getX();
+    Entity.Direction getDir();
 
-    float getY();
+    default float getX(){
+        return getPos().x;
+    }
+
+    default float getY(){
+        return getPos().y;
+    }
 
     float getWidth();
 
     float getHeight();
 
-    float getCenterX();
+    default float getCenterX(){
+        return getX() + getWidth()/2;
+    }
 
-    float getCenterY();
+    default float getCenterY(){
+        return getY() + getHeight()/2;
+    }
 
-//    float getLeftX();
-//
-//    float getRightX();
-//
-//    float getTopY();
-//
-//    float getBottomY();
-
-
-    Texture getTexture();
+    TextureRegion getTexture();
 }
