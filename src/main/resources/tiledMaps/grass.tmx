@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3939">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3947">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/sign.tsx"/>
  <tileset firstgid="4" source="tilesets/64Objects.tsx"/>
+ <tileset firstgid="8" source="tilesets/door.tsx"/>
  <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -38,7 +39,7 @@
     <property name="Text" value="I felt like banging my head against a wall."/>
    </properties>
   </object>
-  <object id="2624" gid="3" x="128" y="576" width="32" height="32">
+  <object id="2624" gid="3" x="160" y="576" width="32" height="32">
    <properties>
     <property name="Text" value="But in the end, I managed to pull through."/>
    </properties>
@@ -48,6 +49,28 @@
    <properties>
     <property name="Text">It's a board filled with praise for Tiled.
 Without Tiled, this would not have been possible.</property>
+   </properties>
+  </object>
+  <object id="3942" gid="8" x="160" y="512" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="3943"/>
+    <property name="New x" type="float" value="10"/>
+    <property name="New y" type="float" value="12"/>
+    <property name="Next Map" value=""/>
+   </properties>
+  </object>
+  <object id="3943" gid="8" x="192" y="384" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="3942"/>
+    <property name="Next Map" value=""/>
+   </properties>
+  </object>
+  <object id="3946" gid="8" x="256" y="384" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="0"/>
+    <property name="New x" type="float" value="32"/>
+    <property name="New y" type="float" value="96"/>
+    <property name="Next Map" value="desert"/>
    </properties>
   </object>
  </objectgroup>

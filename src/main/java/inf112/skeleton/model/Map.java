@@ -7,12 +7,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.enemies.EvilSquare;
-import inf112.skeleton.model.entities.objects.GameObject;
-import inf112.skeleton.model.entities.objects.Sign;
-import inf112.skeleton.model.entities.objects.Tree;
+import inf112.skeleton.model.entities.gameObjects.Door;
+import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.model.entities.gameObjects.Sign;
 import inf112.skeleton.view.ViewableEntity;
 
 /**
@@ -30,7 +31,6 @@ public class Map {
         this.tiledMap = new TmxMapLoader().load(mapFile);
         this.player = player;
         loadObjects();
-        player.nearbyObjects = objects;
         loadCollisionBoxes();
         spawnEntities();
         this.collisionHandler = new CollisionHandler(collisionBoxes);
@@ -40,16 +40,17 @@ public class Map {
         for(MapObject mapObject : tiledMap.getLayers().get("Objects").getObjects()){
             TiledMapTileMapObject tileObj = (TiledMapTileMapObject) mapObject;
             GameObject object = null;
+
             String type = tileObj.getTile().getProperties().get("type", String.class);
-            if (type.equals("Sign")) {
-                object = new Sign(tileObj);
-            }
-            else if (type.equals("Tree")) {
-                object = new Tree(tileObj);
-            }
-            if (object == null) {
+            if(type == null)
+                object = new GameObject(tileObj, player);
+            else if (type.equals("Sign"))
+                object = new Sign(tileObj, player);
+            else if (type.equals("Door"))
+                object = new Door(tileObj, player);
+
+            if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
-            }
             objects.add(object);
             collisionBoxes.add(object.locateHurtbox());
         }
@@ -62,8 +63,8 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 10; i++){
-            enemies.add(new EvilSquare(200, 250, player));
+        for(int i = 0; i < 5; i++){
+            enemies.add(new EvilSquare(0, 250, player));
         }
     }
 
@@ -73,6 +74,10 @@ public class Map {
         for(Enemy e : enemies) {
             e.update(deltaTime);
             collisionHandler.handleCollisions(e);
+
+            if(e.dead()){
+                enemies.removeValue(e, true);
+            }
         }
     }
 
@@ -88,8 +93,16 @@ public class Map {
         return entities;
     }
 
-    public Array<Rectangle> getCollisionBoxes() {
-        return new Array<>(collisionBoxes);
+    public Array.ArrayIterable<Rectangle> gethitboxes() {
+        Array<Rectangle> hitboxes = new Array<>();
+        for(Entity e : enemies) {
+            hitboxes.addAll(e.getHitboxes());
+        }
+        return new Array.ArrayIterable<>(hitboxes);
+    }
+
+    public Array.ArrayIterable<Rectangle> getCollisionBoxes() {
+        return new Array.ArrayIterable<>(collisionBoxes);
     }
 
     public Array.ArrayIterable<GameObject> getObjects(){

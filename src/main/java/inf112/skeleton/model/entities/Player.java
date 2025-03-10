@@ -6,27 +6,39 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
-import inf112.skeleton.model.entities.objects.GameObject;
+import inf112.skeleton.model.FsmBlueprint;
+import inf112.skeleton.model.StateMachine;
+import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.view.UI;
 
 public class Player extends Entity implements ControllablePlayer{
+    private static FsmBlueprint blueprint = new FsmBlueprint();
+    static {
+        blueprint.addTransition("init", "init", "nonAttack");
+        blueprint.addTransition("nonAttack", "attackPressed", "attackWindUp");
+        blueprint.addTransition("attackWindUp", "timeout", "attacking");
+        blueprint.addTransition("attacking", "timeout", "nonAttack");
+    }
+    private StateMachine stateMachine = new StateMachine(blueprint, "init");
     enum State {
         NonAttack, Attack
     }
     private State state = State.NonAttack;
+    private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
-
-    public Array<GameObject> nearbyObjects = new Array<>();
 
     public Player(float x, float y){
         super(x, y);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.health = 10;
         this.speed = 4.5f * MyGame.TILE_SIZE;
     }
 
     @Override
     public void update(float deltaTime){
+        super.update(deltaTime);
+        invincibleTimer -= deltaTime;
         switch (state){
             case NonAttack -> updateNonAttack(deltaTime);
             case Attack -> updateAttack(deltaTime);
@@ -55,6 +67,15 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     @Override
+    public void takeDamage(int damage){
+        if(invincibleTimer <= 0){
+            health -= damage;
+            invincibleTimer = 1.8f;
+            System.out.println("Damage taken. Health: " + health);
+        }
+    }
+
+    @Override
     public void setRightMove(boolean t){
         rightMove = t;
     }
@@ -72,13 +93,13 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     @Override
-    public boolean interact(UI ui, Array.ArrayIterable<GameObject> objects){
+    public GameObject interact(Array.ArrayIterable<GameObject> objects){
         for(GameObject object : objects){
-            if(object.canInteract(this)){
-                ui.setDialogue(object.dialogue());
-                return true;
+            if(object.canInteract()){
+//                ui.setDialogue(object.dialogue());
+                return object;
             }
         }
-        return false;
+        return null;
     }
 }

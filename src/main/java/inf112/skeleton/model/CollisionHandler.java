@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
+import inf112.skeleton.view.ViewableEntity;
 
 import java.awt.Point;
 
@@ -69,7 +70,7 @@ public class CollisionHandler{
         }
     }
 
-    public static boolean collidesAny(CollidableEntity entity, Iterable<Rectangle> localBoxes) {
+    public static boolean collidesAny(ViewableEntity entity, Iterable<Rectangle> localBoxes) {
         for (Rectangle box : localBoxes)
             if(entity.locateHurtbox().overlaps(box))
                 return true;

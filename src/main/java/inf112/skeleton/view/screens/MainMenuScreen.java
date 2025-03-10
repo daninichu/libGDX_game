@@ -46,7 +46,8 @@ public class MainMenuScreen extends AbstractScreen {
         stage.act();
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setScreen(game.getGameScreen());
+            game.setScreen("GameScreen");
+            game.setState(MyGame.State.Play);
         }
     }
 

@@ -30,7 +30,7 @@ public class UI {
         this.stage = new Stage(viewport);
 
         font.setUseIntegerPositions(false);
-        font.getData().setScale((float) VIEW_HEIGHT / MyGame.SCREEN_HEIGHT*2);
+        font.getData().setScale((float) VIEW_HEIGHT / 400);
         labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
 

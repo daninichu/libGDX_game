@@ -1,11 +1,17 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.MyGame;
+import inf112.skeleton.model.DamageableEntity;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
+import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.view.ViewableEntity;
+
+import java.util.Random;
 
 public abstract class Enemy extends Entity{
     private static FsmBlueprint blueprint = new FsmBlueprint();
@@ -16,18 +22,22 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition("roaming", "timeout", "idle");
         blueprint.addTransition("roaming", "playerVisible", "chase");
         blueprint.addTransition("chase", "playerFar", "idle");
-        blueprint.addTransition("chase", "playerClose", "attacking");
-        blueprint.addTransition("attacking", "timeout", "chase");
+        blueprint.addTransition("chase", "playerClose", "attackWindUp");
+        blueprint.addTransition("retreat", "timeout", "chase");
+        blueprint.addTransition("attackWindUp", "timeout", "attacking");
+        blueprint.addTransition("attacking", "timeout", "attackEnd");
+        blueprint.addTransition("attackEnd", "timeout", "chase");
+        blueprint.addTransition("attackEnd", "random", "retreat");
     }
 
     private StateMachine stateMachine = new StateMachine(blueprint, "init");
 
-    private ViewableEntity player;
+    private DamageableEntity player;
     private float timer;
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
 
-    public Enemy(float x, float y, ViewableEntity player) {
+    public Enemy(float x, float y, DamageableEntity player) {
         super(x, y);
         this.player = player;
 
@@ -43,9 +53,25 @@ public abstract class Enemy extends Entity{
         stateMachine.onEnter("chase", () -> {
             velocity.set(speed, 0);
         });
+        stateMachine.onEnter("retreat", () -> {
+            timer = 1f;
+            velocity.set(getCenterPos().sub(player.getCenterPos()).setLength(speed));
+        });
+        stateMachine.onEnter("attackWindUp", () -> {
+            timer = 0.4f;
+            velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
+        });
         stateMachine.onEnter("attacking", () -> {
-            timer = 1;
-            velocity.setLength(0);
+//            placeHitboxes();
+            timer = 0.3f;
+            velocity.setLength(120);
+        });
+        stateMachine.onExit("attacking", () -> {
+            hitboxes.clear();
+        });
+        stateMachine.onEnter("attackEnd", () -> {
+            timer = 0.8f;
+            velocity.set(0, 0);
         });
         stateMachine.fireEvent("init");
     }
@@ -61,18 +87,26 @@ public abstract class Enemy extends Entity{
             stateMachine.fireEvent("playerFar");
 
         if (stateMachine.getState().equals("chase")) {
-            float angle = MathUtils.atan2(player.getCenterY() - getCenterY(), player.getCenterX() - getCenterX());
+            float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
             velocity.setAngleRad(angle);
         }
 
         prevPos.set(pos);
         move(deltaTime);
+        attack(player);
 
         timer -= deltaTime;
         if (timer <= 0) {
-            stateMachine.fireEvent("timeout");
+            float chance = MathUtils.random.nextFloat();
+            if(chance < 0.25f) {
+                stateMachine.fireEvent("random");
+            }
+            else
+                stateMachine.fireEvent("timeout");
         }
     }
+
+    protected void placeHitboxes(){}
 
     public String getState() {
         return stateMachine.getState();

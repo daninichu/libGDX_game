@@ -13,20 +13,16 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
-import inf112.skeleton.model.entities.objects.GameObject;
+import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameScreen extends AbstractScreen{
-    public enum State {
-        Play, Dialogue
-    }
     public static final float VIEW_WIDTH = 24*MyGame.TILE_SIZE;
     public static final float VIEW_HEIGHT = 18*MyGame.TILE_SIZE;
     private static final DrawOrderComparator comparator = new DrawOrderComparator();
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
 
-    private State state = State.Play;
     private Map map;
     private ViewableEntity player;
     private Array<ViewableEntity> entities;
@@ -40,33 +36,30 @@ public class GameScreen extends AbstractScreen{
         font.getData().setScale(VIEW_HEIGHT/400);
     }
 
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
     @Override
     public void show() {
         super.show();
-        map = game.getMap();
-        entities = map.getEntities();
-        player = entities.get(0);
 
         camera = new OrthographicCamera();
-        camera.position.set(player.getCenterPos(), 0);
+        reset();
+//        camera.position.set(player.getCenterPos(), 0);
         viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
+    }
+
+    public void reset(){
+        map = game.getMap();
         mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
+        entities = map.getEntities();
+        player = entities.get(0);
+        camera.position.set(player.getCenterPos(), 0);
     }
 
     @Override
     public void render(float deltaTime) {
         long time = System.nanoTime();
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(Color.CLEAR);
 
-        if(state == State.Play) {
+        if(game.getState() == MyGame.State.Play) {
             map.update(deltaTime);
         }
 
@@ -74,46 +67,43 @@ public class GameScreen extends AbstractScreen{
         mapRenderer.setView(camera);
         mapRenderer.render();
         shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.setColor(Color.RED);
 
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
-//                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         batch.begin();
         for(ViewableEntity e : entities){
-            if(e.getTexture() != null){
+            if(e.getTexture() != null)
                 batch.draw(e.getTexture(), e.getX(), e.getY());
-            }
-            else {
-//                shapeRenderer.rect(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-            }
         }
-//                shapeRenderer.end();
-
         for(GameObject object : map.getObjects()){
-            if(object.canInteract(player)){
+            if(object.canInteract()){
                 font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 40);
             }
         }
         batch.end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.WHITE);
-        for(Rectangle r : map.getCollisionBoxes()){
-            shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-        }
-        shapeRenderer.end();
+        renderDebug();
 
-        if(state == State.Dialogue){
+        if(game.getState() == MyGame.State.Dialogue){
             game.ui.renderDialogue();
         }
-//        ui.debug(deltaTime);
-
-        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){
         camera.position.lerp(new Vector3(player.getCenterPos(), 0), 5*deltaTime);
         viewport.apply();
+    }
+
+    private void renderDebug(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.WHITE);
+        for(Rectangle r : map.getCollisionBoxes())
+            shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        for(ViewableEntity e : entities){
+            Rectangle r = e.locateHurtbox();
+//            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+        }
+        shapeRenderer.end();
     }
 
     @Override

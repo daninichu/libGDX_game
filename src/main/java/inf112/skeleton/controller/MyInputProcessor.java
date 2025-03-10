@@ -2,14 +2,10 @@ package inf112.skeleton.controller;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.Map;
-import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.model.entities.objects.GameObject;
-import inf112.skeleton.model.entities.objects.Sign;
-import inf112.skeleton.view.screens.GameScreen;
+import inf112.skeleton.model.entities.gameObjects.Door;
+import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.model.entities.gameObjects.Sign;
 
 public class MyInputProcessor extends InputAdapter {
     private ControllablePlayer player;
@@ -22,22 +18,40 @@ public class MyInputProcessor extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
+        switch(game.getState()) {
+            case Play -> keyDownPlay(keycode);
+            case Dialogue -> keyDownDialogue(keycode);
+        }
+        return true;
+    }
+
+    void keyDownPlay(int keycode) {
         switch (keycode) {
             case Input.Keys.A -> player.setLeftMove(true);
             case Input.Keys.D -> player.setRightMove(true);
             case Input.Keys.W -> player.setUpMove(true);
             case Input.Keys.S -> player.setDownMove(true);
             case Input.Keys.E -> {
-                if(game.getGameScreen().getState() == GameScreen.State.Dialogue){
-                    game.getGameScreen().setState(GameScreen.State.Play);
+                GameObject object = player.interact(game.getMap().getObjects());
+                if(object instanceof Door door) {
+                    game.changeMap(door);
                 }
-                else if(player.interact(game.ui, game.getMap().getObjects())){
-                    game.getGameScreen().setState(GameScreen.State.Dialogue);
+                else if(object instanceof Sign sign) {
+                    game.ui.setDialogue(sign.dialogue());
+                    game.setState(MyGame.State.Dialogue);
                 }
             }
         }
-        return true;
     }
+
+    void keyDownDialogue(int keycode) {
+        switch (keycode) {
+            case Input.Keys.E -> {
+                game.setState(MyGame.State.Play);
+            }
+        }
+    }
+
 
     @Override
     public boolean keyUp(int keycode) {
@@ -46,9 +60,17 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.D -> player.setRightMove(false);
             case Input.Keys.W -> player.setUpMove(false);
             case Input.Keys.S -> player.setDownMove(false);
-            case Input.Keys.E -> {
-            }
         }
         return true;
     }
+
+    void keyUpPlay(int keycode) {
+        switch (keycode) {
+            case Input.Keys.A -> player.setLeftMove(false);
+            case Input.Keys.D -> player.setRightMove(false);
+            case Input.Keys.W -> player.setUpMove(false);
+            case Input.Keys.S -> player.setDownMove(false);
+        }
+    }
+
 }

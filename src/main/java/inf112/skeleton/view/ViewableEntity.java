@@ -18,6 +18,8 @@ public interface ViewableEntity {
         return new Vector2(getCenterX(), getCenterY());
     }
 
+    boolean dead();
+
     Rectangle locateHurtbox();
 
     Entity.Direction getDir();

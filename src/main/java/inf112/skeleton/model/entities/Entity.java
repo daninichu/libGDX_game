@@ -3,10 +3,13 @@ package inf112.skeleton.model.entities;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.CollidableEntity;
+import inf112.skeleton.model.CollisionHandler;
+import inf112.skeleton.model.DamageableEntity;
 import inf112.skeleton.view.ViewableEntity;
 
-public abstract class Entity implements ViewableEntity, CollidableEntity{
+public abstract class Entity implements ViewableEntity, CollidableEntity, DamageableEntity{
     public enum Direction {
         RIGHT, LEFT, UP, DOWN
     }
@@ -16,18 +19,45 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     protected Vector2 velocity = new Vector2();
     protected Rectangle hurtbox;
     protected Direction dir = Direction.DOWN;
+    public int health;
     protected float speed;
+    protected boolean dead;
+
+    public Array<Rectangle> hitboxes = new Array<>();
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
         this.prevPos = new Vector2(x, y);
     }
 
+    public void attack(DamageableEntity target) {
+        if(CollisionHandler.collidesAny(target, getHitboxes())){
+            target.takeDamage(10);
+        }
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        health -= damage;
+    }
+
+    public Array<Rectangle> getHitboxes(){
+        Array<Rectangle> result = new Array<>();
+        for(Rectangle box : hitboxes){
+            result.add(new Rectangle(pos.x + box.x, pos.y + box.y, box.width, box.height));
+        }
+        return result;
+    }
+
     /**
      * Where we decide what this entity should do each frame.
      * @param deltaTime The time interval between each frame.
      */
-    public abstract void update(float deltaTime);
+    public void update(float deltaTime){
+        if(health <= 0){
+            dead = true;
+        }
+    }
 
     /**
      * Adds the velocity vector to the position vector.
@@ -70,6 +100,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity{
     @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
+    }
+
+    @Override
+    public boolean dead(){
+        return dead;
     }
 
     @Override
