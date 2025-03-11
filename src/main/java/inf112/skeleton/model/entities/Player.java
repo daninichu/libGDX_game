@@ -32,7 +32,7 @@ public class Player extends Entity implements ControllablePlayer{
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.health = 10;
-        this.speed = 4.5f * MyGame.TILE_SIZE*2;
+        this.speed = 4.5f * MyGame.TILE_SIZE;
     }
 
     @Override
