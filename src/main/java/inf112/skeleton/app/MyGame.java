@@ -6,7 +6,8 @@ import com.badlogic.gdx.Screen;
 import inf112.skeleton.controller.MyInputProcessor;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.model.entities.gameObjects.Door;
+import inf112.skeleton.model.entities.gameObjects.IDialogue;
+import inf112.skeleton.model.entities.gameObjects.IDoor;
 import inf112.skeleton.view.UI;
 import inf112.skeleton.view.screens.GameScreen;
 import inf112.skeleton.view.screens.MainMenuScreen;
@@ -18,7 +19,7 @@ import java.util.HashMap;
  */
 public class MyGame extends Game{
     public enum State {
-        Title, Play, Dialogue
+        Title, Play, Dialogue, LoadStart, LoadEnd
     }
     private State state = State.Title;
     public static int SCREEN_WIDTH = 480*2;
@@ -57,15 +58,24 @@ public class MyGame extends Game{
     }
 
     public void changeMap(String s){
-        if(s.isEmpty())
-            return;
         map = new Map("tiledMaps/"+s+".tmx", player);
-        gameScreen.reset();
     }
 
-    public void changeMap(Door door){
+    public void enterDoor(IDoor door){
         player.setPos(door.getExitPos());
-        changeMap(door.getNextMap());
+        if(!door.getNextMap().isEmpty())
+            changeMap(door.getNextMap());
+        state = State.LoadStart;
+    }
+
+    @Override
+    public void render(){
+        if(state == State.LoadStart){}
+        super.render();
+    }
+
+    public void displayDialogue(IDialogue dialogueObj){
+        ui.setDialogue(dialogueObj.dialogue());
     }
 
     public State getState(){

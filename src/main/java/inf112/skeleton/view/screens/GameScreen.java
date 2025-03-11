@@ -2,6 +2,7 @@ package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,7 +28,6 @@ public class GameScreen extends AbstractScreen{
     private ViewableEntity player;
     private Array<ViewableEntity> entities;
 
-    private ExtendViewport viewport;
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
 
@@ -42,7 +42,6 @@ public class GameScreen extends AbstractScreen{
 
         camera = new OrthographicCamera();
         reset();
-//        camera.position.set(player.getCenterPos(), 0);
         viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
     }
 
@@ -57,13 +56,37 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void render(float deltaTime) {
         long time = System.nanoTime();
-        ScreenUtils.clear(Color.CLEAR);
-
-        if(game.getState() == MyGame.State.Play) {
-            map.update(deltaTime);
+        switch(game.getState()){
+            case Play -> {
+                map.update(deltaTime);
+                followPlayerWithCamera(deltaTime);
+                draw();
+            }
+            case Dialogue -> {
+                followPlayerWithCamera(deltaTime);
+                draw();
+                game.ui.renderDialogue();
+            }
+            case LoadStart -> {
+                fadeToBlack(deltaTime);
+                if(resetFadeTimer()){
+                    reset();
+                    game.setState(MyGame.State.LoadEnd);
+                }
+            }
+            case LoadEnd -> {
+                followPlayerWithCamera(deltaTime);
+                draw();
+                unfadeFromBlack(deltaTime);
+                if(resetFadeTimer())
+                    game.setState(MyGame.State.Play);
+            }
         }
+//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+    }
 
-        followPlayerWithCamera(deltaTime);
+    private void draw(){
+        ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -82,11 +105,6 @@ public class GameScreen extends AbstractScreen{
         }
         batch.end();
         renderDebug();
-
-        if(game.getState() == MyGame.State.Dialogue){
-            game.ui.renderDialogue();
-        }
-//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void followPlayerWithCamera(float deltaTime){
@@ -101,7 +119,7 @@ public class GameScreen extends AbstractScreen{
             shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
-//            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+            shapeRenderer.rect(r.x, r.y, r.width, r.height);
         }
         shapeRenderer.end();
     }

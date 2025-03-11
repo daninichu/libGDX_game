@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3947">
+ <tileset firstgid="1" source="tilesets/door.tsx"/>
+ <objectgroup id="7" name="Objects">
+  <object id="3942" gid="1" x="32" y="608" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="3943"/>
+    <property name="New x" type="float" value="10"/>
+    <property name="New y" type="float" value="12"/>
+    <property name="Next Map" value=""/>
+   </properties>
+  </object>
+  <object id="3943" gid="1" x="224" y="608" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="3942"/>
+    <property name="Next Map" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

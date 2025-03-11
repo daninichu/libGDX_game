@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.Player;
 
-public class Door extends GameObject {
+public class Door extends GameObject implements IDoor{
     private Vector2 exitPos = new Vector2();
     private String nextMap;
     private Rectangle interactionArea;
@@ -40,10 +40,12 @@ public class Door extends GameObject {
         return interactionArea.contains(player.getCenterPos());
     }
 
+    @Override
     public Vector2 getExitPos() {
         return exitPos;
     }
 
+    @Override
     public String getNextMap() {
         return nextMap;
     }

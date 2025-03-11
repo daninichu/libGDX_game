@@ -12,18 +12,19 @@ import inf112.skeleton.app.MyGame;
 
 public class MainMenuScreen extends AbstractScreen {
     private Stage stage;
-    private Viewport viewport = new ExtendViewport(40, 30);
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
     private Label title;
     private Label start;
 
     public MainMenuScreen(MyGame game){
         super(game);
+        fadeDuration = 1;
     }
 
     @Override
     public void show(){
         super.show();
+        viewport = new ExtendViewport(40, 30);
         stage = new Stage(viewport, batch);
         font.setUseIntegerPositions(false);
         font.getData().setScale(0.2f);
@@ -46,8 +47,14 @@ public class MainMenuScreen extends AbstractScreen {
         stage.act();
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setScreen("GameScreen");
-            game.setState(MyGame.State.Play);
+            game.setState(MyGame.State.LoadStart);
+        }
+        if(game.getState() == MyGame.State.LoadStart){
+            fadeToBlack(deltaTime);
+            if(resetFadeTimer()){
+                game.setState(MyGame.State.LoadEnd);
+                game.setScreen("GameScreen");
+            }
         }
     }
 

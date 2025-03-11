@@ -4,8 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 
 /**
@@ -18,6 +22,10 @@ public abstract class AbstractScreen implements Screen{
     protected SpriteBatch batch;
     /** Responsible for drawing simple shapes.*/
     protected ShapeRenderer shapeRenderer;
+    protected Viewport viewport;
+
+    protected float fadeDuration = 0.25f;
+    protected float fadeTime;
 
     public AbstractScreen(MyGame game) {
         this.game = game;
@@ -41,6 +49,46 @@ public abstract class AbstractScreen implements Screen{
     public void render(float deltaTime){
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    public void fadeToBlack(float delta){
+        fadeTime += delta;
+        float alpha = Math.min(fadeTime / fadeDuration, 1.0f);
+        blend(alpha);
+    }
+
+    public void unfadeFromBlack(float delta) {
+        fadeTime += delta;
+        float alpha = Math.max((fadeDuration - fadeTime) / fadeDuration, 0);
+        blend(alpha);
+    }
+
+    public boolean resetFadeTimer(){
+        if(fadeTime >= fadeDuration){
+            fadeTime = 0;
+            return true;
+        }
+        return false;
+    }
+
+    public void blend(float alpha) {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        Matrix4 currentMatrix = shapeRenderer.getProjectionMatrix().cpy();
+
+        OrthographicCamera tempCamera = new OrthographicCamera(viewport.getWorldWidth(), viewport.getWorldHeight());
+        tempCamera.setToOrtho(false); // false to set the origin at the bottom left
+        shapeRenderer.setProjectionMatrix(tempCamera.combined);
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 0, 0, alpha);
+        shapeRenderer.rect(0, 0, tempCamera.viewportWidth, tempCamera.viewportHeight);
+        shapeRenderer.end();
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        shapeRenderer.setProjectionMatrix(currentMatrix);
     }
 
     @Override

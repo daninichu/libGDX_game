@@ -11,7 +11,10 @@
    <object id="1" x="4" y="8" width="24" height="22"/>
   </objectgroup>
  </tile>
- <tile id="45">
+ <tile id="45" type="Sign">
+  <properties>
+   <property name="Text" value=""/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="4" y="18" width="22" height="12"/>
   </objectgroup>

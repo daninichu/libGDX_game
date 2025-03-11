@@ -30,8 +30,4 @@ public class GameObject extends Entity {
     public boolean canInteract() {
         return false;
     }
-
-    public String dialogue(){
-        return "";
-    }
 }

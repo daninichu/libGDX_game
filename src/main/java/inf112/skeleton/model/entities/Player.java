@@ -94,12 +94,9 @@ public class Player extends Entity implements ControllablePlayer{
 
     @Override
     public GameObject interact(Array.ArrayIterable<GameObject> objects){
-        for(GameObject object : objects){
-            if(object.canInteract()){
-//                ui.setDialogue(object.dialogue());
+        for(GameObject object : objects)
+            if(object.canInteract())
                 return object;
-            }
-        }
         return null;
     }
 }

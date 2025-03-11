@@ -10,6 +10,26 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/64Objects.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/door.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/grassSet.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/sign.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/untitled.tmx": {
+            "scale": 1.3807,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 225.2480625769537,
+                "y": 450.1339900050699
+            }
+        },
         "desert.tmx": {
             "expandedObjectLayers": [
                 3
@@ -28,8 +48,8 @@
             "scale": 1.3581,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 240.04123407701934,
-                "y": 480.0824681540387
+                "x": 717.9147338193063,
+                "y": 640.9690008099551
             }
         },
         "tilesets/64Objects.tsx": {
@@ -70,7 +90,7 @@
         "desert.tmx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "object",
+    "property.type": "string",
     "recentFiles": [
         "tilesets/door.tsx",
         "desert.tmx",

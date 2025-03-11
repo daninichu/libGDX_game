@@ -64,7 +64,7 @@ public class Map {
 
     private void spawnEntities() {
         for(int i = 0; i < 5; i++){
-            enemies.add(new EvilSquare(0, 250, player));
+//            enemies.add(new EvilSquare(0, 250, player));
         }
     }
 

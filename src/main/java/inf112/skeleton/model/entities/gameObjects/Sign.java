@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.Player;
 
-public class Sign extends GameObject {
+public class Sign extends GameObject implements IDialogue{
     private String text;
     private Rectangle interactionArea;
 
