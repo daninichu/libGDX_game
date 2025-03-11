@@ -23,6 +23,7 @@ public abstract class AbstractScreen implements Screen{
     /** Responsible for drawing simple shapes.*/
     protected ShapeRenderer shapeRenderer;
     protected Viewport viewport;
+    private OrthographicCamera tempCamera = new OrthographicCamera();
 
     protected float fadeDuration = 0.25f;
     protected float fadeTime;
@@ -46,24 +47,21 @@ public abstract class AbstractScreen implements Screen{
      * @param deltaTime The time interval between each frame.
      */
     @Override
-    public void render(float deltaTime){
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
+    public void render(float deltaTime){}
 
-    public void fadeToBlack(float delta){
+    protected void fadeToBlack(float delta){
         fadeTime += delta;
         float alpha = Math.min(fadeTime / fadeDuration, 1.0f);
         blend(alpha);
     }
 
-    public void unfadeFromBlack(float delta) {
+    protected void unfadeFromBlack(float delta) {
         fadeTime += delta;
         float alpha = Math.max((fadeDuration - fadeTime) / fadeDuration, 0);
         blend(alpha);
     }
 
-    public boolean resetFadeTimer(){
+    protected boolean resetFadeTimer(){
         if(fadeTime >= fadeDuration){
             fadeTime = 0;
             return true;
@@ -71,45 +69,28 @@ public abstract class AbstractScreen implements Screen{
         return false;
     }
 
-    public void blend(float alpha) {
+    private void blend(float alpha) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        Matrix4 currentMatrix = shapeRenderer.getProjectionMatrix().cpy();
-
-        OrthographicCamera tempCamera = new OrthographicCamera(viewport.getWorldWidth(), viewport.getWorldHeight());
         tempCamera.setToOrtho(false); // false to set the origin at the bottom left
         shapeRenderer.setProjectionMatrix(tempCamera.combined);
-
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, alpha);
         shapeRenderer.rect(0, 0, tempCamera.viewportWidth, tempCamera.viewportHeight);
         shapeRenderer.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
-
-        shapeRenderer.setProjectionMatrix(currentMatrix);
     }
 
     @Override
-    public void resize(int width, int height){
-
-    }
-
+    public void resize(int width, int height){}
     @Override
-    public void pause(){
-
-    }
-
+    public void pause(){}
     @Override
-    public void resume(){
-
-    }
-
+    public void resume(){}
     @Override
-    public void hide(){
-
-    }
+    public void hide(){}
 
     /**
      * Java garbage collector won't dispose unused objects and must be disposed manually.
@@ -119,5 +100,4 @@ public abstract class AbstractScreen implements Screen{
         batch.dispose();
         shapeRenderer.dispose();
     }
-
 }

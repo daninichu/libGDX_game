@@ -70,7 +70,6 @@ public class MyGame extends Game{
 
     @Override
     public void render(){
-        if(state == State.LoadStart){}
         super.render();
     }
 
