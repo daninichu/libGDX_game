@@ -3,22 +3,22 @@
  <image source="tmw_desert_spacing.png" width="265" height="199"/>
  <tile id="30">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="5" y="8" width="22" height="16"/>
+   <object id="1" name="Collision" x="5" y="8" width="22" height="16"/>
   </objectgroup>
  </tile>
  <tile id="37">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="4" y="14" width="24" height="16"/>
+   <object id="1" name="Collision" x="4" y="14" width="24" height="16"/>
   </objectgroup>
  </tile>
  <tile id="38">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="5" y="13" width="24" height="14"/>
+   <object id="1" name="Collision" x="5" y="13" width="24" height="14"/>
   </objectgroup>
  </tile>
  <tile id="39">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="4" y="14" width="24" height="16"/>
+   <object id="1" name="Collision" x="4" y="14" width="24" height="16"/>
   </objectgroup>
  </tile>
  <tile id="45" type="Sign">

@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3949">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="3956">
  <tileset firstgid="1" source="tilesets/door.tsx"/>
  <objectgroup id="7" name="Objects">
   <object id="3947" gid="1" x="32" y="608" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3948"/>
+    <property name="Map File" type="file" value="doorTest.tmx"/>
    </properties>
   </object>
   <object id="3948" gid="1" x="224" y="608" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3947"/>
+    <property name="Map File" type="file" value="doorTest.tmx"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="8" name="Collision">
+  <object id="3949" x="32" y="480" width="64" height="32"/>
+  <object id="3950" x="128" y="416" width="64" height="32"/>
+  <object id="3951" x="256" y="416" width="192" height="32"/>
+  <object id="3952" x="416" y="256" width="32" height="160"/>
+  <object id="3953" x="288" y="223" width="32" height="129"/>
+  <object id="3954" x="320" y="320" width="32" height="32"/>
+  <object id="3955" x="448" y="256" width="96" height="32"/>
  </objectgroup>
 </map>

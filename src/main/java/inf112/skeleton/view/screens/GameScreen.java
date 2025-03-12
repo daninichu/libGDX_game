@@ -58,11 +58,6 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void render(float deltaTime) {
         long time = System.nanoTime();
-        for(int i = 0; i < 1; i++){
-TmxMapLoader mapLoader = new TmxMapLoader();
-
-//            mapLoader.load("tiledMaps/desert.tmx");
-        }
         switch(game.getState()){
             case Play -> {
                 map.update(deltaTime);
@@ -89,14 +84,13 @@ TmxMapLoader mapLoader = new TmxMapLoader();
                     game.setState(MyGame.State.Play);
             }
         }
-//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void draw(){
         ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
-        shapeRenderer.setProjectionMatrix(camera.combined);
 
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
@@ -120,6 +114,7 @@ TmxMapLoader mapLoader = new TmxMapLoader();
     }
 
     private void renderDebug(){
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.WHITE);
         for(Rectangle r : map.getCollisionBoxes())

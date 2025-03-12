@@ -27,9 +27,9 @@ public class Map {
     private TiledMap tiledMap;
 
     private Player player;
-    private Array<Enemy> enemies = new Array<>();
-    private Array<GameObject> objects = new Array<>();
-    private Array<Rectangle> collisionBoxes = new Array<>();
+    private Array<Enemy> enemies;
+    private Array<GameObject> objects;
+    private Array<Rectangle> collisionBoxes;
     private CollisionHandler collisionHandler;
 
     public Map(Player player) {

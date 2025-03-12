@@ -64,9 +64,9 @@ public class MyGame extends Game{
 
     public void enterDoor(IDoor door){
         player.setPos(door.getExitPos());
+        state = State.LoadStart;
         if(!map.currentMapFile().equals(door.getMapFile()))
             changeMap(door.getMapFile());
-        state = State.LoadStart;
     }
 
     @Override
