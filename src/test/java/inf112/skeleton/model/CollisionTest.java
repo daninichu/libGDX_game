@@ -67,6 +67,30 @@ public class CollisionTest {
     }
 
     /**
+     * Player is right next to, and right above a box.
+     * Make sure that the player can't move left and down diagonally.
+     */
+    @Test
+    void testCantMoveDiagonally() {
+        collisionBoxes.add(new Rectangle(-50, 0, 50, 100));
+        collisionBoxes.add(new Rectangle(0, -50, 100, 50));
+        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+
+        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+
+        Vector2 stuckPos = player.getPos().cpy();
+        player.setLeftMove(true);
+        player.setDownMove(true);
+        for(int i = 0; i < 1000; i++){
+            player.update(0.01f);
+            collisionHandler.handleCollisions(player);
+
+            assertEquals(stuckPos, player.getPos());
+            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+        }
+    }
+
+    /**
      * Player starts right above a box and tries to move diagonally against it.
      * Make sure that the player can move sideways, but not downwards.
      */

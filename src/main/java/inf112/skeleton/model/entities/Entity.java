@@ -32,7 +32,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
 
     public void attack(DamageableEntity target) {
         if(CollisionHandler.collidesAny(target, getHitboxes())){
-            target.takeDamage(10);
+            target.takeDamage(3);
         }
     }
 

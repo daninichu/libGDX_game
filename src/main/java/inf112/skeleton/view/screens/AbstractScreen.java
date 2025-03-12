@@ -75,8 +75,8 @@ public abstract class AbstractScreen implements Screen{
 
         tempCamera.setToOrtho(false); // false to set the origin at the bottom left
         shapeRenderer.setProjectionMatrix(tempCamera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, alpha);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.rect(0, 0, tempCamera.viewportWidth, tempCamera.viewportHeight);
         shapeRenderer.end();
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.Enemy;
@@ -37,10 +36,10 @@ public class Map {
     }
 
     /**
-     *
+     * Get a specific tile object from a specific {@code .tmx} file.
      * @param mapFile Where the desired object is located.
      * @param id The ID of the desired object within specified file.
-     * @return The desired object.
+     * @return The desired tile object.
      */
     public static TiledMapTileMapObject getObject(String mapFile, int id) {
         mapLoader.load(startPath + mapFile);
@@ -48,9 +47,9 @@ public class Map {
     }
 
     /**
-     * The start file path has already been provided. If your map file is in<code>tiledMaps/map.tmx</code>,
-     * then the argument should just be <code>"map.tmx"</code>.
-     * @param mapFile The <code>.tmx</code> file name only.
+     * The start file path has already been provided. If your map file is in
+     * {@code tiledMaps/map.tmx}, then the argument should just be {@code "map.tmx"}.
+     * @param mapFile The {@code .tmx} file name only.
      */
     public void newMap(String mapFile) {
         currentMapFile = mapFile;
@@ -98,8 +97,8 @@ public class Map {
 
     private void spawnEntities() {
         for(int i = 0; i < 5; i++){
-//            enemies.add(new EvilSquare(0, 250, player));
         }
+            enemies.add(new EvilSquare(192, 192, player));
     }
 
     public void update(float deltaTime) {
@@ -127,7 +126,7 @@ public class Map {
         return entities;
     }
 
-    public Array.ArrayIterable<Rectangle> gethitboxes() {
+    public Array.ArrayIterable<Rectangle> getHitboxes() {
         Array<Rectangle> hitboxes = new Array<>();
         for(Entity e : enemies) {
             hitboxes.addAll(e.getHitboxes());

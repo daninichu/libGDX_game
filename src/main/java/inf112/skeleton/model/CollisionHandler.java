@@ -16,12 +16,14 @@ import java.awt.Point;
  */
 public class CollisionHandler{
     private ObjectMap<Point, Array<Rectangle>> grid = new ObjectMap<>();
+    Array<Rectangle> rectangles = new Array<>();
 
     /**
      * Fill the grid with collision boxes and assign them to the cells that they occupy.
      * @param collisionBoxes
      */
     public CollisionHandler(Array<Rectangle> collisionBoxes) {
+        rectangles.addAll(collisionBoxes);
         for (Rectangle box : collisionBoxes){
             for(Point cell : getOccupiedCells(box)){
                 if(!grid.containsKey(cell))
@@ -32,18 +34,18 @@ public class CollisionHandler{
     }
 
     private static Array<Point> getOccupiedCells(Rectangle box){
+        Array<Point> occupiedCells = new Array<>();
         int x1 = toCellNum(box.x);
         int x2 = toCellNum(box.x + box.width);
         int y1 = toCellNum(box.y);
         int y2 = toCellNum(box.y + box.height);
-        Array<Point> occupiedCells = new Array<>();
-        for(int i = x1; i <= x2; i++){
-            occupiedCells.add(new Point(i, y1));
-            occupiedCells.add(new Point(i, y2));
+        for(int x = x1; x <= x2; x++){
+            occupiedCells.add(new Point(x, y1));
+            occupiedCells.add(new Point(x, y2));
         }
-        for(int i = 1 + y1; i < y2; i++){
-            occupiedCells.add(new Point(x1, i));
-            occupiedCells.add(new Point(x2, i));
+        for(int y = 1 + y1; y < y2; y++){
+            occupiedCells.add(new Point(x1, y));
+            occupiedCells.add(new Point(x2, y));
         }
         return occupiedCells;
     }
@@ -54,6 +56,7 @@ public class CollisionHandler{
 
     public void handleCollisions(CollidableEntity entity) {
         ObjectSet<Rectangle> localBoxes = new ObjectSet<>();
+//        localBoxes.addAll(rectangles);
         for(Point cell : getOccupiedCells(entity.locateHurtbox()))
             localBoxes.addAll(grid.get(cell, new Array<>()));
 

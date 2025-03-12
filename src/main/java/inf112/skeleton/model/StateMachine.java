@@ -23,15 +23,7 @@ public class StateMachine{
         if (targetState == null || targetState.equals(state)) {
             return;
         }
-        Runnable onExitAction = onExit.get(state);
-        if (onExitAction != null) {
-            onExitAction.run();
-        }
-        Runnable onEnterAction = onEnter.get(targetState);
-        if (onEnterAction != null) {
-            onEnterAction.run();
-        }
-        state = targetState;
+        transition(targetState);
     }
 
     public void onEnter(String event, Runnable action) {
@@ -40,5 +32,19 @@ public class StateMachine{
 
     public void onExit(String event, Runnable action) {
         onExit.put(event, action);
+    }
+
+    public void forceState(String targetState) {
+        transition(targetState);
+    }
+
+    private void transition(String targetState){
+        Runnable onExitAction = onExit.get(state);
+        if (onExitAction != null)
+            onExitAction.run();
+        Runnable onEnterAction = onEnter.get(targetState);
+        if (onEnterAction != null)
+            onEnterAction.run();
+        state = targetState;
     }
 }

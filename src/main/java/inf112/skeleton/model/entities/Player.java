@@ -14,12 +14,11 @@ import inf112.skeleton.view.UI;
 public class Player extends Entity implements ControllablePlayer{
     private static FsmBlueprint blueprint = new FsmBlueprint();
     static {
-        blueprint.addTransition("init", "init", "nonAttack");
         blueprint.addTransition("nonAttack", "attackPressed", "attackWindUp");
         blueprint.addTransition("attackWindUp", "timeout", "attacking");
         blueprint.addTransition("attacking", "timeout", "nonAttack");
     }
-    private StateMachine stateMachine = new StateMachine(blueprint, "init");
+    private StateMachine stateMachine = new StateMachine(blueprint, "nonAttack");
     enum State {
         NonAttack, Attack
     }
@@ -31,7 +30,7 @@ public class Player extends Entity implements ControllablePlayer{
         super(x, y);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
-        this.health = 10;
+        this.health = 20;
         this.speed = 4.5f * MyGame.TILE_SIZE;
     }
 

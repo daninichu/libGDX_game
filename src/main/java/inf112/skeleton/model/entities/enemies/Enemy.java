@@ -14,23 +14,8 @@ import inf112.skeleton.view.ViewableEntity;
 import java.util.Random;
 
 public abstract class Enemy extends Entity{
-    private static FsmBlueprint blueprint = new FsmBlueprint();
-    static {
-        blueprint.addTransition("init", "init", "idle");
-        blueprint.addTransition("idle", "playerVisible", "chase");
-        blueprint.addTransition("idle", "timeout", "roaming");
-        blueprint.addTransition("roaming", "timeout", "idle");
-        blueprint.addTransition("roaming", "playerVisible", "chase");
-        blueprint.addTransition("chase", "playerFar", "idle");
-        blueprint.addTransition("chase", "playerClose", "attackWindUp");
-        blueprint.addTransition("retreat", "timeout", "chase");
-        blueprint.addTransition("attackWindUp", "timeout", "attacking");
-        blueprint.addTransition("attacking", "timeout", "attackEnd");
-        blueprint.addTransition("attackEnd", "timeout", "chase");
-        blueprint.addTransition("attackEnd", "random", "retreat");
-    }
-
-    private StateMachine stateMachine = new StateMachine(blueprint, "init");
+    protected FsmBlueprint blueprint = new FsmBlueprint();
+    private StateMachine stateMachine = new StateMachine(blueprint, "idle");
 
     private DamageableEntity player;
     private float timer;
@@ -41,6 +26,25 @@ public abstract class Enemy extends Entity{
         super(x, y);
         this.player = player;
 
+        addTransitions();
+        addEnterFunctions();
+        addExitFunctions();
+        stateMachine.fireEvent("idle");
+    }
+
+    protected void addTransitions(){
+        blueprint.addTransition("idle", "playerVisible", "chase");
+        blueprint.addTransition("idle", "timeout", "roaming");
+        blueprint.addTransition("roaming", "timeout", "idle");
+        blueprint.addTransition("roaming", "playerVisible", "chase");
+        blueprint.addTransition("chase", "playerFar", "idle");
+        blueprint.addTransition("chase", "playerClose", "attackWindUp");
+        blueprint.addTransition("attackWindUp", "timeout", "attacking");
+        blueprint.addTransition("attacking", "timeout", "attackEnd");
+        blueprint.addTransition("attackEnd", "timeout", "chase");
+    }
+
+    protected void addEnterFunctions(){
         stateMachine.onEnter("idle", () -> {
             timer = MathUtils.random(1.2f, 3f);
             velocity.setLength(0);
@@ -53,27 +57,25 @@ public abstract class Enemy extends Entity{
         stateMachine.onEnter("chase", () -> {
             velocity.set(speed, 0);
         });
-        stateMachine.onEnter("retreat", () -> {
-            timer = 1f;
-            velocity.set(getCenterPos().sub(player.getCenterPos()).setLength(speed));
-        });
         stateMachine.onEnter("attackWindUp", () -> {
-            timer = 0.4f;
+            timer = 0.3f;
             velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
         });
         stateMachine.onEnter("attacking", () -> {
-//            placeHitboxes();
-            timer = 0.3f;
-            velocity.setLength(120);
-        });
-        stateMachine.onExit("attacking", () -> {
-            hitboxes.clear();
+            placeHitboxes();
+            timer = 0.4f;
+            velocity.setLength(speed*3);
         });
         stateMachine.onEnter("attackEnd", () -> {
             timer = 0.8f;
             velocity.set(0, 0);
         });
-        stateMachine.fireEvent("init");
+    }
+
+    protected void addExitFunctions(){
+        stateMachine.onExit("attacking", () -> {
+            hitboxes.clear();
+        });
     }
 
     @Override

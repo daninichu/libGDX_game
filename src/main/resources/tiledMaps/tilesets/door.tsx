@@ -5,7 +5,7 @@
   <properties>
    <property name="Door ID" type="int" value="0"/>
    <property name="Exit Door" type="object" value="0"/>
-   <property name="Map File" type="file" value=""/>
+   <property name="Map File" value=""/>
   </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" name="Collision" x="5" y="20" width="22" height="12">

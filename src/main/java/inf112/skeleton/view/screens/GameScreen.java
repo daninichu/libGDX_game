@@ -2,11 +2,9 @@ package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -15,9 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
-import inf112.skeleton.model.entities.gameObjects.Door;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
-import inf112.skeleton.model.entities.gameObjects.Sign;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
@@ -55,6 +51,7 @@ public class GameScreen extends AbstractScreen{
         player = entities.get(0);
         camera.position.set(player.getCenterPos(), 0);
     }
+
     @Override
     public void render(float deltaTime) {
         long time = System.nanoTime();
@@ -84,7 +81,7 @@ public class GameScreen extends AbstractScreen{
                     game.setState(MyGame.State.Play);
             }
         }
-        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void draw(){
@@ -123,6 +120,10 @@ public class GameScreen extends AbstractScreen{
             Rectangle r = e.locateHurtbox();
             if(r != null)
                 shapeRenderer.rect(r.x, r.y, r.width, r.height);
+        }
+        shapeRenderer.setColor(Color.RED);
+        for(Rectangle hitbox : map.getHitboxes()){
+            shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
         }
         shapeRenderer.end();
     }
