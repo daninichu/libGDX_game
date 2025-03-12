@@ -37,7 +37,7 @@ public class MyInputProcessor extends InputAdapter {
                     game.enterDoor(door);
                 }
                 else if(object instanceof IDialogue dialogueObj) {
-                    game.displayDialogue(dialogueObj);
+                    game.setDialogue(dialogueObj);
                     game.setState(MyGame.State.Dialogue);
                 }
             }

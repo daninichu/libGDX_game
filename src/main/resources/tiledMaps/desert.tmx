@@ -63,6 +63,8 @@
   <object id="5" gid="31" x="576" y="192" width="32" height="32"/>
   <object id="6" gid="49" x="32" y="544" width="32" height="32">
    <properties>
+    <property name="Door ID" type="int" value="3946"/>
+    <property name="Map File" type="file" value="grass.tmx"/>
     <property name="New x" type="float" value="288"/>
     <property name="New y" type="float" value="256"/>
     <property name="Next Map" value="grass"/>

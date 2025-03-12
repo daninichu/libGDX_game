@@ -16,14 +16,12 @@ import java.awt.Point;
  */
 public class CollisionHandler{
     private ObjectMap<Point, Array<Rectangle>> grid = new ObjectMap<>();
-    private Array<Rectangle> collisionBoxes = new Array<>();
 
     /**
      * Fill the grid with collision boxes and assign them to the cells that they occupy.
      * @param collisionBoxes
      */
     public CollisionHandler(Array<Rectangle> collisionBoxes) {
-        this.collisionBoxes = collisionBoxes;
         for (Rectangle box : collisionBoxes){
             for(Point cell : getOccupiedCells(box)){
                 if(!grid.containsKey(cell))
@@ -34,14 +32,18 @@ public class CollisionHandler{
     }
 
     private static Array<Point> getOccupiedCells(Rectangle box){
+        int x1 = toCellNum(box.x);
+        int x2 = toCellNum(box.x + box.width);
+        int y1 = toCellNum(box.y);
+        int y2 = toCellNum(box.y + box.height);
         Array<Point> occupiedCells = new Array<>();
-        for(int i = toCellNum(box.x); i <= toCellNum(box.x + box.width); i++){
-            occupiedCells.add(new Point(i, toCellNum(box.y)));
-            occupiedCells.add(new Point(i, toCellNum(box.y + box.height)));
+        for(int i = x1; i <= x2; i++){
+            occupiedCells.add(new Point(i, y1));
+            occupiedCells.add(new Point(i, y2));
         }
-        for(int i = 1 + toCellNum(box.y); i < toCellNum(box.y + box.height); i++){
-            occupiedCells.add(new Point(toCellNum(box.x), i));
-            occupiedCells.add(new Point(toCellNum(box.x + box.width), i));
+        for(int i = 1 + y1; i < y2; i++){
+            occupiedCells.add(new Point(x1, i));
+            occupiedCells.add(new Point(x2, i));
         }
         return occupiedCells;
     }
@@ -52,7 +54,6 @@ public class CollisionHandler{
 
     public void handleCollisions(CollidableEntity entity) {
         ObjectSet<Rectangle> localBoxes = new ObjectSet<>();
-//        localBoxes.addAll(collisionBoxes);
         for(Point cell : getOccupiedCells(entity.locateHurtbox()))
             localBoxes.addAll(grid.get(cell, new Array<>()));
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.Enemy;
@@ -20,20 +21,51 @@ import inf112.skeleton.view.ViewableEntity;
  * A class that keeps track of positions of entities.
  */
 public class Map {
+    private static final TmxMapLoader mapLoader = new TmxMapLoader();
+    private static final String startPath = "tiledMaps/";
+    private String currentMapFile;
+    private TiledMap tiledMap;
+
     private Player player;
     private Array<Enemy> enemies = new Array<>();
     private Array<GameObject> objects = new Array<>();
     private Array<Rectangle> collisionBoxes = new Array<>();
     private CollisionHandler collisionHandler;
-    private TiledMap tiledMap;
 
-    public Map(String mapFile, Player player) {
-        this.tiledMap = new TmxMapLoader().load(mapFile);
+    public Map(Player player) {
         this.player = player;
+    }
+
+    /**
+     *
+     * @param mapFile Where the desired object is located.
+     * @param id The ID of the desired object within specified file.
+     * @return The desired object.
+     */
+    public static TiledMapTileMapObject getObject(String mapFile, int id) {
+        mapLoader.load(startPath + mapFile);
+        return (TiledMapTileMapObject) mapLoader.getIdToObject().get(id);
+    }
+
+    /**
+     * The start file path has already been provided. If your map file is in<code>tiledMaps/map.tmx</code>,
+     * then the argument should just be <code>"map.tmx"</code>.
+     * @param mapFile The <code>.tmx</code> file name only.
+     */
+    public void newMap(String mapFile) {
+        currentMapFile = mapFile;
+        tiledMap = mapLoader.load(startPath + mapFile);
+        reset();
         loadObjects();
-        loadCollisionBoxes();
         spawnEntities();
+        loadCollisionBoxes();
         this.collisionHandler = new CollisionHandler(collisionBoxes);
+    }
+
+    private void reset(){
+        enemies = new Array<>();
+        objects = new Array<>();
+        collisionBoxes = new Array<>();
     }
 
     private void loadObjects(){
@@ -52,7 +84,9 @@ public class Map {
             if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
             objects.add(object);
-            collisionBoxes.add(object.locateHurtbox());
+            Rectangle box = object.locateHurtbox();
+            if (box != null)
+                collisionBoxes.add(box);
         }
     }
 
@@ -107,5 +141,9 @@ public class Map {
 
     public Array.ArrayIterable<GameObject> getObjects(){
         return new Array.ArrayIterable<>(objects);
+    }
+
+    public String currentMapFile() {
+        return currentMapFile;
     }
 }

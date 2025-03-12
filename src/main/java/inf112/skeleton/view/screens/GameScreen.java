@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -14,7 +15,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
+import inf112.skeleton.model.entities.gameObjects.Door;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.model.entities.gameObjects.Sign;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
@@ -52,10 +55,14 @@ public class GameScreen extends AbstractScreen{
         player = entities.get(0);
         camera.position.set(player.getCenterPos(), 0);
     }
-
     @Override
     public void render(float deltaTime) {
         long time = System.nanoTime();
+        for(int i = 0; i < 1; i++){
+TmxMapLoader mapLoader = new TmxMapLoader();
+
+//            mapLoader.load("tiledMaps/desert.tmx");
+        }
         switch(game.getState()){
             case Play -> {
                 map.update(deltaTime);
@@ -119,7 +126,8 @@ public class GameScreen extends AbstractScreen{
             shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
-            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+            if(r != null)
+                shapeRenderer.rect(r.x, r.y, r.width, r.height);
         }
         shapeRenderer.end();
     }

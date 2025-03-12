@@ -39,9 +39,10 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(0, 0);
+        player = new Player(192+64, 192+32);
         ui = new UI(player);
-        map = new Map("tiledMaps/grass.tmx", player);
+        map = new Map(player);
+        map.newMap("grass.tmx");
         inputProcessor = new MyInputProcessor(this, player);
 
         gameScreen = new GameScreen(this);
@@ -57,14 +58,14 @@ public class MyGame extends Game{
         return map;
     }
 
-    public void changeMap(String s){
-        map = new Map("tiledMaps/"+s+".tmx", player);
+    public void changeMap(String mapFile){
+        map.newMap(mapFile);
     }
 
     public void enterDoor(IDoor door){
         player.setPos(door.getExitPos());
-        if(!door.getNextMap().isEmpty())
-            changeMap(door.getNextMap());
+        if(!map.currentMapFile().equals(door.getMapFile()))
+            changeMap(door.getMapFile());
         state = State.LoadStart;
     }
 
@@ -73,7 +74,7 @@ public class MyGame extends Game{
         super.render();
     }
 
-    public void displayDialogue(IDialogue dialogueObj){
+    public void setDialogue(IDialogue dialogueObj){
         ui.setDialogue(dialogueObj.dialogue());
     }
 

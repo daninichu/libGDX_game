@@ -4,35 +4,38 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.app.MyGame;
+import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
 
 public class Door extends GameObject implements IDoor{
+    private String mapFile;
     private Vector2 exitPos = new Vector2();
-    private String nextMap;
     private Rectangle interactionArea;
 
     public Door(TiledMapTileMapObject tileObj, Player player) {
         super(tileObj, player);
-        MapProperties properties = tileObj.getProperties();
+        MapProperties props = tileObj.getProperties();
 
-        TiledMapTileMapObject exitDoor = properties.get("Exit Door", TiledMapTileMapObject.class);
-        if (exitDoor != null)
-            exitPos.set(exitDoor.getX(), exitDoor.getY());
-        else {
-            float x = properties.get("New x", Float.class);
-            float y = properties.get("New y", Float.class);
-            exitPos.set(x, y);
-        }
-        float width = properties.get("width", Float.class);
+        mapFile = props.get("Map File", String.class);
+
+        TiledMapTileMapObject exitDoor = props.get("Exit Door", TiledMapTileMapObject.class);
+        if (exitDoor == null)
+            exitDoor = Map.getObject(mapFile, props.get("Door ID", int.class));
+
+        exitPos.set(exitDoor.getX(), exitDoor.getY());
+        centerExitForPlayer(props.get("width", float.class));
+
+        interactionArea = tileRect(tileObj, "Interaction");
+        interactionArea.setPosition(pos.x + interactionArea.x, pos.y + interactionArea.y);
+    }
+
+    /**
+     * Adjust the exit position such that the player exits perfectly centered.
+     * @param width Width of the tile being occupied by the exit door.
+     */
+    private void centerExitForPlayer(float width){
         exitPos.add(width/2, 0);
         exitPos.sub(player.getWidth()/2, player.getHeight());
-
-        nextMap = properties.get("Next Map", String.class);
-
-        interactionArea = locateHurtbox();
-        interactionArea.setY(interactionArea.getY() - MyGame.TILE_SIZE*1.5f);
-        interactionArea.setHeight(hurtbox.getHeight() + MyGame.TILE_SIZE*1.5f);
     }
 
     @Override
@@ -42,11 +45,11 @@ public class Door extends GameObject implements IDoor{
 
     @Override
     public Vector2 getExitPos() {
-        return exitPos;
+        return exitPos.cpy();
     }
 
     @Override
-    public String getNextMap() {
-        return nextMap;
+    public String getMapFile() {
+        return mapFile;
     }
 }

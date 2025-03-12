@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3947">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="3952">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/sign.tsx"/>
  <tileset firstgid="4" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="8" source="tilesets/door.tsx"/>
+ <tileset firstgid="9" source="tree.tsx"/>
  <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -36,7 +37,7 @@
   </object>
   <object id="2623" gid="3" x="96" y="576" width="32" height="32">
    <properties>
-    <property name="Text" value="I felt like banging my head against a wall."/>
+    <property name="Text" value="Hello there."/>
    </properties>
   </object>
   <object id="2624" gid="3" x="256" y="384" width="32" height="32">
@@ -44,7 +45,6 @@
     <property name="Text" value="This door will take you to the desert."/>
    </properties>
   </object>
-  <object id="3936" gid="4" x="288" y="576" width="64" height="64"/>
   <object id="3938" gid="5" x="64" y="512" width="64" height="64">
    <properties>
     <property name="Text">It's a board filled with praise for Tiled.
@@ -54,25 +54,22 @@ Without Tiled, this would not have been possible.</property>
   <object id="3942" gid="8" x="160" y="512" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3943"/>
-    <property name="New x" type="float" value="10"/>
-    <property name="New y" type="float" value="12"/>
-    <property name="Next Map" value=""/>
+    <property name="Map File" type="file" value="grass.tmx"/>
    </properties>
   </object>
   <object id="3943" gid="8" x="160" y="416" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3942"/>
-    <property name="Next Map" value=""/>
+    <property name="Map File" type="file" value="grass.tmx"/>
    </properties>
   </object>
   <object id="3946" gid="8" x="288" y="384" width="32" height="32">
    <properties>
-    <property name="Exit Door" type="object" value="0"/>
-    <property name="New x" type="float" value="32"/>
-    <property name="New y" type="float" value="96"/>
-    <property name="Next Map" value="desert"/>
+    <property name="Door ID" type="int" value="6"/>
+    <property name="Map File" type="file" value="desert.tmx"/>
    </properties>
   </object>
+  <object id="3948" gid="9" x="256" y="576" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="6" name="Collision">
   <object id="2608" x="160" y="448" width="160" height="16"/>

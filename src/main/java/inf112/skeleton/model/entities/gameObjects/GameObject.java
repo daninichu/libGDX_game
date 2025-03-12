@@ -16,7 +16,18 @@ public class GameObject extends Entity {
         this.player = player;
         TiledMapTile tile = tileObj.getTile();
         this.texture = tile.getTextureRegion();
-        this.hurtbox = new Rectangle(((RectangleMapObject) tile.getObjects().get(0)).getRectangle());
+        this.hurtbox = tileRect(tileObj, "Collision");
+    }
+
+    /**
+     * Exists for the sake of not having to repeat long statements.
+     * @param obj The tile map object.
+     * @param s Name of the rectangle object defined in Tiled.
+     * @return The rectangle object from Tiled specified by name.
+     */
+    protected static Rectangle tileRect(TiledMapTileMapObject obj, String s){
+        var rectObj = (RectangleMapObject) obj.getTile().getObjects().get(s);
+        return rectObj == null? null : new Rectangle(rectObj.getRectangle());
     }
 
     @Override
@@ -27,6 +38,16 @@ public class GameObject extends Entity {
         return locateHurtbox().x + getWidth()/2;
     }
 
+    @Override
+    public Rectangle locateHurtbox(){
+        return hurtbox == null? null : super.locateHurtbox();
+    }
+
+    /**
+     * The individual concrete classes will decide what conditions must be fulfilled in
+     * order for them to be interactable.
+     * @return If the object is interactable by the player.
+     */
     public boolean canInteract() {
         return false;
     }

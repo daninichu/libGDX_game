@@ -3,7 +3,13 @@ package inf112.skeleton.model.entities.gameObjects;
 import com.badlogic.gdx.math.Vector2;
 
 public interface IDoor{
+    /**
+     * @return What position the player will be in after interacting with the door.
+     */
     Vector2 getExitPos();
 
-    String getNextMap();
+    /**
+     * @return The name of the next map file.
+     */
+    String getMapFile();
 }

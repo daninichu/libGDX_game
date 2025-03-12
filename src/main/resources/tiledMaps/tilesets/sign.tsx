@@ -6,11 +6,12 @@
    <property name="Text" value=""/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="4" x="2" y="23" width="28" height="8">
+   <object id="4" name="Collision" x="2" y="23" width="28" height="8">
     <properties>
      <property name="Text" value=""/>
     </properties>
    </object>
+   <object id="5" name="Interaction" x="2" y="31" width="28" height="24"/>
   </objectgroup>
  </tile>
 </tileset>

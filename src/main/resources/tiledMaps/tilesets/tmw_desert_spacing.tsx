@@ -26,7 +26,8 @@
    <property name="Text" value=""/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="4" y="18" width="22" height="12"/>
+   <object id="1" name="Collision" x="4" y="18" width="22" height="12"/>
+   <object id="2" name="Interaction" x="4" y="30" width="22" height="24"/>
   </objectgroup>
  </tile>
 </tileset>
