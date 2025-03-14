@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,16 +34,16 @@ public class CollisionTest {
     @Test
     void testStopWhenCollides() {
         collisionBoxes.add(new Rectangle(50, 0, 100, 100));
-        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
         player.setRightMove(true);
-        while(!CollisionHandler.collidesAny(player, collisionBoxes)){
+        while(!StaticCollisionHandler.collidesAny(player, collisionBoxes)){
             player.update(0.01f);
             assertNotEquals(player.getPrevPos(), player.getPos());
         }
 
         collisionHandler.handleCollisions(player);
-        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
     }
 
     /**
@@ -51,9 +52,9 @@ public class CollisionTest {
     @Test
     void testCantMoveDown() {
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
-        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
-        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
 
         Vector2 stuckPos = player.getPos().cpy();
         player.setDownMove(true);
@@ -62,7 +63,7 @@ public class CollisionTest {
             collisionHandler.handleCollisions(player);
 
             assertEquals(stuckPos, player.getPos());
-            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -74,9 +75,9 @@ public class CollisionTest {
     void testCantMoveDiagonally() {
         collisionBoxes.add(new Rectangle(-50, 0, 50, 100));
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
-        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
-        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
 
         Vector2 stuckPos = player.getPos().cpy();
         player.setLeftMove(true);
@@ -86,7 +87,7 @@ public class CollisionTest {
             collisionHandler.handleCollisions(player);
 
             assertEquals(stuckPos, player.getPos());
-            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -97,9 +98,9 @@ public class CollisionTest {
     @Test
     void testSlideAgainstBox() {
         collisionBoxes.add(new Rectangle(0, -50, 1000, 50));
-        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
-        assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
 
         float stuckY = player.getY();
         player.setRightMove(true);
@@ -111,7 +112,7 @@ public class CollisionTest {
             collisionHandler.handleCollisions(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -126,7 +127,7 @@ public class CollisionTest {
         collisionBoxes.add(new Rectangle(-20, -50, 10, 50));
         collisionBoxes.add(new Rectangle(-40, -50, 10, 50));
         collisionBoxes.add(new Rectangle(-60, -50, 10, 50));
-        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
         float stuckY = player.getY();
         player.setLeftMove(true);
@@ -138,7 +139,7 @@ public class CollisionTest {
             collisionHandler.handleCollisions(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
         }
     }
 
@@ -151,7 +152,7 @@ public class CollisionTest {
     void testSlipThroughGap(){
         collisionBoxes.add(new Rectangle(-100, 0, 100, 100));
         collisionBoxes.add(new Rectangle(-100, 150, 100, 100));
-        CollisionHandler collisionHandler = new CollisionHandler(collisionBoxes);
+        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
         float stuckX = player.getX();
         player.setLeftMove(true);
@@ -163,7 +164,7 @@ public class CollisionTest {
             collisionHandler.handleCollisions(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(CollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
         }
 
         for(int i = 0; i < 100; i++){

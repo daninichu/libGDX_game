@@ -4,13 +4,14 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameObject extends Entity {
-    protected ViewableEntity player;
     protected TiledMapTileMapObject tileObj;
+    protected ViewableEntity player;
 
     public GameObject(TiledMapTileMapObject tileObj, Player player){
         super(tileObj.getX(), tileObj.getY());
@@ -43,6 +44,18 @@ public class GameObject extends Entity {
 
     @Override
     public void update(float deltaTime){}
+
+    @Override
+    public void setPos(Vector2 newPos){
+    }
+
+    @Override
+    public void setPos(float x, float y){
+    }
+
+    @Override
+    public void addPos(float x, float y){
+    }
 
     @Override
     public float getCenterX(){

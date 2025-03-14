@@ -39,7 +39,8 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(192+64, 192+32);
+        player = new Player(0, 0);
+//        player = new Player(192+64, 192+32);
         ui = new UI(player);
         map = new Map(player);
 //        map.prepareNewMap("grass.tmx");
@@ -75,7 +76,9 @@ public class MyGame extends Game{
         if(state == State.Loading){
 //            changeMap();
         }
+        long time = System.nanoTime();
         super.render();
+        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     public void setDialogue(IDialogue dialogueObj){

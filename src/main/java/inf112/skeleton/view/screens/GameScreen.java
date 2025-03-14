@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -25,7 +26,7 @@ public class GameScreen extends AbstractScreen{
 
     private Map map;
     private ViewableEntity player;
-    private Array<ViewableEntity> entities;
+    private Array<? extends ViewableEntity> entities;
 
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -39,14 +40,15 @@ public class GameScreen extends AbstractScreen{
     public void show() {
         super.show();
 
-        camera = new OrthographicCamera();
+        this.map = game.getMap();
+        this.mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap(), batch);
+        this.camera = new OrthographicCamera();
+        this.viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
         reset();
-        viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
     }
 
     public void reset(){
-        map = game.getMap();
-        mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap());
+        mapRenderer.setMap(map.getTiledMap());
         entities = map.getEntities();
         player = entities.get(0);
         camera.position.set(player.getCenterPos(), 0);
@@ -54,7 +56,6 @@ public class GameScreen extends AbstractScreen{
 
     @Override
     public void render(float deltaTime) {
-        long time = System.nanoTime();
         switch(game.getState()){
             case Play -> {
                 map.update(deltaTime);
@@ -81,20 +82,19 @@ public class GameScreen extends AbstractScreen{
                     game.setState(MyGame.State.Play);
             }
         }
-//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     private void draw(){
         ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
-        mapRenderer.render();
-
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
         for(ViewableEntity e : entities){
-            if(e.getTexture() != null)
+            if(e.getTexture() != null){
                 batch.draw(e.getTexture(), e.getX(), e.getY());
+            }
         }
         for(GameObject object : map.getObjects()){
             if(object.inInteractionRange()){
@@ -114,12 +114,14 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.WHITE);
-        for(Rectangle r : map.getCollisionBoxes())
+        for(Rectangle r : map.getCollisionBoxes()){
             shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        }
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
-            if(r != null)
+            if(r != null){
                 shapeRenderer.rect(r.x, r.y, r.width, r.height);
+            }
         }
         shapeRenderer.setColor(Color.RED);
         for(Rectangle hitbox : map.getHitboxes()){

@@ -40,7 +40,7 @@
      <property name="Next Map" value=""/>
     </properties>
    </object>
-   <object id="4" name="Interaction" x="4" y="32" width="24" height="24"/>
+   <object id="4" name="Interaction" x="4" y="32" width="24" height="20"/>
   </objectgroup>
  </tile>
 </tileset>

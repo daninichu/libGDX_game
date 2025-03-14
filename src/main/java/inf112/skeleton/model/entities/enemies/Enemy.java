@@ -33,10 +33,10 @@ public abstract class Enemy extends Entity{
     }
 
     protected void addTransitions(){
-        blueprint.addTransition("idle", "playerVisible", "chase");
         blueprint.addTransition("idle", "timeout", "roaming");
+//        blueprint.addTransition("idle", "playerVisible", "chase");
         blueprint.addTransition("roaming", "timeout", "idle");
-        blueprint.addTransition("roaming", "playerVisible", "chase");
+//        blueprint.addTransition("roaming", "playerVisible", "chase");
         blueprint.addTransition("chase", "playerFar", "idle");
         blueprint.addTransition("chase", "playerClose", "attackWindUp");
         blueprint.addTransition("attackWindUp", "timeout", "attacking");

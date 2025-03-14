@@ -7,9 +7,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.collision.CollisionHandler;
+import inf112.skeleton.model.collision.EntityCollisionHandler;
+import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.Enemy;
+import inf112.skeleton.model.entities.enemies.EvilSquare;
 import inf112.skeleton.model.entities.gameObjects.Door;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.model.entities.gameObjects.Sign;
@@ -29,7 +33,8 @@ public class Map {
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
     private Array<Rectangle> collisionBoxes;
-    private CollisionHandler collisionHandler;
+    private StaticCollisionHandler collisionHandler;
+    private EntityCollisionHandler entityCollisionHandler = new EntityCollisionHandler();
 
     public Map(Player player) {
         this.player = player;
@@ -58,7 +63,7 @@ public class Map {
         loadObjects();
         spawnEntities();
         loadCollisionBoxes();
-        this.collisionHandler = new CollisionHandler(collisionBoxes);
+        this.collisionHandler = new StaticCollisionHandler(collisionBoxes);
     }
 
     public void prepareNewMap(String mapFile) {
@@ -102,9 +107,10 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 20; i++){
+            enemies.add(new EvilSquare(12, 12, player));
         }
-//            enemies.add(new EvilSquare(192, 192, player));
+//            enemies.add(new EvilSquare(0, 50, player));
     }
 
     public void update(float deltaTime) {
@@ -118,14 +124,23 @@ public class Map {
                 enemies.removeValue(e, true);
             }
         }
+        Array<Entity> entities = new Array<>();
+        entities.add(player);
+        entities.addAll(enemies);
+        entities.addAll(objects);
+        entityCollisionHandler.updateGrid(entities);
+        for(Entity e : entities) {
+            entityCollisionHandler.handleCollisions(e);
+        }
+//            entityCollisionHandler.handleCollision(entities);
     }
 
     public TiledMap getTiledMap() {
         return tiledMap;
     }
 
-    public Array<ViewableEntity> getEntities() {
-        Array<ViewableEntity> entities = new Array<>();
+    public Array<Entity> getEntities() {
+        Array<Entity> entities = new Array<>();
         entities.add(player);
         entities.addAll(enemies);
         entities.addAll(objects);

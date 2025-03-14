@@ -44,5 +44,13 @@ public interface ViewableEntity {
         return getY() + getHeight()/2;
     }
 
+    float getLeftX();
+
+    float getRightX();
+
+    float getBottomY();
+
+    float getTopY();
+
     TextureRegion getTexture();
 }

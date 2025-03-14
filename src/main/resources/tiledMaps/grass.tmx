@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="5386">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="5387">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
  <tileset firstgid="8" source="tilesets/objects.tsx"/>
+ <tileset firstgid="12" source="tilesets/desertSet.tsx"/>
  <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -59,7 +60,7 @@ Without Tiled, this would not have been possible.</property>
     <property name="Map File" value="desert.tmx"/>
    </properties>
   </object>
-  <object id="3948" gid="7" x="256" y="576" width="128" height="128"/>
+  <object id="3948" gid="7" x="256" y="608" width="128" height="128"/>
   <object id="5384" gid="8" x="192" y="416" width="32" height="32">
    <properties>
     <property name="Door" type="object" value="3943"/>

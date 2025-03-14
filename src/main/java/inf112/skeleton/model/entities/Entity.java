@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.CollidableEntity;
-import inf112.skeleton.model.CollisionHandler;
+import inf112.skeleton.model.collision.CollidableEntity;
+import inf112.skeleton.model.collision.CollisionHandler;
 import inf112.skeleton.model.DamageableEntity;
+import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.view.ViewableEntity;
-
-import java.io.Serializable;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity, DamageableEntity{
     public enum Direction {
@@ -33,7 +32,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     }
 
     public void attack(DamageableEntity target) {
-        if(CollisionHandler.collidesAny(target, getHitboxes())){
+        if(StaticCollisionHandler.collidesAny(target, getHitboxes())){
             target.takeDamage(3);
         }
     }
@@ -95,6 +94,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     }
 
     @Override
+    public void addPos(float x, float y){
+        pos.add(x, y);
+    }
+
+    @Override
     public Vector2 getPos(){
         return pos.cpy();
     }
@@ -111,7 +115,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
 
     @Override
     public Rectangle locateHurtbox(){
-        return new Rectangle(hurtbox.x + pos.x, hurtbox.y + pos.y, hurtbox.width, hurtbox.height);
+//        return new Rectangle(hurtbox.x + pos.x, hurtbox.y + pos.y, hurtbox.width, hurtbox.height);
+        return new Rectangle(getLeftX(), getBottomY(), getWidth(), getHeight());
     }
 
     @Override
@@ -127,6 +132,26 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     @Override
     public float getHeight() {
         return hurtbox.height;
+    }
+
+    @Override
+    public float getLeftX(){
+        return pos.x + hurtbox.x;
+    }
+
+    @Override
+    public float getRightX(){
+        return pos.x + hurtbox.x + hurtbox.width;
+    }
+
+    @Override
+    public float getBottomY(){
+        return pos.y + hurtbox.y;
+    }
+
+    @Override
+    public float getTopY(){
+        return pos.y + hurtbox.y + hurtbox.height;
     }
 
     @Override

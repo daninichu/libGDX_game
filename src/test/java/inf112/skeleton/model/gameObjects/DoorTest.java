@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.gameObjects.Door;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,26 +36,28 @@ public class DoorTest {
 
     @Test
     void testPositions(){
-        assertEquals(new Vector2(32, 32), door1.getPos());
-        assertEquals(new Vector2(224, 32), door2.getPos());
+        assertEquals(new Vector2(0, 96), door1.getPos());
+        assertEquals(new Vector2(224, 96), door2.getPos());
     }
 
     /**
-     * Player starts out of interaction range of both doors.<br>
-     * When the player moves to the right, they should be in interaction range of door1
-     * and not door2. Move some more, then in interaction range of door2 and not door1.
+     * Player starts out of interaction range of both doors.<br></br>
+     * When the player moves up, they should be in interaction range of {@code door1} and not {@code door2}. <br></br>
+     * Then move right to be in interaction range of {@code door2} and not {@code door1}.
      */
     @Test
     void testInteractionRange() {
         assertFalse(door1.inInteractionRange());
         assertFalse(door2.inInteractionRange());
 
-        player.setRightMove(true);
-        while(player.getCenterX() < door1.locateHurtbox().x)
+        player.setUpMove(true);
+        while(player.getCenterY() + player.getHeight() < door1.getY())
             player.update(0.1f);
         assertTrue(door1.inInteractionRange());
         assertFalse(door2.inInteractionRange());
 
+        player.setUpMove(false);
+        player.setRightMove(true);
         while(player.getCenterX() < door2.locateHurtbox().x)
             player.update(0.1f);
         assertFalse(door1.inInteractionRange());
@@ -62,7 +65,7 @@ public class DoorTest {
     }
 
     /**
-     * When the player interacts with door1, they should be teleported to door2, and vice versa.
+     * When the player interacts with {@code door1}, they should be teleported to {@code door2}, and vice versa.
      */
     @Test
     void testDoorExitPoints(){

@@ -46,34 +46,34 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 2.1831,
+            "scale": 3.327,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 99.39993587100909,
-                "y": 592.0480051303193
+                "x": 67.02735196874059,
+                "y": 617.8238653441539
             }
         },
         "doorTest.tmx": {
             "expandedObjectLayers": [
-                8,
                 7
             ],
-            "scale": 1.13,
+            "scale": 2.2115,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 610.1769911504425,
-                "y": 355.3097345132743
+                "x": 47.479086592810305,
+                "y": 565.9054940085914
             }
         },
         "grass.tmx": {
             "expandedObjectLayers": [
+                6,
                 7
             ],
-            "scale": 2.0762,
+            "scale": 2.6942,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 225.41181003756864,
-                "y": 414.94075715249016
+                "x": 219.7312745898597,
+                "y": 415.1510652512805
             }
         },
         "tilesets/64Objects.tsx": {
@@ -86,7 +86,7 @@
         },
         "tilesets/door.tsx": {
             "scaleInDock": 0.6264,
-            "scaleInEditor": 1.49
+            "scaleInEditor": 1
         },
         "tilesets/grassSet.tsx": {
             "scaleInDock": 1
@@ -135,16 +135,16 @@
     "project": "untitled.tiled-project",
     "property.type": "object",
     "recentFiles": [
+        "tilesets/sign.tsx",
+        "tilesets/door.tsx",
         "desert.tmx",
         "grass.tmx",
-        "tilesets/door.tsx",
         "tilesets/desertSet.tsx",
         "doorTest.tmx",
         "tilesets/tmw_desert_spacing.tsx",
         "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/doorTest.tmx",
         "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/door.tsx",
         "tilesets/64Objects.tsx",
-        "tilesets/sign.tsx",
         "tree.tsx",
         "untitled.tmx"
     ],
