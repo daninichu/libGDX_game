@@ -10,24 +10,35 @@ import inf112.skeleton.view.ViewableEntity;
 
 public class GameObject extends Entity {
     protected ViewableEntity player;
+    protected TiledMapTileMapObject tileObj;
 
     public GameObject(TiledMapTileMapObject tileObj, Player player){
         super(tileObj.getX(), tileObj.getY());
         this.player = player;
+        this.tileObj = tileObj;
         TiledMapTile tile = tileObj.getTile();
         this.texture = tile.getTextureRegion();
-        this.hurtbox = tileRect(tileObj, "Collision");
+        this.hurtbox = tileRect("Collision");
     }
 
     /**
      * Exists for the sake of not having to repeat long statements.
-     * @param obj The tile map object.
      * @param s Name of the rectangle object defined in Tiled.
      * @return The rectangle object from Tiled specified by name.
      */
-    protected static Rectangle tileRect(TiledMapTileMapObject obj, String s){
-        var rectObj = (RectangleMapObject) obj.getTile().getObjects().get(s);
+    protected Rectangle tileRect(String s){
+        var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
         return rectObj == null? null : new Rectangle(rectObj.getRectangle());
+    }
+
+    /**
+     * Exists for the sake of not having to repeat long statements.
+     * @param key Name of the property of the tile object.
+     * @param type The type of the desired property.
+     * @return The property of the tile object specified by name.
+     */
+    protected <T> T getProperty(String key, Class<T> type){
+        return tileObj.getProperties().get(key, type);
     }
 
     @Override
@@ -46,9 +57,11 @@ public class GameObject extends Entity {
     /**
      * The individual concrete classes will decide what conditions must be fulfilled in
      * order for them to be interactable.
-     * @return If the object is interactable by the player.
+     * @return If the player is interaction range.
      */
-    public boolean canInteract() {
+    public boolean inInteractionRange() {
         return false;
     }
+
+    public void interact(){}
 }

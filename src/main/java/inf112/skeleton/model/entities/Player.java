@@ -9,7 +9,6 @@ import inf112.skeleton.controller.ControllablePlayer;
 import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
-import inf112.skeleton.view.UI;
 
 public class Player extends Entity implements ControllablePlayer{
     private static FsmBlueprint blueprint = new FsmBlueprint();
@@ -94,7 +93,7 @@ public class Player extends Entity implements ControllablePlayer{
     @Override
     public GameObject interact(Array.ArrayIterable<GameObject> objects){
         for(GameObject object : objects)
-            if(object.canInteract())
+            if(object.inInteractionRange())
                 return object;
         return null;
     }

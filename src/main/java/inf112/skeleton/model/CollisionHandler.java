@@ -55,13 +55,16 @@ public class CollisionHandler{
     }
 
     public void handleCollisions(CollidableEntity entity) {
+        Vector2 destPos = entity.getPos();
+        Vector2 prevPos = entity.getPrevPos();
+        if(destPos.equals(prevPos))
+            return;
+
         ObjectSet<Rectangle> localBoxes = new ObjectSet<>();
 //        localBoxes.addAll(rectangles);
         for(Point cell : getOccupiedCells(entity.locateHurtbox()))
             localBoxes.addAll(grid.get(cell, new Array<>()));
 
-        Vector2 destPos = entity.getPos();
-        Vector2 prevPos = entity.getPrevPos();
         if(collidesAny(entity, localBoxes)){
             entity.setPos(prevPos.x, destPos.y); // Backtrack horizontally, proceed vertically
 

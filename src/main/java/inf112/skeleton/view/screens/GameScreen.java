@@ -97,7 +97,7 @@ public class GameScreen extends AbstractScreen{
                 batch.draw(e.getTexture(), e.getX(), e.getY());
         }
         for(GameObject object : map.getObjects()){
-            if(object.canInteract()){
+            if(object.inInteractionRange()){
                 font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 40);
             }
         }

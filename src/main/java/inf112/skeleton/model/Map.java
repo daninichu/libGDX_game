@@ -10,10 +10,10 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.Enemy;
-import inf112.skeleton.model.entities.enemies.EvilSquare;
 import inf112.skeleton.model.entities.gameObjects.Door;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.model.entities.gameObjects.Sign;
+import inf112.skeleton.model.entities.gameObjects.Switch;
 import inf112.skeleton.view.ViewableEntity;
 
 /**
@@ -51,14 +51,18 @@ public class Map {
      * {@code tiledMaps/map.tmx}, then the argument should just be {@code "map.tmx"}.
      * @param mapFile The {@code .tmx} file name only.
      */
-    public void newMap(String mapFile) {
+    public void loadMap(String mapFile) {
         currentMapFile = mapFile;
-        tiledMap = mapLoader.load(startPath + mapFile);
+        tiledMap = mapLoader.load(startPath + currentMapFile);
         reset();
         loadObjects();
         spawnEntities();
         loadCollisionBoxes();
         this.collisionHandler = new CollisionHandler(collisionBoxes);
+    }
+
+    public void prepareNewMap(String mapFile) {
+        currentMapFile = mapFile;
     }
 
     private void reset(){
@@ -79,6 +83,8 @@ public class Map {
                 object = new Sign(tileObj, player);
             else if (type.equals("Door"))
                 object = new Door(tileObj, player);
+            else if (type.equals("Switch"))
+                object = new Switch(tileObj, player);
 
             if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
@@ -98,7 +104,7 @@ public class Map {
     private void spawnEntities() {
         for(int i = 0; i < 5; i++){
         }
-            enemies.add(new EvilSquare(192, 192, player));
+//            enemies.add(new EvilSquare(192, 192, player));
     }
 
     public void update(float deltaTime) {

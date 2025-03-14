@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class MyGame extends Game{
     public enum State {
-        Title, Play, Dialogue, LoadStart, LoadEnd
+        Title, Play, Dialogue, LoadStart, Loading, LoadEnd
     }
     private State state = State.Title;
     public static int SCREEN_WIDTH = 480*2;
@@ -42,7 +42,8 @@ public class MyGame extends Game{
         player = new Player(192+64, 192+32);
         ui = new UI(player);
         map = new Map(player);
-        map.newMap("grass.tmx");
+//        map.prepareNewMap("grass.tmx");
+        map.loadMap("grass.tmx");
         inputProcessor = new MyInputProcessor(this, player);
 
         gameScreen = new GameScreen(this);
@@ -59,18 +60,21 @@ public class MyGame extends Game{
     }
 
     public void changeMap(String mapFile){
-        map.newMap(mapFile);
+        map.loadMap(mapFile);
     }
 
     public void enterDoor(IDoor door){
         player.setPos(door.getExitPos());
         state = State.LoadStart;
-        if(!map.currentMapFile().equals(door.getMapFile()))
+        if(door.getMapFile() != null)
             changeMap(door.getMapFile());
     }
 
     @Override
     public void render(){
+        if(state == State.Loading){
+//            changeMap();
+        }
         super.render();
     }
 

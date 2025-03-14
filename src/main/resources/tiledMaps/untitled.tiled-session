@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "desert.tmx",
+    "activeFile": "grass.tmx",
     "expandedProjectPaths": [
         "tilesets",
         "."
@@ -43,11 +43,14 @@
             }
         },
         "desert.tmx": {
-            "scale": 1,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2.1831,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 127.5,
-                "y": 439.5
+                "x": 99.39993587100909,
+                "y": 592.0480051303193
             }
         },
         "doorTest.tmx": {
@@ -55,28 +58,31 @@
                 8,
                 7
             ],
-            "scale": 1.143,
+            "scale": 1.13,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.3149606299213,
-                "y": 320.20997375328085
+                "x": 610.1769911504425,
+                "y": 355.3097345132743
             }
         },
         "grass.tmx": {
             "expandedObjectLayers": [
-                6,
                 7
             ],
-            "scale": 1.55,
+            "scale": 2.0762,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 254.51612903225805,
-                "y": 422.258064516129
+                "x": 225.41181003756864,
+                "y": 414.94075715249016
             }
         },
         "tilesets/64Objects.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "tilesets/desertSet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.49
         },
         "tilesets/door.tsx": {
             "scaleInDock": 0.6264,
@@ -112,21 +118,28 @@
             }
         }
     },
+    "last.externalTilesetPath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
     "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
+    "last.worldFilePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps",
+    "loadedWorlds": [
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myworld.world"
+    ],
     "map.lastUsedFormat": "tmx",
     "openFiles": [
         "grass.tmx",
+        "desert.tmx",
         "tilesets/door.tsx",
         "doorTest.tmx",
-        "desert.tmx"
+        "tilesets/desertSet.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "int",
+    "property.type": "object",
     "recentFiles": [
+        "desert.tmx",
         "grass.tmx",
         "tilesets/door.tsx",
+        "tilesets/desertSet.tsx",
         "doorTest.tmx",
-        "desert.tmx",
         "tilesets/tmw_desert_spacing.tsx",
         "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/doorTest.tmx",
         "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/door.tsx",
@@ -135,9 +148,10 @@
         "tree.tsx",
         "untitled.tmx"
     ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 128,
-        "width": 128
+        "height": 32,
+        "width": 32
     }
 }

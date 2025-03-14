@@ -46,19 +46,19 @@ public class DoorTest {
      */
     @Test
     void testInteractionRange() {
-        assertFalse(door1.canInteract());
-        assertFalse(door2.canInteract());
+        assertFalse(door1.inInteractionRange());
+        assertFalse(door2.inInteractionRange());
 
         player.setRightMove(true);
         while(player.getCenterX() < door1.locateHurtbox().x)
             player.update(0.1f);
-        assertTrue(door1.canInteract());
-        assertFalse(door2.canInteract());
+        assertTrue(door1.inInteractionRange());
+        assertFalse(door2.inInteractionRange());
 
         while(player.getCenterX() < door2.locateHurtbox().x)
             player.update(0.1f);
-        assertFalse(door1.canInteract());
-        assertTrue(door2.canInteract());
+        assertFalse(door1.inInteractionRange());
+        assertTrue(door2.inInteractionRange());
     }
 
     /**
@@ -67,11 +67,11 @@ public class DoorTest {
     @Test
     void testDoorExitPoints(){
         player.setPos(door1.getExitPos());
-        assertFalse(door1.canInteract());
-        assertTrue(door2.canInteract());
+        assertFalse(door1.inInteractionRange());
+        assertTrue(door2.inInteractionRange());
 
         player.setPos(door2.getExitPos());
-        assertFalse(door2.canInteract());
-        assertTrue(door1.canInteract());
+        assertFalse(door2.inInteractionRange());
+        assertTrue(door1.inInteractionRange());
     }
 }

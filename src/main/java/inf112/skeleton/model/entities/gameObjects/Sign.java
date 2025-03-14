@@ -10,14 +10,14 @@ public class Sign extends GameObject implements IDialogue{
 
     public Sign(TiledMapTileMapObject tileObj, Player player){
         super(tileObj, player);
-        this.text = tileObj.getProperties().get("Text", String.class);
+        this.text = getProperty("Text", String.class);
 
-        interactionArea = tileRect(tileObj, "Interaction");
+        interactionArea = tileRect("Interaction");
         interactionArea.setPosition(pos.x + interactionArea.x, pos.y +  interactionArea.y);
     }
 
     @Override
-    public boolean canInteract() {
+    public boolean inInteractionRange() {
         return interactionArea.contains(player.getCenterPos());
     }
 

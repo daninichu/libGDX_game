@@ -1,6 +1,5 @@
 package inf112.skeleton.model.entities.gameObjects;
 
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -14,18 +13,17 @@ public class Door extends GameObject implements IDoor{
 
     public Door(TiledMapTileMapObject tileObj, Player player) {
         super(tileObj, player);
-        MapProperties props = tileObj.getProperties();
 
-        mapFile = props.get("Map File", String.class);
-
-        TiledMapTileMapObject exitDoor = props.get("Exit Door", TiledMapTileMapObject.class);
-        if (exitDoor == null)
-            exitDoor = Map.getObject(mapFile, props.get("Door ID", int.class));
+        TiledMapTileMapObject exitDoor = getProperty("Exit Door", TiledMapTileMapObject.class);
+        if (exitDoor == null){
+            mapFile = getProperty("Map File", String.class);
+            exitDoor = Map.getObject(mapFile, getProperty("Door ID", int.class));
+        }
 
         exitPos.set(exitDoor.getX(), exitDoor.getY());
-        centerExitForPlayer(props.get("width", float.class));
+        centerExitForPlayer(getProperty("width", float.class));
 
-        interactionArea = tileRect(tileObj, "Interaction");
+        interactionArea = tileRect("Interaction");
         interactionArea.setPosition(pos.x + interactionArea.x, pos.y + interactionArea.y);
     }
 
@@ -39,8 +37,16 @@ public class Door extends GameObject implements IDoor{
     }
 
     @Override
-    public boolean canInteract(){
+    public boolean inInteractionRange(){
         return interactionArea.contains(player.getCenterPos());
+    }
+
+    @Override
+    public String cannotOpenMessage(){
+        if(getProperty("Locked", boolean.class)){
+            return "Door is locked.";
+        }
+        return null;
     }
 
     @Override

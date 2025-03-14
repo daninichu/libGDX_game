@@ -34,11 +34,20 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.E -> {
                 GameObject object = player.interact(game.getMap().getObjects());
                 if(object instanceof IDoor door) {
-                    game.enterDoor(door);
+                    if(door.cannotOpenMessage() == null){
+                        game.enterDoor(door);
+                    }
+                    else{
+                        game.ui.setDialogue(door.cannotOpenMessage());
+                        game.setState(MyGame.State.Dialogue);
+                    }
                 }
                 else if(object instanceof IDialogue dialogueObj) {
                     game.setDialogue(dialogueObj);
                     game.setState(MyGame.State.Dialogue);
+                }
+                else if(object != null){
+                    object.interact();
                 }
             }
         }

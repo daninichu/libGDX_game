@@ -9,6 +9,8 @@ import inf112.skeleton.model.CollisionHandler;
 import inf112.skeleton.model.DamageableEntity;
 import inf112.skeleton.view.ViewableEntity;
 
+import java.io.Serializable;
+
 public abstract class Entity implements ViewableEntity, CollidableEntity, DamageableEntity{
     public enum Direction {
         RIGHT, LEFT, UP, DOWN
