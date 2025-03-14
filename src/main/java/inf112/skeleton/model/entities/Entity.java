@@ -114,12 +114,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     }
 
     @Override
-    public Rectangle locateHurtbox(){
-//        return new Rectangle(hurtbox.x + pos.x, hurtbox.y + pos.y, hurtbox.width, hurtbox.height);
-        return new Rectangle(getLeftX(), getBottomY(), getWidth(), getHeight());
-    }
-
-    @Override
     public Direction getDir(){
         return dir;
     }

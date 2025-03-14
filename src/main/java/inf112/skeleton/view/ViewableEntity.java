@@ -20,7 +20,9 @@ public interface ViewableEntity {
 
     boolean dead();
 
-    Rectangle locateHurtbox();
+    default Rectangle locateHurtbox(){
+        return new Rectangle(getLeftX(), getBottomY(), getWidth(), getHeight());
+    }
 
     Entity.Direction getDir();
 
@@ -37,11 +39,11 @@ public interface ViewableEntity {
     float getHeight();
 
     default float getCenterX(){
-        return getX() + getWidth()/2;
+        return getLeftX() + getWidth()/2;
     }
 
     default float getCenterY(){
-        return getY() + getHeight()/2;
+        return getBottomY() + getHeight()/2;
     }
 
     float getLeftX();

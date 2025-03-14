@@ -46,11 +46,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 3.327,
-            "selectedLayer": 3,
+            "scale": 1.305,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 67.02735196874059,
-                "y": 617.8238653441539
+                "x": 76.62835249042146,
+                "y": 672.4137931034484
             }
         },
         "doorTest.tmx": {
@@ -69,11 +69,11 @@
                 6,
                 7
             ],
-            "scale": 2.6942,
-            "selectedLayer": 1,
+            "scale": 1.4663,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 219.7312745898597,
-                "y": 415.1510652512805
+                "x": 262.56564141035255,
+                "y": 466.82125076723725
             }
         },
         "tilesets/64Objects.tsx": {

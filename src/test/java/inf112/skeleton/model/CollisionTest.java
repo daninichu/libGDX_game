@@ -42,7 +42,7 @@ public class CollisionTest {
             assertNotEquals(player.getPrevPos(), player.getPos());
         }
 
-        collisionHandler.handleCollisions(player);
+        collisionHandler.handleCollision(player);
         assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
     }
 
@@ -60,7 +60,7 @@ public class CollisionTest {
         player.setDownMove(true);
         for(int i = 0; i < 1000; i++){
             player.update(0.01f);
-            collisionHandler.handleCollisions(player);
+            collisionHandler.handleCollision(player);
 
             assertEquals(stuckPos, player.getPos());
             assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
@@ -84,7 +84,7 @@ public class CollisionTest {
         player.setDownMove(true);
         for(int i = 0; i < 1000; i++){
             player.update(0.01f);
-            collisionHandler.handleCollisions(player);
+            collisionHandler.handleCollision(player);
 
             assertEquals(stuckPos, player.getPos());
             assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
@@ -109,7 +109,7 @@ public class CollisionTest {
             assertEquals(stuckY, player.getY());
 
             player.update(0.01f);
-            collisionHandler.handleCollisions(player);
+            collisionHandler.handleCollision(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
             assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
@@ -136,7 +136,7 @@ public class CollisionTest {
             assertEquals(stuckY, player.getY());
 
             player.update(0.01f);
-            collisionHandler.handleCollisions(player);
+            collisionHandler.handleCollision(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
             assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
@@ -161,7 +161,7 @@ public class CollisionTest {
             assertEquals(stuckX, player.getX());
 
             player.update(0.01f);
-            collisionHandler.handleCollisions(player);
+            collisionHandler.handleCollision(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
             assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
@@ -169,7 +169,7 @@ public class CollisionTest {
 
         for(int i = 0; i < 100; i++){
             player.update(0.01f);
-            collisionHandler.handleCollisions(player);
+            collisionHandler.handleCollision(player);
             assertTrue(player.getX() < player.getPrevPos().x);
         }
     }

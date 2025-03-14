@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.collision.CollisionHandler;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
@@ -18,7 +17,6 @@ import inf112.skeleton.model.entities.gameObjects.Door;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.model.entities.gameObjects.Sign;
 import inf112.skeleton.model.entities.gameObjects.Switch;
-import inf112.skeleton.view.ViewableEntity;
 
 /**
  * A class that keeps track of positions of entities.
@@ -33,8 +31,8 @@ public class Map {
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
     private Array<Rectangle> collisionBoxes;
-    private StaticCollisionHandler collisionHandler;
-    private EntityCollisionHandler entityCollisionHandler = new EntityCollisionHandler();
+    private StaticCollisionHandler staticCH;
+    private EntityCollisionHandler entityCH = new EntityCollisionHandler();
 
     public Map(Player player) {
         this.player = player;
@@ -63,11 +61,7 @@ public class Map {
         loadObjects();
         spawnEntities();
         loadCollisionBoxes();
-        this.collisionHandler = new StaticCollisionHandler(collisionBoxes);
-    }
-
-    public void prepareNewMap(String mapFile) {
-        currentMapFile = mapFile;
+        this.staticCH = new StaticCollisionHandler(collisionBoxes);
     }
 
     private void reset(){
@@ -95,8 +89,9 @@ public class Map {
                 throw new RuntimeException("Error while loading object: " + type);
             objects.add(object);
             Rectangle box = object.locateHurtbox();
-            if (box != null)
+            if (box != null){
                 collisionBoxes.add(box);
+            }
         }
     }
 
@@ -107,32 +102,25 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 20; i++){
-            enemies.add(new EvilSquare(12, 12, player));
+        for(int i = 0; i < 1000; i++){
+            enemies.add(new EvilSquare(192, 194, player));
         }
 //            enemies.add(new EvilSquare(0, 50, player));
     }
 
     public void update(float deltaTime) {
-        player.update(deltaTime);
-        collisionHandler.handleCollisions(player);
-        for(Enemy e : enemies) {
-            e.update(deltaTime);
-            collisionHandler.handleCollisions(e);
-
-            if(e.dead()){
-                enemies.removeValue(e, true);
-            }
-        }
-        Array<Entity> entities = new Array<>();
-        entities.add(player);
-        entities.addAll(enemies);
-        entities.addAll(objects);
-        entityCollisionHandler.updateGrid(entities);
+        Array<Entity> entities = getEntities();
         for(Entity e : entities) {
-            entityCollisionHandler.handleCollisions(e);
+            e.update(deltaTime);
         }
-//            entityCollisionHandler.handleCollision(entities);
+        entityCH.updateGrid(entities);
+        for(Entity e : entities){
+            entityCH.handleCollision(e);
+        }
+        for(Entity e : entities){
+            staticCH.handleCollision(e);
+        }
+//        entityCH.handleCollision_n2(entities);
     }
 
     public TiledMap getTiledMap() {
@@ -163,7 +151,4 @@ public class Map {
         return new Array.ArrayIterable<>(objects);
     }
 
-    public String currentMapFile() {
-        return currentMapFile;
-    }
 }

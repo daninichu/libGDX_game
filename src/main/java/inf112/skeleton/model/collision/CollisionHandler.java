@@ -42,7 +42,7 @@ public abstract class CollisionHandler<E>{
         return (int) (mapCoords / MyGame.TILE_SIZE);
     }
 
-    public ObjectSet<E> getLocalObjects(Rectangle box){
+    protected ObjectSet<E> getLocalObjects(Rectangle box){
         ObjectSet<E> localObjects = new ObjectSet<>();
         for(Point cell : getOccupiedCells(box))
             localObjects.addAll(grid.get(cell, new Array<>()));

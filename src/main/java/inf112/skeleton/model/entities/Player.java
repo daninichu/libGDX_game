@@ -6,18 +6,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
-import inf112.skeleton.model.FsmBlueprint;
-import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 
 public class Player extends Entity implements ControllablePlayer{
-    private static FsmBlueprint blueprint = new FsmBlueprint();
-    static {
-        blueprint.addTransition("nonAttack", "attackPressed", "attackWindUp");
-        blueprint.addTransition("attackWindUp", "timeout", "attacking");
-        blueprint.addTransition("attacking", "timeout", "nonAttack");
-    }
-    private StateMachine stateMachine = new StateMachine(blueprint, "nonAttack");
+//    private static FsmBlueprint blueprint = new FsmBlueprint();
+//    static {
+//        blueprint.addTransition("nonAttack", "attackPressed", "attackWindUp");
+//        blueprint.addTransition("attackWindUp", "timeout", "attacking");
+//        blueprint.addTransition("attacking", "timeout", "nonAttack");
+//    }
+//    private StateMachine stateMachine = new StateMachine(blueprint, "nonAttack");
     enum State {
         NonAttack, Attack
     }
@@ -54,7 +52,7 @@ public class Player extends Entity implements ControllablePlayer{
 
     // Can transition to: NonAttack
     private void updateAttack(float deltaTime){
-        // TODO
+
     }
 
     private void updateMotion(){

@@ -12,7 +12,6 @@ import java.awt.Point;
  * For checking and resolving collision between moving entities and static objects.
  */
 public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
-
     /**
      * Fill the grid with collision boxes and assign them to the cells that they occupy.
      */
@@ -23,7 +22,7 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
         }
     }
 
-    public void handleCollisions(CollidableEntity entity) {
+    public void handleCollision(CollidableEntity entity) {
         Vector2 destPos = entity.getPos();
         Vector2 prevPos = entity.getPrevPos();
         if(destPos.equals(prevPos))
