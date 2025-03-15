@@ -120,7 +120,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
         }
         shapeRenderer.setColor(Color.RED);

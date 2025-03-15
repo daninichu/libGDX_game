@@ -39,8 +39,8 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-//        player = new Player(0, 0);
-        player = new Player(192, 192);
+        player = new Player(0, 0);
+//        player = new Player(192, 192);
         ui = new UI(player);
         map = new Map(player);
 //        map.prepareNewMap("grass.tmx");

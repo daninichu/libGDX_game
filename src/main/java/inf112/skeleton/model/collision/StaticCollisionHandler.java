@@ -16,10 +16,9 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
      * Fill the grid with collision boxes and assign them to the cells that they occupy.
      */
     public StaticCollisionHandler(Array<Rectangle> collisionBoxes) {
-        for (Rectangle box : collisionBoxes){
+        for (Rectangle box : collisionBoxes)
             for(Point cell : getOccupiedCells(box))
                 addToGrid(cell, box);
-        }
     }
 
     public void handleCollision(CollidableEntity entity) {

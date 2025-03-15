@@ -55,11 +55,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
      * Where we decide what this entity should do each frame.
      * @param deltaTime The time interval between each frame.
      */
-    public void update(float deltaTime){
-        if(health <= 0){
-            dead = true;
-        }
-    }
+    public void update(float deltaTime){}
 
     /**
      * Adds the velocity vector to the position vector.

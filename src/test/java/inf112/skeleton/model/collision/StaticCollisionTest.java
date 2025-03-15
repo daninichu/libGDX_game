@@ -22,8 +22,8 @@ public class StaticCollisionTest {
     void setUp() {
         new HeadlessApplication(new ApplicationAdapter(){});
         Gdx.gl = mock(GL20.class);
-        collisionBoxes = new Array<>();
         player = new Player(0, 0);
+        collisionBoxes = new Array<>();
     }
 
     /**

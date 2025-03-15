@@ -66,8 +66,7 @@ public class EntityCollisionTest {
     void testPushThroughDummies() {
         Player leftDummy = new Player(-player.getWidth() / 2, 50);
         Player rightDummy = new Player(player.getWidth() / 2, 50);
-        entities.add(leftDummy);
-        entities.add(rightDummy);
+        entities.add(leftDummy, rightDummy);
 
         assertTrue(player.getTopY() < leftDummy.getBottomY());
         assertTrue(player.getTopY() < rightDummy.getBottomY());
