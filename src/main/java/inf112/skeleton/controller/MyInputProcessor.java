@@ -50,6 +50,9 @@ public class MyInputProcessor extends InputAdapter {
                     object.interact();
                 }
             }
+            case Input.Keys.SPACE -> {
+                player.attack();
+            }
         }
     }
 

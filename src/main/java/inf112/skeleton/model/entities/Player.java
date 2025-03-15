@@ -6,19 +6,25 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
+import inf112.skeleton.model.FsmBlueprint;
+import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 
 public class Player extends Entity implements ControllablePlayer{
-//    private static FsmBlueprint blueprint = new FsmBlueprint();
-//    static {
-//        blueprint.addTransition("nonAttack", "attackPressed", "attackWindUp");
-//        blueprint.addTransition("attackWindUp", "timeout", "attacking");
-//        blueprint.addTransition("attacking", "timeout", "nonAttack");
-//    }
-//    private StateMachine stateMachine = new StateMachine(blueprint, "nonAttack");
-    enum State {
-        NonAttack, Attack
+    public enum State{
+        NonAttack, AttackWindUp, Attacking
     }
+    public enum Event{
+        Timeout, AttackPressed
+    }
+    private static FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
+    static {
+        blueprint.addTransition(State.NonAttack, Event.AttackPressed, State.AttackWindUp);
+        blueprint.addTransition(State.AttackWindUp, Event.Timeout, State.Attacking);
+        blueprint.addTransition(State.Attacking, Event.Timeout, State.NonAttack);
+    }
+    private StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
+
     private State state = State.NonAttack;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
@@ -38,7 +44,7 @@ public class Player extends Entity implements ControllablePlayer{
         invincibleTimer -= deltaTime;
         switch (state){
             case NonAttack -> updateNonAttack(deltaTime);
-            case Attack -> updateAttack(deltaTime);
+            case Attacking -> updateAttack(deltaTime);
         }
     }
 
@@ -87,6 +93,11 @@ public class Player extends Entity implements ControllablePlayer{
     @Override
     public void setDownMove(boolean t){
         downMove = t;
+    }
+
+    @Override
+    public void attack(){
+        stateMachine.fireEvent(Event.AttackPressed);
     }
 
     @Override

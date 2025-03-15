@@ -3,15 +3,15 @@ package inf112.skeleton.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FsmBlueprint {
-    private final Map<String, Map<String, String>> transitions = new HashMap<>();
+public class FsmBlueprint<S, E> {
+    private final Map<S, Map<E, S>> transitions = new HashMap<>();
 
-    public void addTransition(String from, String onEvent, String to) {
+    public void addTransition(S from, E onEvent, S to) {
         transitions.computeIfAbsent(from, k -> new HashMap<>()).put(onEvent, to);
     }
 
-    public String getTargetState(String from, String event) {
-        Map<String, String> transitionsFromState = transitions.get(from);
+    public S getTargetState(S from, E event) {
+        Map<E, S> transitionsFromState = transitions.get(from);
         if (transitionsFromState != null) {
             return transitionsFromState.get(event);
         }
@@ -21,11 +21,11 @@ public class FsmBlueprint {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Map<String, String>> e1 : transitions.entrySet()) {
-            String from = e1.getKey();
-            for (Map.Entry<String, String> e2 : e1.getValue().entrySet()) {
-                String onEvent = e2.getKey();
-                String to = e2.getValue();
+        for (Map.Entry<S, Map<E, S>> e1 : transitions.entrySet()) {
+            S from = e1.getKey();
+            for (Map.Entry<E, S> e2 : e1.getValue().entrySet()) {
+                E onEvent = e2.getKey();
+                S to = e2.getValue();
                 sb.append(from).append(" -> ").append(onEvent).append(" -> ").append(to).append("\n");
             }
         }

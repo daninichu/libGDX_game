@@ -1,21 +1,19 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.DamageableEntity;
+import inf112.skeleton.model.*;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.model.FsmBlueprint;
-import inf112.skeleton.model.StateMachine;
-import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.view.ViewableEntity;
-
-import java.util.Random;
 
 public abstract class Enemy extends Entity{
-    protected FsmBlueprint blueprint = new FsmBlueprint();
-    private StateMachine stateMachine = new StateMachine(blueprint, "idle");
+    public enum State {
+        Idle, Roaming, Chase, AttackWindUp, Attacking, AttackEnd
+    }
+    public enum Event{
+        Timeout, PlayerVisible, PlayerFar, PlayerClose
+    }
+    protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
+    private StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
     private DamageableEntity player;
     private float timer;
@@ -29,51 +27,50 @@ public abstract class Enemy extends Entity{
         addTransitions();
         addEnterFunctions();
         addExitFunctions();
-        stateMachine.fireEvent("idle");
     }
 
     protected void addTransitions(){
-        blueprint.addTransition("idle", "timeout", "roaming");
-//        blueprint.addTransition("idle", "playerVisible", "chase");
-        blueprint.addTransition("roaming", "timeout", "idle");
-//        blueprint.addTransition("roaming", "playerVisible", "chase");
-        blueprint.addTransition("chase", "playerFar", "idle");
-        blueprint.addTransition("chase", "playerClose", "attackWindUp");
-        blueprint.addTransition("attackWindUp", "timeout", "attacking");
-        blueprint.addTransition("attacking", "timeout", "attackEnd");
-        blueprint.addTransition("attackEnd", "timeout", "chase");
+        blueprint.addTransition(State.Idle, Event.Timeout, State.Roaming);
+//        blueprint.addTransition(State.Idle, Event.PlayerVisible, State.Chase);
+        blueprint.addTransition(State.Roaming, Event.Timeout, State.Idle);
+//        blueprint.addTransition(State.Roaming, Event.PlayerVisible, State.Chase);
+        blueprint.addTransition(State.Chase, Event.PlayerFar, State.Idle);
+        blueprint.addTransition(State.Chase, Event.PlayerClose, State.AttackWindUp);
+        blueprint.addTransition(State.AttackWindUp, Event.Timeout, State.Attacking);
+        blueprint.addTransition(State.Attacking, Event.Timeout, State.AttackEnd);
+        blueprint.addTransition(State.AttackEnd, Event.Timeout, State.Chase);
     }
 
     protected void addEnterFunctions(){
-        stateMachine.onEnter("idle", () -> {
+        stateMachine.onEnter(State.Idle, () -> {
             timer = MathUtils.random(1.2f, 3f);
             velocity.setLength(0);
         });
-        stateMachine.onEnter("roaming", () -> {
+        stateMachine.onEnter(State.Roaming, () -> {
             timer = MathUtils.random(0.2f, 2);
             velocity.setToRandomDirection();
             velocity.setLength(speed / 2f);
         });
-        stateMachine.onEnter("chase", () -> {
+        stateMachine.onEnter(State.Chase, () -> {
             velocity.set(speed, 0);
         });
-        stateMachine.onEnter("attackWindUp", () -> {
+        stateMachine.onEnter(State.AttackWindUp, () -> {
             timer = 0.3f;
             velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
         });
-        stateMachine.onEnter("attacking", () -> {
+        stateMachine.onEnter(State.Attacking, () -> {
             placeHitboxes();
             timer = 0.4f;
             velocity.setLength(speed*3);
         });
-        stateMachine.onEnter("attackEnd", () -> {
+        stateMachine.onEnter(State.AttackEnd, () -> {
             timer = 0.8f;
             velocity.set(0, 0);
         });
     }
 
     protected void addExitFunctions(){
-        stateMachine.onExit("attacking", () -> {
+        stateMachine.onExit(State.Attacking, () -> {
             hitboxes.clear();
         });
     }
@@ -82,13 +79,13 @@ public abstract class Enemy extends Entity{
     public void update(float deltaTime) {
         float distance = getCenterPos().dst(player.getCenterPos());
         if (distance <= attackRange)
-            stateMachine.fireEvent("playerClose");
+            stateMachine.fireEvent(Event.PlayerClose);
         else if (distance <= vision)
-            stateMachine.fireEvent("playerVisible");
+            stateMachine.fireEvent(Event.PlayerVisible);
         else if (distance > vision)
-            stateMachine.fireEvent("playerFar");
+            stateMachine.fireEvent(Event.PlayerFar);
 
-        if (stateMachine.getState().equals("chase")) {
+        if (stateMachine.getState().equals(State.Chase)) {
             float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
             velocity.setAngleRad(angle);
         }
@@ -99,18 +96,13 @@ public abstract class Enemy extends Entity{
 
         timer -= deltaTime;
         if (timer <= 0) {
-            float chance = MathUtils.random.nextFloat();
-            if(chance < 0.25f) {
-                stateMachine.fireEvent("random");
-            }
-            else
-                stateMachine.fireEvent("timeout");
+            stateMachine.fireEvent(Event.Timeout);
         }
     }
 
     protected void placeHitboxes(){}
 
-    public String getState() {
+    public State getState() {
         return stateMachine.getState();
     }
 

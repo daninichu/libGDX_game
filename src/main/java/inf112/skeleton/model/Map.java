@@ -102,10 +102,10 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 200; i++){
+        for(int i = 0; i < 10; i++){
 //            enemies.add(new EvilSquare(192, 192, player));
-            enemies.add(new EvilSquare(0, 50, player));
         }
+            enemies.add(new EvilSquare(0, 50, player));
     }
 
     public void update(float deltaTime) {

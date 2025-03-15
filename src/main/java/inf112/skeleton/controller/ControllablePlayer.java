@@ -14,4 +14,6 @@ public interface ControllablePlayer {
     void setDownMove(boolean t);
 
     GameObject interact(Array.ArrayIterable<GameObject> objects);
+
+    void attack();
 }
