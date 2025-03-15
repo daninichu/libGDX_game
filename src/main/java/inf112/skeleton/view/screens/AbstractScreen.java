@@ -25,7 +25,7 @@ public abstract class AbstractScreen implements Screen{
     protected Viewport viewport;
     private OrthographicCamera tempCamera = new OrthographicCamera();
 
-    protected float fadeDuration = 0.25f*0;
+    protected float fadeDuration = 0.25f;
     protected float fadeTime;
 
     public AbstractScreen(MyGame game) {

@@ -102,8 +102,8 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 1000; i++){
-            enemies.add(new EvilSquare(192, 194, player));
+        for(int i = 0; i < 10; i++){
+            enemies.add(new EvilSquare(192, 192, player));
         }
 //            enemies.add(new EvilSquare(0, 50, player));
     }

@@ -1,4 +1,4 @@
-package inf112.skeleton.model;
+package inf112.skeleton.model.collision;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-public class CollisionTest {
+public class StaticCollisionTest {
     Player player;
     Array<Rectangle> collisionBoxes;
 

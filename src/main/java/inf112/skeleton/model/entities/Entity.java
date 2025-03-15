@@ -21,6 +21,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     protected Rectangle hurtbox;
     protected Direction dir = Direction.DOWN;
     public int health;
+    protected float mass;
     protected float speed;
     protected boolean dead;
 
@@ -106,6 +107,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
+    }
+
+    @Override
+    public float getMass(){
+        return mass;
     }
 
     @Override
