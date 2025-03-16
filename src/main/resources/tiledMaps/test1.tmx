@@ -16,7 +16,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="Objects">
-  <object id="1" gid="3" x="320" y="224" width="32" height="32">
+  <object id="1" gid="5" x="320" y="224" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
     <property name="Locked" type="bool" value="false"/>
@@ -28,7 +28,7 @@
     <property name="Text" value="Try pushing the NPC."/>
    </properties>
   </object>
-  <object id="4" gid="3" x="64" y="224" width="32" height="32">
+  <object id="4" gid="5" x="64" y="224" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="5389"/>
     <property name="Locked" type="bool" value="false"/>

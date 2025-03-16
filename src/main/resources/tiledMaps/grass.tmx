@@ -4,7 +4,7 @@
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
  <tileset firstgid="8" source="tilesets/objects.tsx"/>
- <tileset firstgid="12" source="tilesets/desertSet.tsx"/>
+ <tileset firstgid="16" source="tilesets/desertSet.tsx"/>
  <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -41,19 +41,19 @@
 Without Tiled, this would not have been possible.</property>
    </properties>
   </object>
-  <object id="3942" gid="10" x="160" y="512" width="32" height="32">
+  <object id="3942" gid="12" x="160" y="512" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3943"/>
     <property name="Locked" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="3943" gid="10" x="160" y="416" width="32" height="32">
+  <object id="3943" gid="12" x="160" y="416" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3942"/>
     <property name="Locked" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="3946" gid="10" x="288" y="384" width="32" height="32">
+  <object id="3946" gid="12" x="288" y="384" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="6"/>
     <property name="Locked" type="bool" value="false"/>
@@ -66,7 +66,7 @@ Without Tiled, this would not have been possible.</property>
     <property name="Door" type="object" value="3943"/>
    </properties>
   </object>
-  <object id="5389" gid="10" x="64" y="608" width="32" height="32">
+  <object id="5389" gid="12" x="64" y="608" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
     <property name="Locked" type="bool" value="false"/>

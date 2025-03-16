@@ -16,27 +16,27 @@
 </data>
  </layer>
  <objectgroup id="2" name="Objects">
-  <object id="3" gid="3" x="576" y="96" width="32" height="32">
+  <object id="3" gid="5" x="576" y="96" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="1"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="test3.tmx"/>
    </properties>
   </object>
-  <object id="4" gid="3" x="32" y="288" width="32" height="32">
+  <object id="4" gid="5" x="32" y="288" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="1"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="test1.tmx"/>
    </properties>
   </object>
-  <object id="35" gid="3" x="448" y="288" width="32" height="32">
+  <object id="35" gid="5" x="448" y="288" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="36"/>
     <property name="Locked" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="36" gid="3" x="448" y="96" width="32" height="32">
+  <object id="36" gid="5" x="448" y="96" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="35"/>
     <property name="Locked" type="bool" value="false"/>

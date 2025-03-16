@@ -71,9 +71,13 @@
             "scale": 1.6712,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 153.18334131163235,
+                "x": 245.63188128291046,
                 "y": 498.1450454763044
             }
+        },
+        "o.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 7.0693
         },
         "objects.tsx": {
             "scaleInDock": 2.5029,
@@ -86,7 +90,7 @@
             "scale": 0.87875,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 242.38975817923188,
+                "x": 242.9587482219061,
                 "y": 217.92318634423896
             }
         },
@@ -97,20 +101,16 @@
             "scale": 0.9369,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 172.91066282420746,
-                "y": 282.31401430248695
+                "x": 397.5877895186253,
+                "y": 265.23641797417014
             }
         },
         "test3.tmx": {
-            "expandedObjectLayers": [
-                3,
-                2
-            ],
             "scale": 0.87875,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 439.26031294452343,
-                "y": 295.30583214793734
+                "x": 193.45661450924604,
+                "y": 270.2702702702702
             }
         },
         "tilesets/64Objects.tsx": {
@@ -127,6 +127,10 @@
         },
         "tilesets/grassSet.tsx": {
             "scaleInDock": 1
+        },
+        "tilesets/o.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 5.6707
         },
         "tilesets/objects.tsx": {
             "scaleInDock": 2.6446,
@@ -174,24 +178,25 @@
         "tilesets/desertSet.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "int",
+    "property.type": "object",
     "recentFiles": [
-        "grass.tmx",
         "tilesets/desertSet.tsx",
         "tilesets/objects.tsx",
+        "o.tsx",
+        "tilesets/o.tsx",
+        "grass.tmx",
         "objects.tsx",
         "test3.tmx",
         "test2.tmx",
         "test1.tmx",
         "desert.tmx",
         "doorTest.tmx",
-        "tilesets/tree.tsx",
-        "tilesets/sign.tsx",
-        "tilesets/door.tsx"
+        "tilesets/tree.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 1,
+    "tileset.spacing": 0,
     "tileset.tileSize": {
         "height": 32,
         "width": 32

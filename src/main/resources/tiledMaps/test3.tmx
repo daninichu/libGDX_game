@@ -16,7 +16,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="Objects">
-  <object id="1" gid="3" x="32" y="288" width="32" height="32">
+  <object id="1" gid="5" x="32" y="288" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="3"/>
     <property name="Locked" type="bool" value="true"/>

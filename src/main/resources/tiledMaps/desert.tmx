@@ -36,7 +36,7 @@
    </properties>
   </object>
   <object id="5" gid="31" x="576" y="192" width="32" height="32"/>
-  <object id="6" gid="51" x="32" y="640" width="32" height="32">
+  <object id="6" gid="53" x="32" y="640" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="3946"/>
     <property name="Locked" type="bool" value="false"/>
