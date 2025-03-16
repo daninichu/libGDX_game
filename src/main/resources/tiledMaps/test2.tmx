@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="49">
+ <tileset firstgid="1" source="tilesets/objects.tsx"/>
+ <layer id="1" name="Ground" width="20" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="3" gid="3" x="576" y="96" width="32" height="32">
+   <properties>
+    <property name="Door ID" type="int" value="1"/>
+    <property name="Locked" type="bool" value="false"/>
+    <property name="Map File" value="test3.tmx"/>
+   </properties>
+  </object>
+  <object id="4" gid="3" x="32" y="288" width="32" height="32">
+   <properties>
+    <property name="Door ID" type="int" value="1"/>
+    <property name="Locked" type="bool" value="false"/>
+    <property name="Map File" value="test1.tmx"/>
+   </properties>
+  </object>
+  <object id="35" gid="3" x="448" y="288" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="36"/>
+    <property name="Locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="36" gid="3" x="448" y="96" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="35"/>
+    <property name="Locked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="37" gid="2" x="512" y="96" width="32" height="32">
+   <properties>
+    <property name="Text">You will get to play around with combat in the next room.
+Press SPACE to attack.
+If you spam SPACE, then you can do consecutive attacks,
+but you'll be locked in one direction.</property>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="Enemies">
+  <object id="7" type="Dummy" x="194" y="297">
+   <point/>
+  </object>
+  <object id="8" type="Dummy" x="181" y="257">
+   <point/>
+  </object>
+  <object id="9" type="Dummy" x="269" y="255">
+   <point/>
+  </object>
+  <object id="10" type="Dummy" x="106" y="287">
+   <point/>
+  </object>
+  <object id="11" type="Dummy" x="155" y="268">
+   <point/>
+  </object>
+  <object id="12" type="Dummy" x="243" y="266">
+   <point/>
+  </object>
+  <object id="13" type="Dummy" x="326" y="302">
+   <point/>
+  </object>
+  <object id="14" type="Dummy" x="313" y="262">
+   <point/>
+  </object>
+  <object id="15" type="Dummy" x="401" y="260">
+   <point/>
+  </object>
+  <object id="16" type="Dummy" x="238" y="292">
+   <point/>
+  </object>
+  <object id="17" type="Dummy" x="287" y="273">
+   <point/>
+  </object>
+  <object id="18" type="Dummy" x="375" y="271">
+   <point/>
+  </object>
+  <object id="19" type="Dummy" x="212" y="267">
+   <point/>
+  </object>
+  <object id="20" type="Dummy" x="292" y="305">
+   <point/>
+  </object>
+  <object id="21" type="Dummy" x="367" y="306">
+   <point/>
+  </object>
+  <object id="22" type="Dummy" x="142" y="308">
+   <point/>
+  </object>
+  <object id="23" type="Dummy" x="265" y="304">
+   <point/>
+  </object>
+  <object id="24" type="Dummy" x="338" y="262">
+   <point/>
+  </object>
+  <object id="25" type="Dummy" x="328" y="285">
+   <point/>
+  </object>
+  <object id="26" type="Dummy" x="278" y="292">
+   <point/>
+  </object>
+  <object id="27" type="Dummy" x="197" y="299">
+   <point/>
+  </object>
+  <object id="28" type="Dummy" x="164" y="282">
+   <point/>
+  </object>
+  <object id="29" type="Dummy" x="347" y="305">
+   <point/>
+  </object>
+  <object id="30" type="Dummy" x="390" y="274">
+   <point/>
+  </object>
+  <object id="31" type="Dummy" x="74" y="248">
+   <point/>
+  </object>
+  <object id="32" type="Dummy" x="106" y="239">
+   <point/>
+  </object>
+  <object id="33" type="Dummy" x="95" y="287">
+   <point/>
+  </object>
+  <object id="34" type="Dummy" x="126" y="275">
+   <point/>
+  </object>
+  <object id="38" type="Dummy" x="90" y="298">
+   <point/>
+  </object>
+  <object id="39" type="Dummy" x="408" y="272">
+   <point/>
+  </object>
+  <object id="40" type="Dummy" x="410" y="288">
+   <point/>
+  </object>
+  <object id="41" type="Dummy" x="262" y="292">
+   <point/>
+  </object>
+  <object id="42" type="Dummy" x="219" y="300">
+   <point/>
+  </object>
+  <object id="43" type="Dummy" x="144" y="273">
+   <point/>
+  </object>
+  <object id="44" type="Dummy" x="250" y="279">
+   <point/>
+  </object>
+  <object id="45" type="Dummy" x="336" y="270">
+   <point/>
+  </object>
+  <object id="46" type="Dummy" x="310" y="274">
+   <point/>
+  </object>
+  <object id="47" type="Dummy" x="314" y="300">
+   <point/>
+  </object>
+  <object id="48" type="Dummy" x="173" y="302">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Collision">
+  <object id="1" x="-1" y="192" width="513" height="32"/>
+  <object id="2" x="0" y="320" width="511" height="32"/>
+  <object id="5" x="-32" y="224" width="32" height="96"/>
+  <object id="6" x="512" y="224" width="32" height="96"/>
+ </objectgroup>
+</map>
