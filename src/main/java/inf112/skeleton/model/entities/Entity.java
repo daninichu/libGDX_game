@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
@@ -31,15 +32,20 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
         this.prevPos = new Vector2(x, y);
     }
 
-    public void attack(AttackableEntity target) {
-        if(StaticCollisionHandler.collidesAny(target, getHitboxes())){
-            target.getAttacked(3);
-        }
+//    public void attack(AttackableEntity target) {
+//        if(StaticCollisionHandler.collidesAny(target, getHitboxes())){
+//            target.getAttacked(3);
+//        }
+//    }
+
+    @Override
+    public Attack getAttack(){
+        return null;
     }
 
     @Override
-    public void getAttacked(int damage) {
-        health -= damage;
+    public void getAttacked(AttackableEntity attacker) {
+        health -= attacker.getAttack().getDamage();
     }
 
     public Array<Rectangle> getHitboxes(){

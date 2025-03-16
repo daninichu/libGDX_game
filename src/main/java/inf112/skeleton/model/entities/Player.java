@@ -10,39 +10,29 @@ import inf112.skeleton.controller.ControllablePlayer;
 import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.attack.Attack;
+import inf112.skeleton.model.attack.AttackableEntity;
+import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 
 public class Player extends Entity implements ControllablePlayer{
-    private class PlayerAttack extends Attack{
-        private Rectangle baseHitBox = new Rectangle(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
-        private PlayerAttack(){
-            this.damage = 3;
-            this.startup = 0.2f;
-            this.duration = 0.15f;
-            this.cooldown = 0.2f;
-        }
-
-        @Override
-        public void placeHitboxes(Vector2 direction){
-
-        }
-    }
     public enum State{
-        NonAttack, AttackStartup, Attacking, AttackEnd
+        NonAttack, AttackStartup, Attacking, AttackEnd, Stunned
     }
     public enum Event{
         Timeout, AttackPressed
     }
     private static final FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     static {
-        blueprint.addTransition(State.NonAttack,       Event.AttackPressed,    State.AttackStartup);
-        blueprint.addTransition(State.AttackStartup,   Event.Timeout,          State.Attacking);
-        blueprint.addTransition(State.Attacking,       Event.Timeout,          State.AttackEnd);
-        blueprint.addTransition(State.AttackEnd,       Event.Timeout,          State.NonAttack);
-        blueprint.addTransition(State.AttackEnd,       Event.AttackPressed,    State.AttackStartup);
+        blueprint.addTransition(State.NonAttack,        Event.AttackPressed,     State.AttackStartup);
+        blueprint.addTransition(State.AttackStartup,    Event.Timeout,           State.Attacking);
+        blueprint.addTransition(State.Attacking,        Event.Timeout,           State.AttackEnd);
+        blueprint.addTransition(State.AttackEnd,        Event.Timeout,           State.NonAttack);
+        blueprint.addTransition(State.AttackEnd,        Event.AttackPressed,     State.AttackStartup);
+        blueprint.addTransition(State.Stunned,          Event.Timeout,           State.NonAttack);
     }
     private final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
 
+    private PlayerAttack attack = new PlayerAttack();
     private float timer;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
@@ -77,10 +67,11 @@ public class Player extends Entity implements ControllablePlayer{
             placeHitboxes();
         });
         stateMachine.onEnter(State.AttackEnd, () -> timer = 0.2f);
+        stateMachine.onEnter(State.Stunned, () -> timer = 0.5f);
     }
 
     private void addExitFunctions(){
-        stateMachine.onExit(State.Attacking, () -> hitboxes.clear());
+        stateMachine.onExit(State.Attacking, () -> attack.reset());
     }
 
     @Override
@@ -89,6 +80,7 @@ public class Player extends Entity implements ControllablePlayer{
         switch (stateMachine.getState()){
             case NonAttack -> updateNonAttack(deltaTime);
             case Attacking -> updateAttack(deltaTime);
+            case Stunned -> move(deltaTime);
         }
 
         invincibleTimer -= deltaTime;
@@ -119,27 +111,39 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     void placeHitboxes(){
-        Vector2 direction = velocity.cpy().nor();
-        Rectangle hitbox = new Rectangle(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
-        hitbox.setCenter(direction.scl(MyGame.TILE_SIZE));
-        hitboxes.add(hitbox);
+        attack.placeHitboxes(velocity.cpy());
     }
 
     @Override
     public Array<Rectangle> getHitboxes(){
-        Array<Rectangle> adjustedBoxes = new Array<>();
-        for(Rectangle hitbox : hitboxes){
+        Array<Rectangle> result = new Array<>();
+        for(Rectangle hitbox : attack.getHitboxes()){
             Rectangle adjustedHitbox = new Rectangle(hitbox);
             adjustedHitbox.setPosition(hitbox.x + getCenterX(), hitbox.y + getCenterY());
-            adjustedBoxes.add(adjustedHitbox);
+            result.add(adjustedHitbox);
         }
-        return adjustedBoxes;
+        return result;
     }
 
     @Override
-    public void getAttacked(int damage){
-        if(invincibleTimer <= 0){
-            health -= damage;
+    public Attack getAttack(){
+        return attack;
+    }
+
+//    @Override
+//    public boolean alreadyHit(AttackableEntity target){
+//        return attack.alreadyHit(target);
+//    }
+
+    @Override
+    public void getAttacked(AttackableEntity attacker){
+        if(invincibleTimer > 0){
+            return;
+        }
+        if(StaticCollisionHandler.collidesAny(this, attacker.getHitboxes())){
+            health -= attacker.getAttack().getDamage();
+            stateMachine.forceState(State.Stunned);
+            velocity.set(attacker.getAttack().knockbackVector());
             invincibleTimer = 1.8f;
             System.out.println("Damage taken. Health: " + health);
         }
@@ -173,5 +177,29 @@ public class Player extends Entity implements ControllablePlayer{
             if(object.inInteractionRange())
                 return object;
         return null;
+    }
+
+    private static class PlayerAttack extends Attack{
+        private Rectangle baseHitBox = new Rectangle(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
+
+        private PlayerAttack(){
+            this.damage = 3;
+            this.knockback = MyGame.TILE_SIZE*8;
+            this.startup = 0.2f;
+            this.duration = 0.15f;
+            this.cooldown = 0.2f;
+        }
+
+        @Override
+        public void placeHitboxes(Vector2 direction){
+            angle = direction.angleDeg();
+            Rectangle hitbox = new Rectangle(baseHitBox);
+            hitbox.setCenter(direction.setLength(MyGame.TILE_SIZE));
+            hitboxes.add(hitbox);
+        }
+
+        public void placeHitboxes(Array<Rectangle> hitboxes){
+            this.hitboxes.addAll(hitboxes);
+        }
     }
 }

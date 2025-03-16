@@ -4,7 +4,12 @@ import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.view.ViewableEntity;
 
 public interface AttackableEntity extends ViewableEntity{
-    void getAttacked(int damage);
+    Attack getAttack();
+
+    void getAttacked(AttackableEntity attacker);
+
+//    boolean alreadyHit(AttackableEntity target);
 
     Iterable<Rectangle> getHitboxes();
+
 }

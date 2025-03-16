@@ -104,7 +104,7 @@ public class Map {
 //            enemies.add(new EvilSquare(192, 192, player));
 //            enemies.add(new EvilSquare(20*i, 50, player));
         }
-//            enemies.add(new EvilSquare(0, 50, player));
+            enemies.add(new EvilSquare(0, 50, player));
     }
 
     public void update(float deltaTime) {

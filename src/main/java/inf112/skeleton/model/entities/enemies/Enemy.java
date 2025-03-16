@@ -4,12 +4,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
+import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
+import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 
 public abstract class Enemy extends Entity{
     public enum State {
-        Idle, Roaming, Chase, AttackStartup, Attacking, AttackEnd
+        Idle, Roaming, Chase, AttackStartup, Attacking, AttackEnd, Stunned
     }
     public enum Event{
         Timeout, PlayerVisible, PlayerFar, PlayerClose
@@ -18,6 +20,7 @@ public abstract class Enemy extends Entity{
     private StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
     private AttackableEntity player;
+    protected Attack attack;
     private float timer;
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
@@ -33,6 +36,7 @@ public abstract class Enemy extends Entity{
 
     protected void addTransitions(){
         blueprint.addTransition(State.Idle,             Event.Timeout,          State.Roaming);
+        blueprint.addTransition(State.Idle,             Event.PlayerClose,      State.Chase);
         blueprint.addTransition(State.Idle,             Event.PlayerVisible,    State.Chase);
         blueprint.addTransition(State.Roaming,          Event.Timeout,          State.Idle);
         blueprint.addTransition(State.Roaming,          Event.PlayerVisible,    State.Chase);
@@ -41,6 +45,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attacking);
         blueprint.addTransition(State.Attacking,        Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
+        blueprint.addTransition(State.Stunned,        Event.Timeout,          State.Idle);
     }
 
     protected void addEnterFunctions(){
@@ -63,16 +68,19 @@ public abstract class Enemy extends Entity{
         stateMachine.onEnter(State.Attacking, () -> {
             placeHitboxes();
             timer = 0.4f;
-            velocity.setLength(speed*3);
+            velocity.setLength(speed*4);
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
             timer = 0.8f;
             velocity.set(0, 0);
         });
+        stateMachine.onEnter(State.Stunned, () -> {
+            timer = 0.2f;
+        });
     }
 
     protected void addExitFunctions(){
-        stateMachine.onExit(State.Attacking, () -> hitboxes.clear());
+        stateMachine.onExit(State.Attacking, () -> attack.reset());
     }
 
     @Override
@@ -92,8 +100,9 @@ public abstract class Enemy extends Entity{
 
         prevPos.set(pos);
         move(deltaTime);
-        attack(player);
-        getAttacked();
+
+        player.getAttacked(this);
+        getAttacked(player);
 
         timer -= deltaTime;
         if (timer <= 0) {
@@ -101,13 +110,20 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    private void getAttacked() {
-        for(Rectangle hitbox : player.getHitboxes()) {
-            if(locateHurtbox().overlaps(hitbox)) {
-                getAttacked(1);
-                stateMachine.forceState(State.Idle);
-                break;
-            }
+    @Override
+    public Attack getAttack(){
+        return attack;
+    }
+
+    @Override
+    public void getAttacked(AttackableEntity attacker) {
+        if(attacker.getAttack().alreadyHit(this))
+            return;
+        if(StaticCollisionHandler.collidesAny(this, attacker.getHitboxes())){
+            attacker.getAttack().addHit(this);
+            health -= attacker.getAttack().getDamage();
+            velocity.set(attacker.getAttack().knockbackVector());
+            stateMachine.forceState(State.Stunned);
         }
     }
 
