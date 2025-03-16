@@ -17,6 +17,7 @@ public class Door extends GameObject implements IDoor{
         TiledMapTileMapObject exitDoor = getProperty("Exit Door", TiledMapTileMapObject.class);
         if (exitDoor == null){
             mapFile = getProperty("Map File", String.class);
+            System.out.println(getProperty("id", int.class));
             exitDoor = Map.getObject(mapFile, getProperty("Door ID", int.class));
         }
 

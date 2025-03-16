@@ -11,6 +11,7 @@ import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.model.entities.enemies.Dummy;
 import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.enemies.EvilSquare;
 import inf112.skeleton.model.entities.gameObjects.Door;
@@ -100,11 +101,25 @@ public class Map {
     }
 
     private void spawnEntities() {
+        if(tiledMap.getLayers().get("Enemies") == null)
+            return;
+        for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
+            RectangleMapObject rectObj = (RectangleMapObject) obj;
+            String type = obj.getProperties().get("type", String.class);
+            float x = rectObj.getRectangle().getX();
+            float y = rectObj.getRectangle().getY();
+            if(type.equals("Dummy")){
+                enemies.add(new Dummy(x, y, player));
+            }
+            if(type.equals("EvilSquare")){
+                enemies.add(new EvilSquare(x, y, player));
+            }
+        }
         for(int i = 0; i < 3; i++){
 //            enemies.add(new EvilSquare(192, 192, player));
 //            enemies.add(new EvilSquare(20*i, 50, player));
         }
-            enemies.add(new EvilSquare(0, 50, player));
+//            enemies.add(new EvilSquare(0, 50, player));
     }
 
     public void update(float deltaTime) {

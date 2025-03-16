@@ -79,7 +79,7 @@ public class Player extends Entity implements ControllablePlayer{
         prevPos.set(pos);
         switch (stateMachine.getState()){
             case NonAttack -> updateNonAttack(deltaTime);
-            case Attacking -> updateAttack(deltaTime);
+            case Attacking -> move(deltaTime);
             case Stunned -> move(deltaTime);
         }
 
