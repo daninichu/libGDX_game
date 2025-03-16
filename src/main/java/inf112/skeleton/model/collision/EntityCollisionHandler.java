@@ -47,7 +47,7 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
 
     private static void repel(CollidableEntity e1, CollidableEntity e2) {
         Vector2 direction = e2.getCenterPos().sub(e1.getCenterPos());
-        direction.setLength(1/direction.len()).clamp(0, MyGame.TILE_SIZE);
+        direction.setLength(1/direction.len()).clamp(0, MyGame.TILE_SIZE*1.5f);
 
         e1.addPos(-direction.x, -direction.y);
         e2.addPos(direction.x, direction.y);

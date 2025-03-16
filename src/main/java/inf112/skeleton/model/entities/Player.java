@@ -3,29 +3,47 @@ package inf112.skeleton.model.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
 import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
+import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 
 public class Player extends Entity implements ControllablePlayer{
+    private class PlayerAttack extends Attack{
+        private Rectangle baseHitBox = new Rectangle(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
+        private PlayerAttack(){
+            this.damage = 3;
+            this.startup = 0.2f;
+            this.duration = 0.15f;
+            this.cooldown = 0.2f;
+        }
+
+        @Override
+        public void placeHitboxes(Vector2 direction){
+
+        }
+    }
     public enum State{
-        NonAttack, AttackWindUp, Attacking
+        NonAttack, AttackStartup, Attacking, AttackEnd
     }
     public enum Event{
         Timeout, AttackPressed
     }
-    private static FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
+    private static final FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     static {
-        blueprint.addTransition(State.NonAttack, Event.AttackPressed, State.AttackWindUp);
-        blueprint.addTransition(State.AttackWindUp, Event.Timeout, State.Attacking);
-        blueprint.addTransition(State.Attacking, Event.Timeout, State.NonAttack);
+        blueprint.addTransition(State.NonAttack,       Event.AttackPressed,    State.AttackStartup);
+        blueprint.addTransition(State.AttackStartup,   Event.Timeout,          State.Attacking);
+        blueprint.addTransition(State.Attacking,       Event.Timeout,          State.AttackEnd);
+        blueprint.addTransition(State.AttackEnd,       Event.Timeout,          State.NonAttack);
+        blueprint.addTransition(State.AttackEnd,       Event.AttackPressed,    State.AttackStartup);
     }
-    private StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
+    private final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
 
-    private State state = State.NonAttack;
+    private float timer;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
 
@@ -36,15 +54,47 @@ public class Player extends Entity implements ControllablePlayer{
         this.health = 20;
         this.mass = 1;
         this.speed = 4.5f * MyGame.TILE_SIZE;
+
+        addEnterFunctions();
+        addExitFunctions();
+    }
+
+    private void addEnterFunctions(){
+        stateMachine.onEnter(State.AttackStartup, () -> {
+            timer = 0.2f;
+            if(velocity.isZero()){
+                switch(dir){
+                    case LEFT   -> velocity.set(-1, 0);
+                    case RIGHT  -> velocity.set(1, 0);
+                    case UP     -> velocity.set(0, 1);
+                    case DOWN   -> velocity.set(0, -1);
+                }
+            }
+        });
+        stateMachine.onEnter(State.Attacking, () -> {
+            timer = 0.15f;
+            velocity.setLength(speed / 2);
+            placeHitboxes();
+        });
+        stateMachine.onEnter(State.AttackEnd, () -> timer = 0.2f);
+    }
+
+    private void addExitFunctions(){
+        stateMachine.onExit(State.Attacking, () -> hitboxes.clear());
     }
 
     @Override
     public void update(float deltaTime){
-        super.update(deltaTime);
-        invincibleTimer -= deltaTime;
-        switch (state){
+        prevPos.set(pos);
+        switch (stateMachine.getState()){
             case NonAttack -> updateNonAttack(deltaTime);
             case Attacking -> updateAttack(deltaTime);
+        }
+
+        invincibleTimer -= deltaTime;
+        timer -= deltaTime;
+        if(timer <= 0){
+            stateMachine.fireEvent(Event.Timeout);
         }
     }
 
@@ -53,24 +103,41 @@ public class Player extends Entity implements ControllablePlayer{
         velocity.set(0,0);
         updateMotion();
         velocity.setLength(speed);
-        prevPos.set(pos);
         move(deltaTime);
     }
 
     // Can transition to: NonAttack
     private void updateAttack(float deltaTime){
-
+        move(deltaTime);
     }
 
     private void updateMotion(){
-        if(rightMove)velocity.x++;
-        if(leftMove) velocity.x--;
-        if(upMove)   velocity.y++;
-        if(downMove) velocity.y--;
+        if(rightMove)   velocity.x++;
+        if(leftMove)    velocity.x--;
+        if(upMove)      velocity.y++;
+        if(downMove)    velocity.y--;
+    }
+
+    void placeHitboxes(){
+        Vector2 direction = velocity.cpy().nor();
+        Rectangle hitbox = new Rectangle(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
+        hitbox.setCenter(direction.scl(MyGame.TILE_SIZE));
+        hitboxes.add(hitbox);
     }
 
     @Override
-    public void takeDamage(int damage){
+    public Array<Rectangle> getHitboxes(){
+        Array<Rectangle> adjustedBoxes = new Array<>();
+        for(Rectangle hitbox : hitboxes){
+            Rectangle adjustedHitbox = new Rectangle(hitbox);
+            adjustedHitbox.setPosition(hitbox.x + getCenterX(), hitbox.y + getCenterY());
+            adjustedBoxes.add(adjustedHitbox);
+        }
+        return adjustedBoxes;
+    }
+
+    @Override
+    public void getAttacked(int damage){
         if(invincibleTimer <= 0){
             health -= damage;
             invincibleTimer = 1.8f;

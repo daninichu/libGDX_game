@@ -55,4 +55,6 @@ public interface ViewableEntity {
     float getTopY();
 
     TextureRegion getTexture();
+
+    int getHealth();
 }

@@ -5,12 +5,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.collision.CollidableEntity;
-import inf112.skeleton.model.collision.CollisionHandler;
-import inf112.skeleton.model.DamageableEntity;
+import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.view.ViewableEntity;
 
-public abstract class Entity implements ViewableEntity, CollidableEntity, DamageableEntity{
+public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
     public enum Direction {
         RIGHT, LEFT, UP, DOWN
     }
@@ -32,14 +31,14 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
         this.prevPos = new Vector2(x, y);
     }
 
-    public void attack(DamageableEntity target) {
+    public void attack(AttackableEntity target) {
         if(StaticCollisionHandler.collidesAny(target, getHitboxes())){
-            target.takeDamage(3);
+            target.getAttacked(3);
         }
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void getAttacked(int damage) {
         health -= damage;
     }
 
@@ -103,6 +102,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Damage
     @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
+    }
+
+    @Override
+    public int getHealth(){
+        return health;
     }
 
     @Override

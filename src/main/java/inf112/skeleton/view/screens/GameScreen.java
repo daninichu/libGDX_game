@@ -2,6 +2,7 @@ package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -93,6 +94,7 @@ public class GameScreen extends AbstractScreen{
         mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
         for(ViewableEntity e : entities){
             if(e.getTexture() != null){
+                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
                 batch.draw(e.getTexture(), e.getX(), e.getY());
             }
         }
@@ -120,13 +122,18 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
         }
-        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.end();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.setColor(1,0,0,0.4f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for(Rectangle hitbox : map.getHitboxes()){
             shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
         }
+//        Gdx.gl.glDisable(GL20.GL_BLEND);
         shapeRenderer.end();
     }
 

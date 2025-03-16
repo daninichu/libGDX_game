@@ -24,7 +24,6 @@ import inf112.skeleton.model.entities.gameObjects.Switch;
 public class Map {
     private static final TmxMapLoader mapLoader = new TmxMapLoader();
     private static final String startPath = "tiledMaps/";
-    private String currentMapFile;
     private TiledMap tiledMap;
 
     private Player player;
@@ -55,8 +54,7 @@ public class Map {
      * @param mapFile The {@code .tmx} file name only.
      */
     public void loadMap(String mapFile) {
-        currentMapFile = mapFile;
-        tiledMap = mapLoader.load(startPath + currentMapFile);
+        tiledMap = mapLoader.load(startPath + mapFile);
         reset();
         loadObjects();
         spawnEntities();
@@ -102,10 +100,11 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 3; i++){
 //            enemies.add(new EvilSquare(192, 192, player));
+//            enemies.add(new EvilSquare(20*i, 50, player));
         }
-            enemies.add(new EvilSquare(0, 50, player));
+//            enemies.add(new EvilSquare(0, 50, player));
     }
 
     public void update(float deltaTime) {
@@ -133,7 +132,7 @@ public class Map {
 
     public Array.ArrayIterable<Rectangle> getHitboxes() {
         Array<Rectangle> hitboxes = new Array<>();
-        for(Entity e : enemies) {
+        for(Entity e : getEntities()) {
             hitboxes.addAll(e.getHitboxes());
         }
         return new Array.ArrayIterable<>(hitboxes);

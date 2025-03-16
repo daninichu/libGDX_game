@@ -3,17 +3,16 @@ package inf112.skeleton.model.entities.enemies;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.DamageableEntity;
-import inf112.skeleton.view.ViewableEntity;
+import inf112.skeleton.model.attack.AttackableEntity;
 
 public class EvilSquare extends Enemy{
 
-    public EvilSquare(float x, float y, DamageableEntity player){
+    public EvilSquare(float x, float y, AttackableEntity player){
         super(x, y, player);
         texture = new TextureRegion(new Texture("sprite16.png"));
+        this.health = 50;
         this.mass = 1;
         this.speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);

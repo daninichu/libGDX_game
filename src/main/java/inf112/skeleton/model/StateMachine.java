@@ -3,27 +3,15 @@ package inf112.skeleton.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StateMachine<S, T>{
-    private final FsmBlueprint<S, T> blueprint;
-    private S state;
+public class StateMachine<S, E>{
+    private FsmBlueprint<S, E> blueprint;
     private Map<S, Runnable> onEnter = new HashMap<>();
     private Map<S, Runnable> onExit = new HashMap<>();
+    private S state;
 
-    public StateMachine(FsmBlueprint<S, T> blueprint, S initialState) {
+    public StateMachine(FsmBlueprint<S, E> blueprint, S initialState) {
         this.blueprint = blueprint;
         this.state = initialState;
-    }
-
-    public S getState() {
-        return state;
-    }
-
-    public void fireEvent(T event) {
-        S targetState = blueprint.getTargetState(state, event);
-        if (targetState == null || targetState.equals(state)) {
-            return;
-        }
-        transition(targetState);
     }
 
     public void onEnter(S event, Runnable action) {
@@ -32,6 +20,16 @@ public class StateMachine<S, T>{
 
     public void onExit(S event, Runnable action) {
         onExit.put(event, action);
+    }
+
+    public S getState() {
+        return state;
+    }
+
+    public void fireEvent(E event) {
+        S targetState = blueprint.getTargetState(state, event);
+        if(targetState != null && !targetState.equals(state))
+            transition(targetState);
     }
 
     public void forceState(S targetState) {

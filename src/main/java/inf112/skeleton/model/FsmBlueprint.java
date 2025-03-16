@@ -12,9 +12,8 @@ public class FsmBlueprint<S, E> {
 
     public S getTargetState(S from, E event) {
         Map<E, S> transitionsFromState = transitions.get(from);
-        if (transitionsFromState != null) {
+        if (transitionsFromState != null)
             return transitionsFromState.get(event);
-        }
         return null;
     }
 
