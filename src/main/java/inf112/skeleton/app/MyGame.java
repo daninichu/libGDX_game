@@ -78,7 +78,7 @@ public class MyGame extends Game{
         }
         long time = System.nanoTime();
         super.render();
-        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
+//        Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");
     }
 
     public void setDialogue(IDialogue dialogueObj){

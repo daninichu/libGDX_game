@@ -2,6 +2,7 @@ package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -13,6 +14,7 @@ import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.util.Box;
 
 public class Player extends Entity implements ControllablePlayer{
     public enum State{
@@ -40,7 +42,7 @@ public class Player extends Entity implements ControllablePlayer{
     public Player(float x, float y){
         super(x, y);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
-        this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.health = 20;
         this.mass = 1;
         this.speed = 4.5f * MyGame.TILE_SIZE;
@@ -115,10 +117,10 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     @Override
-    public Array<Rectangle> getHitboxes(){
-        Array<Rectangle> result = new Array<>();
-        for(Rectangle hitbox : attack.getHitboxes()){
-            Rectangle adjustedHitbox = new Rectangle(hitbox);
+    public Array<Circle> getHitboxes(){
+        Array<Circle> result = new Array<>();
+        for(Circle hitbox : attack.getHitboxes()){
+            Circle adjustedHitbox = new Circle(hitbox);
             adjustedHitbox.setPosition(hitbox.x + getCenterX(), hitbox.y + getCenterY());
             result.add(adjustedHitbox);
         }
@@ -140,12 +142,14 @@ public class Player extends Entity implements ControllablePlayer{
         if(invincibleTimer > 0){
             return;
         }
-        if(StaticCollisionHandler.collidesAny(this, attacker.getHitboxes())){
-            health -= attacker.getAttack().getDamage();
-            stateMachine.forceState(State.Stunned);
-            velocity.set(attacker.getAttack().knockbackVector());
-            invincibleTimer = 1.8f;
-            System.out.println("Damage taken. Health: " + health);
+        for(Circle hitbox : attacker.getHitboxes()){
+            if(locateHurtbox().overlaps(hitbox)){
+                health -= attacker.getAttack().getDamage();
+                stateMachine.forceState(State.Stunned);
+                velocity.set(attacker.getAttack().knockbackVector());
+                invincibleTimer = 1.8f;
+                System.out.println("Damage taken. Health: " + health);
+            }
         }
     }
 
@@ -180,7 +184,7 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     private static class PlayerAttack extends Attack{
-        private Rectangle baseHitBox = new Rectangle(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
+        private Circle baseHitBox = new Circle(0, 0, MyGame.TILE_SIZE);
 
         private PlayerAttack(){
             this.damage = 3;
@@ -194,13 +198,9 @@ public class Player extends Entity implements ControllablePlayer{
         @Override
         public void placeHitboxes(Vector2 direction){
             angle = direction.angleDeg();
-            Rectangle hitbox = new Rectangle(baseHitBox);
-            hitbox.setCenter(direction.setLength(MyGame.TILE_SIZE));
+            Circle hitbox = new Circle(baseHitBox);
+            hitbox.setPosition(direction.setLength(MyGame.TILE_SIZE));
             hitboxes.add(hitbox);
-        }
-
-        public void placeHitboxes(Array<Rectangle> hitboxes){
-            this.hitboxes.addAll(hitboxes);
         }
     }
 }

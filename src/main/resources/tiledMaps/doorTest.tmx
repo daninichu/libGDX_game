@@ -2,12 +2,12 @@
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="3956">
  <tileset firstgid="1" source="tilesets/objects.tsx"/>
  <objectgroup id="7" name="Objects">
-  <object id="3947" gid="3" x="0" y="544" width="32" height="32">
+  <object id="3947" gid="5" x="0" y="544" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3948"/>
    </properties>
   </object>
-  <object id="3948" gid="3" x="224" y="544" width="32" height="32">
+  <object id="3948" gid="5" x="224" y="544" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3947"/>
    </properties>

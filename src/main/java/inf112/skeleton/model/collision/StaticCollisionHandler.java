@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
-import inf112.skeleton.view.ViewableEntity;
 
 import java.awt.Point;
 
@@ -29,21 +28,21 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
 
         ObjectSet<Rectangle> localBoxes = getLocalObjects(entity.locateHurtbox());
 
-        if(collidesAny(entity, localBoxes)){
+        if(collidesAny(entity.locateHurtbox(), localBoxes)){
             entity.setPos(prevPos.x, destPos.y); // Backtrack horizontally, proceed vertically
 
-            if(collidesAny(entity, localBoxes)){
+            if(collidesAny(entity.locateHurtbox(), localBoxes)){
                 entity.setPos(destPos.x, prevPos.y); // Backtrack vertically, proceed horizontally
 
-                if(collidesAny(entity, localBoxes))
+                if(collidesAny(entity.locateHurtbox(), localBoxes))
                     entity.setPos(prevPos); // Backtrack altogether
             }
         }
     }
 
-    public static boolean collidesAny(ViewableEntity entity, Iterable<Rectangle> localBoxes) {
-        for (Rectangle box : localBoxes)
-            if(entity.locateHurtbox().overlaps(box))
+    public static boolean collidesAny(Rectangle box, Iterable<Rectangle> localBoxes) {
+        for (Rectangle localBox : localBoxes)
+            if(box.overlaps(localBox))
                 return true;
         return false;
     }

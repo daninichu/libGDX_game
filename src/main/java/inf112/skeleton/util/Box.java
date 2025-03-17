@@ -4,11 +4,13 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.geom.Rectangle2D;
-
 public class Box extends Rectangle{
     public Box(float x, float y, float width, float height) {
         super(x, y, width, height);
+    }
+
+    public Box(Rectangle r) {
+        super(r);
     }
 
     public float getRightX() {

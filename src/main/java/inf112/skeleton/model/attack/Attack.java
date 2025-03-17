@@ -1,5 +1,6 @@
 package inf112.skeleton.model.attack;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -9,7 +10,7 @@ import inf112.skeleton.model.entities.enemies.Enemy;
 
 public abstract class Attack {
     protected ObjectSet<AttackableEntity> hits = new ObjectSet<>();
-    protected Array<Rectangle> hitboxes = new Array<>();
+    protected Array<Circle> hitboxes = new Array<>();
     protected int damage;
     protected float range;
     protected float knockback;
@@ -34,7 +35,7 @@ public abstract class Attack {
 
     public abstract void placeHitboxes(Vector2 direction);
 
-    public Array.ArrayIterable<Rectangle> getHitboxes() {
+    public Array.ArrayIterable<Circle> getHitboxes() {
         return new Array.ArrayIterable<>(hitboxes);
     }
 

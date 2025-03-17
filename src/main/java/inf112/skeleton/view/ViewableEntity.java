@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Entity;
+import inf112.skeleton.util.Box;
 
 public interface ViewableEntity {
     /**
@@ -20,8 +21,8 @@ public interface ViewableEntity {
 
     boolean dead();
 
-    default Rectangle locateHurtbox(){
-        return new Rectangle(getLeftX(), getBottomY(), getWidth(), getHeight());
+    default Box locateHurtbox(){
+        return new Box(getLeftX(), getBottomY(), getWidth(), getHeight());
     }
 
     Entity.Direction getDir();

@@ -3,10 +3,10 @@ package inf112.skeleton.model.entities.gameObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameObject extends Entity {
@@ -27,9 +27,9 @@ public class GameObject extends Entity {
      * @param s Name of the rectangle object defined in Tiled.
      * @return The rectangle object from Tiled specified by name.
      */
-    protected Rectangle tileRect(String s){
+    protected Box tileRect(String s){
         var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
-        return rectObj == null? null : new Rectangle(rectObj.getRectangle());
+        return rectObj == null? null : new Box(rectObj.getRectangle());
     }
 
     /**
@@ -63,7 +63,7 @@ public class GameObject extends Entity {
     }
 
     @Override
-    public Rectangle locateHurtbox(){
+    public Box locateHurtbox(){
         return hurtbox == null? null : super.locateHurtbox();
     }
 

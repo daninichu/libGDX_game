@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
+import inf112.skeleton.util.Box;
 
 public class Dummy extends Enemy{
     public Dummy(float x, float y, AttackableEntity player){
         super(x, y, player);
-        texture = new TextureRegion(new Texture("sprite16.png"));
+        this.texture = new TextureRegion(new Texture("sprite16.png"));
         speed = 2.5f * MyGame.TILE_SIZE;
-        this.hurtbox = new Rectangle(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
     }
 
     @Override

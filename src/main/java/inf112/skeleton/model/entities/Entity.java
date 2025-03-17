@@ -1,13 +1,13 @@
 package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.collision.StaticCollisionHandler;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
@@ -18,25 +18,17 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected Vector2 pos;
     protected Vector2 prevPos;
     protected Vector2 velocity = new Vector2();
-    protected Rectangle hurtbox;
+    protected Box hurtbox;
     protected Direction dir = Direction.DOWN;
-    public int health;
+    protected int health;
     protected float mass;
     protected float speed;
     protected boolean dead;
-
-    public Array<Rectangle> hitboxes = new Array<>();
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
         this.prevPos = new Vector2(x, y);
     }
-
-//    public void attack(AttackableEntity target) {
-//        if(StaticCollisionHandler.collidesAny(target, getHitboxes())){
-//            target.getAttacked(3);
-//        }
-//    }
 
     @Override
     public Attack getAttack(){
@@ -48,11 +40,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
         health -= attacker.getAttack().getDamage();
     }
 
-    public Array<Rectangle> getHitboxes(){
-        Array<Rectangle> result = new Array<>();
-        for(Rectangle box : hitboxes){
-            result.add(new Rectangle(pos.x + box.x, pos.y + box.y, box.width, box.height));
-        }
+    public Array<Circle> getHitboxes(){
+        Array<Circle> result = new Array<>();
+//        for(Circle box : hitboxes){
+//            result.add(new Circle(pos.x + box.x, pos.y + box.y, box.radius));
+//        }
         return result;
     }
 
@@ -147,7 +139,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public float getRightX(){
-        return pos.x + hurtbox.x + hurtbox.width;
+        return pos.x + hurtbox.getRightX();
     }
 
     @Override
@@ -157,7 +149,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public float getTopY(){
-        return pos.y + hurtbox.y + hurtbox.height;
+        return pos.y + hurtbox.getTopY();
     }
 
     @Override

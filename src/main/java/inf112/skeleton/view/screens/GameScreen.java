@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -130,8 +131,8 @@ public class GameScreen extends AbstractScreen{
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setColor(1,0,0,0.4f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for(Rectangle hitbox : map.getHitboxes()){
-            shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        for(Circle hitbox : map.getHitboxes()){
+            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
         }
 //        Gdx.gl.glDisable(GL20.GL_BLEND);
         shapeRenderer.end();

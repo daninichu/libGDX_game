@@ -36,13 +36,13 @@ public class StaticCollisionTest {
         StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
         player.setRightMove(true);
-        while(!StaticCollisionHandler.collidesAny(player, collisionBoxes)){
+        while(!StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes)){
             player.update(0.01f);
             assertNotEquals(player.getPrevPos(), player.getPos());
         }
 
         collisionHandler.handleCollision(player);
-        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
     }
 
     /**
@@ -53,7 +53,7 @@ public class StaticCollisionTest {
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
         StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
-        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
 
         Vector2 stuckPos = player.getPos().cpy();
         player.setDownMove(true);
@@ -62,7 +62,7 @@ public class StaticCollisionTest {
             collisionHandler.handleCollision(player);
 
             assertEquals(stuckPos, player.getPos());
-            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
         }
     }
 
@@ -76,7 +76,7 @@ public class StaticCollisionTest {
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
         StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
-        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
 
         Vector2 stuckPos = player.getPos().cpy();
         player.setLeftMove(true);
@@ -86,7 +86,7 @@ public class StaticCollisionTest {
             collisionHandler.handleCollision(player);
 
             assertEquals(stuckPos, player.getPos());
-            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
         }
     }
 
@@ -99,7 +99,7 @@ public class StaticCollisionTest {
         collisionBoxes.add(new Rectangle(0, -50, 1000, 50));
         StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
 
-        assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+        assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
 
         float stuckY = player.getY();
         player.setRightMove(true);
@@ -111,7 +111,7 @@ public class StaticCollisionTest {
             collisionHandler.handleCollision(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
         }
     }
 
@@ -138,7 +138,7 @@ public class StaticCollisionTest {
             collisionHandler.handleCollision(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
         }
     }
 
@@ -163,7 +163,7 @@ public class StaticCollisionTest {
             collisionHandler.handleCollision(player);
 
             assertNotEquals(player.getPrevPos(), player.getPos());
-            assertFalse(StaticCollisionHandler.collidesAny(player, collisionBoxes));
+            assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
         }
 
         for(int i = 0; i < 100; i++){

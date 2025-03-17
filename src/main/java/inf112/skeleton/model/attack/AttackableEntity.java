@@ -1,5 +1,6 @@
 package inf112.skeleton.model.attack;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.view.ViewableEntity;
 
@@ -10,6 +11,6 @@ public interface AttackableEntity extends ViewableEntity{
 
 //    boolean alreadyHit(AttackableEntity target);
 
-    Iterable<Rectangle> getHitboxes();
+    Iterable<Circle> getHitboxes();
 
 }

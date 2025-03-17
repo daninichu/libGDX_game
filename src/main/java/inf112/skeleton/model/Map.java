@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
@@ -101,24 +102,24 @@ public class Map {
     }
 
     private void spawnEntities() {
-//        if(tiledMap.getLayers().get("Enemies") == null)
-//            return;
-//        for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
-//            RectangleMapObject rectObj = (RectangleMapObject) obj;
-//            String type = obj.getProperties().get("type", String.class);
-//            float x = rectObj.getRectangle().getX();
-//            float y = rectObj.getRectangle().getY();
-//            if(type.equals("Dummy")){
-//                enemies.add(new Dummy(x, y, player));
-//            }
-//            if(type.equals("EvilSquare")){
-//                enemies.add(new EvilSquare(x, y, player));
-//            }
-//        }
-        for(int i = 0; i < 2000; i++){
+        if(tiledMap.getLayers().get("Enemies") == null)
+            return;
+        for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
+            RectangleMapObject rectObj = (RectangleMapObject) obj;
+            String type = obj.getProperties().get("type", String.class);
+            float x = rectObj.getRectangle().getX();
+            float y = rectObj.getRectangle().getY();
+            if(type.equals("Dummy")){
+                enemies.add(new Dummy(x, y, player));
+            }
+            if(type.equals("EvilSquare")){
+                enemies.add(new EvilSquare(x, y, player));
+            }
+        }
+        for(int i = 0; i < 2; i++){
 //            enemies.add(new EvilSquare(192, 192, player));
 //            enemies.add(new EvilSquare(20*i, 50, player));
-            enemies.add(new EvilSquare(0, 50, player));
+//            enemies.add(new EvilSquare(0, 50, player));
         }
     }
 
@@ -145,8 +146,8 @@ public class Map {
         return entities;
     }
 
-    public Array.ArrayIterable<Rectangle> getHitboxes() {
-        Array<Rectangle> hitboxes = new Array<>();
+    public Array.ArrayIterable<Circle> getHitboxes() {
+        Array<Circle> hitboxes = new Array<>();
         for(Entity e : getEntities()) {
             hitboxes.addAll(e.getHitboxes());
         }
