@@ -34,14 +34,12 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     public void handleCollision_n2(Array<Entity> entities) {
         for(int i = 0; i < entities.size; i++){
             Entity e = entities.get(i);
-            for(int j = 0; j < entities.size; j++){
-                if(i == j)
-                    continue;
-                Entity e2 = entities.get(j);
-                if(e.locateHurtbox().overlaps(e2.locateHurtbox())){
-                    repel(e, e2);
+            for(int j = 0; j < entities.size; j++)
+                if(i != j){
+                    Entity e2 = entities.get(j);
+                    if(e.locateHurtbox().overlaps(e2.locateHurtbox()))
+                        repel(e, e2);
                 }
-            }
         }
     }
 

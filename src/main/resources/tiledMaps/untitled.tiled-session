@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tilesets/objects.tsx",
+    "activeFile": "grass.tmx",
     "expandedProjectPaths": [
         "tilesets",
         "."
@@ -68,11 +68,11 @@
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 1.6712,
+            "scale": 3.9905,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 245.63188128291046,
-                "y": 498.1450454763044
+                "x": 204.61095100864554,
+                "y": 436.66207242200227
             }
         },
         "o.tsx": {
@@ -84,33 +84,27 @@
             "scaleInEditor": 12.9562
         },
         "test1.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 0.87875,
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 242.9587482219061,
-                "y": 217.92318634423896
+                "y": 44.95021337126599
             }
         },
         "test2.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 0.9369,
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 397.5877895186253,
-                "y": 265.23641797417014
+                "y": 102.99925285516065
             }
         },
         "test3.tmx": {
-            "scale": 0.87875,
+            "scale": 0.87,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 193.45661450924604,
-                "y": 270.2702702702702
+                "x": 192.5287356321839,
+                "y": 97.12643678160919
             }
         },
         "tilesets/64Objects.tsx": {
@@ -134,7 +128,7 @@
         },
         "tilesets/objects.tsx": {
             "scaleInDock": 2.6446,
-            "scaleInEditor": 3.5456
+            "scaleInEditor": 5.9852
         },
         "tilesets/sign.tsx": {
             "scaleInDock": 1,
@@ -174,21 +168,20 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 20,
     "openFiles": [
-        "tilesets/objects.tsx",
-        "tilesets/desertSet.tsx"
+        "grass.tmx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "object",
     "recentFiles": [
-        "tilesets/desertSet.tsx",
-        "tilesets/objects.tsx",
-        "o.tsx",
-        "tilesets/o.tsx",
         "grass.tmx",
-        "objects.tsx",
+        "tilesets/objects.tsx",
         "test3.tmx",
         "test2.tmx",
         "test1.tmx",
+        "tilesets/desertSet.tsx",
+        "o.tsx",
+        "tilesets/o.tsx",
+        "objects.tsx",
         "desert.tmx",
         "doorTest.tmx",
         "tilesets/tree.tsx"

@@ -51,7 +51,7 @@ public class Player extends Entity implements ControllablePlayer{
 
     private void addEnterFunctions(){
         stateMachine.onEnter(State.AttackStartup, () -> {
-            timer = 0.2f;
+            timer = attack.getStartup();
             if(velocity.isZero()){
                 switch(dir){
                     case LEFT   -> velocity.set(-1, 0);
@@ -62,11 +62,11 @@ public class Player extends Entity implements ControllablePlayer{
             }
         });
         stateMachine.onEnter(State.Attacking, () -> {
-            timer = 0.15f;
-            velocity.setLength(speed / 2);
+            timer = attack.getDuration();
+            velocity.setLength(attack.getMomentum());
             placeHitboxes();
         });
-        stateMachine.onEnter(State.AttackEnd, () -> timer = 0.2f);
+        stateMachine.onEnter(State.AttackEnd, () -> timer = attack.getCooldown());
         stateMachine.onEnter(State.Stunned, () -> timer = 0.5f);
     }
 
@@ -184,6 +184,7 @@ public class Player extends Entity implements ControllablePlayer{
 
         private PlayerAttack(){
             this.damage = 3;
+            this.momentum = 2.5f * MyGame.TILE_SIZE;
             this.knockback = MyGame.TILE_SIZE*8;
             this.startup = 0.2f;
             this.duration = 0.15f;
