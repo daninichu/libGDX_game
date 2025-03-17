@@ -16,9 +16,8 @@ public class BoxCircleOverlapTest{
         return "Box " +  box + " should be overlapping circle " + circle;
     }
 
-    @Test
-    void testInside_BIG(){
-        Circle circle = new Circle(0, 0, 1000);
+    void iterateInsideBox(float radius){
+        Circle circle = new Circle(0, 0, radius);
 
         for(int x = 0; x <= 100; x++){
             for(int y = 0; y <= 100; y++){
@@ -26,92 +25,56 @@ public class BoxCircleOverlapTest{
                 assertTrue(box.overlaps(circle), falseNegative(box, circle));
             }
         }
+    }
+
+    @Test
+    void testInside_BIG(){
+        iterateInsideBox(1000);
     }
 
     @Test
     void testInside_MEDIUM(){
-        Circle circle = new Circle(0, 0, 50);
-
-        for(int x = 0; x <= 100; x++){
-            for(int y = 0; y <= 100; y++){
-                circle.setPosition(x, y);
-                assertTrue(box.overlaps(circle), falseNegative(box, circle));
-            }
-        }
+        iterateInsideBox(50);
     }
 
     @Test
     void testInside_SMALL(){
-        Circle circle = new Circle(0, 0, 1);
+        iterateInsideBox(1);
+    }
+
+    void barelyOverlapping(float radius){
+        Circle circle = new Circle(0, 0, radius);
 
         for(int x = 0; x <= 100; x++){
-            for(int y = 0; y <= 100; y++){
-                circle.setPosition(x, y);
-                assertTrue(box.overlaps(circle), falseNegative(box, circle));
-            }
+            circle.setPosition(x, -circle.radius * 0.99f);
+            assertTrue(box.overlaps(circle), falseNegative(box, circle));
+
+            circle.setPosition(x, box.height + circle.radius * 0.99f);
+            assertTrue(box.overlaps(circle), falseNegative(box, circle));
+        }
+        for(int y = 0; y <= 100; y++){
+            circle.setPosition(-circle.radius * 0.99f, y);
+            assertTrue(box.overlaps(circle), falseNegative(box, circle));
+
+            circle.setPosition(box.width + circle.radius * 0.99f, y);
+            assertTrue(box.overlaps(circle), falseNegative(box, circle));
         }
     }
 
     @Test
     void testBarelyOverlapping_BIG(){
-        Circle circle = new Circle(0, 0, 1000);
-
-        for(int x = 0; x <= 100; x++){
-            circle.setPosition(x, -circle.radius * 0.9f);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-
-            circle.setPosition(x, box.height + circle.radius * 0.9f);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-        }
-        for(int y = 0; y <= 100; y++){
-            circle.setPosition(-circle.radius * 0.9f, y);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-
-            circle.setPosition(box.width + circle.radius * 0.9f, y);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-        }
+        barelyOverlapping(1000);
     }
 
     @Test
     void testBarelyOverlapping_MEDIUM(){
-        Circle circle = new Circle(0, 0, 50);
-
-        for(int x = 0; x <= 100; x++){
-            circle.setPosition(x, -circle.radius * 0.9f);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-
-            circle.setPosition(x, box.height + circle.radius * 0.9f);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-        }
-        for(int y = 0; y <= 100; y++){
-            circle.setPosition(-circle.radius * 0.9f, y);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-
-            circle.setPosition(box.width + circle.radius * 0.9f, y);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-        }
+        barelyOverlapping(50);
     }
 
     @Test
     void testBarelyOverlapping_SMALL(){
-        Circle circle = new Circle(0, 0, 1);
-
-        for(int x = 0; x <= 100; x++){
-            circle.setPosition(x, -circle.radius * 0.9f);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-
-            circle.setPosition(x, box.height + circle.radius * 0.9f);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-        }
-        for(int y = 0; y <= 100; y++){
-            circle.setPosition(-circle.radius * 0.9f, y);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-
-            circle.setPosition(box.width + circle.radius * 0.9f, y);
-            assertTrue(box.overlaps(circle), falseNegative(box, circle));
-        }
+        barelyOverlapping(1);
     }
-
 
     // FALSE
 
