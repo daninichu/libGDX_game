@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "grass.tmx",
+    "activeFile": "tilesets/objects.tsx",
     "expandedProjectPaths": [
         "tilesets",
         "."
@@ -54,25 +54,22 @@
             }
         },
         "doorTest.tmx": {
-            "expandedObjectLayers": [
-                7
-            ],
             "scale": 2.2115,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 47.705177481347505,
-                "y": 588.966764639385
+                "x": 479.9909563644585,
+                "y": 319.9186072801266
             }
         },
         "grass.tmx": {
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 2.3452,
+            "scale": 1.43,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 162.67269316049803,
-                "y": 531.5111717550742
+                "x": 240.20979020979024,
+                "y": 475.874125874126
             }
         },
         "o.tsx": {
@@ -84,11 +81,14 @@
             "scaleInEditor": 12.9562
         },
         "test1.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
             "scale": 0.87875,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 222.47510668563297,
-                "y": 222.47510668563294
+                "x": 320.34139402560453,
+                "y": 159.88620199146516
             }
         },
         "test2.tmx": {
@@ -100,11 +100,14 @@
             }
         },
         "test3.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 0.87,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 182.183908045977,
-                "y": 269.54022988505744
+                "x": 320.11494252873564,
+                "y": 160.34482758620692
             }
         },
         "tilesets/64Objects.tsx": {
@@ -128,7 +131,7 @@
         },
         "tilesets/objects.tsx": {
             "scaleInDock": 2.6446,
-            "scaleInEditor": 5.9852
+            "scaleInEditor": 5.98
         },
         "tilesets/sign.tsx": {
             "scaleInDock": 1,
@@ -168,22 +171,26 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 20,
     "openFiles": [
-        "grass.tmx"
+        "grass.tmx",
+        "doorTest.tmx",
+        "test1.tmx",
+        "test3.tmx",
+        "tilesets/objects.tsx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "object",
     "recentFiles": [
         "grass.tmx",
-        "tilesets/objects.tsx",
-        "test3.tmx",
-        "test2.tmx",
+        "doorTest.tmx",
         "test1.tmx",
+        "test3.tmx",
+        "tilesets/objects.tsx",
+        "test2.tmx",
         "tilesets/desertSet.tsx",
         "o.tsx",
         "tilesets/o.tsx",
         "objects.tsx",
         "desert.tmx",
-        "doorTest.tmx",
         "tilesets/tree.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",

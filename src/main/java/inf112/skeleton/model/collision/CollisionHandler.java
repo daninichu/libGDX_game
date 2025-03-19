@@ -28,19 +28,9 @@ public abstract class CollisionHandler<E>{
         int x2 = toCellNum(box.x + box.width);
         int y1 = toCellNum(box.y);
         int y2 = toCellNum(box.y + box.height);
-        for(int x = x1; x <= x2; x++){
-            for(int y = y1; y <= y2; y++){
+        for(int x = x1; x <= x2; x++)
+            for(int y = y1; y <= y2; y++)
                 occupiedCells.add(new Point(x, y));
-            }
-        }
-//        for(int x = x1; x <= x2; x++){
-//            occupiedCells.add(new Point(x, y1));
-//            occupiedCells.add(new Point(x, y2));
-//        }
-//        for(int y = 1 + y1; y < y2; y++){
-//            occupiedCells.add(new Point(x1, y));
-//            occupiedCells.add(new Point(x2, y));
-//        }
         return occupiedCells;
     }
 

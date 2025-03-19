@@ -3,7 +3,7 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import inf112.skeleton.controller.MyInputProcessor;
+import inf112.skeleton.controller.GameInputProcessor;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.gameObjects.IDialogue;
@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class MyGame extends Game{
     public enum State {
-        Title, Play, Dialogue, LoadStart, Loading, LoadEnd
+        Title, Play, Dialogue, Inventory, LoadStart, Loading, LoadEnd
     }
     private State state = State.Title;
     public static int SCREEN_WIDTH = 480*2;
@@ -31,7 +31,7 @@ public class MyGame extends Game{
     private GameScreen gameScreen;
     private MainMenuScreen mainMenuScreen;
 
-    private MyInputProcessor inputProcessor;
+    private GameInputProcessor inputProcessor;
     public UI ui;
 
     private Player player;
@@ -45,7 +45,7 @@ public class MyGame extends Game{
         map = new Map(player);
 //        map.prepareNewMap("grass.tmx");
         map.loadMap("grass.tmx");
-        inputProcessor = new MyInputProcessor(this, player);
+        inputProcessor = new GameInputProcessor(this, player);
 
         gameScreen = new GameScreen(this);
         mainMenuScreen = new MainMenuScreen(this);

@@ -12,6 +12,8 @@ import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.model.inventory.HealthPotion;
+import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.util.Box;
 
 public class Player extends Entity implements ControllablePlayer{
@@ -35,11 +37,12 @@ public class Player extends Entity implements ControllablePlayer{
     private float timer;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
+//    private Inventory inventory = new Inventory();
 
     public Player(float x, float y){
         super(x, y);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
-        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
         this.attack = new PlayerAttack();
         this.health = 20;
         this.mass = 1;
@@ -47,6 +50,8 @@ public class Player extends Entity implements ControllablePlayer{
 
         addEnterFunctions();
         addExitFunctions();
+
+//        inventory.addItem(new HealthPotion());
     }
 
     private void addEnterFunctions(){

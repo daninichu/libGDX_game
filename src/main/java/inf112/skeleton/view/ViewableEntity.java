@@ -47,12 +47,24 @@ public interface ViewableEntity {
         return getBottomY() + getHeight()/2;
     }
 
+    /**
+     * @return The x-coordinate of the left side of the hurtbox.
+     */
     float getLeftX();
 
+    /**
+     * @return The x-coordinate of the right side of the hurtbox.
+     */
     float getRightX();
 
+    /**
+     * @return The y-coordinate of the bottom of the hurtbox.
+     */
     float getBottomY();
 
+    /**
+     * @return The y-coordinate of the top of the hurtbox.
+     */
     float getTopY();
 
     TextureRegion getTexture();

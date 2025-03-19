@@ -5,11 +5,11 @@ import com.badlogic.gdx.InputAdapter;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.gameObjects.*;
 
-public class MyInputProcessor extends InputAdapter {
+public class GameInputProcessor extends InputAdapter {
     private ControllablePlayer player;
     private MyGame game;
 
-    public MyInputProcessor(MyGame game, ControllablePlayer player) {
+    public GameInputProcessor(MyGame game, ControllablePlayer player) {
         this.player = player;
         this.game = game;
     }
@@ -25,6 +25,9 @@ public class MyInputProcessor extends InputAdapter {
         switch(game.getState()) {
             case Play -> keyDownPlay(keycode);
             case Dialogue -> keyDownDialogue(keycode);
+//            default -> {
+//                return false;
+//            }
         }
         return true;
     }
@@ -73,6 +76,13 @@ public class MyInputProcessor extends InputAdapter {
             case Input.Keys.W -> player.setUpMove(false);
             case Input.Keys.S -> player.setDownMove(false);
         }
+//        switch(game.getState()){
+//            case Play -> {}
+//            case Dialogue -> {}
+//            default -> {
+//                return false;
+//            }
+//        }
         return true;
     }
 

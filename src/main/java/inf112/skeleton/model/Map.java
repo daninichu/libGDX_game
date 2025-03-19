@@ -62,7 +62,7 @@ public class Map {
         loadObjects();
         spawnEntities();
         loadCollisionBoxes();
-        this.staticCH = new StaticCollisionHandler(collisionBoxes);
+        staticCH = new StaticCollisionHandler(collisionBoxes);
     }
 
     private void reset(){
@@ -107,9 +107,9 @@ public class Map {
     }
 
     private void spawnEntities() {
-        for(int i = 0; i < 2000; i++){
-            enemies.add(new Dummy(0, 50, player));
-        }
+//        for(int i = 0; i < 2000; i++){
+//            enemies.add(new Dummy(0, 50, player));
+//        }
 //            enemies.add(new EvilSquare(0, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;

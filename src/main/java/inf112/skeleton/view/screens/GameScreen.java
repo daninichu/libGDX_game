@@ -89,8 +89,8 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void draw(){
-        ScreenUtils.clear(0.5f, 0.5f, 0.5f, 0);
-//        ScreenUtils.clear(0.9f, 0.9f, 0.9f, 0);
+//        ScreenUtils.clear(0.5f, 0.5f, 0.5f, 0);
+        ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
@@ -132,15 +132,15 @@ public class GameScreen extends AbstractScreen{
             }
         }
         shapeRenderer.end();
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.setColor(1,0,0,0.4f);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for(Circle hitbox : map.getHitboxes()){
-            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
-        }
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+//        Gdx.gl.glEnable(GL20.GL_BLEND);
+//        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+//        shapeRenderer.setColor(1,0,0,0.4f);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        for(Circle hitbox : map.getHitboxes()){
+//            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
+//        }
+//        shapeRenderer.end();
+//        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     @Override
