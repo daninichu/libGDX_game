@@ -2,7 +2,6 @@ package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.util.Box;
@@ -17,15 +16,11 @@ public class Dummy extends Enemy{
 
     @Override
     protected void addTransitions(){
-        blueprint.addTransition(State.Idle,             Event.Timeout,          State.Roaming);
-        blueprint.addTransition(State.Roaming,          Event.Timeout,          State.Idle);
-        blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Idle);
+        blueprint.addTransition(State.Idle,     Event.Timeout,  State.Roaming);
+        blueprint.addTransition(State.Roaming,  Event.Timeout,  State.Idle);
+        blueprint.addTransition(State.Stunned,  Event.Timeout,  State.Idle);
     }
-
-
 
     @Override
-    protected void addExitFunctions(){
-
-    }
+    protected void addExitFunctions(){}
 }

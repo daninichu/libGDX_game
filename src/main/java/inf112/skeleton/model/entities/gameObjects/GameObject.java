@@ -15,8 +15,8 @@ public class GameObject extends Entity {
 
     public GameObject(TiledMapTileMapObject tileObj, Player player){
         super(tileObj.getX(), tileObj.getY());
-        this.player = player;
         this.tileObj = tileObj;
+        this.player = player;
         TiledMapTile tile = tileObj.getTile();
         this.texture = tile.getTextureRegion();
         this.hurtbox = tileRect("Collision");

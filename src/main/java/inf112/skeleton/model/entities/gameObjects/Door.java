@@ -1,15 +1,15 @@
 package inf112.skeleton.model.entities.gameObjects;
 
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.util.Box;
 
 public class Door extends GameObject implements IDoor{
     private String mapFile;
     private Vector2 exitPos = new Vector2();
-    private Rectangle interactionArea;
+    private Box interactionArea;
 
     public Door(TiledMapTileMapObject tileObj, Player player) {
         super(tileObj, player);
@@ -24,7 +24,7 @@ public class Door extends GameObject implements IDoor{
         centerExitForPlayer(getProperty("width", float.class));
 
         interactionArea = tileRect("Interaction");
-        interactionArea.setPosition(pos.x + interactionArea.x, pos.y + interactionArea.y);
+        interactionArea.addPos(pos);
     }
 
     /**
@@ -43,10 +43,10 @@ public class Door extends GameObject implements IDoor{
 
     @Override
     public String cannotOpenMessage(){
-        if(getProperty("Locked", boolean.class)){
-            return "Door is locked.";
-        }
-        return null;
+        Boolean locked = getProperty("Locked", boolean.class);
+        if (locked == null || !locked)
+            return null;
+        return "Door is locked.";
     }
 
     @Override

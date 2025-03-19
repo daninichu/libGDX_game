@@ -20,6 +20,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected Vector2 velocity = new Vector2();
     protected Box hurtbox;
     protected Direction dir = Direction.DOWN;
+
+    protected Attack attack = new Attack(){};
     protected int health;
     protected float mass;
     protected float speed;
@@ -32,7 +34,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public Attack getAttack(){
-        return null;
+        return attack;
     }
 
     @Override
@@ -42,9 +44,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     public Array<Circle> getHitboxes(){
         Array<Circle> result = new Array<>();
-//        for(Circle box : hitboxes){
-//            result.add(new Circle(pos.x + box.x, pos.y + box.y, box.radius));
-//        }
         return result;
     }
 
@@ -100,6 +99,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
+    }
+
+    @Override
+    public boolean alreadyHit(AttackableEntity target){
+        return attack.alreadyHit(target);
     }
 
     @Override

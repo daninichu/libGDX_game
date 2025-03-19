@@ -25,10 +25,10 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Enemies">
-  <object id="2" type="EvilSquare" x="166" y="193">
+  <object id="2" type="EvilSquare" x="133" y="242">
    <point/>
   </object>
-  <object id="3" type="EvilSquare" x="182" y="270">
+  <object id="3" type="DarkSquare" x="159" y="301">
    <point/>
   </object>
  </objectgroup>

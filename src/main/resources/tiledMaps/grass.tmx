@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="5390">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="5392">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
@@ -71,6 +71,16 @@ Without Tiled, this would not have been possible.</property>
     <property name="Door ID" type="int" value="4"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="test1.tmx"/>
+   </properties>
+  </object>
+  <object id="5390" gid="12" x="-110" y="580" width="32" height="32">
+   <properties>
+    <property name="Exit Door" type="object" value="3942"/>
+   </properties>
+  </object>
+  <object id="5391" gid="8" x="179" y="604" width="32" height="32">
+   <properties>
+    <property name="Door" type="object" value="5390"/>
    </properties>
   </object>
  </objectgroup>

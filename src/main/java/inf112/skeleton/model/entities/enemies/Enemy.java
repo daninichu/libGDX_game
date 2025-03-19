@@ -2,12 +2,9 @@ package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
-import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 
 public abstract class Enemy extends Entity{
@@ -21,7 +18,6 @@ public abstract class Enemy extends Entity{
     private StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
     private AttackableEntity player;
-    protected Attack attack;
     private float timer;
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
@@ -46,7 +42,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attacking);
         blueprint.addTransition(State.Attacking,        Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
-        blueprint.addTransition(State.Stunned,        Event.Timeout,          State.Idle);
+        blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Idle);
     }
 
     protected void addEnterFunctions(){
@@ -63,16 +59,16 @@ public abstract class Enemy extends Entity{
             velocity.set(speed, 0);
         });
         stateMachine.onEnter(State.AttackStartup, () -> {
-            timer = 0.3f;
+            timer = attack.getStartup();
             velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
         });
         stateMachine.onEnter(State.Attacking, () -> {
             placeHitboxes();
-            timer = 0.4f;
-            velocity.setLength(speed*4);
+            timer = attack.getDuration();
+            velocity.setLength(attack.getMomentum());
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
-            timer = 0.8f;
+            timer = attack.getCooldown();
             velocity.set(0, 0);
         });
         stateMachine.onEnter(State.Stunned, () -> {
@@ -112,19 +108,14 @@ public abstract class Enemy extends Entity{
     }
 
     @Override
-    public Attack getAttack(){
-        return attack;
-    }
-
-    @Override
     public void getAttacked(AttackableEntity attacker) {
-        if(attacker.getAttack().alreadyHit(this))
+        if(attacker.alreadyHit(this))
             return;
         for(Circle hitbox : attacker.getHitboxes()) {
             if(locateHurtbox().overlaps(hitbox)){
                 attacker.getAttack().addHit(this);
                 health -= attacker.getAttack().getDamage();
-                velocity.set(attacker.getAttack().knockbackVector());
+                velocity.set(attacker.getAttack().knockbackVector(getCenterPos()));
                 stateMachine.forceState(State.Stunned);
             }
         }

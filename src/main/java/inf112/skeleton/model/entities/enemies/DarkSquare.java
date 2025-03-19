@@ -10,17 +10,17 @@ import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.util.Box;
 
-public class EvilSquare extends Enemy{
+public class DarkSquare extends Enemy {
 
-    public EvilSquare(float x, float y, AttackableEntity player){
+    public DarkSquare(float x, float y, AttackableEntity player){
         super(x, y, player);
-        this.texture = new TextureRegion(new Texture("sprite16.png"));
+        this.texture = new TextureRegion(new Texture("darkLink.png"));
         this.health = 30;
         this.mass = 1;
-        this.speed = 2.5f * MyGame.TILE_SIZE;
+        this.speed = 2f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
-        this.attack = new EvilSquareAttack();
-        this.attackRange = MyGame.TILE_SIZE * 3;
+        this.attack = new DarkSquare.DarkSquareAttack();
+        this.attackRange = MyGame.TILE_SIZE * 2.5f;
     }
 
     @Override
@@ -39,16 +39,21 @@ public class EvilSquare extends Enemy{
         return result;
     }
 
-    public class EvilSquareAttack extends Attack{
-        private Circle baseHitbox = new Circle(0, 0, MyGame.TILE_SIZE/2f);
+    public class DarkSquareAttack extends Attack{
+        private Circle baseHitbox = new Circle(0, 0, MyGame.TILE_SIZE * 3f);
 
-        private EvilSquareAttack(){
-            this.damage = 2;
+        private DarkSquareAttack(){
+            this.damage = 6;
             this.knockback = MyGame.TILE_SIZE * 8;
-            this.momentum = speed * 4;
-            this.startup = 0.3f;
-            this.duration = 0.4f;
-            this.cooldown = 0.8f;
+            this.startup = 1f;
+            this.duration = 1f;
+            this.cooldown = 1.5f;
+        }
+
+        @Override
+        public Vector2 knockbackVector(Vector2 targetPos){
+            Vector2 direction = targetPos.sub(getCenterPos());
+            return direction.setLength(knockback);
         }
 
         @Override

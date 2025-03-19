@@ -12,6 +12,7 @@ import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.model.entities.enemies.DarkSquare;
 import inf112.skeleton.model.entities.enemies.Dummy;
 import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.enemies.EvilSquare;
@@ -71,6 +72,8 @@ public class Map {
     }
 
     private void loadObjects(){
+        if(tiledMap.getLayers().get("Objects") == null)
+            return;
         for(MapObject mapObject : tiledMap.getLayers().get("Objects").getObjects()){
             TiledMapTileMapObject tileObj = (TiledMapTileMapObject) mapObject;
             GameObject object = null;
@@ -96,12 +99,18 @@ public class Map {
     }
 
     private void loadCollisionBoxes(){
+        if(tiledMap.getLayers().get("Collision") == null)
+            return;
         for (MapObject obj : tiledMap.getLayers().get("Collision").getObjects()) {
             collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
         }
     }
 
     private void spawnEntities() {
+        for(int i = 0; i < 2000; i++){
+            enemies.add(new Dummy(0, 50, player));
+        }
+//            enemies.add(new EvilSquare(0, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
@@ -115,11 +124,9 @@ public class Map {
             if(type.equals("EvilSquare")){
                 enemies.add(new EvilSquare(x, y, player));
             }
-        }
-        for(int i = 0; i < 2; i++){
-//            enemies.add(new EvilSquare(192, 192, player));
-//            enemies.add(new EvilSquare(20*i, 50, player));
-//            enemies.add(new EvilSquare(0, 50, player));
+            if(type.equals("DarkSquare")){
+                enemies.add(new DarkSquare(x, y, player));
+            }
         }
     }
 

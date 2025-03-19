@@ -3,7 +3,6 @@ package inf112.skeleton.model.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
@@ -12,7 +11,6 @@ import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.util.Box;
 
@@ -34,7 +32,6 @@ public class Player extends Entity implements ControllablePlayer{
     }
     private final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
 
-    private PlayerAttack attack = new PlayerAttack();
     private float timer;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
@@ -43,6 +40,7 @@ public class Player extends Entity implements ControllablePlayer{
         super(x, y);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.attack = new PlayerAttack();
         this.health = 20;
         this.mass = 1;
         this.speed = 4.5f * MyGame.TILE_SIZE;
@@ -68,8 +66,12 @@ public class Player extends Entity implements ControllablePlayer{
             velocity.setLength(attack.getMomentum());
             placeHitboxes();
         });
-        stateMachine.onEnter(State.AttackEnd, () -> timer = attack.getCooldown());
-        stateMachine.onEnter(State.Stunned, () -> timer = 0.5f);
+        stateMachine.onEnter(State.AttackEnd, () -> {
+            timer = attack.getCooldown();
+        });
+        stateMachine.onEnter(State.Stunned, () -> {
+            timer = 0.5f;
+        });
     }
 
     private void addExitFunctions(){
@@ -82,7 +84,10 @@ public class Player extends Entity implements ControllablePlayer{
         switch (stateMachine.getState()){
             case NonAttack -> updateNonAttack(deltaTime);
             case Attacking -> move(deltaTime);
-            case Stunned -> move(deltaTime);
+            case Stunned -> {
+                move(deltaTime);
+                velocity.scl(0.98f);
+            }
         }
 
         invincibleTimer -= deltaTime;
@@ -100,11 +105,6 @@ public class Player extends Entity implements ControllablePlayer{
         move(deltaTime);
     }
 
-    // Can transition to: NonAttack
-    private void updateAttack(float deltaTime){
-        move(deltaTime);
-    }
-
     private void updateMotion(){
         if(rightMove)   velocity.x++;
         if(leftMove)    velocity.x--;
@@ -112,7 +112,7 @@ public class Player extends Entity implements ControllablePlayer{
         if(downMove)    velocity.y--;
     }
 
-    void placeHitboxes(){
+    private void placeHitboxes(){
         attack.placeHitboxes(velocity.cpy());
     }
 
@@ -128,27 +128,16 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     @Override
-    public Attack getAttack(){
-        return attack;
-    }
-
-//    @Override
-//    public boolean alreadyHit(AttackableEntity target){
-//        return attack.alreadyHit(target);
-//    }
-
-    @Override
     public void getAttacked(AttackableEntity attacker){
-        if(invincibleTimer > 0){
+        if(invincibleTimer > 0 || attacker.alreadyHit(this)){
             return;
         }
         for(Circle hitbox : attacker.getHitboxes()){
             if(locateHurtbox().overlaps(hitbox)){
                 health -= attacker.getAttack().getDamage();
                 stateMachine.forceState(State.Stunned);
-                velocity.set(attacker.getAttack().knockbackVector());
+                velocity.set(attacker.getAttack().knockbackVector(getCenterPos()));
                 invincibleTimer = 1.8f;
-                System.out.println("Damage taken. Health: " + health);
             }
         }
     }

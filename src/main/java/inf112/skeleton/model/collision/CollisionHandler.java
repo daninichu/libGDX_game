@@ -1,5 +1,6 @@
 package inf112.skeleton.model.collision;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -28,18 +29,23 @@ public abstract class CollisionHandler<E>{
         int y1 = toCellNum(box.y);
         int y2 = toCellNum(box.y + box.height);
         for(int x = x1; x <= x2; x++){
-            occupiedCells.add(new Point(x, y1));
-            occupiedCells.add(new Point(x, y2));
+            for(int y = y1; y <= y2; y++){
+                occupiedCells.add(new Point(x, y));
+            }
         }
-        for(int y = 1 + y1; y < y2; y++){
-            occupiedCells.add(new Point(x1, y));
-            occupiedCells.add(new Point(x2, y));
-        }
+//        for(int x = x1; x <= x2; x++){
+//            occupiedCells.add(new Point(x, y1));
+//            occupiedCells.add(new Point(x, y2));
+//        }
+//        for(int y = 1 + y1; y < y2; y++){
+//            occupiedCells.add(new Point(x1, y));
+//            occupiedCells.add(new Point(x2, y));
+//        }
         return occupiedCells;
     }
 
     protected static int toCellNum(float mapCoords){
-        return (int) (mapCoords / MyGame.TILE_SIZE);
+        return MathUtils.floor(mapCoords / MyGame.TILE_SIZE);
     }
 
     protected ObjectSet<E> getLocalObjects(Rectangle box){

@@ -1,12 +1,9 @@
 package inf112.skeleton.model.attack;
 
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
-import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.model.entities.enemies.Enemy;
 
 public abstract class Attack {
     protected ObjectSet<AttackableEntity> hits = new ObjectSet<>();
@@ -33,13 +30,13 @@ public abstract class Attack {
         hitboxes.clear();
     }
 
-    public abstract void placeHitboxes(Vector2 direction);
+    public void placeHitboxes(Vector2 direction){}
 
     public Array.ArrayIterable<Circle> getHitboxes() {
         return new Array.ArrayIterable<>(hitboxes);
     }
 
-    public Vector2 knockbackVector() {
+    public Vector2 knockbackVector(Vector2 targetPos) {
         return new Vector2(1, 0).setAngleDeg(angle).setLength(knockback);
     }
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
@@ -29,6 +30,7 @@ public class GameScreen extends AbstractScreen{
     private Map map;
     private ViewableEntity player;
     private Array<? extends ViewableEntity> entities;
+    public static Viewport viewport;
 
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -60,9 +62,9 @@ public class GameScreen extends AbstractScreen{
     public void render(float deltaTime) {
         switch(game.getState()){
             case Play -> {
+                draw();
                 map.update(deltaTime);
                 followPlayerWithCamera(deltaTime);
-                draw();
             }
             case Dialogue -> {
                 followPlayerWithCamera(deltaTime);
@@ -87,7 +89,8 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void draw(){
-        ScreenUtils.clear(Color.CLEAR);
+        ScreenUtils.clear(0.5f, 0.5f, 0.5f, 0);
+//        ScreenUtils.clear(0.9f, 0.9f, 0.9f, 0);
         mapRenderer.setView(camera);
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
@@ -95,8 +98,10 @@ public class GameScreen extends AbstractScreen{
         mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
         for(ViewableEntity e : entities){
             if(e.getTexture() != null){
-                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
                 batch.draw(e.getTexture(), e.getX(), e.getY());
+            }
+            if(e.getHealth() != 0){
+                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
             }
         }
         for(GameObject object : map.getObjects()){
@@ -134,8 +139,8 @@ public class GameScreen extends AbstractScreen{
         for(Circle hitbox : map.getHitboxes()){
             shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
         }
-//        Gdx.gl.glDisable(GL20.GL_BLEND);
         shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     @Override
