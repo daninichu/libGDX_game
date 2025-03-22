@@ -16,7 +16,7 @@ public class EvilSquare extends Enemy{
         super(x, y, player);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.health = 30;
-        this.mass = 1;
+//        this.mass = 1;
         this.speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.attack = new EvilSquareAttack();
@@ -40,7 +40,7 @@ public class EvilSquare extends Enemy{
     }
 
     public class EvilSquareAttack extends Attack{
-        private Circle baseHitbox = new Circle(0, 0, MyGame.TILE_SIZE/2f);
+        private Circle baseHitbox = new Circle(0, 0, getWidth()/2f);
 
         private EvilSquareAttack(){
             this.damage = 2;
@@ -53,7 +53,7 @@ public class EvilSquare extends Enemy{
 
         @Override
         public void placeHitboxes(Vector2 direction){
-            angle = direction.angleDeg();
+            this.direction = direction;
             hitboxes.add(baseHitbox);
         }
     }

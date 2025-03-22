@@ -25,9 +25,9 @@ public class GameInputProcessor extends InputAdapter {
         switch(game.getState()) {
             case Play -> keyDownPlay(keycode);
             case Dialogue -> keyDownDialogue(keycode);
-//            default -> {
-//                return false;
-//            }
+            default -> {
+                return false;
+            }
         }
         return true;
     }
@@ -54,7 +54,10 @@ public class GameInputProcessor extends InputAdapter {
                 }
             }
             case Input.Keys.SPACE -> {
-                player.attack();
+                player.attackPressed();
+            }
+            case Input.Keys.Q -> {
+                game.setState(MyGame.State.Inventory);
             }
         }
     }
@@ -76,13 +79,13 @@ public class GameInputProcessor extends InputAdapter {
             case Input.Keys.W -> player.setUpMove(false);
             case Input.Keys.S -> player.setDownMove(false);
         }
-//        switch(game.getState()){
-//            case Play -> {}
-//            case Dialogue -> {}
-//            default -> {
-//                return false;
-//            }
-//        }
+        switch(game.getState()){
+            case Play -> {}
+            case Dialogue -> {}
+            default -> {
+                return false;
+            }
+        }
         return true;
     }
 

@@ -21,5 +21,5 @@ public interface CollidableEntity extends ViewableEntity{
         addPos(vector.x, vector.y);
     }
 
-    float getMass();
+//    float getMass();
 }

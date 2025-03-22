@@ -13,10 +13,12 @@ import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.model.inventory.HealthPotion;
+import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
+import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.util.Box;
 
-public class Player extends Entity implements ControllablePlayer{
+public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
         NonAttack, AttackStartup, Attacking, AttackEnd, Stunned
     }
@@ -37,21 +39,22 @@ public class Player extends Entity implements ControllablePlayer{
     private float timer;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
-//    private Inventory inventory = new Inventory();
+    private Inventory inventory = new Inventory();
 
     public Player(float x, float y){
         super(x, y);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
-        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE*2, MyGame.TILE_SIZE*2);
+        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.attack = new PlayerAttack();
+        this.maxHealth = 30;
         this.health = 20;
-        this.mass = 1;
-        this.speed = 4.5f * MyGame.TILE_SIZE;
+//        this.mass = 1;
+        this.speed = 5f * MyGame.TILE_SIZE;
 
         addEnterFunctions();
         addExitFunctions();
 
-//        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
     }
 
     private void addEnterFunctions(){
@@ -134,16 +137,11 @@ public class Player extends Entity implements ControllablePlayer{
 
     @Override
     public void getAttacked(AttackableEntity attacker){
-        if(invincibleTimer > 0 || attacker.alreadyHit(this)){
-            return;
-        }
-        for(Circle hitbox : attacker.getHitboxes()){
-            if(locateHurtbox().overlaps(hitbox)){
-                health -= attacker.getAttack().getDamage();
-                stateMachine.forceState(State.Stunned);
-                velocity.set(attacker.getAttack().knockbackVector(getCenterPos()));
-                invincibleTimer = 1.8f;
-            }
+        if(invincibleTimer <= 0 && gotHit(attacker)){
+            health -= attacker.getDamage();
+            stateMachine.forceState(State.Stunned);
+            velocity.set(attacker.knockbackVector(getCenterPos()));
+            invincibleTimer = 1.8f;
         }
     }
 
@@ -165,8 +163,21 @@ public class Player extends Entity implements ControllablePlayer{
     }
 
     @Override
-    public void attack(){
+    public void attackPressed(){
         stateMachine.fireEvent(Event.AttackPressed);
+    }
+
+    @Override
+    public Inventory getInventory(){
+        return inventory;
+    }
+
+    @Override
+    public boolean useItem(Item item){
+        if(item == null)
+            return false;
+        health = Math.min(maxHealth, health + item.getHeal());
+        return true;
     }
 
     @Override
@@ -191,7 +202,7 @@ public class Player extends Entity implements ControllablePlayer{
 
         @Override
         public void placeHitboxes(Vector2 direction){
-            angle = direction.angleDeg();
+            this.direction = direction;
             Circle hitbox = new Circle(baseHitBox);
             hitbox.setPosition(direction.setLength(MyGame.TILE_SIZE));
             hitboxes.add(hitbox);

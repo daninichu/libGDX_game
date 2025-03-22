@@ -71,6 +71,16 @@ public class Map {
         collisionBoxes = new Array<>();
     }
 
+    public void update(float deltaTime) {
+        Array<Entity> entities = getEntities();
+        for(Entity e : entities) {
+            e.update(deltaTime);
+        }
+        entityCH.updateGrid(entities);
+        entities.forEach(e -> entityCH.handleCollision(e));
+        entities.forEach(e -> staticCH.handleCollision(e));
+    }
+
     private void loadObjects(){
         if(tiledMap.getLayers().get("Objects") == null)
             return;
@@ -107,10 +117,10 @@ public class Map {
     }
 
     private void spawnEntities() {
-//        for(int i = 0; i < 2000; i++){
-//            enemies.add(new Dummy(0, 50, player));
-//        }
+        for(int i = 0; i < 20; i++){
 //            enemies.add(new EvilSquare(0, 50, player));
+        }
+            enemies.add(new DarkSquare(0, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
@@ -128,17 +138,6 @@ public class Map {
                 enemies.add(new DarkSquare(x, y, player));
             }
         }
-    }
-
-    public void update(float deltaTime) {
-        Array<Entity> entities = getEntities();
-        for(Entity e : entities) {
-            e.update(deltaTime);
-        }
-        entityCH.updateGrid(entities);
-        entities.forEach(e -> entityCH.handleCollision(e));
-        entities.forEach(e -> staticCH.handleCollision(e));
-//        entityCH.handleCollision_n2(entities);
     }
 
     public TiledMap getTiledMap() {

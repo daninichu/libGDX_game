@@ -1,6 +1,5 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
@@ -98,8 +97,8 @@ public abstract class Enemy extends Entity{
         prevPos.set(pos);
         move(deltaTime);
 
-        player.getAttacked(this);
         getAttacked(player);
+        player.getAttacked(this);
 
         timer -= deltaTime;
         if (timer <= 0) {
@@ -109,15 +108,9 @@ public abstract class Enemy extends Entity{
 
     @Override
     public void getAttacked(AttackableEntity attacker) {
-        if(attacker.alreadyHit(this))
-            return;
-        for(Circle hitbox : attacker.getHitboxes()) {
-            if(locateHurtbox().overlaps(hitbox)){
-                attacker.getAttack().addHit(this);
-                health -= attacker.getAttack().getDamage();
-                velocity.set(attacker.getAttack().knockbackVector(getCenterPos()));
-                stateMachine.forceState(State.Stunned);
-            }
+        if(gotHit(attacker)){
+            super.getAttacked(attacker);
+            stateMachine.forceState(State.Stunned);
         }
     }
 

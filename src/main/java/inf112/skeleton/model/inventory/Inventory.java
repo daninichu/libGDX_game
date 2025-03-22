@@ -22,11 +22,11 @@ public class Inventory {
     }
 
     public void indexUp(){
-        index = Math.max(index + 1, SIZE);
+        index = Math.min(index + 1, SIZE);
     }
 
     public void indexDown(){
-        index = Math.min(index - 1, 0);
+        index = Math.max(index - 1, 0);
     }
 
     @Override

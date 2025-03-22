@@ -8,17 +8,16 @@ import com.badlogic.gdx.utils.ObjectSet;
 public abstract class Attack {
     protected ObjectSet<AttackableEntity> hits = new ObjectSet<>();
     protected Array<Circle> hitboxes = new Array<>();
+    protected Vector2 direction = new Vector2(1, 0);
     protected int damage;
-    protected float range;
     protected float knockback;
     protected float momentum;
     protected float startup;
     protected float duration;
     protected float cooldown;
-    protected float angle;
 
-    public boolean addHit(AttackableEntity target) {
-        return hits.add(target);
+    public void addHit(AttackableEntity target) {
+        hits.add(target);
     }
 
     public boolean alreadyHit(AttackableEntity target){
@@ -37,19 +36,11 @@ public abstract class Attack {
     }
 
     public Vector2 knockbackVector(Vector2 targetPos) {
-        return new Vector2(1, 0).setAngleDeg(angle).setLength(knockback);
+        return direction.setLength(knockback);
     }
 
     public int getDamage() {
         return damage;
-    }
-
-    public float getRange(){
-        return range;
-    }
-
-    public float getKnockback(){
-        return knockback;
     }
 
     public float getMomentum(){
@@ -66,9 +57,5 @@ public abstract class Attack {
 
     public float getCooldown(){
         return cooldown;
-    }
-
-    public float getAngle(){
-        return angle;
     }
 }

@@ -2,8 +2,10 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import inf112.skeleton.controller.GameInputProcessor;
+import inf112.skeleton.controller.InventoryInputProcessor;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.gameObjects.IDialogue;
@@ -31,7 +33,9 @@ public class MyGame extends Game{
     private GameScreen gameScreen;
     private MainMenuScreen mainMenuScreen;
 
-    private GameInputProcessor inputProcessor;
+    private InputMultiplexer inputMultiplexer;
+    private GameInputProcessor gameProcessor;
+    private InventoryInputProcessor inventoryProcessor;
     public UI ui;
 
     private Player player;
@@ -45,7 +49,11 @@ public class MyGame extends Game{
         map = new Map(player);
 //        map.prepareNewMap("grass.tmx");
         map.loadMap("grass.tmx");
-        inputProcessor = new GameInputProcessor(this, player);
+
+        gameProcessor = new GameInputProcessor(this, player);
+        inventoryProcessor = new InventoryInputProcessor(this, player);
+        inputMultiplexer = new InputMultiplexer(gameProcessor, inventoryProcessor);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
         gameScreen = new GameScreen(this);
         mainMenuScreen = new MainMenuScreen(this);
@@ -53,7 +61,6 @@ public class MyGame extends Game{
         screens.put("MainMenuScreen", mainMenuScreen);
 
         setScreen(mainMenuScreen);
-        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     public Map getMap() {
@@ -73,9 +80,6 @@ public class MyGame extends Game{
 
     @Override
     public void render(){
-        if(state == State.Loading){
-//            changeMap();
-        }
         long time = System.nanoTime();
         super.render();
         Gdx.app.log("Render time", (System.nanoTime()-time)/1000000f+" ms");

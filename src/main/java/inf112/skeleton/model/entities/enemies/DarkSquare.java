@@ -16,7 +16,7 @@ public class DarkSquare extends Enemy {
         super(x, y, player);
         this.texture = new TextureRegion(new Texture("darkLink.png"));
         this.health = 30;
-        this.mass = 1;
+//        this.mass = 1;
         this.speed = 2f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.attack = new DarkSquare.DarkSquareAttack();
@@ -58,7 +58,7 @@ public class DarkSquare extends Enemy {
 
         @Override
         public void placeHitboxes(Vector2 direction){
-            angle = direction.angleDeg();
+            this.direction = direction;
             hitboxes.add(baseHitbox);
         }
     }

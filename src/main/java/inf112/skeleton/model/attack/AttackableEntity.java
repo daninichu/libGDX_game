@@ -1,15 +1,19 @@
 package inf112.skeleton.model.attack;
 
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.view.ViewableEntity;
 
 public interface AttackableEntity extends ViewableEntity{
-    Attack getAttack();
-
     void getAttacked(AttackableEntity attacker);
+
+    void addHit(AttackableEntity target);
 
     boolean alreadyHit(AttackableEntity target);
 
+    int getDamage();
+
     Iterable<Circle> getHitboxes();
 
+    Vector2 knockbackVector(Vector2 targetPos);
 }

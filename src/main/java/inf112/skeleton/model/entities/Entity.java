@@ -22,29 +22,49 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected Direction dir = Direction.DOWN;
 
     protected Attack attack = new Attack(){};
+    protected int maxHealth;
     protected int health;
-    protected float mass;
+//    protected float mass;
     protected float speed;
     protected boolean dead;
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
-        this.prevPos = new Vector2(x, y);
+        this.prevPos = pos.cpy();
     }
 
-    @Override
-    public Attack getAttack(){
-        return attack;
+    protected boolean gotHit(AttackableEntity attacker) {
+        if(!attacker.alreadyHit(this))
+            for(Circle hitbox : attacker.getHitboxes())
+                if(locateHurtbox().overlaps(hitbox))
+                    return true;
+        return false;
     }
 
     @Override
     public void getAttacked(AttackableEntity attacker) {
-        health -= attacker.getAttack().getDamage();
+        attacker.addHit(this);
+        health -= attacker.getDamage();
+        velocity.set(attacker.knockbackVector(getCenterPos()));
+    }
+
+    @Override
+    public void addHit(AttackableEntity target){
+        attack.addHit(target);
+    }
+
+    @Override
+    public int getDamage(){
+        return attack.getDamage();
+    }
+
+    @Override
+    public Vector2 knockbackVector(Vector2 targetPos){
+        return attack.knockbackVector(targetPos);
     }
 
     public Array<Circle> getHitboxes(){
-        Array<Circle> result = new Array<>();
-        return result;
+        return new Array<>();
     }
 
     /**
@@ -111,10 +131,10 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
         return health;
     }
 
-    @Override
-    public float getMass(){
-        return mass;
-    }
+//    @Override
+//    public float getMass(){
+//        return mass;
+//    }
 
     @Override
     public boolean dead(){
