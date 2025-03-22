@@ -59,7 +59,8 @@ public class Map {
     public void loadMap(String mapFile) {
         tiledMap = mapLoader.load(startPath + mapFile);
         reset();
-        loadObjects();
+        loadStaticObjects();
+        loadNonStaticObjects();
         spawnEntities();
         loadCollisionBoxes();
         staticCH = new StaticCollisionHandler(collisionBoxes);
@@ -81,10 +82,10 @@ public class Map {
         entities.forEach(e -> staticCH.handleCollision(e));
     }
 
-    private void loadObjects(){
-        if(tiledMap.getLayers().get("Objects") == null)
+    private void loadStaticObjects(){
+        if(tiledMap.getLayers().get("Static Objects") == null)
             return;
-        for(MapObject mapObject : tiledMap.getLayers().get("Objects").getObjects()){
+        for(MapObject mapObject : tiledMap.getLayers().get("Static Objects").getObjects()){
             TiledMapTileMapObject tileObj = (TiledMapTileMapObject) mapObject;
             GameObject object = null;
 
@@ -101,10 +102,27 @@ public class Map {
             if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
             objects.add(object);
-            Rectangle box = object.locateHurtbox();
-            if (box != null){
-                collisionBoxes.add(box);
+            if (object.isStatic()){
+                collisionBoxes.add(object.locateHurtbox());
             }
+        }
+    }
+
+
+    private void loadNonStaticObjects(){
+        if(tiledMap.getLayers().get("Objects") == null)
+            return;
+        for(MapObject mapObject : tiledMap.getLayers().get("Objects").getObjects()){
+            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) mapObject;
+            GameObject object = null;
+
+            String type = tileObj.getTile().getProperties().get("type", String.class);
+            if(type == null)
+                object = new GameObject(tileObj, player);
+
+            if (object == null)
+                throw new RuntimeException("Error while loading object: " + type);
+            objects.add(object);
         }
     }
 
@@ -120,7 +138,7 @@ public class Map {
         for(int i = 0; i < 20; i++){
 //            enemies.add(new EvilSquare(0, 50, player));
         }
-            enemies.add(new DarkSquare(0, 50, player));
+            enemies.add(new Dummy(0, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="5395">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="5398">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
@@ -29,7 +29,7 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup id="7" name="Objects">
+ <objectgroup id="7" name="Static Objects">
   <object id="2624" gid="9" x="256" y="384" width="32" height="32">
    <properties>
     <property name="Text" value="This door will take you to the desert."/>
@@ -73,16 +73,9 @@ Without Tiled, this would not have been possible.</property>
     <property name="Map File" value="test1.tmx"/>
    </properties>
   </object>
-  <object id="5392" gid="12" x="202" y="572" width="32" height="32">
-   <properties>
-    <property name="Exit Door" type="object" value="3942"/>
-   </properties>
-  </object>
-  <object id="5393" gid="12" x="247" y="633" width="32" height="32">
-   <properties>
-    <property name="Exit Door" type="object" value="5392"/>
-   </properties>
-  </object>
+ </objectgroup>
+ <objectgroup id="9" name="Objects">
+  <object id="5397" gid="3" x="0" y="704" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="6" name="Collision">
   <object id="2608" x="160" y="448" width="160" height="16"/>

@@ -24,7 +24,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected Attack attack = new Attack(){};
     protected int maxHealth;
     protected int health;
-//    protected float mass;
+    protected float mass;
     protected float speed;
     protected boolean dead;
 
@@ -71,7 +71,9 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
      * Where we decide what this entity should do each frame.
      * @param deltaTime The time interval between each frame.
      */
-    public void update(float deltaTime){}
+    public void update(float deltaTime){
+        prevPos.set(pos);
+    }
 
     /**
      * Adds the velocity vector to the position vector.
@@ -131,10 +133,10 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
         return health;
     }
 
-//    @Override
-//    public float getMass(){
-//        return mass;
-//    }
+    @Override
+    public float getMass(){
+        return mass;
+    }
 
     @Override
     public boolean dead(){

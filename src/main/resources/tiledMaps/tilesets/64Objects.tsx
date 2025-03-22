@@ -3,7 +3,7 @@
  <image source="64Objects.png" width="130" height="130"/>
  <tile id="0">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="23" y="52" width="18" height="12"/>
+   <object id="1" name="Collision" x="9" y="32" width="46" height="32"/>
   </objectgroup>
  </tile>
  <tile id="1" type="Sign">

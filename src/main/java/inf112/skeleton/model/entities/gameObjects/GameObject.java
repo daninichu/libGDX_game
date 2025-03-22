@@ -12,9 +12,11 @@ import inf112.skeleton.view.ViewableEntity;
 public class GameObject extends Entity {
     protected TiledMapTileMapObject tileObj;
     protected ViewableEntity player;
+    protected boolean isStatic = true;
 
     public GameObject(TiledMapTileMapObject tileObj, Player player){
         super(tileObj.getX(), tileObj.getY());
+        mass = 1;
         this.tileObj = tileObj;
         this.player = player;
         TiledMapTile tile = tileObj.getTile();
@@ -29,7 +31,9 @@ public class GameObject extends Entity {
      */
     protected Box tileRect(String s){
         var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
-        return rectObj == null? null : new Box(rectObj.getRectangle());
+        if(rectObj == null)
+            return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
+        return new Box(rectObj.getRectangle());
     }
 
     /**
@@ -42,30 +46,6 @@ public class GameObject extends Entity {
         return tileObj.getProperties().get(key, type);
     }
 
-    @Override
-    public void update(float deltaTime){}
-
-    @Override
-    public void setPos(Vector2 newPos){
-    }
-
-    @Override
-    public void setPos(float x, float y){
-    }
-
-    @Override
-    public void addPos(float x, float y){
-    }
-
-    @Override
-    public float getCenterX(){
-        return locateHurtbox().x + getWidth()/2;
-    }
-
-    @Override
-    public Box locateHurtbox(){
-        return hurtbox == null? null : super.locateHurtbox();
-    }
 
     /**
      * The individual concrete classes will decide what conditions must be fulfilled in
@@ -76,5 +56,22 @@ public class GameObject extends Entity {
         return false;
     }
 
+    public boolean isStatic() {
+        return isStatic;
+    }
+
     public void interact(){}
+
+
+//    @Override
+//    public void setPos(Vector2 newPos){
+//    }
+//
+//    @Override
+//    public void setPos(float x, float y){
+//    }
+//
+//    @Override
+//    public void addPos(float x, float y){
+//    }
 }
