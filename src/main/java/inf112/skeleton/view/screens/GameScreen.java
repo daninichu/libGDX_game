@@ -91,10 +91,11 @@ public class GameScreen extends AbstractScreen{
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 0);
 //        ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
+        mapRenderer.render();
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
+//        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
         for(ViewableEntity e : entities){
             if(e.getTexture() != null){
                 batch.draw(e.getTexture(), e.getX(), e.getY());
@@ -127,7 +128,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
         }
         shapeRenderer.end();

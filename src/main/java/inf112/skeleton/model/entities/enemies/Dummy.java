@@ -10,7 +10,7 @@ public class Dummy extends Enemy{
     public Dummy(float x, float y, AttackableEntity player){
         super(x, y, player);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
-//        speed = 2.5f * MyGame.TILE_SIZE;
+        speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
     }
 

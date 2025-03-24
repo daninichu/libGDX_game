@@ -14,7 +14,7 @@ public class GameObject extends Entity {
     protected ViewableEntity player;
     protected boolean isStatic = true;
 
-    public GameObject(TiledMapTileMapObject tileObj, Player player){
+    public GameObject(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj.getX(), tileObj.getY());
         mass = 1;
         this.tileObj = tileObj;
@@ -31,8 +31,10 @@ public class GameObject extends Entity {
      */
     protected Box tileRect(String s){
         var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
-        if(rectObj == null)
-            return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
+        if(rectObj == null){
+//            return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
+            return new Box(0,0,0,0);
+        }
         return new Box(rectObj.getRectangle());
     }
 

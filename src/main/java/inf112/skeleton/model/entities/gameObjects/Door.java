@@ -5,13 +5,14 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.util.Box;
+import inf112.skeleton.view.ViewableEntity;
 
 public class Door extends GameObject implements IDoor{
     private String mapFile;
     private Vector2 exitPos = new Vector2();
     private Box interactionArea;
 
-    public Door(TiledMapTileMapObject tileObj, Player player) {
+    public Door(TiledMapTileMapObject tileObj, ViewableEntity player) {
         super(tileObj, player);
 
         TiledMapTileMapObject exitDoor = getProperty("Exit Door", TiledMapTileMapObject.class);
