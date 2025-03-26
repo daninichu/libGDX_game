@@ -27,12 +27,11 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
         ObjectSet<CollidableEntity> localEntities = getLocalObjects(entity.locateHurtbox());
 
         for(CollidableEntity localEntity : localEntities)
-            if(entity.locateHurtbox().overlaps(localEntity.locateHurtbox())){
+            if(entity.locateHurtbox().overlaps(localEntity.locateHurtbox()))
                 if(entity instanceof GameObject || localEntity instanceof GameObject)
                     push(entity, localEntity);
                 else
                     repel(entity, localEntity);
-            }
     }
 
     private static void repel(CollidableEntity e1, CollidableEntity e2) {

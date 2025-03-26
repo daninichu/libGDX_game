@@ -4,33 +4,36 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.Direction;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
-    public enum Direction {
-        RIGHT, LEFT, UP, DOWN
-    }
     protected TextureRegion texture;
+    protected Direction dir = Direction.DOWN;
     protected Vector2 pos;
     protected Vector2 prevPos;
     protected Vector2 velocity = new Vector2();
-    protected Box hurtbox;
-    protected Direction dir = Direction.DOWN;
+    protected float speed;
 
+    protected Box hurtbox;
     protected Attack attack = new Attack(){};
     protected int maxHealth;
     protected int health;
     protected float mass;
-    protected float speed;
     protected boolean dead;
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
         this.prevPos = pos.cpy();
+    }
+
+    @Override
+    public boolean alreadyHit(AttackableEntity target){
+        return attack.alreadyHit(target);
     }
 
     protected boolean gotHit(AttackableEntity attacker) {
@@ -121,11 +124,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
-    }
-
-    @Override
-    public boolean alreadyHit(AttackableEntity target){
-        return attack.alreadyHit(target);
     }
 
     @Override

@@ -16,7 +16,7 @@ import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
@@ -43,13 +43,12 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     public Player(float x, float y){
         super(x, y);
+        this.speed = 5f * MyGame.TILE_SIZE;
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.attack = new PlayerAttack();
-        this.maxHealth = 30;
-        this.health = 20;
-        this.mass = 10;
-        this.speed = 5f * MyGame.TILE_SIZE;
+        this.maxHealth = this.health = 20;
+//        this.mass = 10;
 
         addEnterFunctions();
         addExitFunctions();
@@ -78,7 +77,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             timer = attack.getCooldown();
         });
         stateMachine.onEnter(State.Stunned, () -> {
-            timer = 0.5f;
+            timer = 0.75f;
         });
     }
 
@@ -88,13 +87,18 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     @Override
     public void update(float deltaTime){
-        prevPos.set(pos);
+        super.update(deltaTime);
         switch (stateMachine.getState()){
-            case NonAttack -> updateNonAttack(deltaTime);
+            case NonAttack -> {
+                velocity.set(0,0);
+                updateMotion();
+                velocity.setLength(speed);
+                move(deltaTime);
+            }
             case Attacking -> move(deltaTime);
             case Stunned -> {
                 move(deltaTime);
-                velocity.scl(0.98f);
+                velocity.scl((float) Math.pow(0.1f, deltaTime));
             }
         }
 
@@ -103,14 +107,6 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         if(timer <= 0){
             stateMachine.fireEvent(Event.Timeout);
         }
-    }
-
-    // Can transition to: Attack
-    private void updateNonAttack(float deltaTime){
-        velocity.set(0,0);
-        updateMotion();
-        velocity.setLength(speed);
-        move(deltaTime);
     }
 
     private void updateMotion(){
@@ -138,9 +134,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     @Override
     public void getAttacked(AttackableEntity attacker){
         if(invincibleTimer <= 0 && gotHit(attacker)){
-            health -= attacker.getDamage();
+            super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
-            velocity.set(attacker.knockbackVector(getCenterPos()));
             invincibleTimer = 1.8f;
         }
     }
@@ -188,9 +183,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         return null;
     }
 
-    private static class PlayerAttack extends Attack{
-        private Circle baseHitBox = new Circle(0, 0, MyGame.TILE_SIZE);
-
+    private class PlayerAttack extends Attack{
         private PlayerAttack(){
             this.damage = 3;
             this.momentum = 2.5f * MyGame.TILE_SIZE;
@@ -203,7 +196,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         @Override
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
-            Circle hitbox = new Circle(baseHitBox);
+            Circle hitbox = new Circle(0, 0, MyGame.TILE_SIZE);
             hitbox.setPosition(direction.setLength(MyGame.TILE_SIZE));
             hitboxes.add(hitbox);
         }

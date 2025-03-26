@@ -3,16 +3,13 @@ package inf112.skeleton.model.entities.gameObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameObject extends Entity {
     protected TiledMapTileMapObject tileObj;
     protected ViewableEntity player;
-    protected boolean isStatic = true;
 
     public GameObject(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj.getX(), tileObj.getY());
@@ -32,8 +29,8 @@ public class GameObject extends Entity {
     protected Box tileRect(String s){
         var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
         if(rectObj == null){
-//            return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
-            return new Box(0,0,0,0);
+            return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
+//            return new Box(0,0,0,0);
         }
         return new Box(rectObj.getRectangle());
     }
@@ -48,7 +45,6 @@ public class GameObject extends Entity {
         return tileObj.getProperties().get(key, type);
     }
 
-
     /**
      * The individual concrete classes will decide what conditions must be fulfilled in
      * order for them to be interactable.
@@ -58,22 +54,10 @@ public class GameObject extends Entity {
         return false;
     }
 
-    public boolean isStatic() {
-        return isStatic;
+    public boolean moveable() {
+        return tileObj.getTile().getProperties().get("Moveable", boolean.class) != null;
     }
 
     public void interact(){}
 
-
-//    @Override
-//    public void setPos(Vector2 newPos){
-//    }
-//
-//    @Override
-//    public void setPos(float x, float y){
-//    }
-//
-//    @Override
-//    public void addPos(float x, float y){
-//    }
 }

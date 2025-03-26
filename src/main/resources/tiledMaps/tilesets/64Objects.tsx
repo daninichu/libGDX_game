@@ -2,6 +2,9 @@
 <tileset version="1.10" tiledversion="1.11.2" name="64Objects" tilewidth="64" tileheight="64" spacing="1" tilecount="4" columns="2">
  <image source="64Objects.png" width="130" height="130"/>
  <tile id="0">
+  <properties>
+   <property name="Moveable" type="bool" value="true"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" name="Collision" x="9" y="32" width="46" height="32"/>
   </objectgroup>

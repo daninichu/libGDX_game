@@ -19,7 +19,7 @@ public class AttackTest {
     Player player;
 
     Entity attacker = new Entity(0, 0){
-
+        @Override
         public Array<Circle> getHitboxes(){
             attack.damage = 3;
             attack.knockback = 100;
@@ -28,7 +28,6 @@ public class AttackTest {
             Circle[] hitboxes = new Circle[]{new Circle(0, 0, 50)};
             return new Array<>(hitboxes);
         }
-
     };
 
     @BeforeEach
@@ -54,6 +53,9 @@ public class AttackTest {
         assertTrue(startPos.x < player.getX());
     }
 
+    /**
+     * Player is barely avoiding a hitbox. Make sure that when the player moves a bit to the left, they get hit.
+     */
     @Test
     void testAttackRange(){
         player.setPos(50, 0);

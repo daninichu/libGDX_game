@@ -41,7 +41,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attacking);
         blueprint.addTransition(State.Attacking,        Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
-        blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Idle);
+        blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Chase);
     }
 
     protected void addEnterFunctions(){
@@ -71,7 +71,7 @@ public abstract class Enemy extends Entity{
             velocity.set(0, 0);
         });
         stateMachine.onEnter(State.Stunned, () -> {
-            timer = 0.2f;
+            timer = 0.35f;
         });
     }
 
@@ -81,6 +81,7 @@ public abstract class Enemy extends Entity{
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
         float distance = getCenterPos().dst(player.getCenterPos());
         if (distance <= attackRange)
             stateMachine.fireEvent(Event.PlayerClose);
@@ -93,8 +94,10 @@ public abstract class Enemy extends Entity{
             float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
             velocity.setAngleRad(angle);
         }
+        else if (stateMachine.getState().equals(State.Stunned)) {
+            velocity.scl((float) Math.pow(0.01f, deltaTime));
+        }
 
-        prevPos.set(pos);
         move(deltaTime);
 
         getAttacked(player);

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 
 public class EvilSquare extends Enemy{
 

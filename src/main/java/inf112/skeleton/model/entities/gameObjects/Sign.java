@@ -1,8 +1,7 @@
 package inf112.skeleton.model.entities.gameObjects;
 
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class Sign extends GameObject implements IDialogue{
@@ -13,8 +12,7 @@ public class Sign extends GameObject implements IDialogue{
         super(tileObj, player);
         this.text = getProperty("Text", String.class);
 
-        interactionArea = tileRect("Interaction");
-        interactionArea.addPos(pos);
+        interactionArea = tileRect("Interaction").addPos(pos);
     }
 
     @Override

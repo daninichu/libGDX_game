@@ -1,4 +1,4 @@
-package inf112.skeleton.util;
+package inf112.skeleton.model;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Rigorously tests if the overlapping method is working correctly.
+ */
 public class BoxCircleOverlapTest{
     Box box = new Box(0, 0, 100, 100);
 

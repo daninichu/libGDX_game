@@ -1,10 +1,10 @@
 package inf112.skeleton.view;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.Direction;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 
 public interface ViewableEntity {
     /**
@@ -25,7 +25,7 @@ public interface ViewableEntity {
         return new Box(getLeftX(), getBottomY(), getWidth(), getHeight());
     }
 
-    Entity.Direction getDir();
+    Direction getDir();
 
     default float getX(){
         return getPos().x;

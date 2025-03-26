@@ -63,13 +63,13 @@
         },
         "grass.tmx": {
             "expandedObjectLayers": [
-                7
+                9
             ],
-            "scale": 9.8658,
-            "selectedLayer": 2,
+            "scale": 1.66,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 31.87780007703379,
-                "y": 676.4276591862798
+                "x": 128.0120481927711,
+                "y": 573.1927710843374
             }
         },
         "o.tsx": {
@@ -84,11 +84,11 @@
             "expandedObjectLayers": [
                 4
             ],
-            "scale": 0.87875,
-            "selectedLayer": 2,
+            "scale": 2.15,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 320.34139402560453,
-                "y": 159.88620199146516
+                "x": 93.72093023255813,
+                "y": 209.06976744186048
             }
         },
         "test2.tmx": {
@@ -106,8 +106,8 @@
             "scale": 0.87,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.11494252873564,
-                "y": 160.34482758620692
+                "x": 182.183908045977,
+                "y": 269.54022988505744
             }
         },
         "tilesets/64Objects.tsx": {
@@ -178,11 +178,11 @@
         "tilesets/objects.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "object",
+    "property.type": "bool",
     "recentFiles": [
+        "test1.tmx",
         "grass.tmx",
         "doorTest.tmx",
-        "test1.tmx",
         "test3.tmx",
         "tilesets/objects.tsx",
         "test2.tmx",

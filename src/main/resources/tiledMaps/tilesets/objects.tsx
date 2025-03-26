@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="objects" tilewidth="32" tileheight="32" spacing="1" tilecount="8" columns="4">
+<tileset version="1.10" tiledversion="1.11.2" name="o" tilewidth="32" tileheight="32" spacing="1" tilecount="8" columns="4">
  <image source="objects.png" width="132" height="66"/>
  <tile id="0" type="Switch">
   <properties>

@@ -1,9 +1,12 @@
-package inf112.skeleton.util;
+package inf112.skeleton.model;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Can detect overlap with circles.
+ */
 public class Box extends Rectangle{
     public Box(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -47,7 +50,7 @@ public class Box extends Rectangle{
         float testX = circle.x;
         float testY = circle.y;
 
-        // which edge is closest?
+        // Which edge is closest?
         if (circle.x < x)
             testX = x;
         else if (circle.x > getRightX())

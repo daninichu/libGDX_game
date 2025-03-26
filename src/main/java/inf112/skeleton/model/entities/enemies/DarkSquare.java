@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.util.Box;
+import inf112.skeleton.model.Box;
 
 public class DarkSquare extends Enemy {
 
@@ -40,8 +40,6 @@ public class DarkSquare extends Enemy {
     }
 
     public class DarkSquareAttack extends Attack{
-        private Circle baseHitbox = new Circle(0, 0, MyGame.TILE_SIZE * 3f);
-
         private DarkSquareAttack(){
             this.damage = 6;
             this.knockback = MyGame.TILE_SIZE * 8;
@@ -58,7 +56,7 @@ public class DarkSquare extends Enemy {
         @Override
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
-            hitboxes.add(baseHitbox);
+            hitboxes.add(new Circle(0, 0, MyGame.TILE_SIZE * 3f));
         }
     }
 }
