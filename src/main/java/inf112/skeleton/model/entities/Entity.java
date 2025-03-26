@@ -10,8 +10,10 @@ import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
+import inf112.skeleton.view.animations.EntityAnimation;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
+    protected EntityAnimation animation;
     protected TextureRegion texture;
     protected Direction dir = Direction.DOWN;
     protected Vector2 pos;
@@ -76,6 +78,9 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
      */
     public void update(float deltaTime){
         prevPos.set(pos);
+        if(animation != null){
+            animation.update(deltaTime);
+        }
     }
 
     /**
@@ -84,9 +89,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
      * consistent even for different frame rates.
      */
     protected boolean move(float deltaTime){
-        if(velocity.len() == 0)
+        if(velocity.isZero())
             return false;
-        updateDirection();
         pos.add(velocity.cpy().scl(deltaTime));
         return true;
     }
@@ -94,16 +98,9 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     /**
      * Change where the entity is facing based on the direction of velocity.
      */
-    private void updateDirection(){
-        float angle = velocity.angleDeg();
-        if(225 < angle && angle < 315)
-            dir = Direction.DOWN;
-        else if(135 <= angle && angle <= 225)
-            dir = Direction.LEFT;
-        else if(45 < angle && angle < 135)
-            dir = Direction.UP;
-        else
-            dir = Direction.RIGHT;
+    protected void updateDirection(){
+        dir = Direction.fromVector(velocity);
+        animation.setDirection(dir, velocity);
     }
 
     @Override
@@ -124,6 +121,13 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     @Override
     public Vector2 getPrevPos(){
         return prevPos.cpy();
+    }
+
+    @Override
+    public Vector2 drawPos(){
+        if(animation == null)
+            return getPos();
+        return getPos().add(animation.getOffset());
     }
 
     @Override
@@ -178,6 +182,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public TextureRegion getTexture(){
-        return texture;
+        return animation.getCurrentFrame();
     }
 }

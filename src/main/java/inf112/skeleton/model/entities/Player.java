@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
+import inf112.skeleton.model.Direction;
 import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.attack.Attack;
@@ -17,6 +18,8 @@ import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.model.Box;
+import inf112.skeleton.view.animations.EntityAnimation;
+import inf112.skeleton.view.animations.PlayerAnimation;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
@@ -43,6 +46,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     public Player(float x, float y){
         super(x, y);
+        this.animation = new PlayerAnimation();
+
         this.speed = 5f * MyGame.TILE_SIZE;
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
@@ -57,6 +62,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     }
 
     private void addEnterFunctions(){
+        stateMachine.onEnter(State.NonAttack, () -> {
+            animation.setState(EntityAnimation.State.IDLE);
+        });
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
             if(velocity.isZero()){
@@ -67,6 +75,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                     case DOWN   -> velocity.set(0, -1);
                 }
             }
+            animation.setState(EntityAnimation.State.ATTACK);
         });
         stateMachine.onEnter(State.Attacking, () -> {
             timer = attack.getDuration();
@@ -78,11 +87,13 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         });
         stateMachine.onEnter(State.Stunned, () -> {
             timer = 0.75f;
+            animation.setState(EntityAnimation.State.HIT);
         });
     }
 
     private void addExitFunctions(){
         stateMachine.onExit(State.Attacking, () -> attack.reset());
+        stateMachine.onExit(State.AttackEnd, () -> animation.setState(EntityAnimation.State.IDLE));
     }
 
     @Override
@@ -93,7 +104,11 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 velocity.set(0,0);
                 updateMotion();
                 velocity.setLength(speed);
-                move(deltaTime);
+                if(move(deltaTime)){
+                    updateDirection();
+                    animation.setState(EntityAnimation.State.WALKING);
+                } else
+                    animation.setState(EntityAnimation.State.IDLE);
             }
             case Attacking -> move(deltaTime);
             case Stunned -> {
@@ -107,6 +122,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         if(timer <= 0){
             stateMachine.fireEvent(Event.Timeout);
         }
+
     }
 
     private void updateMotion(){
@@ -136,6 +152,10 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         if(invincibleTimer <= 0 && gotHit(attacker)){
             super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
+            System.out.println(dir);
+            dir = Direction.fromVector(velocity).opposite();
+            System.out.println(dir);
+            animation.setDirection(dir, velocity.cpy().scl(-1));
             invincibleTimer = 1.8f;
         }
     }

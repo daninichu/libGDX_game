@@ -1,5 +1,6 @@
 package inf112.skeleton.model.entities.gameObjects;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
@@ -60,4 +61,8 @@ public class GameObject extends Entity {
 
     public void interact(){}
 
+    @Override
+    public TextureRegion getTexture(){
+        return texture;
+    }
 }

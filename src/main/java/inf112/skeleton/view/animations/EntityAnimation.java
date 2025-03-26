@@ -1,0 +1,96 @@
+package inf112.skeleton.view.animations;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
+import inf112.skeleton.model.Direction;
+
+public abstract class EntityAnimation implements Disposable {
+    public enum State{
+        IDLE, WALKING, ATTACK, HIT
+    }
+
+    protected final Array<Animation<TextureRegion>> idleAnimation = new Array<>(new Animation[4]);
+    protected final Array<Animation<TextureRegion>> walkAnimation = new Array<>(new Animation[4]);
+    protected final Array<Animation<TextureRegion>> attackAnimation = new Array<>(new Animation[4]);
+    protected final Array<Animation<TextureRegion>> hitAnimation = new Array<>(new Animation[4]);
+    protected final ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
+    protected Animation<TextureRegion> currentAnimation;
+
+    protected final Array<Texture> loadedTextures = new Array<>();
+
+    protected Direction direction = Direction.DOWN;
+    protected State state = State.IDLE;
+
+    protected float timeElapsed;
+
+    public TextureRegion getCurrentFrame() {
+        return currentAnimation.getKeyFrame(timeElapsed, true);
+    }
+
+    public Vector2 getOffset() {
+        if(offsets.containsKey(state))
+            return offsets.get(state).get(direction, new Vector2());
+        return new Vector2();
+    }
+
+    /**
+     * Set direction entity is currently facing
+     * <p/>
+     * Animation is only reset if direction is different from before
+     * depending on context, {@code direction} or {@code dirVec} is used to find texture direction.
+     */
+    public void setDirection(Direction direction, Vector2 dirVec) {
+        if (this.direction != direction) {
+            timeElapsed = 0;
+            this.direction = direction;
+            setCurrentAnimation();
+        }
+    }
+
+    /**
+     * Set Animation to one of the {@code AnimationState} states
+     * <p/>
+     * Animation is only reset if state is different from before
+     */
+    public void setState(State state) {
+        if (this.state != state) {
+            timeElapsed = 0;
+            this.state = state;
+            setCurrentAnimation();
+        }
+    }
+
+    public void update(float deltaTime) {
+        timeElapsed += deltaTime;
+    }
+
+    @Override
+    public void dispose() {
+        loadedTextures.forEach(Texture::dispose);
+    }
+
+    /**
+     * Get the texture region array needed to instantiate an Animation
+     * <p/>
+     * Assumes spritesheet has height of 1 texture and width of {@code animationFrames} textures.
+     *
+     * @param animationFrames number of textures in horizontal direction
+     */
+    protected TextureRegion[] textureToFrames(Texture tex, int animationFrames) {
+        return TextureRegion.split(tex, tex.getWidth() / animationFrames, tex.getHeight())[0];
+    }
+
+    protected void setCurrentAnimation() {
+        currentAnimation = switch (state) {
+            case IDLE -> idleAnimation.get(direction.ordinal());
+            case WALKING -> walkAnimation.get(direction.ordinal());
+            case ATTACK -> attackAnimation.get(direction.ordinal());
+            case HIT -> hitAnimation.get(direction.ordinal());
+        };
+    }
+}

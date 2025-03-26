@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -98,7 +99,8 @@ public class GameScreen extends AbstractScreen{
 //        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
         for(ViewableEntity e : entities){
             if(e.getTexture() != null){
-                batch.draw(e.getTexture(), e.getX(), e.getY());
+                Vector2 p = e.drawPos();
+                batch.draw(e.getTexture(), p.x, p.y);
             }
             if(e.getHealth() != 0){
                 font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);

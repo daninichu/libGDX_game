@@ -19,11 +19,15 @@ public interface ViewableEntity {
         return new Vector2(getCenterX(), getCenterY());
     }
 
+    Vector2 drawPos();
+
     boolean dead();
 
     default Box locateHurtbox(){
         return new Box(getLeftX(), getBottomY(), getWidth(), getHeight());
     }
+
+
 
     Direction getDir();
 
