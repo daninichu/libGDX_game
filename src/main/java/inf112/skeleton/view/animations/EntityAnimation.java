@@ -14,10 +14,7 @@ public abstract class EntityAnimation implements Disposable {
         IDLE, WALKING, ATTACK, HIT
     }
 
-    protected final Array<Animation<TextureRegion>> idleAnimation = new Array<>(new Animation[4]);
-    protected final Array<Animation<TextureRegion>> walkAnimation = new Array<>(new Animation[4]);
-    protected final Array<Animation<TextureRegion>> attackAnimation = new Array<>(new Animation[4]);
-    protected final Array<Animation<TextureRegion>> hitAnimation = new Array<>(new Animation[4]);
+    protected final ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
     protected final ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
     protected Animation<TextureRegion> currentAnimation;
 
@@ -28,8 +25,28 @@ public abstract class EntityAnimation implements Disposable {
 
     protected float timeElapsed;
 
+    public EntityAnimation() {
+        for(State state : State.values()) {
+            animations.put(state, new ObjectMap<>());
+        }
+    }
+
     public TextureRegion getCurrentFrame() {
         return currentAnimation.getKeyFrame(timeElapsed, true);
+    }
+
+    public void setFrameDuration(float duration) {
+        for(Direction direction : Direction.values()) {
+            animations.get(state).get(direction).setFrameDuration(duration);
+        }
+//        currentAnimation.setFrameDuration(duration);
+    }
+
+    public void setFrameDuration(float duration, State state) {
+        for(Direction direction : Direction.values()) {
+            animations.get(state).get(direction).setFrameDuration(duration);
+        }
+//        currentAnimation.setFrameDuration(duration);
     }
 
     public Vector2 getOffset() {
@@ -46,7 +63,6 @@ public abstract class EntityAnimation implements Disposable {
      */
     public void setDirection(Direction direction, Vector2 dirVec) {
         if (this.direction != direction) {
-            timeElapsed = 0;
             this.direction = direction;
             setCurrentAnimation();
         }
@@ -86,11 +102,6 @@ public abstract class EntityAnimation implements Disposable {
     }
 
     protected void setCurrentAnimation() {
-        currentAnimation = switch (state) {
-            case IDLE -> idleAnimation.get(direction.ordinal());
-            case WALKING -> walkAnimation.get(direction.ordinal());
-            case ATTACK -> attackAnimation.get(direction.ordinal());
-            case HIT -> hitAnimation.get(direction.ordinal());
-        };
+        currentAnimation = animations.get(state).get(direction);
     }
 }

@@ -93,7 +93,10 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     private void addExitFunctions(){
         stateMachine.onExit(State.Attacking, () -> attack.reset());
-        stateMachine.onExit(State.AttackEnd, () -> animation.setState(EntityAnimation.State.IDLE));
+        stateMachine.onExit(State.AttackEnd, () -> {
+            animation.setState(EntityAnimation.State.IDLE);
+            animation.setDirection(dir, velocity);
+        });
     }
 
     @Override
@@ -152,9 +155,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         if(invincibleTimer <= 0 && gotHit(attacker)){
             super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
-            System.out.println(dir);
             dir = Direction.fromVector(velocity).opposite();
-            System.out.println(dir);
             animation.setDirection(dir, velocity.cpy().scl(-1));
             invincibleTimer = 1.8f;
         }

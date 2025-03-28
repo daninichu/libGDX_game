@@ -3,56 +3,73 @@ package inf112.skeleton.view.animations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.Direction;
 
 public class PlayerAnimation extends EntityAnimation {
     public PlayerAnimation() {
+        super();
         putOffsets();
 
-        float frameDuration = 0.15f;
+        float frameDuration = 0.125f;
 
         int animationFrames = 6;
 
-        String filePath = "Char_Sprites/";
-        String walkFile = "char_run_";
-        String idleFile = "char_idle_";
-        String attackFile = "char_attack_";
+        String filePath = "Char_Sprites/char_";
         String anim = "_anim_strip_6.png";
 
         for (var d : Direction.values()) {
             String dir = d.toString().toLowerCase();
-            loadedTextures.add(new Texture(Gdx.files.internal(filePath + walkFile + dir + anim)));
-            walkAnimation.set(d.ordinal(), new Animation<>(frameDuration, textureToFrames(
-                    loadedTextures.get(loadedTextures.size - 1), animationFrames
+            loadedTextures.add(new Texture(Gdx.files.internal(filePath + "run_" + dir + anim)));
+            animations.get(State.WALKING).put(d, new Animation<>(frameDuration, textureToFrames(
+                loadedTextures.get(loadedTextures.size - 1), animationFrames
             )));
 
-            loadedTextures.add(new Texture(Gdx.files.internal(filePath + idleFile + dir + anim)));
-            idleAnimation.set(d.ordinal(), new Animation<>(frameDuration, textureToFrames(
-                    loadedTextures.get(loadedTextures.size - 1), animationFrames
+            loadedTextures.add(new Texture(Gdx.files.internal(filePath + "idle_" + dir + anim)));
+            animations.get(State.IDLE).put(d, new Animation<>(frameDuration, textureToFrames(
+                loadedTextures.get(loadedTextures.size - 1), animationFrames
             )));
 
-            loadedTextures.add(new Texture(Gdx.files.internal(filePath + attackFile + dir + anim)));
-            attackAnimation.set(d.ordinal(), new Animation<>(frameDuration, textureToFrames(
-                    loadedTextures.get(loadedTextures.size - 1), animationFrames
-            )));
-        }
-
-        frameDuration = 0.25f;
-        animationFrames = 3;
-        String hitFile = "char_hit_";
-        anim = "_anim_strip_3.png";
-
-        for (var d : Direction.values()) {
-            String dir = d.toString().toLowerCase();
-            loadedTextures.add(new Texture(Gdx.files.internal(filePath + hitFile + dir + anim)));
-            hitAnimation.set(d.ordinal(), new Animation<>(frameDuration, textureToFrames(
+            loadedTextures.add(new Texture(Gdx.files.internal(filePath + "attack_" + dir + anim)));
+            animations.get(State.ATTACK).put(d, new Animation<>(frameDuration, textureToFrames(
                 loadedTextures.get(loadedTextures.size - 1), animationFrames
             )));
         }
 
+        frameDuration = 0.125f;
+        animationFrames = 3;
+        anim = "_anim_strip_3.png";
+
+        for (var d : Direction.values()) {
+            String dir = d.toString().toLowerCase();
+            loadedTextures.add(new Texture(Gdx.files.internal(filePath + "hit_" + dir + anim)));
+            animations.get(State.HIT).put(d, new Animation<>(frameDuration, textureToFrames(
+                loadedTextures.get(loadedTextures.size - 1), animationFrames
+            )));
+        }
+//        for (var d : Direction.values()) {
+//            String dir = d.toString().toLowerCase();
+//            loadedTextures.add(new Texture(Gdx.files.internal("down-Sheet.png")));
+//            animations.get(State.IDLE).put(d, new Animation<>(1,
+//                new TextureRegion(new Texture(Gdx.files.internal("down-Sheet.png")), 0, 0, 32, 48)
+//            ));
+//            animations.get(State.WALKING).put(d, new Animation<>(frameDuration, textureToFrames(
+//                loadedTextures.get(loadedTextures.size - 1), 6
+//            )));
+//            animations.get(State.ATTACK).put(d, new Animation<>(frameDuration, textureToFrames(
+//                loadedTextures.get(loadedTextures.size - 1), 6
+//            )));
+//            animations.get(State.HIT).put(d, new Animation<>(frameDuration, textureToFrames(
+//                loadedTextures.get(loadedTextures.size - 1), 6
+//            )));
+//        }
+
         setCurrentAnimation();
+
+        System.out.println(loadedTextures);
+        System.out.println(loadedTextures.size);
     }
 
     private void putOffsets(){
