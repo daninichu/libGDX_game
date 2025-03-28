@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.view.animations.PlayerAnimation;
+import inf112.skeleton.view.animation.PlayerAnimation;
 
 public class Dummy extends Enemy{
     public Dummy(float x, float y, AttackableEntity player){

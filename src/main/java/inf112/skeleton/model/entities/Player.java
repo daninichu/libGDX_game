@@ -18,8 +18,8 @@ import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.view.animations.EntityAnimation;
-import inf112.skeleton.view.animations.PlayerAnimation;
+import inf112.skeleton.view.animation.EntityAnimation;
+import inf112.skeleton.view.animation.PlayerAnimation;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
@@ -76,14 +76,17 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 }
             }
             animation.setState(EntityAnimation.State.ATTACK);
+            animation.setFrameDuration(attack.getStartup());
         });
         stateMachine.onEnter(State.Attacking, () -> {
             timer = attack.getDuration();
             velocity.setLength(attack.getMomentum());
             placeHitboxes();
+            animation.setFrameDuration(attack.getDuration()/3);
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
             timer = attack.getCooldown();
+            animation.setFrameDuration(attack.getCooldown()/2);
         });
         stateMachine.onEnter(State.Stunned, () -> {
             timer = 0.75f;
@@ -92,7 +95,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     }
 
     private void addExitFunctions(){
-        stateMachine.onExit(State.Attacking, () -> attack.reset());
+        stateMachine.onExit(State.Attacking, () -> {
+            attack.reset();
+        });
         stateMachine.onExit(State.AttackEnd, () -> {
             animation.setState(EntityAnimation.State.IDLE);
             animation.setDirection(dir, velocity);

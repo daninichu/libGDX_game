@@ -1,4 +1,4 @@
-package inf112.skeleton.view.animations;
+package inf112.skeleton.view.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,9 +13,8 @@ public abstract class EntityAnimation implements Disposable {
     public enum State{
         IDLE, WALKING, ATTACK, HIT
     }
-
-    protected final ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
-    protected final ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
+    protected ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
+    protected ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
     protected Animation<TextureRegion> currentAnimation;
 
     protected final Array<Texture> loadedTextures = new Array<>();
@@ -23,30 +22,25 @@ public abstract class EntityAnimation implements Disposable {
     protected Direction direction = Direction.DOWN;
     protected State state = State.IDLE;
 
-    protected float timeElapsed;
+    protected float timer;
 
     public EntityAnimation() {
-        for(State state : State.values()) {
+        for(State state : State.values())
             animations.put(state, new ObjectMap<>());
-        }
     }
 
     public TextureRegion getCurrentFrame() {
-        return currentAnimation.getKeyFrame(timeElapsed, true);
+        return currentAnimation.getKeyFrame(timer, true);
     }
 
     public void setFrameDuration(float duration) {
-        for(Direction direction : Direction.values()) {
-            animations.get(state).get(direction).setFrameDuration(duration);
-        }
-//        currentAnimation.setFrameDuration(duration);
+        setFrameDuration(duration, state);
     }
 
     public void setFrameDuration(float duration, State state) {
-        for(Direction direction : Direction.values()) {
+        timer *= duration / currentAnimation.getFrameDuration();
+        for(Direction direction : Direction.values())
             animations.get(state).get(direction).setFrameDuration(duration);
-        }
-//        currentAnimation.setFrameDuration(duration);
     }
 
     public Vector2 getOffset() {
@@ -56,8 +50,6 @@ public abstract class EntityAnimation implements Disposable {
     }
 
     /**
-     * Set direction entity is currently facing
-     * <p/>
      * Animation is only reset if direction is different from before
      * depending on context, {@code direction} or {@code dirVec} is used to find texture direction.
      */
@@ -69,20 +61,18 @@ public abstract class EntityAnimation implements Disposable {
     }
 
     /**
-     * Set Animation to one of the {@code AnimationState} states
-     * <p/>
      * Animation is only reset if state is different from before
      */
     public void setState(State state) {
         if (this.state != state) {
-            timeElapsed = 0;
+            timer = 0;
             this.state = state;
             setCurrentAnimation();
         }
     }
 
     public void update(float deltaTime) {
-        timeElapsed += deltaTime;
+        timer += deltaTime;
     }
 
     @Override

@@ -5,8 +5,8 @@ import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.view.animations.EntityAnimation;
-import inf112.skeleton.view.animations.PlayerAnimation;
+import inf112.skeleton.view.animation.EntityAnimation;
+import inf112.skeleton.view.animation.PlayerAnimation;
 
 public abstract class Enemy extends Entity{
     public enum State {
