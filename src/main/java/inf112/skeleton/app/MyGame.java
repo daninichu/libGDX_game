@@ -15,7 +15,7 @@ import inf112.skeleton.view.screens.GameScreen;
 import inf112.skeleton.view.screens.InventoryScreen;
 import inf112.skeleton.view.screens.MainMenuScreen;
 
-import java.util.HashMap;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * A class that leaves the majority of the work to screens.
@@ -29,7 +29,7 @@ public class MyGame extends Game{
     public static int SCREEN_HEIGHT = 320*2;
     public static int TILE_SIZE = 16;
 
-    private HashMap<String, Screen> screens = new HashMap<>();
+    private ObjectMap<Class<? extends Screen>, Screen> screens = new ObjectMap<>();
 
     private MainMenuScreen mainMenuScreen;
     private GameScreen gameScreen;
@@ -60,9 +60,9 @@ public class MyGame extends Game{
         gameScreen = new GameScreen(this);
         mainMenuScreen = new MainMenuScreen(this);
         inventoryScreen = new InventoryScreen(this, player.getInventory());
-        screens.put("GameScreen", gameScreen);
-        screens.put("MainMenuScreen", mainMenuScreen);
-        screens.put("InventoryScreen", inventoryScreen);
+        screens.put(GameScreen.class, gameScreen);
+        screens.put(MainMenuScreen.class, mainMenuScreen);
+        screens.put(InventoryScreen.class, inventoryScreen);
 
         setScreen(mainMenuScreen);
     }
@@ -101,7 +101,7 @@ public class MyGame extends Game{
         this.state = state;
     }
 
-    public void setScreen(String screenClassName){
+    public void setScreen(Class<? extends Screen> screenClassName){
         setScreen(screens.get(screenClassName));
     }
 }

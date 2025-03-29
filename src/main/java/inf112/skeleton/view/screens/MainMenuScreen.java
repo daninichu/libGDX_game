@@ -53,7 +53,7 @@ public class MainMenuScreen extends AbstractScreen {
             fadeToBlack(deltaTime);
             if(resetFadeTimer()){
                 game.setState(MyGame.State.LoadEnd);
-                game.setScreen("GameScreen");
+                game.setScreen(GameScreen.class);
             }
         }
     }

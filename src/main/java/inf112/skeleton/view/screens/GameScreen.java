@@ -85,6 +85,13 @@ public class GameScreen extends AbstractScreen{
                 if(resetFadeTimer())
                     game.setState(MyGame.State.Play);
             }
+            case Inventory -> {
+                fadeToBlack(deltaTime);
+                if(resetFadeTimer()){
+                    game.setScreen(InventoryScreen.class);
+                    game.setState(MyGame.State.LoadEnd);
+                }
+            }
         }
     }
 

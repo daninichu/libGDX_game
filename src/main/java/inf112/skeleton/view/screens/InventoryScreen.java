@@ -11,7 +11,7 @@ import inf112.skeleton.model.inventory.Item;
 
 public class InventoryScreen extends AbstractScreen{
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
-    Inventory inventory;
+    Iterable<Item> inventory;
 
     public InventoryScreen(MyGame game, Inventory inventory){
         super(game);
@@ -28,13 +28,36 @@ public class InventoryScreen extends AbstractScreen{
     public void render(float deltaTime){
         ScreenUtils.clear(Color.BLACK);
 
+        switch(game.getState()){
+            case Inventory -> {
+                draw();
+            }
+            case LoadEnd -> {
+                unfadeFromBlack(deltaTime);
+                draw();
+                if(resetFadeTimer()){
+                    game.setState(MyGame.State.Inventory);
+                }
+            }
+            case Play -> {
+                fadeToBlack(deltaTime);
+                draw();
+                if(resetFadeTimer()){
+                    game.setState(MyGame.State.LoadEnd);
+                    game.setScreen(GameScreen.class);
+                }
+            }
+        }
+    }
+
+    private void draw(){
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        int i = 0;
-        float w = viewport.getWorldWidth() / Inventory.SIZE;
+        int i = 1;
+        float h = viewport.getWorldHeight() / Inventory.SIZE;
         for(Item item : inventory){
             if(item != null){
-                font.draw(batch, item.toString(), i*w, viewport.getWorldHeight()/2);
+                font.draw(batch, item.toString(), 0, i*h);
             }
         }
         batch.end();
