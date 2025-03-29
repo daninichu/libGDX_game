@@ -42,7 +42,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.Chase,            Event.PlayerFar,        State.Idle);
         blueprint.addTransition(State.Chase,            Event.PlayerClose,      State.AttackStartup);
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attack);
-        blueprint.addTransition(State.Attack,        Event.Timeout,          State.AttackEnd);
+        blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
         blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Chase);
     }
@@ -114,9 +114,8 @@ public abstract class Enemy extends Entity{
         player.getAttacked(this);
 
         timer -= deltaTime;
-        if (timer <= 0) {
+        if (timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
-        }
     }
 
     @Override
@@ -135,7 +134,4 @@ public abstract class Enemy extends Entity{
         return stateMachine.getState();
     }
 
-    public float getAttackRange(){
-        return attackRange;
-    }
 }

@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.Direction;
 
-
 public abstract class EntityAnimation implements Disposable {
     public enum State{
         IDLE, RUN, ATTACK, HIT
@@ -25,8 +24,8 @@ public abstract class EntityAnimation implements Disposable {
 
     public EntityAnimation() {
         for(State state : State.values()){
-            animations.put(state, new ObjectMap<>());
             filePaths.put(state, state.toString().toLowerCase() + "_");
+            animations.put(state, new ObjectMap<>());
         }
     }
 
@@ -51,8 +50,8 @@ public abstract class EntityAnimation implements Disposable {
     }
 
     /**
-     * Animation is only reset if direction is different from before
-     * depending on context, {@code direction} or {@code dirVec} is used to find texture direction.
+     * Animation is only reset if direction is different from before depending on
+     * context, {@code direction} or {@code dirVec} is used to find texture direction.
      */
     public void setDirection(Direction direction, Vector2 dirVec) {
         if (this.direction != direction) {

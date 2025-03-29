@@ -11,7 +11,6 @@ import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 
 public class EvilSquare extends Enemy{
-
     public EvilSquare(float x, float y, AttackableEntity player){
         super(x, y, player);
         this.texture = new TextureRegion(new Texture("sprite16.png"));

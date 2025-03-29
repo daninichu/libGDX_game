@@ -23,6 +23,8 @@ public class StaticCollisionTest {
         new HeadlessApplication(new ApplicationAdapter(){});
         Gdx.gl = mock(GL20.class);
         player = new Player(0, 0);
+        // Set the bottom left corner of the hurtbox at (0, 0)
+        player.addPos(player.getX() - player.getLeftX(), player.getY() - player.getBottomY());
         collisionBoxes = new Array<>();
     }
 
@@ -104,7 +106,7 @@ public class StaticCollisionTest {
         float stuckY = player.getY();
         player.setRightMove(true);
         player.setDownMove(true);
-        while(player.getX() < 1000){
+        while(player.getLeftX() < 1000){
             assertEquals(stuckY, player.getY());
 
             player.update(0.01f);

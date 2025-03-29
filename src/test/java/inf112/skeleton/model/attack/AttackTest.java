@@ -58,8 +58,7 @@ public class AttackTest {
      */
     @Test
     void testAttackRange(){
-        player.setPos(50, 0);
-        player.addPos(player.getLeftX() - player.getX(), 0);
+        player.setPos(50 + player.getX() - player.getLeftX(), 0);
 
         float maxHP = player.getHealth();
         player.getAttacked(attacker);

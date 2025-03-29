@@ -1,7 +1,7 @@
 package inf112.skeleton.model.inventory;
 
 public class Inventory {
-    public static final int SIZE = 10;
+    private static final int SIZE = 10;
     private Item[] items = new Item[SIZE];
     private int index;
 
@@ -32,11 +32,8 @@ public class Inventory {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("[");
-        for (Item item : items) {
+        for (Item item : items)
             sb.append(item).append(", ");
-        }
-        sb.delete(sb.length() - 2, sb.length());
-        sb.append("]");
-        return sb.toString();
+        return sb.delete(sb.length() - 2, sb.length()).append("]").toString();
     }
 }

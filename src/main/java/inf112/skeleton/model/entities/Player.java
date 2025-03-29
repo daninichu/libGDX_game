@@ -50,7 +50,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
         this.speed = 5f * MyGame.TILE_SIZE;
         this.texture = new TextureRegion(new Texture("sprite16.png"));
-        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.hurtbox = new Box(2, 0, 12, 12);
         this.attack = new PlayerAttack();
         this.maxHealth = this.health = 20;
 //        this.mass = 10;
@@ -130,7 +130,6 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         if(timer <= 0){
             stateMachine.fireEvent(Event.Timeout);
         }
-
     }
 
     private void updateMotion(){
@@ -222,8 +221,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         @Override
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
-            Circle hitbox = new Circle(0, 0, MyGame.TILE_SIZE);
-            hitbox.setPosition(direction.setLength(MyGame.TILE_SIZE));
+            Circle hitbox = new Circle(0, 0, MyGame.TILE_SIZE * 0.75f);
+            hitbox.setPosition(direction.setLength(MyGame.TILE_SIZE * 0.5f));
             hitboxes.add(hitbox);
         }
     }

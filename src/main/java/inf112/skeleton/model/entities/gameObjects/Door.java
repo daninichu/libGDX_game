@@ -31,8 +31,8 @@ public class Door extends GameObject implements IDoor{
      * @param width Width of the tile being occupied by the exit door.
      */
     private void centerExitForPlayer(float width){
-        exitPos.add(width/2, 0);
-        exitPos.sub(player.getWidth()/2, player.getHeight());
+        exitPos.add(width/2 + player.getX(), player.getY());
+        exitPos.sub(player.getLeftX() + player.getWidth()/2, player.getBottomY() + player.getHeight());
     }
 
     @Override

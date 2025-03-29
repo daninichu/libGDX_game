@@ -1,7 +1,5 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -11,10 +9,8 @@ import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 
 public class DarkSquare extends Enemy {
-
     public DarkSquare(float x, float y, AttackableEntity player){
         super(x, y, player);
-        this.texture = new TextureRegion(new Texture("darkLink.png"));
         this.health = 30;
         this.mass = 1;
         this.speed = 2f * MyGame.TILE_SIZE;

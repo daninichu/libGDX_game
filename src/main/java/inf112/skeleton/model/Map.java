@@ -76,9 +76,9 @@ public class Map {
         for(Entity e : entities) {
             e.update(deltaTime);
         }
-//        entityCH.updateGrid(entities);
-//        entities.forEach(e -> entityCH.handleCollision(e));
-//        entities.forEach(e -> staticCH.handleCollision(e));
+        entityCH.updateGrid(entities);
+        entities.forEach(e -> entityCH.handleCollision(e));
+        entities.forEach(e -> staticCH.handleCollision(e));
     }
 
     private void loadObjects(){
@@ -116,11 +116,9 @@ public class Map {
     }
 
     private void spawnEntities() {
-        long time = System.nanoTime();
         for(int i = 0; i < 5000; i++){
-            enemies.add(new Dummy(0, 50, player));
+//            enemies.add(new Dummy(0, 50, player));
         }
-        System.out.println(("Load time: "+ (System.nanoTime()-time)/1000000000f+" s"));
 //            enemies.add(new EvilSquare(0, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
