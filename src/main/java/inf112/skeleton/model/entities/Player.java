@@ -115,7 +115,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 if(move(deltaTime)){
                     updateDirection();
                     animation.setState(EntityAnimation.State.RUN);
-                } else
+                }
+                else
                     animation.setState(EntityAnimation.State.IDLE);
             }
             case Attack -> move(deltaTime);
@@ -127,9 +128,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
         invincibleTimer -= deltaTime;
         timer -= deltaTime;
-        if(timer <= 0){
+        if(timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
-        }
     }
 
     private void updateMotion(){
@@ -211,7 +211,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     private class PlayerAttack extends Attack{
         private PlayerAttack(){
             this.damage = 3;
-            this.momentum = 2.5f * MyGame.TILE_SIZE;
+            this.momentum = speed * 0.5f;
             this.knockback = MyGame.TILE_SIZE*8;
             this.startup = 0.2f;
             this.duration = 0.15f;

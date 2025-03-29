@@ -58,6 +58,7 @@ public class GameInputProcessor extends InputAdapter {
             }
             case Input.Keys.Q -> {
                 game.setState(MyGame.State.Inventory);
+                game.setScreen("InventoryScreen");
             }
         }
     }

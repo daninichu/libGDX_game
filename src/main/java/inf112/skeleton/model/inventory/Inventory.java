@@ -1,7 +1,10 @@
 package inf112.skeleton.model.inventory;
 
-public class Inventory {
-    private static final int SIZE = 10;
+import java.util.Arrays;
+import java.util.Iterator;
+
+public class Inventory implements Iterable<Item> {
+    public static final int SIZE = 10;
     private Item[] items = new Item[SIZE];
     private int index;
 
@@ -27,6 +30,11 @@ public class Inventory {
 
     public void indexDown(){
         index = Math.max(index - 1, 0);
+    }
+
+    @Override
+    public Iterator<Item> iterator(){
+        return Arrays.stream(items).iterator();
     }
 
     @Override

@@ -12,6 +12,7 @@ import inf112.skeleton.model.entities.gameObjects.IDialogue;
 import inf112.skeleton.model.entities.gameObjects.IDoor;
 import inf112.skeleton.view.UI;
 import inf112.skeleton.view.screens.GameScreen;
+import inf112.skeleton.view.screens.InventoryScreen;
 import inf112.skeleton.view.screens.MainMenuScreen;
 
 import java.util.HashMap;
@@ -30,8 +31,9 @@ public class MyGame extends Game{
 
     private HashMap<String, Screen> screens = new HashMap<>();
 
-    private GameScreen gameScreen;
     private MainMenuScreen mainMenuScreen;
+    private GameScreen gameScreen;
+    private InventoryScreen inventoryScreen;
 
     private InputMultiplexer inputMultiplexer;
     private GameInputProcessor gameProcessor;
@@ -57,8 +59,10 @@ public class MyGame extends Game{
 
         gameScreen = new GameScreen(this);
         mainMenuScreen = new MainMenuScreen(this);
+        inventoryScreen = new InventoryScreen(this, player.getInventory());
         screens.put("GameScreen", gameScreen);
         screens.put("MainMenuScreen", mainMenuScreen);
+        screens.put("InventoryScreen", inventoryScreen);
 
         setScreen(mainMenuScreen);
     }
