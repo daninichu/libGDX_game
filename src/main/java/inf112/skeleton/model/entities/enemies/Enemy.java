@@ -10,7 +10,7 @@ import inf112.skeleton.view.animation.PlayerAnimation;
 
 public abstract class Enemy extends Entity{
     public enum State {
-        Idle, Roaming, Chase, AttackStartup, Attacking, AttackEnd, Stunned
+        Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned
     }
     public enum Event{
         Timeout, PlayerVisible, PlayerFar, PlayerClose
@@ -41,8 +41,8 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.Roaming,          Event.PlayerVisible,    State.Chase);
         blueprint.addTransition(State.Chase,            Event.PlayerFar,        State.Idle);
         blueprint.addTransition(State.Chase,            Event.PlayerClose,      State.AttackStartup);
-        blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attacking);
-        blueprint.addTransition(State.Attacking,        Event.Timeout,          State.AttackEnd);
+        blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attack);
+        blueprint.addTransition(State.Attack,        Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
         blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Chase);
     }
@@ -57,22 +57,22 @@ public abstract class Enemy extends Entity{
             timer = MathUtils.random(0.2f, 2);
             velocity.setToRandomDirection();
             velocity.setLength(speed / 2f);
-            animation.setState(EntityAnimation.State.WALKING);
+            animation.setState(EntityAnimation.State.RUN);
         });
         stateMachine.onEnter(State.Chase, () -> {
             velocity.set(speed, 0);
-            animation.setState(EntityAnimation.State.WALKING);
+            animation.setState(EntityAnimation.State.RUN);
         });
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
             velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
             animation.setState(EntityAnimation.State.IDLE);
         });
-        stateMachine.onEnter(State.Attacking, () -> {
+        stateMachine.onEnter(State.Attack, () -> {
             placeHitboxes();
             timer = attack.getDuration();
             velocity.setLength(attack.getMomentum());
-            animation.setState(EntityAnimation.State.WALKING);
+            animation.setState(EntityAnimation.State.RUN);
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
             timer = attack.getCooldown();
@@ -85,7 +85,7 @@ public abstract class Enemy extends Entity{
     }
 
     protected void addExitFunctions(){
-        stateMachine.onExit(State.Attacking, () -> attack.reset());
+        stateMachine.onExit(State.Attack, () -> attack.reset());
         stateMachine.onExit(State.AttackEnd, () -> animation.setState(EntityAnimation.State.IDLE));
     }
 

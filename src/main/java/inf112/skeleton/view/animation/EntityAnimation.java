@@ -1,23 +1,22 @@
 package inf112.skeleton.view.animation;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.Direction;
 
+
 public abstract class EntityAnimation implements Disposable {
     public enum State{
-        IDLE, WALKING, ATTACK, HIT
+        IDLE, RUN, ATTACK, HIT
     }
+    protected ObjectMap<State, String> filePaths = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
     protected Animation<TextureRegion> currentAnimation;
-
-    protected final Array<Texture> loadedTextures = new Array<>();
 
     protected Direction direction = Direction.DOWN;
     protected State state = State.IDLE;
@@ -25,8 +24,10 @@ public abstract class EntityAnimation implements Disposable {
     protected float timer;
 
     public EntityAnimation() {
-        for(State state : State.values())
+        for(State state : State.values()){
             animations.put(state, new ObjectMap<>());
+            filePaths.put(state, state.toString().toLowerCase() + "_");
+        }
     }
 
     public TextureRegion getCurrentFrame() {
@@ -75,20 +76,8 @@ public abstract class EntityAnimation implements Disposable {
         timer += deltaTime;
     }
 
-    @Override
-    public void dispose() {
-        loadedTextures.forEach(Texture::dispose);
-    }
-
-    /**
-     * Get the texture region array needed to instantiate an Animation
-     * <p/>
-     * Assumes spritesheet has height of 1 texture and width of {@code animationFrames} textures.
-     *
-     * @param animationFrames number of textures in horizontal direction
-     */
-    protected TextureRegion[] textureToFrames(Texture tex, int animationFrames) {
-        return TextureRegion.split(tex, tex.getWidth() / animationFrames, tex.getHeight())[0];
+    protected static TextureRegion[] textureToFrames(TextureAtlas.AtlasRegion reg) {
+        return reg.split(reg.getRegionWidth() / reg.index, reg.getRegionHeight())[0];
     }
 
     protected void setCurrentAnimation() {

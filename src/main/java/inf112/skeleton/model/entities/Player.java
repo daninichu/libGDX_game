@@ -23,7 +23,7 @@ import inf112.skeleton.view.animation.PlayerAnimation;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
-        NonAttack, AttackStartup, Attacking, AttackEnd, Stunned
+        NonAttack, AttackStartup, Attack, AttackEnd, Stunned
     }
     public enum Event{
         Timeout, AttackPressed
@@ -31,8 +31,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     private static final FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     static {
         blueprint.addTransition(State.NonAttack,        Event.AttackPressed,     State.AttackStartup);
-        blueprint.addTransition(State.AttackStartup,    Event.Timeout,           State.Attacking);
-        blueprint.addTransition(State.Attacking,        Event.Timeout,           State.AttackEnd);
+        blueprint.addTransition(State.AttackStartup,    Event.Timeout,           State.Attack);
+        blueprint.addTransition(State.Attack,        Event.Timeout,           State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,           State.NonAttack);
         blueprint.addTransition(State.AttackEnd,        Event.AttackPressed,     State.AttackStartup);
         blueprint.addTransition(State.Stunned,          Event.Timeout,           State.NonAttack);
@@ -78,7 +78,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             animation.setState(EntityAnimation.State.ATTACK);
             animation.setFrameDuration(attack.getStartup());
         });
-        stateMachine.onEnter(State.Attacking, () -> {
+        stateMachine.onEnter(State.Attack, () -> {
             timer = attack.getDuration();
             velocity.setLength(attack.getMomentum());
             placeHitboxes();
@@ -95,7 +95,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     }
 
     private void addExitFunctions(){
-        stateMachine.onExit(State.Attacking, () -> {
+        stateMachine.onExit(State.Attack, () -> {
             attack.reset();
         });
         stateMachine.onExit(State.AttackEnd, () -> {
@@ -114,11 +114,11 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 velocity.setLength(speed);
                 if(move(deltaTime)){
                     updateDirection();
-                    animation.setState(EntityAnimation.State.WALKING);
+                    animation.setState(EntityAnimation.State.RUN);
                 } else
                     animation.setState(EntityAnimation.State.IDLE);
             }
-            case Attacking -> move(deltaTime);
+            case Attack -> move(deltaTime);
             case Stunned -> {
                 move(deltaTime);
                 velocity.scl((float) Math.pow(0.1f, deltaTime));
