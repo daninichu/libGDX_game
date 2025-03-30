@@ -12,6 +12,7 @@ public abstract class EntityAnimation implements Disposable {
     public enum State{
         IDLE, RUN, ATTACK, HIT
     }
+    protected static final TextureAtlas atlas = new TextureAtlas("atlas/myAtlas.atlas");
     protected ObjectMap<State, String> filePaths = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
@@ -53,7 +54,7 @@ public abstract class EntityAnimation implements Disposable {
      * Animation is only reset if direction is different from before depending on
      * context, {@code direction} or {@code dirVec} is used to find texture direction.
      */
-    public void setDirection(Direction direction, Vector2 dirVec) {
+    public void setDirection(Direction direction) {
         if (this.direction != direction) {
             this.direction = direction;
             setCurrentAnimation();
@@ -81,5 +82,10 @@ public abstract class EntityAnimation implements Disposable {
 
     protected void setCurrentAnimation() {
         currentAnimation = animations.get(state).get(direction);
+    }
+
+    @Override
+    public void dispose(){
+        atlas.dispose();
     }
 }

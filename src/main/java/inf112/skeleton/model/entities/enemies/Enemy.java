@@ -1,6 +1,7 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
 import inf112.skeleton.model.attack.AttackableEntity;
@@ -10,13 +11,13 @@ import inf112.skeleton.view.animation.PlayerAnimation;
 
 public abstract class Enemy extends Entity{
     public enum State {
-        Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned
+        Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned, Dying, Dead
     }
     public enum Event{
         Timeout, PlayerVisible, PlayerFar, PlayerClose
     }
     protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
-    private StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
+    protected StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
     private AttackableEntity player;
     private float timer;
@@ -25,7 +26,6 @@ public abstract class Enemy extends Entity{
 
     public Enemy(float x, float y, AttackableEntity player) {
         super(x, y);
-        this.animation = new PlayerAnimation();
         this.player = player;
 
         addTransitions();
@@ -45,6 +45,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
         blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Chase);
+        blueprint.addTransition(State.Dying,          Event.Timeout,          State.Dead);
     }
 
     protected void addEnterFunctions(){
@@ -66,6 +67,7 @@ public abstract class Enemy extends Entity{
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
             velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
+            updateDirection();
             animation.setState(EntityAnimation.State.IDLE);
         });
         stateMachine.onEnter(State.Attack, () -> {
@@ -100,12 +102,14 @@ public abstract class Enemy extends Entity{
         else if (distance > vision)
             stateMachine.fireEvent(Event.PlayerFar);
 
-        if (stateMachine.getState().equals(State.Chase)) {
-            float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
-            velocity.setAngleRad(angle);
-        }
-        else if (stateMachine.getState().equals(State.Stunned)) {
-            velocity.scl((float) Math.pow(0.01f, deltaTime));
+        switch(stateMachine.getState()){
+            case Idle, Roaming -> updateDirection();
+            case Chase -> {
+                float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
+                velocity.setAngleRad(angle);
+                updateDirection();
+            }
+            case Stunned, Dying -> velocity.scl((float) Math.pow(0.01f, deltaTime));
         }
 
         move(deltaTime);
@@ -116,6 +120,9 @@ public abstract class Enemy extends Entity{
         timer -= deltaTime;
         if (timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
+        if(health <= 0){
+            stateMachine.forceState(State.Dying);
+        }
     }
 
     @Override
@@ -123,9 +130,16 @@ public abstract class Enemy extends Entity{
         if(gotHit(attacker)){
             super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
-            dir = Direction.fromVector(velocity).opposite();
-            animation.setDirection(dir, velocity.cpy().scl(-1));
+
+            dir = Direction.leftOrRight(velocity).opposite();
+            animation.setDirection(dir);
         }
+    }
+
+    @Override
+    protected void updateDirection(){
+        dir = Direction.leftOrRight(velocity);
+        animation.setDirection(dir);
     }
 
     protected void placeHitboxes(){}
@@ -134,4 +148,8 @@ public abstract class Enemy extends Entity{
         return stateMachine.getState();
     }
 
+    @Override
+    public boolean dead(){
+        return stateMachine.getState() == State.Dead;
+    }
 }

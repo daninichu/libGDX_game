@@ -12,10 +12,7 @@ import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.model.entities.enemies.DarkSquare;
-import inf112.skeleton.model.entities.enemies.Dummy;
-import inf112.skeleton.model.entities.enemies.Enemy;
-import inf112.skeleton.model.entities.enemies.EvilSquare;
+import inf112.skeleton.model.entities.enemies.*;
 import inf112.skeleton.model.entities.gameObjects.Door;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 import inf112.skeleton.model.entities.gameObjects.Sign;
@@ -119,7 +116,8 @@ public class Map {
         for(int i = 0; i < 5000; i++){
 //            enemies.add(new Dummy(0, 50, player));
         }
-//            enemies.add(new EvilSquare(0, 50, player));
+//            enemies.add(new Phantom(0, 50, player));
+            enemies.add(new Slime(50, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
@@ -131,7 +129,7 @@ public class Map {
                 enemies.add(new Dummy(x, y, player));
             }
             if(type.equals("EvilSquare")){
-                enemies.add(new EvilSquare(x, y, player));
+                enemies.add(new Phantom(x, y, player));
             }
             if(type.equals("DarkSquare")){
                 enemies.add(new DarkSquare(x, y, player));

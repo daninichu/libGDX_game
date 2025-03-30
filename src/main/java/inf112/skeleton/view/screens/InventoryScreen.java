@@ -26,22 +26,20 @@ public class InventoryScreen extends AbstractScreen{
 
     @Override
     public void render(float deltaTime){
-        ScreenUtils.clear(Color.BLACK);
-
         switch(game.getState()){
             case Inventory -> {
                 draw();
             }
             case LoadEnd -> {
-                unfadeFromBlack(deltaTime);
                 draw();
+                unfadeFromBlack(deltaTime);
                 if(resetFadeTimer()){
                     game.setState(MyGame.State.Inventory);
                 }
             }
             case Play -> {
-                fadeToBlack(deltaTime);
                 draw();
+                fadeToBlack(deltaTime);
                 if(resetFadeTimer()){
                     game.setState(MyGame.State.LoadEnd);
                     game.setScreen(GameScreen.class);
@@ -51,6 +49,8 @@ public class InventoryScreen extends AbstractScreen{
     }
 
     private void draw(){
+        ScreenUtils.clear(0.55f, 0.45f, 0.3f, 1);
+
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         int i = 1;

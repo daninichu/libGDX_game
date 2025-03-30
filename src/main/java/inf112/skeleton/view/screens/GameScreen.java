@@ -110,7 +110,7 @@ public class GameScreen extends AbstractScreen{
                 batch.draw(e.getTexture(), p.x, p.y);
             }
             if(e.getHealth() != 0){
-//                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
+                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
             }
         }
         for(GameObject object : map.getObjects()){

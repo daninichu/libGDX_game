@@ -26,7 +26,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected int maxHealth;
     protected int health;
     protected float mass;
-    protected boolean dead;
 
     public Entity(float x, float y) {
         this.pos = new Vector2(x, y);
@@ -100,7 +99,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
      */
     protected void updateDirection(){
         dir = Direction.fromVector(velocity);
-        animation.setDirection(dir, velocity);
+        animation.setDirection(dir);
     }
 
     @Override
@@ -142,7 +141,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public boolean dead(){
-        return dead;
+        return health <= 0;
     }
 
     @Override

@@ -17,6 +17,12 @@ public enum Direction{
             return RIGHT;
     }
 
+    public static Direction leftOrRight(Vector2 vector) {
+        if(90 < vector.angleDeg() && vector.angleDeg() < 270)
+            return Direction.LEFT;
+        return Direction.RIGHT;
+    }
+
     public Direction opposite() {
         return switch(this){
             case LEFT -> RIGHT;

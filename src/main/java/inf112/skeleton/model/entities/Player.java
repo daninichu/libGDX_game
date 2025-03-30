@@ -100,7 +100,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         });
         stateMachine.onExit(State.AttackEnd, () -> {
             animation.setState(EntityAnimation.State.IDLE);
-            animation.setDirection(dir, velocity);
+            animation.setDirection(dir);
         });
     }
 
@@ -160,7 +160,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
             dir = Direction.fromVector(velocity).opposite();
-            animation.setDirection(dir, velocity.cpy().scl(-1));
+            animation.setDirection(dir);
             invincibleTimer = 1.8f;
         }
     }

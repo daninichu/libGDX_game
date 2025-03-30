@@ -7,12 +7,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.Direction;
 
 public class PlayerAnimation extends EntityAnimation {
-    private static final TextureAtlas atlas = new TextureAtlas("atlas/myAtlas.atlas");
-
     public PlayerAnimation() {
         super();
-        putOffsets();
-
         for (Direction d : Direction.values()){
             String dir = d.toString().toLowerCase();
             for(State state : State.values()){
@@ -21,21 +17,13 @@ public class PlayerAnimation extends EntityAnimation {
                 animations.get(state).put(d, new Animation<>(0.125f, textureToFrames(region)));
             }
         }
-
         setCurrentAnimation();
-    }
 
-    private void putOffsets(){
         ObjectMap<Direction, Vector2> attackOffsets = new ObjectMap<>();
         attackOffsets.put(Direction.LEFT, new Vector2(-16, -16));
         attackOffsets.put(Direction.RIGHT, new Vector2(0, -16));
         attackOffsets.put(Direction.UP, new Vector2(-16, 0));
         attackOffsets.put(Direction.DOWN, new Vector2(-16, -16));
         offsets.put(State.ATTACK, attackOffsets);
-    }
-
-    @Override
-    public void dispose(){
-        atlas.dispose();
     }
 }
