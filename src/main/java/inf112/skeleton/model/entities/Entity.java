@@ -181,6 +181,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public TextureRegion getTexture(){
-        return animation.getCurrentFrame();
+        try{
+            return animation.getCurrentFrame();
+        }
+        catch(NullPointerException e){
+            throw new NullPointerException("Animation returned null in "+this.getClass().getSimpleName());
+        }
     }
 }

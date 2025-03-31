@@ -35,8 +35,9 @@ public class GameScreen extends AbstractScreen{
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
 
-    public GameScreen(MyGame game) {
+    public GameScreen(MyGame game, ViewableEntity player) {
         super(game);
+        this.player = player;
         font.getData().setScale(VIEW_HEIGHT/400);
     }
 
@@ -54,7 +55,6 @@ public class GameScreen extends AbstractScreen{
     public void reset(){
         mapRenderer.setMap(map.getTiledMap());
         entities = map.getEntities();
-        player = entities.get(0);
         camera.position.set(player.getCenterPos(), 0);
     }
 
@@ -137,7 +137,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
         }
         shapeRenderer.end();
@@ -146,7 +146,7 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setColor(1,0,0,0.3f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for(Circle hitbox : map.getHitboxes()){
-            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
+//            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
         }
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);

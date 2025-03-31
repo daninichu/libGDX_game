@@ -64,23 +64,23 @@ public class Phantom extends Enemy{
 
     public class PhantomAnimation extends EntityAnimation{
         public PhantomAnimation(){
-            super();
+            super("phantom", new State[]{State.IDLE, State.RUN, State.HIT, State.DEATH}, new Direction[]{Direction.LEFT, Direction.RIGHT});
 
-            filePaths.put(State.ATTACK, "run_");
-
-            for (Direction d : Direction.values()){
-                if(d == Direction.UP || d == Direction.DOWN){
-                    continue;
-                }
-                String dir = d.toString().toLowerCase();
-                for(State state : State.values()){
-                    String file = filePaths.get(state);
-                    TextureAtlas.AtlasRegion region = atlas.findRegion("phantom_" + file + "anim_" + dir + "_strip");
-                    animations.get(state).put(d, new Animation<>(0.125f, textureToFrames(region)));
-                }
-            }
-            setDirection(Direction.RIGHT);
-            setCurrentAnimation();
+//            filePaths.put(State.ATTACK, "run_");
+//
+//            for (Direction d : Direction.values()){
+//                if(d == Direction.UP || d == Direction.DOWN){
+//                    continue;
+//                }
+//                String dir = d.toString().toLowerCase();
+//                for(State state : State.values()){
+//                    String file = filePaths.get(state);
+//                    TextureAtlas.AtlasRegion region = atlas.findRegion("phantom_" + file + "anim_" + dir + "_strip");
+//                    animations.get(state).put(d, new Animation<>(0.125f, textureToFrames(region)));
+//                }
+//            }
+//            setDirection(Direction.RIGHT);
+//            setCurrentAnimation();
         }
     }
 }

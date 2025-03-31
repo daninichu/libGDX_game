@@ -29,6 +29,7 @@ public class Map {
     private Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
+    private Array<Entity> entities;
     private Array<Rectangle> collisionBoxes;
     private StaticCollisionHandler staticCH;
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
@@ -57,21 +58,29 @@ public class Map {
         tiledMap = mapLoader.load(startPath + mapFile);
         reset();
         loadObjects();
-        spawnEntities();
+        spawnEnemies();
         loadCollisionBoxes();
         staticCH = new StaticCollisionHandler(collisionBoxes);
+
+        entities.add(player);
+        entities.addAll(enemies);
+        entities.addAll(objects);
     }
 
     private void reset(){
         enemies = new Array<>();
         objects = new Array<>();
+        entities = new Array<>();
         collisionBoxes = new Array<>();
     }
 
     public void update(float deltaTime) {
-        Array<Entity> entities = getEntities();
-        for(Entity e : entities) {
-            e.update(deltaTime);
+        for(int i = 0; i < entities.size; i++){
+            Entity e = entities.get(i);
+            if(e.dead())
+                entities.removeIndex(i--);
+            else
+                e.update(deltaTime);
         }
         entityCH.updateGrid(entities);
         entities.forEach(e -> entityCH.handleCollision(e));
@@ -112,11 +121,11 @@ public class Map {
         }
     }
 
-    private void spawnEntities() {
+    private void spawnEnemies() {
         for(int i = 0; i < 5000; i++){
 //            enemies.add(new Dummy(0, 50, player));
         }
-//            enemies.add(new Phantom(0, 50, player));
+            enemies.add(new Phantom(0, 50, player));
             enemies.add(new Slime(50, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
@@ -142,10 +151,17 @@ public class Map {
     }
 
     public Array<Entity> getEntities() {
-        Array<Entity> entities = new Array<>();
-        entities.add(player);
-        entities.addAll(enemies);
-        entities.addAll(objects);
+//        Array<Entity> entities = new Array<>();
+//        entities.add(player);
+//        for(int i = 0; i < enemies.size; i++){
+//            Entity enemy = enemies.get(i);
+//            if(enemy.dead())
+//                enemies.removeIndex(i--);
+//            else
+//                entities.add(enemy);
+//        }
+////        entities.addAll(enemies);
+//        entities.addAll(objects);
         return entities;
     }
 

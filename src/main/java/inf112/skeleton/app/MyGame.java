@@ -57,7 +57,7 @@ public class MyGame extends Game{
         inputMultiplexer = new InputMultiplexer(gameProcessor, inventoryProcessor);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        gameScreen = new GameScreen(this);
+        gameScreen = new GameScreen(this, player);
         mainMenuScreen = new MainMenuScreen(this);
         inventoryScreen = new InventoryScreen(this, player.getInventory());
         screens.put(GameScreen.class, gameScreen);

@@ -10,10 +10,9 @@ import inf112.skeleton.model.Direction;
 
 public abstract class EntityAnimation implements Disposable {
     public enum State{
-        IDLE, RUN, ATTACK, HIT
+        IDLE, RUN, ATTACK, HIT, DEATH
     }
     protected static final TextureAtlas atlas = new TextureAtlas("atlas/myAtlas.atlas");
-    protected ObjectMap<State, String> filePaths = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
     protected Animation<TextureRegion> currentAnimation;
@@ -23,15 +22,36 @@ public abstract class EntityAnimation implements Disposable {
 
     protected float timer;
 
-    public EntityAnimation() {
-        for(State state : State.values()){
-            filePaths.put(state, state.toString().toLowerCase() + "_");
-            animations.put(state, new ObjectMap<>());
+    public EntityAnimation(String name) {
+        this(name, State.values(), Direction.values());
+    }
+
+    public EntityAnimation(String name, State[] states, Direction[] directions) {
+        for(State state : states){
+            ObjectMap<Direction, Animation<TextureRegion>> animation = new ObjectMap<>();
+            String stateStr = state.toString().toLowerCase();
+
+            for(Direction dir : directions){
+                String dirStr = dir.toString().toLowerCase();
+                String key = name + "_"+stateStr+"_"+dirStr+"_anim_strip";
+
+                TextureAtlas.AtlasRegion region = atlas.findRegion(key);
+                if(region == null){
+                    key = name + "_"+stateStr+"_all_dir_anim_strip";
+                }
+                region = atlas.findRegion(key);
+                if(region == null){
+                    throw new RuntimeException("Couldn't find region: "+key);
+                }
+                animation.put(dir, new Animation<>(0.125f, textureToFrames(region)));
+            }
+            animations.put(state, animation);
         }
+        setDirection(directions[0]);
     }
 
     public TextureRegion getCurrentFrame() {
-        return currentAnimation.getKeyFrame(timer, true);
+        return currentAnimation.getKeyFrame(timer, state != State.DEATH);
     }
 
     public void setFrameDuration(float duration) {

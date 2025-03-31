@@ -14,7 +14,7 @@ public class GameObject extends Entity {
 
     public GameObject(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj.getX(), tileObj.getY());
-        mass = 1;
+        health = 1;
         this.tileObj = tileObj;
         this.player = player;
         TiledMapTile tile = tileObj.getTile();

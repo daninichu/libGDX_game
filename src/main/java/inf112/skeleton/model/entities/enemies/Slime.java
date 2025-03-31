@@ -1,9 +1,7 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -18,7 +16,7 @@ public class Slime extends Enemy {
     public Slime(float x, float y, AttackableEntity player){
         super(x, y, player);
         this.animation = new SlimeAnimation();
-        this.health = 3;
+        this.health = 15;
 
         this.attack = new SlimeAttack();
         this.speed = 1.5f * MyGame.TILE_SIZE;
@@ -52,15 +50,15 @@ public class Slime extends Enemy {
 
     public class SlimeAnimation extends EntityAnimation{
         public SlimeAnimation(){
-            super();
-            for(State state : new State[]{State.IDLE, State.RUN, State.HIT}){
-                TextureAtlas.AtlasRegion region = atlas.findRegion("pinkslime_"+state.toString().toLowerCase()+"_anim_all_dir_strip");
-                animations.get(state).put(Direction.DOWN, new Animation<>(0.125f, textureToFrames(region)));
-            }
-            setCurrentAnimation();
+            super("pinkslime", new State[]{State.IDLE, State.RUN, State.HIT, State.DEATH}, Direction.values());
+//            for(State state : new State[]{State.IDLE, State.RUN, State.HIT, State.DEATH}){
+//                TextureAtlas.AtlasRegion region = atlas.findRegion("pinkslime_"+state.toString().toLowerCase()+"_anim_all_dir_strip");
+//                animations.get(state).put(Direction.DOWN, new Animation<>(0.125f, textureToFrames(region)));
+//            }
+//            setCurrentAnimation();
         }
 
-        @Override
-        public void setDirection(Direction direction){}
+//        @Override
+//        public void setDirection(Direction direction){}
     }
 }

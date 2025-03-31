@@ -45,7 +45,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
         blueprint.addTransition(State.Stunned,          Event.Timeout,          State.Chase);
-        blueprint.addTransition(State.Dying,          Event.Timeout,          State.Dead);
+        blueprint.addTransition(State.Dying,            Event.Timeout,          State.Dead);
     }
 
     protected void addEnterFunctions(){
@@ -84,6 +84,10 @@ public abstract class Enemy extends Entity{
             timer = 0.35f;
             animation.setState(EntityAnimation.State.HIT);
         });
+        stateMachine.onEnter(State.Dying, () -> {
+            timer = 1f;
+            animation.setState(EntityAnimation.State.DEATH);
+        });
     }
 
     protected void addExitFunctions(){
@@ -120,9 +124,8 @@ public abstract class Enemy extends Entity{
         timer -= deltaTime;
         if (timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
-        if(health <= 0){
+        if(stateMachine.getState() != State.Dying && stateMachine.getState() != State.Dead && health <= 0)
             stateMachine.forceState(State.Dying);
-        }
     }
 
     @Override
