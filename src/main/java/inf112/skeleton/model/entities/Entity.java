@@ -10,10 +10,10 @@ import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
-import inf112.skeleton.view.animation.EntityAnimation;
+import inf112.skeleton.view.animation.AnimationHandler;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
-    protected EntityAnimation animation;
+    protected AnimationHandler animation;
     protected TextureRegion texture;
     protected Direction dir = Direction.DOWN;
     protected Vector2 pos;
@@ -183,9 +183,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     public TextureRegion getTexture(){
         try{
             return animation.getCurrentFrame();
-        }
-        catch(NullPointerException e){
-            throw new NullPointerException("Animation returned null in "+this.getClass().getSimpleName());
+        } catch(NullPointerException e){
+            throw new NullPointerException(e.getMessage() + " in " + getClass().getSimpleName());
         }
     }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
 import inf112.skeleton.model.Direction;
@@ -18,8 +19,7 @@ import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.view.animation.EntityAnimation;
-import inf112.skeleton.view.animation.PlayerAnimation;
+import inf112.skeleton.view.animation.AnimationHandler;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
@@ -46,7 +46,18 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     public Player(float x, float y){
         super(x, y);
-        this.animation = new PlayerAnimation();
+        this.animation = new AnimationHandler("char"){
+            @Override
+            public void putOffsets(){
+                ObjectMap<Direction, Vector2> attackOffsets = new ObjectMap<>();
+                attackOffsets.put(Direction.LEFT, new Vector2(-16, -16));
+                attackOffsets.put(Direction.RIGHT, new Vector2(0, -16));
+                attackOffsets.put(Direction.UP, new Vector2(-16, 0));
+                attackOffsets.put(Direction.DOWN, new Vector2(-16, -16));
+                offsets.put(State.ATTACK, attackOffsets);
+            }
+        };
+        animation.setDirection(dir);
 
         this.speed = 5f * MyGame.TILE_SIZE;
         this.texture = new TextureRegion(new Texture("sprite16.png"));
@@ -63,7 +74,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     private void addEnterFunctions(){
         stateMachine.onEnter(State.NonAttack, () -> {
-            animation.setState(EntityAnimation.State.IDLE);
+            animation.setState(AnimationHandler.State.IDLE);
         });
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
@@ -75,22 +86,22 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                     case DOWN   -> velocity.set(0, -1);
                 }
             }
-            animation.setState(EntityAnimation.State.ATTACK);
-            animation.setFrameDuration(attack.getStartup());
+            animation.setState(AnimationHandler.State.ATTACK);
+            animation.setFrameDuration(attack.getStartup(), AnimationHandler.State.ATTACK);
         });
         stateMachine.onEnter(State.Attack, () -> {
             timer = attack.getDuration();
             velocity.setLength(attack.getMomentum());
             placeHitboxes();
-            animation.setFrameDuration(attack.getDuration()/3);
+            animation.setFrameDuration(attack.getDuration()/3, AnimationHandler.State.ATTACK);
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
             timer = attack.getCooldown();
-            animation.setFrameDuration(attack.getCooldown()/2);
+            animation.setFrameDuration(attack.getCooldown()/2, AnimationHandler.State.ATTACK);
         });
         stateMachine.onEnter(State.Stunned, () -> {
             timer = 0.75f;
-            animation.setState(EntityAnimation.State.HIT);
+            animation.setState(AnimationHandler.State.HIT);
         });
     }
 
@@ -99,7 +110,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             attack.reset();
         });
         stateMachine.onExit(State.AttackEnd, () -> {
-            animation.setState(EntityAnimation.State.IDLE);
+            animation.setState(AnimationHandler.State.IDLE);
             animation.setDirection(dir);
         });
     }
@@ -114,10 +125,10 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 velocity.setLength(speed);
                 if(move(deltaTime)){
                     updateDirection();
-                    animation.setState(EntityAnimation.State.RUN);
+                    animation.setState(AnimationHandler.State.RUN);
                 }
                 else
-                    animation.setState(EntityAnimation.State.IDLE);
+                    animation.setState(AnimationHandler.State.IDLE);
             }
             case Attack -> move(deltaTime);
             case Stunned -> {

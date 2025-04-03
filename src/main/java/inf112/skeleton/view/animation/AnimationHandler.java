@@ -8,54 +8,44 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.model.Direction;
 
-public abstract class EntityAnimation implements Disposable {
+public class AnimationHandler implements Disposable {
     public enum State{
         IDLE, RUN, ATTACK, HIT, DEATH
     }
-    protected static final TextureAtlas atlas = new TextureAtlas("atlas/myAtlas.atlas");
-    protected ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
+    private static final TextureAtlas atlas = new TextureAtlas("atlas/myAtlas.atlas");
+    private ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();
     protected ObjectMap<State, ObjectMap<Direction, Vector2>> offsets = new ObjectMap<>();
-    protected Animation<TextureRegion> currentAnimation;
+    private Animation<TextureRegion> currentAnimation;
 
-    protected Direction direction = Direction.DOWN;
-    protected State state = State.IDLE;
+    private Direction direction;
+    private State state = State.IDLE;
+    private float timer;
 
-    protected float timer;
-
-    public EntityAnimation(String name) {
-        this(name, State.values(), Direction.values());
-    }
-
-    public EntityAnimation(String name, State[] states, Direction[] directions) {
-        for(State state : states){
+    public AnimationHandler(String name) {
+        for(State state : State.values()) {
             ObjectMap<Direction, Animation<TextureRegion>> animation = new ObjectMap<>();
             String stateStr = state.toString().toLowerCase();
-
-            for(Direction dir : directions){
+            for(Direction dir : Direction.values()){
                 String dirStr = dir.toString().toLowerCase();
-                String key = name + "_"+stateStr+"_"+dirStr+"_anim_strip";
-
-                TextureAtlas.AtlasRegion region = atlas.findRegion(key);
-                if(region == null){
-                    key = name + "_"+stateStr+"_all_dir_anim_strip";
-                }
-                region = atlas.findRegion(key);
-                if(region == null){
-                    throw new RuntimeException("Couldn't find region: "+key);
-                }
-                animation.put(dir, new Animation<>(0.125f, textureToFrames(region)));
+                TextureAtlas.AtlasRegion reg = atlas.findRegion(name + "_" + stateStr + "_" + dirStr + "_anim_strip");
+                if(reg == null)
+                    reg = atlas.findRegion(name + "_" + stateStr + "_all_dir_anim_strip");
+                if(reg == null)
+                    System.out.println("No " + state + " " + dir + " frame for " + name);
+                else
+                    animation.put(dir, new Animation<>(0.125f, textureToFrames(reg)));
             }
             animations.put(state, animation);
         }
-        setDirection(directions[0]);
+        putOffsets();
     }
+
+    public void putOffsets(){}
 
     public TextureRegion getCurrentFrame() {
-        return currentAnimation.getKeyFrame(timer, state != State.DEATH);
-    }
-
-    public void setFrameDuration(float duration) {
-        setFrameDuration(duration, state);
+        if(currentAnimation == null)
+            throw new NullPointerException("No frame for " + state + " " + direction);
+        return currentAnimation.getKeyFrame(timer);
     }
 
     public void setFrameDuration(float duration, State state) {
@@ -70,10 +60,6 @@ public abstract class EntityAnimation implements Disposable {
         return new Vector2();
     }
 
-    /**
-     * Animation is only reset if direction is different from before depending on
-     * context, {@code direction} or {@code dirVec} is used to find texture direction.
-     */
     public void setDirection(Direction direction) {
         if (this.direction != direction) {
             this.direction = direction;
@@ -96,11 +82,11 @@ public abstract class EntityAnimation implements Disposable {
         timer += deltaTime;
     }
 
-    protected static TextureRegion[] textureToFrames(TextureAtlas.AtlasRegion reg) {
+    private static TextureRegion[] textureToFrames(TextureAtlas.AtlasRegion reg) {
         return reg.split(reg.getRegionWidth() / reg.index, reg.getRegionHeight())[0];
     }
 
-    protected void setCurrentAnimation() {
+    private void setCurrentAnimation() {
         currentAnimation = animations.get(state).get(direction);
     }
 

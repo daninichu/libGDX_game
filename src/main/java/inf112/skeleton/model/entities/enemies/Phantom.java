@@ -1,8 +1,6 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,14 +10,15 @@ import inf112.skeleton.model.Direction;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.view.animation.EntityAnimation;
+import inf112.skeleton.view.animation.AnimationHandler;
 
 public class Phantom extends Enemy{
     public Phantom(float x, float y, AttackableEntity player){
         super(x, y, player);
-        this.animation = new PhantomAnimation();
+        this.animation = new AnimationHandler("phantom");
+        animation.setDirection(Direction.RIGHT);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
-        this.health = 30;
+        this.health = 20;
 //        this.mass = 1;
         this.speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
@@ -59,28 +58,6 @@ public class Phantom extends Enemy{
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
             hitboxes.add(baseHitbox);
-        }
-    }
-
-    public class PhantomAnimation extends EntityAnimation{
-        public PhantomAnimation(){
-            super("phantom", new State[]{State.IDLE, State.RUN, State.HIT, State.DEATH}, new Direction[]{Direction.LEFT, Direction.RIGHT});
-
-//            filePaths.put(State.ATTACK, "run_");
-//
-//            for (Direction d : Direction.values()){
-//                if(d == Direction.UP || d == Direction.DOWN){
-//                    continue;
-//                }
-//                String dir = d.toString().toLowerCase();
-//                for(State state : State.values()){
-//                    String file = filePaths.get(state);
-//                    TextureAtlas.AtlasRegion region = atlas.findRegion("phantom_" + file + "anim_" + dir + "_strip");
-//                    animations.get(state).put(d, new Animation<>(0.125f, textureToFrames(region)));
-//                }
-//            }
-//            setDirection(Direction.RIGHT);
-//            setCurrentAnimation();
         }
     }
 }

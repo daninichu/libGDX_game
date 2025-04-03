@@ -1,13 +1,11 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.view.animation.EntityAnimation;
-import inf112.skeleton.view.animation.PlayerAnimation;
+import inf112.skeleton.view.animation.AnimationHandler;
 
 public abstract class Enemy extends Entity{
     public enum State {
@@ -52,47 +50,48 @@ public abstract class Enemy extends Entity{
         stateMachine.onEnter(State.Idle, () -> {
             timer = MathUtils.random(1.2f, 3f);
             velocity.setLength(0);
-            animation.setState(EntityAnimation.State.IDLE);
+            animation.setState(AnimationHandler.State.IDLE);
         });
         stateMachine.onEnter(State.Roaming, () -> {
             timer = MathUtils.random(0.2f, 2);
             velocity.setToRandomDirection();
             velocity.setLength(speed / 2f);
-            animation.setState(EntityAnimation.State.RUN);
+            animation.setState(AnimationHandler.State.RUN);
         });
         stateMachine.onEnter(State.Chase, () -> {
             velocity.set(speed, 0);
-            animation.setState(EntityAnimation.State.RUN);
+            animation.setState(AnimationHandler.State.RUN);
         });
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
             velocity.set(player.getCenterPos().sub(getCenterPos()).setLength(0.1f));
             updateDirection();
-            animation.setState(EntityAnimation.State.IDLE);
+            animation.setState(AnimationHandler.State.IDLE);
         });
         stateMachine.onEnter(State.Attack, () -> {
             placeHitboxes();
             timer = attack.getDuration();
             velocity.setLength(attack.getMomentum());
-            animation.setState(EntityAnimation.State.RUN);
+            animation.setState(AnimationHandler.State.RUN);
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
             timer = attack.getCooldown();
             velocity.set(0, 0);
+            animation.setState(AnimationHandler.State.IDLE);
         });
         stateMachine.onEnter(State.Stunned, () -> {
             timer = 0.35f;
-            animation.setState(EntityAnimation.State.HIT);
+            animation.setState(AnimationHandler.State.HIT);
         });
         stateMachine.onEnter(State.Dying, () -> {
             timer = 1f;
-            animation.setState(EntityAnimation.State.DEATH);
+            animation.setState(AnimationHandler.State.DEATH);
         });
     }
 
     protected void addExitFunctions(){
         stateMachine.onExit(State.Attack, () -> attack.reset());
-        stateMachine.onExit(State.AttackEnd, () -> animation.setState(EntityAnimation.State.IDLE));
+        stateMachine.onExit(State.AttackEnd, () -> animation.setState(AnimationHandler.State.IDLE));
     }
 
     @Override

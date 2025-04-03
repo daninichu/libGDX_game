@@ -3,13 +3,12 @@ package inf112.skeleton.model.entities.enemies;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.view.animation.PlayerAnimation;
 
 public class Dummy extends Enemy{
     public Dummy(float x, float y, AttackableEntity player){
         super(x, y, player);
         health = 1;
-        animation = new PlayerAnimation();
+//        animation = new PlayerAnimation();
         speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
     }
