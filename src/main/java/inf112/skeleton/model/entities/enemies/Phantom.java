@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.Direction;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;

@@ -160,7 +160,7 @@ public class Map {
 //            else
 //                entities.add(enemy);
 //        }
-////        entities.addAll(enemies);
+//        entities.addAll(enemies);
 //        entities.addAll(objects);
         return entities;
     }

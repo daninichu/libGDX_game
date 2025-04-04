@@ -63,10 +63,10 @@ public class AnimationHandler implements Disposable {
     }
 
     public void setDirection(Direction direction) {
-//        if (this.direction != direction) {
+        if (this.direction != direction) {
             this.direction = direction;
             setCurrentAnimation();
-//        }
+        }
     }
 
     /**
@@ -75,9 +75,9 @@ public class AnimationHandler implements Disposable {
     public void setState(State state) {
         if (this.state != state) {
             timer = 0;
-        }
             this.state = state;
             setCurrentAnimation();
+        }
     }
 
     public void update(float deltaTime) {
