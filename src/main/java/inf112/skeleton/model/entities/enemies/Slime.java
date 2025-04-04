@@ -13,8 +13,7 @@ import inf112.skeleton.view.animation.AnimationHandler;
 public class Slime extends Enemy {
     public Slime(float x, float y, AttackableEntity player){
         super(x, y, player);
-        this.animation = new AnimationHandler("pinkslime");
-        animation.setDirection(Direction.DOWN);
+        this.animation = new AnimationHandler("pinkslime", dir);
         this.health = 15;
 
         this.attack = new SlimeAttack();

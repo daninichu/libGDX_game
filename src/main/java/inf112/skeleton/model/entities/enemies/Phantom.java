@@ -15,8 +15,7 @@ import inf112.skeleton.view.animation.AnimationHandler;
 public class Phantom extends Enemy{
     public Phantom(float x, float y, AttackableEntity player){
         super(x, y, player);
-        this.animation = new AnimationHandler("phantom");
-        animation.setDirection(Direction.RIGHT);
+        this.animation = new AnimationHandler("phantom", dir);
         this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.health = 20;
 //        this.mass = 1;

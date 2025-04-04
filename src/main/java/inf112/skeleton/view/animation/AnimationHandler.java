@@ -21,7 +21,10 @@ public class AnimationHandler implements Disposable {
     private State state = State.IDLE;
     private float timer;
 
-    public AnimationHandler(String name) {
+    /**
+     * All png files must be in the form {@code [name]_[state]_[direction]_anim_strip_[num frames].png} in lowercase.
+     */
+    public AnimationHandler(String name, Direction initialDir) {
         for(State state : State.values()) {
             ObjectMap<Direction, Animation<TextureRegion>> animation = new ObjectMap<>();
             String stateStr = state.toString().toLowerCase();
@@ -30,22 +33,21 @@ public class AnimationHandler implements Disposable {
                 TextureAtlas.AtlasRegion reg = atlas.findRegion(name + "_" + stateStr + "_" + dirStr + "_anim_strip");
                 if(reg == null)
                     reg = atlas.findRegion(name + "_" + stateStr + "_all_dir_anim_strip");
-                if(reg == null)
-                    System.out.println("No " + state + " " + dir + " frame for " + name);
-                else
+                if(reg != null)
                     animation.put(dir, new Animation<>(0.125f, textureToFrames(reg)));
             }
             animations.put(state, animation);
         }
         putOffsets();
+        setDirection(initialDir);
     }
 
-    public void putOffsets(){}
+    protected void putOffsets(){}
 
     public TextureRegion getCurrentFrame() {
         if(currentAnimation == null)
-            throw new NullPointerException("No frame for " + state + " " + direction);
-        return currentAnimation.getKeyFrame(timer);
+            throw new NullPointerException("No animation for " + state + " " + direction);
+        return currentAnimation.getKeyFrame(timer, true);
     }
 
     public void setFrameDuration(float duration, State state) {
@@ -61,21 +63,21 @@ public class AnimationHandler implements Disposable {
     }
 
     public void setDirection(Direction direction) {
-        if (this.direction != direction) {
+//        if (this.direction != direction) {
             this.direction = direction;
             setCurrentAnimation();
-        }
+//        }
     }
 
     /**
-     * Animation is only reset if state is different from before
+     * Animation is only reset if state is different from before.
      */
     public void setState(State state) {
         if (this.state != state) {
             timer = 0;
+        }
             this.state = state;
             setCurrentAnimation();
-        }
     }
 
     public void update(float deltaTime) {

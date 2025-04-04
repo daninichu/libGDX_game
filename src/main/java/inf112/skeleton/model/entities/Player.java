@@ -1,7 +1,5 @@
 package inf112.skeleton.model.entities;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -46,9 +44,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     public Player(float x, float y){
         super(x, y);
-        this.animation = new AnimationHandler("char"){
+        this.animation = new AnimationHandler("char", dir){
             @Override
-            public void putOffsets(){
+            protected void putOffsets(){
                 ObjectMap<Direction, Vector2> attackOffsets = new ObjectMap<>();
                 attackOffsets.put(Direction.LEFT, new Vector2(-16, -16));
                 attackOffsets.put(Direction.RIGHT, new Vector2(0, -16));
@@ -57,10 +55,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 offsets.put(State.ATTACK, attackOffsets);
             }
         };
-        animation.setDirection(dir);
 
         this.speed = 5f * MyGame.TILE_SIZE;
-        this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.hurtbox = new Box(2, 0, 12, 12);
         this.attack = new PlayerAttack();
         this.maxHealth = this.health = 20;

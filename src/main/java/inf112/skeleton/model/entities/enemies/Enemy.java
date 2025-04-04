@@ -25,6 +25,7 @@ public abstract class Enemy extends Entity{
     public Enemy(float x, float y, AttackableEntity player) {
         super(x, y);
         this.player = player;
+        this.dir = Direction.RIGHT;
 
         addTransitions();
         addEnterFunctions();
@@ -129,7 +130,7 @@ public abstract class Enemy extends Entity{
 
     @Override
     public void getAttacked(AttackableEntity attacker) {
-        if(gotHit(attacker)){
+        if(gotHit(attacker) && stateMachine.getState() != State.Dying){
             super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
 
