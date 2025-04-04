@@ -29,7 +29,6 @@ public class Map {
     private Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
-    private Array<Entity> entities;
     private Array<Rectangle> collisionBoxes;
     private StaticCollisionHandler staticCH;
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
@@ -61,27 +60,17 @@ public class Map {
         spawnEnemies();
         loadCollisionBoxes();
         staticCH = new StaticCollisionHandler(collisionBoxes);
-
-        entities.add(player);
-        entities.addAll(enemies);
-        entities.addAll(objects);
     }
 
     private void reset(){
         enemies = new Array<>();
         objects = new Array<>();
-        entities = new Array<>();
         collisionBoxes = new Array<>();
     }
 
     public void update(float deltaTime) {
-        for(int i = 0; i < entities.size; i++){
-            Entity e = entities.get(i);
-            if(e.dead())
-                entities.removeIndex(i--);
-            else
-                e.update(deltaTime);
-        }
+        Array<Entity> entities = getEntities();
+        entities.forEach(e -> e.update(deltaTime));
         entityCH.updateGrid(entities);
         entities.forEach(e -> entityCH.handleCollision(e));
         entities.forEach(e -> staticCH.handleCollision(e));
@@ -107,22 +96,20 @@ public class Map {
             if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
             objects.add(object);
-            if (!object.moveable()){
+            if (!object.moveable())
                 collisionBoxes.add(object.locateHurtbox());
-            }
         }
     }
 
     private void loadCollisionBoxes(){
         if(tiledMap.getLayers().get("Collision") == null)
             return;
-        for (MapObject obj : tiledMap.getLayers().get("Collision").getObjects()) {
+        for (MapObject obj : tiledMap.getLayers().get("Collision").getObjects())
             collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
-        }
     }
 
     private void spawnEnemies() {
-        for(int i = 0; i < 5000; i++){
+        for(int i = 0; i < 10000; i++){
 //            enemies.add(new Dummy(0, 50, player));
         }
             enemies.add(new Phantom(0, 50, player));
@@ -134,15 +121,12 @@ public class Map {
             String type = obj.getProperties().get("type", String.class);
             float x = rectObj.getRectangle().getX();
             float y = rectObj.getRectangle().getY();
-            if(type.equals("Dummy")){
+            if(type.equals("Dummy"))
                 enemies.add(new Dummy(x, y, player));
-            }
-            if(type.equals("EvilSquare")){
+            if(type.equals("EvilSquare"))
                 enemies.add(new Phantom(x, y, player));
-            }
-            if(type.equals("DarkSquare")){
+            if(type.equals("DarkSquare"))
                 enemies.add(new DarkSquare(x, y, player));
-            }
         }
     }
 
@@ -151,18 +135,18 @@ public class Map {
     }
 
     public Array<Entity> getEntities() {
-//        Array<Entity> entities = new Array<>();
-//        entities.add(player);
-//        for(int i = 0; i < enemies.size; i++){
-//            Entity enemy = enemies.get(i);
-//            if(enemy.dead())
-//                enemies.removeIndex(i--);
-//            else
-//                entities.add(enemy);
-//        }
-//        entities.addAll(enemies);
-//        entities.addAll(objects);
+        Array<Entity> entities = new Array<>();
+        entities.add(player);
+        entities.addAll(filter(enemies));
+        entities.addAll(filter(objects));
         return entities;
+    }
+
+    private static <T extends Entity> Array<T> filter(Array<T> arr) {
+        for(int i = 0; i < arr.size; i++)
+            if(arr.get(i).dead())
+                arr.removeIndex(i--);
+        return arr;
     }
 
     public Array.ArrayIterable<Circle> getHitboxes() {
@@ -180,5 +164,4 @@ public class Map {
     public Array.ArrayIterable<GameObject> getObjects(){
         return new Array.ArrayIterable<>(objects);
     }
-
 }

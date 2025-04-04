@@ -54,12 +54,13 @@ public class GameScreen extends AbstractScreen{
 
     public void reset(){
         mapRenderer.setMap(map.getTiledMap());
-        entities = map.getEntities();
+//        entities = map.getEntities();
         camera.position.set(player.getCenterPos(), 0);
     }
 
     @Override
     public void render(float deltaTime) {
+        entities = map.getEntities();
         switch(game.getState()){
             case Play -> {
                 map.update(deltaTime);

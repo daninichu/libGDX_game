@@ -50,7 +50,9 @@ public class MyGame extends Game{
         ui = new UI(player);
         map = new Map(player);
 //        map.prepareNewMap("grass.tmx");
+        long time = System.nanoTime();
         map.loadMap("grass.tmx");
+        Gdx.app.log("Load time", (System.nanoTime()-time)/1000000f+" ms");
 
         gameProcessor = new GameInputProcessor(this, player);
         inventoryProcessor = new InventoryInputProcessor(this, player);
