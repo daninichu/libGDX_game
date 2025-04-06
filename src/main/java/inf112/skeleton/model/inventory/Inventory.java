@@ -25,7 +25,7 @@ public class Inventory implements Iterable<Item> {
     }
 
     public void indexUp(){
-        index = Math.min(index + 1, SIZE);
+        index = Math.min(index + 1, SIZE - 1);
     }
 
     public void indexDown(){

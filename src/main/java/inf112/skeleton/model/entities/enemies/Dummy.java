@@ -1,19 +1,20 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.model.entities.ItemDrop;
-import inf112.skeleton.model.inventory.IInventoryPlayer;
+import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.view.animation.AnimationHandler;
 
 public class Dummy extends Enemy{
+
     public Dummy(float x, float y, AttackableEntity player){
         super(x, y, player);
         animation = new AnimationHandler("char", dir);
         health = 1;
-//        animation = new PlayerAnimation();
         speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
     }
@@ -31,6 +32,10 @@ public class Dummy extends Enemy{
 
     @Override
     public Array<ItemDrop> getItemDrop(){
-        return new Array<>(new ItemDrop[]{new ItemDrop(getX(), getY(), (IInventoryPlayer) player)});
+        Array<ItemDrop> itemDrops = new Array<>();
+//        if(MathUtils.random() <= 0.1f)
+            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+        return itemDrops;
     }
 }

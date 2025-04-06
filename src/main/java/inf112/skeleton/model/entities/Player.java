@@ -66,6 +66,15 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         addExitFunctions();
 
         inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
     }
 
     private void addEnterFunctions(){

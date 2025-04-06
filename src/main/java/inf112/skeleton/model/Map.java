@@ -146,10 +146,22 @@ public class Map {
         return entities;
     }
 
+    public Array<Entity> getEntities(boolean e, boolean o, boolean i) {
+        Array<Entity> entities = new Array<>();
+        entities.add(player);
+        entities.addAll(filter(enemies));
+        entities.addAll(filter(objects));
+        entities.addAll(filter(itemDrops));
+        return entities;
+    }
+
     private <T extends Entity> Array<T> filter(Array<T> arr) {
         for(int i = 0; i < arr.size; i++)
-            if(arr.get(i).dead())
-                itemDrops.addAll(arr.removeIndex(i--).getItemDrop());
+            if(arr.get(i).dead()){
+                Array<ItemDrop> drops = (arr.removeIndex(i--).getItemDrop());
+                drops.forEach(drop -> drop.setPlayer(player));
+                itemDrops.addAll(drops);
+            }
         return arr;
     }
 

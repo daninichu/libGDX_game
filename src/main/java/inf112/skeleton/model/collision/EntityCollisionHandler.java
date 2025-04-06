@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
+import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
 
 import java.awt.Point;
@@ -24,14 +25,19 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     }
 
     public void handleCollision(CollidableEntity entity) {
+        if(entity instanceof ItemDrop)
+            return;
         ObjectSet<CollidableEntity> localEntities = getLocalObjects(entity.locateHurtbox());
 
-        for(CollidableEntity localEntity : localEntities)
+        for(CollidableEntity localEntity : localEntities){
+            if(localEntity instanceof ItemDrop)
+                continue;
             if(entity.locateHurtbox().overlaps(localEntity.locateHurtbox()))
                 if(entity instanceof GameObject || localEntity instanceof GameObject)
                     push(entity, localEntity);
                 else
                     repel(entity, localEntity);
+        }
     }
 
     private static void repel(CollidableEntity e1, CollidableEntity e2) {
@@ -42,12 +48,11 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
         e2.addPos(direction.x, direction.y);
     }
 
-    public static void push(CollidableEntity e1, CollidableEntity e2) {
+    private static void push(CollidableEntity e1, CollidableEntity e2) {
         float overlapX = Math.min(e1.getRightX() - e2.getLeftX(), e2.getRightX() - e1.getLeftX());
         float overlapY = Math.min(e1.getTopY() - e2.getBottomY(), e2.getTopY() - e1.getBottomY());
 
         if (overlapX < overlapY) {
-            // Horizontal push
             if (e1.getLeftX() < e2.getLeftX()) {
                 e1.addPos(-overlapX / 2f, 0);
                 e2.addPos(overlapX / 2f, 0);
@@ -56,7 +61,6 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
                 e2.addPos(-overlapX / 2f, 0);
             }
         } else {
-            // Vertical push
             if (e1.getBottomY() < e2.getBottomY()) {
                 e1.addPos(0, -overlapY / 2f);
                 e2.addPos(0, overlapY / 2f);

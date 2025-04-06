@@ -3,38 +3,57 @@ package inf112.skeleton.model.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Item;
 
 public class ItemDrop extends Entity{
     private IInventoryPlayer player;
-    private Item item = new HealthPotion();
+    private Item item;
     private float acceleration = 100;
     private boolean followPlayer;
 
-    public ItemDrop(float x, float y, IInventoryPlayer player) {
-        super(x, y);
-        this.player = player;
+    /**
+     * The position should be the center position of whoever instantiated this.
+     * @param item The item this object will contain.
+     */
+    public ItemDrop(float centerX, float centerY, Item item) {
+        super(centerX, centerY);
+        this.item = item;
         texture = new TextureRegion(new Texture("Props_Items/health_potion_item.png"));
         hurtbox = new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
+        pos.sub(getWidth() / 2, getHeight() / 2);
+        mass = 0;
+        speed = 60;
+        velocity.setToRandomDirection().setLength(speed);
+    }
+
+    public void setPlayer(IInventoryPlayer player) {
+        this.player = player;
     }
 
     @Override
     public void update(float deltaTime){
-        float distance = getCenterPos().dst(player.getCenterPos());
-        if(distance < 32){
-            followPlayer = true;
-        }
+        prevPos.set(pos);
         if(followPlayer){
             speed = Math.min(100, speed + acceleration * deltaTime);
-            velocity.set(player.getCenterPos().sub(getCenterPos())).setLength(speed);
+            velocity.set(player.getCenterPos().sub(getCenterPos()));
+            if(locateHurtbox().overlaps(player.locateHurtbox())){
+                if(player.getInventory().addItem(item))
+                    item = null;
+                else{
+                    followPlayer = false;
+                    speed = 60;
+                    velocity.scl(-1).setLength(speed);
+                }
+            }
         }
+        else {
+            speed = Math.max(0, speed - acceleration * deltaTime);
+            if(getCenterPos().dst(player.getCenterPos()) < 32 && speed == 0)
+                followPlayer = true;
+        }
+        velocity.setLength(speed);
         move(deltaTime);
-        if(locateHurtbox().overlaps(player.locateHurtbox())){
-            player.getInventory().addItem(item);
-            item = null;
-        }
     }
 
     @Override
@@ -46,11 +65,6 @@ public class ItemDrop extends Entity{
     public void setPos(float x, float y){
         if(!followPlayer)
             super.setPos(x, y);
-    }
-    @Override
-    public void addPos(float x, float y){
-        if(!followPlayer)
-            super.addPos(x, y);
     }
 
     @Override
