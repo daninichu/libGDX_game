@@ -1,4 +1,4 @@
-package inf112.skeleton.view.animation;
+package inf112.skeleton.view;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;

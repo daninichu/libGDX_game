@@ -49,7 +49,7 @@ public class ItemDrop extends Entity{
         }
         else {
             speed = Math.max(0, speed - acceleration * deltaTime);
-            if(getCenterPos().dst(player.getCenterPos()) < 32 && speed == 0)
+            if(getCenterPos().dst(player.getCenterPos()) < 24 && speed == 0)
                 followPlayer = true;
         }
         velocity.setLength(speed);

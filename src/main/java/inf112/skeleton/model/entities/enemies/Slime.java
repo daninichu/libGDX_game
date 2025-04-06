@@ -7,7 +7,7 @@ import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.view.animation.AnimationHandler;
+import inf112.skeleton.view.AnimationHandler;
 
 public class Slime extends Enemy {
     public Slime(float x, float y, AttackableEntity player){

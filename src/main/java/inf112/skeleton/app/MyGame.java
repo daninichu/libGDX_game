@@ -22,9 +22,15 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public class MyGame extends Game{
     public enum State {
-        Title, Play, Dialogue, Inventory, LoadStart, Loading, LoadEnd
+        Title, Play, Dialogue, Inventory
+        //, LoadStart, Loading, LoadEnd
+    }
+    public enum LoadState {
+        NotLoading, LoadStart, LoadEnd
     }
     private State state = State.Title;
+    private LoadState loadState = LoadState.NotLoading;
+
     public static int SCREEN_WIDTH = 480*2;
     public static int SCREEN_HEIGHT = 320*2;
     public static int TILE_SIZE = 16;
@@ -79,7 +85,7 @@ public class MyGame extends Game{
 
     public void enterDoor(IDoor door){
         player.setPos(door.getExitPos());
-        state = State.LoadStart;
+        loadState = LoadState.LoadStart;
         if(door.getMapFile() != null)
             changeMap(door.getMapFile());
     }
@@ -99,8 +105,16 @@ public class MyGame extends Game{
         return state;
     }
 
+    public LoadState getLoadState(){
+        return loadState;
+    }
+
     public void setState(State state){
         this.state = state;
+    }
+
+    public void setLoadState(LoadState loadState){
+        this.loadState = loadState;
     }
 
     public void setScreen(Class<? extends Screen> screenClassName){

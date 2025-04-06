@@ -17,7 +17,7 @@ import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.model.Box;
-import inf112.skeleton.view.animation.AnimationHandler;
+import inf112.skeleton.view.AnimationHandler;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     public enum State{
@@ -212,7 +212,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     public boolean useItem(Item item){
         if(item == null)
             return false;
-        health = Math.min(maxHealth, health + item.getHeal());
+        health = Math.min(maxHealth, health + item.heal());
         return true;
     }
 

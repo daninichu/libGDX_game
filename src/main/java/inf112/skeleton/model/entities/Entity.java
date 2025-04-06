@@ -10,7 +10,7 @@ import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
-import inf112.skeleton.view.animation.AnimationHandler;
+import inf112.skeleton.view.AnimationHandler;
 
 public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
     protected AnimationHandler animation;

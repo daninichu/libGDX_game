@@ -22,6 +22,8 @@ public class GameInputProcessor extends InputAdapter {
             case Input.Keys.W -> player.setUpMove(true);
             case Input.Keys.S -> player.setDownMove(true);
         }
+        if(game.getLoadState() != MyGame.LoadState.NotLoading)
+            return false;
         switch(game.getState()) {
             case Play -> keyDownPlay(keycode);
             case Dialogue -> keyDownDialogue(keycode);
@@ -36,37 +38,28 @@ public class GameInputProcessor extends InputAdapter {
         switch (keycode) {
             case Input.Keys.E -> {
                 GameObject object = player.interact(game.getMap().getObjects());
-                if(object instanceof IDoor door) {
-                    if(door.cannotOpenMessage() == null){
+                if(object instanceof IDoor door)
+                    if(door.cannotOpenMessage() == null)
                         game.enterDoor(door);
-                    }
                     else{
                         game.ui.setDialogue(door.cannotOpenMessage());
                         game.setState(MyGame.State.Dialogue);
                     }
-                }
                 else if(object instanceof IDialogue dialogueObj) {
                     game.setDialogue(dialogueObj);
                     game.setState(MyGame.State.Dialogue);
                 }
-                else if(object != null){
+                else if(object != null)
                     object.interact();
-                }
             }
-            case Input.Keys.SPACE -> {
-                player.attackPressed();
-            }
-            case Input.Keys.Q -> {
-                game.setState(MyGame.State.Inventory);
-            }
+            case Input.Keys.SPACE -> player.attackPressed();
+            case Input.Keys.Q -> game.setState(MyGame.State.Inventory);
         }
     }
 
     void keyDownDialogue(int keycode) {
         switch (keycode) {
-            case Input.Keys.E -> {
-                game.setState(MyGame.State.Play);
-            }
+            case Input.Keys.E -> game.setState(MyGame.State.Play);
         }
     }
 
@@ -80,8 +73,7 @@ public class GameInputProcessor extends InputAdapter {
             case Input.Keys.S -> player.setDownMove(false);
         }
         switch(game.getState()){
-            case Play -> {}
-            case Dialogue -> {}
+            case Play, Dialogue -> {}
             default -> {
                 return false;
             }

@@ -1,13 +1,12 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.inventory.HealthPotion;
-import inf112.skeleton.view.animation.AnimationHandler;
+import inf112.skeleton.view.AnimationHandler;
 
 public class Dummy extends Enemy{
 

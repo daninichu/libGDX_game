@@ -19,21 +19,13 @@ public class InventoryInputProcessor extends InputAdapter{
 
     @Override
     public boolean keyDown(int keycode){
-        if(game.getState() != MyGame.State.Inventory)
+        if(game.getLoadState() != MyGame.LoadState.NotLoading || game.getState() != MyGame.State.Inventory)
             return false;
         switch(keycode){
-            case Input.Keys.A -> {
-                inventory.indexDown();
-            }
-            case Input.Keys.D -> {
-                inventory.indexUp();
-            }
-            case Input.Keys.SPACE -> {
-                player.useItem(inventory.getItem());
-            }
-            case Input.Keys.Q -> {
-                game.setState(MyGame.State.Play);
-            }
+            case Input.Keys.A -> inventory.indexDown();
+            case Input.Keys.D -> inventory.indexUp();
+            case Input.Keys.SPACE -> player.useItem(inventory.getItem());
+            case Input.Keys.Q -> game.setState(MyGame.State.Play);
         }
         return true;
     }

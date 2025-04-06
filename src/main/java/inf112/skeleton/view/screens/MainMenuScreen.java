@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 
 public class MainMenuScreen extends AbstractScreen {
@@ -47,12 +46,12 @@ public class MainMenuScreen extends AbstractScreen {
         stage.act();
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setState(MyGame.State.LoadStart);
+            game.setLoadState(MyGame.LoadState.LoadStart);
         }
-        if(game.getState() == MyGame.State.LoadStart){
+        if(game.getLoadState() == MyGame.LoadState.LoadStart){
             fadeToBlack(deltaTime);
             if(resetFadeTimer()){
-                game.setState(MyGame.State.LoadEnd);
+                game.setState(MyGame.State.Play);
                 game.setScreen(GameScreen.class);
             }
         }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
@@ -54,13 +52,30 @@ public class GameScreen extends AbstractScreen{
 
     public void reset(){
         mapRenderer.setMap(map.getTiledMap());
-//        entities = map.getEntities();
         camera.position.set(player.getCenterPos(), 0);
     }
 
     @Override
     public void render(float deltaTime) {
         entities = map.getEntities();
+        viewport.apply();
+        switch(game.getLoadState()){
+            case LoadStart -> {
+                fadeToBlack(deltaTime);
+                if(resetFadeTimer()){
+                    reset();
+                    game.setLoadState(MyGame.LoadState.LoadEnd);
+                }
+                return;
+            }
+            case LoadEnd -> {
+                draw();
+                unfadeFromBlack(deltaTime);
+                if(resetFadeTimer())
+                    game.setLoadState(MyGame.LoadState.NotLoading);
+                return;
+            }
+        }
         switch(game.getState()){
             case Play -> {
                 map.update(deltaTime);
@@ -72,26 +87,9 @@ public class GameScreen extends AbstractScreen{
                 draw();
                 game.ui.renderDialogue();
             }
-            case LoadStart -> {
-                fadeToBlack(deltaTime);
-                if(resetFadeTimer()){
-                    reset();
-                    game.setState(MyGame.State.LoadEnd);
-                }
-            }
-            case LoadEnd -> {
-                followPlayerWithCamera(deltaTime);
-                draw();
-                unfadeFromBlack(deltaTime);
-                if(resetFadeTimer())
-                    game.setState(MyGame.State.Play);
-            }
             case Inventory -> {
-                fadeToBlack(deltaTime);
-                if(resetFadeTimer()){
-                    game.setScreen(InventoryScreen.class);
-                    game.setState(MyGame.State.LoadEnd);
-                }
+                game.setLoadState(MyGame.LoadState.LoadStart);
+                game.setScreen(InventoryScreen.class);
             }
         }
     }
@@ -110,7 +108,7 @@ public class GameScreen extends AbstractScreen{
                 Vector2 p = e.drawPos();
                 batch.draw(e.getTexture(), p.x, p.y);
             }
-            if(e.getHealth() != 0){
+            if(e.getHealth() > 0){
                 font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
             }
         }

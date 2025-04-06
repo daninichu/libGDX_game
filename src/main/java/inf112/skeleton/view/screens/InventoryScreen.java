@@ -1,7 +1,6 @@
 package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -11,7 +10,7 @@ import inf112.skeleton.model.inventory.Item;
 
 public class InventoryScreen extends AbstractScreen{
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
-    Iterable<Item> inventory;
+    private Iterable<Item> inventory;
 
     public InventoryScreen(MyGame game, Inventory inventory){
         super(game);
@@ -21,29 +20,32 @@ public class InventoryScreen extends AbstractScreen{
     @Override
     public void show(){
         super.show();
-        viewport = new ExtendViewport(200, 200);
+        viewport = new ExtendViewport(400, 200);
+        viewport = new ExtendViewport(24*MyGame.TILE_SIZE, 18*MyGame.TILE_SIZE);
     }
 
     @Override
     public void render(float deltaTime){
-        switch(game.getState()){
-            case Inventory -> {
-                draw();
+        switch(game.getLoadState()){
+            case LoadStart -> {
+                fadeToBlack(deltaTime);
+                if(resetFadeTimer())
+                    game.setLoadState(MyGame.LoadState.LoadEnd);
+                return;
             }
             case LoadEnd -> {
                 draw();
                 unfadeFromBlack(deltaTime);
-                if(resetFadeTimer()){
-                    game.setState(MyGame.State.Inventory);
-                }
+                if(resetFadeTimer())
+                    game.setLoadState(MyGame.LoadState.NotLoading);
+                return;
             }
+        }
+        switch(game.getState()){
+            case Inventory -> draw();
             case Play -> {
-                draw();
-                fadeToBlack(deltaTime);
-                if(resetFadeTimer()){
-                    game.setState(MyGame.State.LoadEnd);
-                    game.setScreen(GameScreen.class);
-                }
+                game.setLoadState(MyGame.LoadState.LoadStart);
+                game.setScreen(GameScreen.class);
             }
         }
     }
@@ -61,7 +63,6 @@ public class InventoryScreen extends AbstractScreen{
             }
         }
         batch.end();
-        System.out.println(inventory);
     }
 
     @Override
