@@ -88,10 +88,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
      * consistent even for different frame rates.
      */
     protected boolean move(float deltaTime){
-        if(velocity.isZero())
-            return false;
         pos.add(velocity.cpy().scl(deltaTime));
-        return true;
+        return !velocity.isZero();
     }
 
     /**
@@ -100,6 +98,10 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected void updateDirection(){
         dir = Direction.fromVector(velocity);
         animation.setDirection(dir);
+    }
+
+    public Array<ItemDrop> getItemDrop(){
+        return new Array<>();
     }
 
     @Override

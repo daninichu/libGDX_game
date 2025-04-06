@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
+import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
 import inf112.skeleton.model.entities.gameObjects.Door;
@@ -29,6 +30,7 @@ public class Map {
     private Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
+    private Array<ItemDrop> itemDrops;
     private Array<Rectangle> collisionBoxes;
     private StaticCollisionHandler staticCH;
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
@@ -65,6 +67,7 @@ public class Map {
     private void reset(){
         enemies = new Array<>();
         objects = new Array<>();
+        itemDrops = new Array<>();
         collisionBoxes = new Array<>();
     }
 
@@ -109,11 +112,11 @@ public class Map {
     }
 
     private void spawnEnemies() {
-        for(int i = 0; i < 10000; i++){
-//            enemies.add(new Dummy(0, 50, player));
+        for(int i = 0; i < 3000; i++){
         }
-            enemies.add(new Phantom(0, 50, player));
-            enemies.add(new Slime(50, 50, player));
+            enemies.add(new Dummy(0, 50, player));
+//            enemies.add(new Phantom(0, 50, player));
+//            enemies.add(new Slime(50, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
@@ -139,13 +142,14 @@ public class Map {
         entities.add(player);
         entities.addAll(filter(enemies));
         entities.addAll(filter(objects));
+        entities.addAll(filter(itemDrops));
         return entities;
     }
 
-    private static <T extends Entity> Array<T> filter(Array<T> arr) {
+    private <T extends Entity> Array<T> filter(Array<T> arr) {
         for(int i = 0; i < arr.size; i++)
             if(arr.get(i).dead())
-                arr.removeIndex(i--);
+                itemDrops.addAll(arr.removeIndex(i--).getItemDrop());
         return arr;
     }
 

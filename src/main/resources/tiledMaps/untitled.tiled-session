@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "test1.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
         "tilesets",
         "."
@@ -21,7 +21,21 @@
                 "y": 632.8459607148131
             }
         },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/leverAndTrapTest.tmx": {
+            "scale": 0.7877083333333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 479.8730494578154,
+                "y": 320.55011901613324
+            }
+        },
         "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/64Objects.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/Lever.tsx": {
+            "scaleInDock": 1
+        },
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/Spikes.tsx": {
             "scaleInDock": 1
         },
         "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/tilesets/door.tsx": {
@@ -49,8 +63,8 @@
             "scale": 1.0933,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 352.14488246592884,
-                "y": 394.2193359553645
+                "x": 352.1448824659289,
+                "y": 394.67666697155397
             }
         },
         "doorTest.tmx": {
@@ -58,18 +72,18 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 480.2170472529957,
-                "y": 320.1446981686638
+                "y": 320.370789057201
             }
         },
         "grass.tmx": {
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 1.66,
+            "scale": 1.5632,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 239.75903614457835,
-                "y": 480.1204819277109
+                "x": 45.41965199590581,
+                "y": 549.1939611054248
             }
         },
         "o.tsx": {
@@ -88,8 +102,8 @@
             "scale": 2.15,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -16.74418604651163,
-                "y": 159.06976744186048
+                "x": 320,
+                "y": 259.30232558139534
             }
         },
         "test2.tmx": {
@@ -108,7 +122,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 319.54022988505744,
-                "y": 159.77011494252875
+                "y": 159.19540229885058
             }
         },
         "tilesets/64Objects.tsx": {
@@ -172,14 +186,6 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 20,
     "openFiles": [
-        "desert.tmx",
-        "doorTest.tmx",
-        "test3.tmx",
-        "tilesets/objects.tsx",
-        "tilesets/desertSet.tsx",
-        "tilesets/64Objects.tsx",
-        "grass.tmx",
-        "test1.tmx"
     ],
     "project": "untitled.tiled-project",
     "property.type": "bool",
@@ -192,10 +198,10 @@
         "tilesets/64Objects.tsx",
         "grass.tmx",
         "test1.tmx",
+        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/leverAndTrapTest.tmx",
         "test2.tmx",
         "o.tsx",
-        "tilesets/o.tsx",
-        "objects.tsx"
+        "tilesets/o.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",

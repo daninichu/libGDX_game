@@ -1,8 +1,11 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
+import inf112.skeleton.model.entities.ItemDrop;
+import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.view.animation.AnimationHandler;
 
 public class Dummy extends Enemy{
@@ -25,4 +28,9 @@ public class Dummy extends Enemy{
 
     @Override
     protected void addExitFunctions(){}
+
+    @Override
+    public Array<ItemDrop> getItemDrop(){
+        return new Array<>(new ItemDrop[]{new ItemDrop(getX(), getY(), (IInventoryPlayer) player)});
+    }
 }

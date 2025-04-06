@@ -61,6 +61,7 @@ public class InventoryScreen extends AbstractScreen{
             }
         }
         batch.end();
+        System.out.println(inventory);
     }
 
     @Override

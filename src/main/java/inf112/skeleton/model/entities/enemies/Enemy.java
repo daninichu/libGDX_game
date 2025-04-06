@@ -17,7 +17,7 @@ public abstract class Enemy extends Entity{
     protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     protected StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
-    private AttackableEntity player;
+    protected AttackableEntity player;
     private float timer;
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
