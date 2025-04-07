@@ -36,6 +36,7 @@ public class GameScreen extends AbstractScreen{
     public GameScreen(MyGame game, ViewableEntity player) {
         super(game);
         this.player = player;
+        font.setUseIntegerPositions(false);
         font.getData().setScale(VIEW_HEIGHT/400);
     }
 

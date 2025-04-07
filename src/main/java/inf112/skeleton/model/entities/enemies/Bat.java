@@ -1,5 +1,6 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -7,15 +8,20 @@ import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
+import inf112.skeleton.view.AnimationHandler;
 
-public class DarkSquare extends Enemy {
-    public DarkSquare(float x, float y, AttackableEntity player){
+public class Bat extends Enemy {
+    public Bat(TiledMapTileMapObject tileObj, AttackableEntity player){
+        this(tileObj.getX(), tileObj.getY(), player);
+    }
+
+    public Bat(float x, float y, AttackableEntity player){
         super(x, y, player);
-        this.health = 30;
-        this.mass = 1;
+        this.animation = new AnimationHandler("pinkbat", dir);
+        this.health = 1;
         this.speed = 2f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
-        this.attack = new DarkSquare.DarkSquareAttack();
+        this.attack = new Bat.DarkSquareAttack();
         this.attackRange = MyGame.TILE_SIZE * 2.5f;
     }
 
@@ -39,20 +45,21 @@ public class DarkSquare extends Enemy {
         private DarkSquareAttack(){
             this.damage = 6;
             this.knockback = MyGame.TILE_SIZE * 8;
-            this.startup = 1f;
-            this.duration = 1f;
-            this.cooldown = 1.5f;
+            this.momentum = speed * 1.5f;
+            this.startup = 0.2f;
+            this.duration = 0.6f;
+            this.cooldown = 1f;
         }
 
-        @Override
-        public Vector2 knockbackVector(Vector2 targetPos){
-            return targetPos.sub(getCenterPos()).setLength(knockback);
-        }
+//        @Override
+//        public Vector2 knockbackVector(Vector2 targetPos){
+//            return targetPos.sub(getCenterPos()).setLength(knockback);
+//        }
 
         @Override
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
-            hitboxes.add(new Circle(0, 0, MyGame.TILE_SIZE * 3f));
+            hitboxes.add(new Circle(0, 0, 16));
         }
     }
 }

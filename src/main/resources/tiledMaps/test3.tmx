@@ -24,13 +24,6 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Enemies">
-  <object id="2" type="EvilSquare" x="133" y="242">
-   <point/>
-  </object>
-  <object id="3" type="DarkSquare" x="159" y="301">
-   <point/>
-  </object>
- </objectgroup>
+ <objectgroup id="3" name="Enemies"/>
  <objectgroup id="4" name="Collision"/>
 </map>

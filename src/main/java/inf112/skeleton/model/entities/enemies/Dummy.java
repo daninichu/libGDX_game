@@ -1,5 +1,6 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
@@ -9,6 +10,9 @@ import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Dummy extends Enemy{
+    public Dummy(TiledMapTileMapObject tileObj, AttackableEntity player){
+        this(tileObj.getX(), tileObj.getY(), player);
+    }
 
     public Dummy(float x, float y, AttackableEntity player){
         super(x, y, player);
@@ -30,7 +34,7 @@ public class Dummy extends Enemy{
     protected void addExitFunctions(){}
 
     @Override
-    public Array<ItemDrop> getItemDrop(){
+    public Array<ItemDrop> getItemDrops(){
         Array<ItemDrop> itemDrops = new Array<>();
 //        if(MathUtils.random() <= 0.1f)
             itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="6">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="8">
  <tileset firstgid="1" source="tilesets/objects.tsx"/>
+ <tileset firstgid="9" source="tilesets/dummy.tsx"/>
+ <tileset firstgid="10" source="tilesets/phantom.tsx"/>
  <layer id="1" name="Ground" width="20" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -37,9 +39,8 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="Enemies">
-  <object id="3" type="Dummy" x="222" y="222">
-   <point/>
-  </object>
+  <object id="6" gid="9" x="232" y="225" width="16" height="16"/>
+  <object id="7" gid="10" x="172" y="208" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="5" name="Collision"/>
 </map>

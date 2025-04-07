@@ -1,6 +1,5 @@
 package inf112.skeleton.model.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
@@ -9,7 +8,7 @@ import inf112.skeleton.model.inventory.Item;
 public class ItemDrop extends Entity{
     private IInventoryPlayer player;
     private Item item;
-    private float acceleration = 100;
+    private final float acceleration = 100;
     private boolean followPlayer;
 
     /**
@@ -19,10 +18,9 @@ public class ItemDrop extends Entity{
     public ItemDrop(float centerX, float centerY, Item item) {
         super(centerX, centerY);
         this.item = item;
-        texture = new TextureRegion(new Texture("Props_Items/health_potion_item.png"));
+        texture = item.getTexture();
         hurtbox = new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
         pos.sub(getWidth() / 2, getHeight() / 2);
-        mass = 0;
         speed = 60;
         velocity.setToRandomDirection().setLength(speed);
     }
@@ -37,7 +35,7 @@ public class ItemDrop extends Entity{
         if(followPlayer){
             speed = Math.min(100, speed + acceleration * deltaTime);
             velocity.set(player.getCenterPos().sub(getCenterPos()));
-            if(locateHurtbox().overlaps(player.locateHurtbox())){
+            if(locateHurtbox().overlaps(player.locateHurtbox()))
                 if(player.getInventory().addItem(item))
                     item = null;
                 else{
@@ -45,7 +43,6 @@ public class ItemDrop extends Entity{
                     speed = 60;
                     velocity.scl(-1).setLength(speed);
                 }
-            }
         }
         else {
             speed = Math.max(0, speed - acceleration * deltaTime);

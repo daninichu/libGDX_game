@@ -114,22 +114,21 @@ public class Map {
     private void spawnEnemies() {
         for(int i = 0; i < 3000; i++){
         }
-            enemies.add(new Dummy(0, 50, player));
-//            enemies.add(new Phantom(0, 50, player));
+//            enemies.add(new Dummy(0, 50, player));
+            enemies.add(new Bat(0, 50, player));
 //            enemies.add(new Slime(50, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
-            RectangleMapObject rectObj = (RectangleMapObject) obj;
-            String type = obj.getProperties().get("type", String.class);
-            float x = rectObj.getRectangle().getX();
-            float y = rectObj.getRectangle().getY();
-            if(type.equals("Dummy"))
-                enemies.add(new Dummy(x, y, player));
-            if(type.equals("EvilSquare"))
-                enemies.add(new Phantom(x, y, player));
-            if(type.equals("DarkSquare"))
-                enemies.add(new DarkSquare(x, y, player));
+            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
+            String type = tileObj.getTile().getProperties().get("type", String.class);
+            switch(type){
+                case "Dummy" -> enemies.add(new Dummy(tileObj, player));
+                case "Phantom" -> enemies.add(new Phantom(tileObj, player));
+                case "Slime" -> enemies.add(new Slime(tileObj, player));
+                case "Bat" -> enemies.add(new Bat(tileObj, player));
+                default -> throw new RuntimeException("Error while loading enemy: " + type);
+            }
         }
     }
 
@@ -146,19 +145,10 @@ public class Map {
         return entities;
     }
 
-    public Array<Entity> getEntities(boolean e, boolean o, boolean i) {
-        Array<Entity> entities = new Array<>();
-        entities.add(player);
-        entities.addAll(filter(enemies));
-        entities.addAll(filter(objects));
-        entities.addAll(filter(itemDrops));
-        return entities;
-    }
-
     private <T extends Entity> Array<T> filter(Array<T> arr) {
         for(int i = 0; i < arr.size; i++)
             if(arr.get(i).dead()){
-                Array<ItemDrop> drops = (arr.removeIndex(i--).getItemDrop());
+                Array<ItemDrop> drops = (arr.removeIndex(i--).getItemDrops());
                 drops.forEach(drop -> drop.setPlayer(player));
                 itemDrops.addAll(drops);
             }
@@ -167,9 +157,8 @@ public class Map {
 
     public Array.ArrayIterable<Circle> getHitboxes() {
         Array<Circle> hitboxes = new Array<>();
-        for(Entity e : getEntities()) {
+        for(Entity e : getEntities())
             hitboxes.addAll(e.getHitboxes());
-        }
         return new Array.ArrayIterable<>(hitboxes);
     }
 

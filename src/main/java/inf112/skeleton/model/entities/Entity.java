@@ -100,7 +100,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
         animation.setDirection(dir);
     }
 
-    public Array<ItemDrop> getItemDrop(){
+    public Array<ItemDrop> getItemDrops(){
         return new Array<>();
     }
 

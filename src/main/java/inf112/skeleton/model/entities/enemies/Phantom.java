@@ -2,26 +2,40 @@ package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.Box;
+import inf112.skeleton.model.entities.ItemDrop;
+import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Phantom extends Enemy{
+    public Phantom(TiledMapTileMapObject tileObj, AttackableEntity player){
+        this(tileObj.getX(), tileObj.getY(), player);
+    }
+
     public Phantom(float x, float y, AttackableEntity player){
         super(x, y, player);
         this.animation = new AnimationHandler("phantom", dir);
-        this.texture = new TextureRegion(new Texture("sprite16.png"));
         this.health = 20;
-//        this.mass = 1;
         this.speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
         this.attack = new PhantomAttack();
         this.attackRange = MyGame.TILE_SIZE * 3;
+    }
+
+    @Override
+    public Array<ItemDrop> getItemDrops(){
+        Array<ItemDrop> itemDrops = new Array<>();
+        if(MathUtils.random() <= 0.5f)
+            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+        return itemDrops;
     }
 
     @Override

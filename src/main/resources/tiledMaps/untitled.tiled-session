@@ -96,22 +96,25 @@
         },
         "test1.tmx": {
             "expandedObjectLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 2.15,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 320,
-                "y": 259.30232558139534
+                "x": 208.60465116279073,
+                "y": 217.4418604651163
             }
         },
         "test2.tmx": {
-            "scale": 0.9369,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.0336,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 397.5877895186253,
-                "y": 102.99925285516065
+                "x": 93.36300309597522,
+                "y": 260.7391640866873
             }
         },
         "test3.tmx": {
@@ -121,7 +124,7 @@
             "scale": 0.87,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 319.54022988505744,
+                "x": 320.11494252873564,
                 "y": 159.19540229885058
             }
         },
@@ -137,6 +140,9 @@
             "scaleInDock": 0.6264,
             "scaleInEditor": 1
         },
+        "tilesets/entities.tsx": {
+            "dynamicWrapping": false
+        },
         "tilesets/grassSet.tsx": {
             "scaleInDock": 1
         },
@@ -145,6 +151,7 @@
             "scaleInEditor": 5.6707
         },
         "tilesets/objects.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 2.6446,
             "scaleInEditor": 1
         },
@@ -177,7 +184,7 @@
         }
     },
     "last.externalTilesetPath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
-    "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
+    "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/Char_Sprites",
     "last.worldFilePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps",
     "loadedWorlds": [
         "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myworld.world"
@@ -205,10 +212,10 @@
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
-    "tileset.margin": 1,
+    "tileset.margin": 0,
     "tileset.spacing": 0,
     "tileset.tileSize": {
-        "height": 32,
-        "width": 32
+        "height": 16,
+        "width": 16
     }
 }

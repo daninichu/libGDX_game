@@ -47,19 +47,8 @@ public class Box extends Rectangle{
     }
 
     public boolean overlaps(Circle circle) {
-        float testX = circle.x;
-        float testY = circle.y;
-
-        // Which edge is closest?
-        if (circle.x < x)
-            testX = x;
-        else if (circle.x > getRightX())
-            testX = getRightX();
-        if (circle.y < y)
-            testY = y;
-        else if (circle.y > getTopY())
-            testY = getTopY();
-
-        return Vector2.dst(circle.x, circle.y, testX, testY) < circle.radius;
+        float clampX = Math.max(x, Math.min(circle.x, getRightX()));
+        float clampY = Math.max(y, Math.min(circle.y, getTopY()));
+        return Vector2.dst(circle.x, circle.y, clampX, clampY) < circle.radius;
     }
 }
