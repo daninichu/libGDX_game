@@ -25,7 +25,7 @@ public class Phantom extends Enemy{
         this.animation = new AnimationHandler("phantom", dir);
         this.health = 20;
         this.speed = 2.5f * MyGame.TILE_SIZE;
-        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.hurtbox = new Box(2, 2, 12, 12);
         this.attack = new PhantomAttack();
         this.attackRange = MyGame.TILE_SIZE * 3;
     }

@@ -73,7 +73,7 @@ public abstract class Enemy extends Entity{
             placeHitboxes();
             timer = attack.getDuration();
             velocity.setLength(attack.getMomentum());
-            animation.setState(AnimationHandler.State.RUN);
+            animation.setState(AnimationHandler.State.ATTACK);
         });
         stateMachine.onEnter(State.AttackEnd, () -> {
             timer = attack.getCooldown();

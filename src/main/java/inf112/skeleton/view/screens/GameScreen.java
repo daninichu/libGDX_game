@@ -137,7 +137,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
         }
         shapeRenderer.end();
@@ -146,7 +146,7 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setColor(1,0,0,0.3f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for(Circle hitbox : map.getHitboxes()){
-//            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
+            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
         }
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);

@@ -102,19 +102,19 @@
             "scale": 2.15,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 208.60465116279073,
-                "y": 217.4418604651163
+                "x": 199.7674418604651,
+                "y": 223.48837209302326
             }
         },
         "test2.tmx": {
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 1.0336,
+            "scale": 1.03,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 93.36300309597522,
-                "y": 260.7391640866873
+                "x": 93.6893203883495,
+                "y": 260.67961165048547
             }
         },
         "test3.tmx": {
@@ -140,11 +140,21 @@
             "scaleInDock": 0.6264,
             "scaleInEditor": 1
         },
+        "tilesets/dummy.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "tilesets/entities.tsx": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/grassSet.tsx": {
             "scaleInDock": 1
+        },
+        "tilesets/myAtlas.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/o.tsx": {
             "scaleInDock": 1,
@@ -153,6 +163,10 @@
         "tilesets/objects.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 2.6446,
+            "scaleInEditor": 1
+        },
+        "tilesets/phantom.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "tilesets/sign.tsx": {
@@ -197,18 +211,18 @@
     "project": "untitled.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "test2.tmx",
+        "tilesets/entities.tsx",
+        "tilesets/myAtlas.tsx",
+        "tilesets/phantom.tsx",
+        "tilesets/dummy.tsx",
+        "test3.tmx",
+        "test1.tmx",
         "desert.tmx",
         "doorTest.tmx",
-        "test3.tmx",
         "tilesets/objects.tsx",
         "tilesets/desertSet.tsx",
-        "tilesets/64Objects.tsx",
-        "grass.tmx",
-        "test1.tmx",
-        "/Users/daniel/INF112/team-rocket/src/main/resources/tiledMaps/leverAndTrapTest.tmx",
-        "test2.tmx",
-        "o.tsx",
-        "tilesets/o.tsx"
+        "tilesets/64Objects.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",

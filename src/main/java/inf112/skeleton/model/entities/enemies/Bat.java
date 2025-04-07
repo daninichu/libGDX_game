@@ -19,11 +19,23 @@ public class Bat extends Enemy {
         super(x, y, player);
         this.animation = new AnimationHandler("pinkbat", dir);
         this.health = 1;
-        this.speed = 2f * MyGame.TILE_SIZE;
-        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
-        this.attack = new Bat.DarkSquareAttack();
-        this.attackRange = MyGame.TILE_SIZE * 2.5f;
+        this.speed = 6f * MyGame.TILE_SIZE;
+        this.hurtbox = new Box(2, 2, 12, 10);
+        this.attack = new BatAttack();
+        this.attackRange = MyGame.TILE_SIZE * 3f;
     }
+
+//    @Override
+//    protected void addTransitions(){
+//        blueprint.addTransition(State.Idle,     Event.Timeout,  State.Roaming);
+//        blueprint.addTransition(State.Roaming,  Event.Timeout,  State.Idle);
+//        blueprint.addTransition(State.Stunned,  Event.Timeout,  State.Idle);
+//        blueprint.addTransition(State.Dying,    Event.Timeout,  State.Dead);
+//    }
+//
+//    @Override
+//    protected void addExitFunctions(){}
+
 
     @Override
     protected void placeHitboxes(){
@@ -41,9 +53,9 @@ public class Bat extends Enemy {
         return result;
     }
 
-    public class DarkSquareAttack extends Attack{
-        private DarkSquareAttack(){
-            this.damage = 6;
+    public class BatAttack extends Attack{
+        private BatAttack(){
+            this.damage = 0;
             this.knockback = MyGame.TILE_SIZE * 8;
             this.momentum = speed * 1.5f;
             this.startup = 0.2f;
@@ -51,15 +63,10 @@ public class Bat extends Enemy {
             this.cooldown = 1f;
         }
 
-//        @Override
-//        public Vector2 knockbackVector(Vector2 targetPos){
-//            return targetPos.sub(getCenterPos()).setLength(knockback);
-//        }
-
         @Override
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
-            hitboxes.add(new Circle(0, 0, 16));
+            hitboxes.add(new Circle(0, 0, getWidth()/2f));
         }
     }
 }
