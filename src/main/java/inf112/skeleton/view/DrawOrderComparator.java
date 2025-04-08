@@ -4,11 +4,11 @@ import java.util.Comparator;
 
 public class DrawOrderComparator implements Comparator<ViewableEntity> {
     @Override
-    public int compare(ViewableEntity entity1, ViewableEntity entity2) {
-        if(entity2.getY() < entity1.getY())
+    public int compare(ViewableEntity e1, ViewableEntity e2) {
+        if(e1 instanceof FloorEntity)
             return -1;
-        else if(entity2.getY() > entity1.getY())
+        if(e2 instanceof FloorEntity)
             return 1;
-        return 0;
+        return Float.compare(e2.getY(), e1.getY());
     }
 }

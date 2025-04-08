@@ -19,11 +19,13 @@ public class Door extends GameObject implements IDoor{
             mapFile = getProperty("Map File", String.class);
             exitDoor = Map.getObject(mapFile, getProperty("Door ID", int.class));
         }
-
         exitPos.set(exitDoor.getX(), exitDoor.getY());
         centerExitForPlayer(getProperty("width", float.class));
 
         interactionArea = tileRect("Interaction").addPos(pos);
+
+        if(getProperty("Locked", boolean.class) == null)
+            putProperty("Locked", false);
     }
 
     /**
@@ -36,16 +38,13 @@ public class Door extends GameObject implements IDoor{
     }
 
     @Override
-    public boolean inInteractionRange(){
+    public boolean canInteract(){
         return interactionArea.contains(player.getCenterPos());
     }
 
     @Override
     public String cannotOpenMessage(){
-        Boolean locked = getProperty("Locked", boolean.class);
-        if (locked == null || !locked)
-            return null;
-        return "Door is locked.";
+        return getProperty("Locked", boolean.class) ? "Door is locked." : null;
     }
 
     @Override

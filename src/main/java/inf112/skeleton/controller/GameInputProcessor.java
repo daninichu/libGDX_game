@@ -37,7 +37,7 @@ public class GameInputProcessor extends InputAdapter {
     void keyDownPlay(int keycode) {
         switch (keycode) {
             case Input.Keys.E -> {
-                GameObject object = player.interact(game.getMap().getObjects());
+                IGameObject object = player.interact(game.getMap().getObjects());
                 if(object instanceof IDoor door)
                     if(door.cannotOpenMessage() == null)
                         game.enterDoor(door);

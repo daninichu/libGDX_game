@@ -8,7 +8,7 @@ import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
 
-public class GameObject extends Entity {
+public class GameObject extends Entity implements IGameObject{
     protected TiledMapTileMapObject tileObj;
     protected ViewableEntity player;
 
@@ -46,20 +46,13 @@ public class GameObject extends Entity {
         return tileObj.getProperties().get(key, type);
     }
 
-    /**
-     * The individual concrete classes will decide what conditions must be fulfilled in
-     * order for them to be interactable.
-     * @return If the player is interaction range.
-     */
-    public boolean inInteractionRange() {
-        return false;
+    protected void putProperty(String key, Object value){
+        tileObj.getProperties().put(key, value);
     }
 
     public boolean moveable() {
         return tileObj.getTile().getProperties().get("Moveable", boolean.class) != null;
     }
-
-    public void interact(){}
 
     @Override
     public TextureRegion getTexture(){

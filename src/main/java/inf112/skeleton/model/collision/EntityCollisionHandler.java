@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.view.FloorEntity;
 
 import java.awt.Point;
 
@@ -19,19 +20,19 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
      */
     public void updateGrid(Array<? extends CollidableEntity> entities) {
         grid.clear();
-        for(CollidableEntity entity : entities)
-            for(Point cell : getOccupiedCells(entity.locateHurtbox()))
-                addToGrid(cell, entity);
+        for(CollidableEntity entity : entities){
+            if(!(entity instanceof ItemDrop || entity instanceof FloorEntity))
+                for(Point cell : getOccupiedCells(entity.locateHurtbox()))
+                    addToGrid(cell, entity);
+        }
     }
 
     public void handleCollision(CollidableEntity entity) {
-        if(entity instanceof ItemDrop)
+        if(entity instanceof ItemDrop || entity instanceof FloorEntity)
             return;
         ObjectSet<CollidableEntity> localEntities = getLocalObjects(entity.locateHurtbox());
 
         for(CollidableEntity localEntity : localEntities){
-            if(localEntity instanceof ItemDrop)
-                continue;
             if(entity.locateHurtbox().overlaps(localEntity.locateHurtbox()))
                 if(entity instanceof GameObject || localEntity instanceof GameObject)
                     push(entity, localEntity);

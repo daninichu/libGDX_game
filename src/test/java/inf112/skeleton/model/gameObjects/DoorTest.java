@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.gameObjects.Door;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,21 +46,21 @@ public class DoorTest {
      */
     @Test
     void testInteractionRange() {
-        assertFalse(door1.inInteractionRange());
-        assertFalse(door2.inInteractionRange());
+        assertFalse(door1.canInteract());
+        assertFalse(door2.canInteract());
 
         player.setUpMove(true);
         while(player.getCenterY() + player.getHeight() < door1.getY())
             player.update(0.1f);
-        assertTrue(door1.inInteractionRange());
-        assertFalse(door2.inInteractionRange());
+        assertTrue(door1.canInteract());
+        assertFalse(door2.canInteract());
 
         player.setUpMove(false);
         player.setRightMove(true);
         while(player.getCenterX() < door2.locateHurtbox().x)
             player.update(0.1f);
-        assertFalse(door1.inInteractionRange());
-        assertTrue(door2.inInteractionRange());
+        assertFalse(door1.canInteract());
+        assertTrue(door2.canInteract());
     }
 
     /**
@@ -70,11 +69,11 @@ public class DoorTest {
     @Test
     void testDoorExitPoints(){
         player.setPos(door1.getExitPos());
-        assertFalse(door1.inInteractionRange());
-        assertTrue(door2.inInteractionRange());
+        assertFalse(door1.canInteract());
+        assertTrue(door2.canInteract());
 
         player.setPos(door2.getExitPos());
-        assertFalse(door2.inInteractionRange());
-        assertTrue(door1.inInteractionRange());
+        assertFalse(door2.canInteract());
+        assertTrue(door1.canInteract());
     }
 }

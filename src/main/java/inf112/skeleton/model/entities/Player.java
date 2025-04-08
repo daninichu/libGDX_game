@@ -11,8 +11,7 @@ import inf112.skeleton.model.FsmBlueprint;
 import inf112.skeleton.model.StateMachine;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.entities.gameObjects.GameObject;
-import inf112.skeleton.model.inventory.HealthPotion;
+import inf112.skeleton.model.entities.gameObjects.IGameObject;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
@@ -206,9 +205,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     }
 
     @Override
-    public GameObject interact(Array.ArrayIterable<GameObject> objects){
-        for(GameObject object : objects)
-            if(object.inInteractionRange())
+    public IGameObject interact(Array.ArrayIterable<? extends IGameObject> objects){
+        for(IGameObject object : objects)
+            if(object.canInteract())
                 return object;
         return null;
     }

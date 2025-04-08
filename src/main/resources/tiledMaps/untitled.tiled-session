@@ -5,8 +5,8 @@
     },
     "activeFile": "",
     "expandedProjectPaths": [
-        "tilesets",
-        "."
+        ".",
+        "tilesets"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {

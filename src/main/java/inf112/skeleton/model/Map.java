@@ -14,10 +14,7 @@ import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
-import inf112.skeleton.model.entities.gameObjects.Door;
-import inf112.skeleton.model.entities.gameObjects.GameObject;
-import inf112.skeleton.model.entities.gameObjects.Sign;
-import inf112.skeleton.model.entities.gameObjects.Switch;
+import inf112.skeleton.model.entities.gameObjects.*;
 
 /**
  * A class that keeps track of positions of entities.

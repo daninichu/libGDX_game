@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
-import inf112.skeleton.model.entities.gameObjects.GameObject;
+import inf112.skeleton.model.entities.gameObjects.IGameObject;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
@@ -113,8 +113,8 @@ public class GameScreen extends AbstractScreen{
                 font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
             }
         }
-        for(GameObject object : map.getObjects()){
-            if(object.inInteractionRange()){
+        for(IGameObject object : map.getObjects()){
+            if(object.canInteract()){
                 font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 40);
             }
         }

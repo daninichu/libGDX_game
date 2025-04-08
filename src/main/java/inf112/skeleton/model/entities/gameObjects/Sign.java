@@ -16,7 +16,7 @@ public class Sign extends GameObject implements IDialogue{
     }
 
     @Override
-    public boolean inInteractionRange() {
+    public boolean canInteract() {
         return interactionArea.contains(player.getCenterPos());
     }
 

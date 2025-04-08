@@ -6,27 +6,23 @@ import inf112.skeleton.model.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class Switch extends GameObject {
-    private TiledMapTileMapObject door;
+    private MapProperties door;
     private Box interactionArea;
 
     public Switch(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj, player);
-        door = getProperty("Door", TiledMapTileMapObject.class);
+        door = getProperty("Door", TiledMapTileMapObject.class).getProperties();
         interactionArea = tileRect("Interaction").addPos(pos);
     }
 
     @Override
-    public boolean inInteractionRange(){
+    public boolean canInteract(){
         return interactionArea.contains(player.getCenterPos());
     }
 
     @Override
     public void interact(){
-        MapProperties doorProps = door.getProperties();
-        Boolean locked = doorProps.get("Locked", boolean.class);
-        if(locked == null)
-            locked = false;
-        doorProps.put("Locked", !locked);
+        door.put("Locked", !door.get("Locked", boolean.class));
         texture.flip(true, false);
     }
 }
