@@ -10,7 +10,7 @@ public class Sign extends GameObject implements IDialogue{
 
     public Sign(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj, player);
-        this.text = getProperty("Text", String.class);
+        this.text = getProp("Text", String.class);
 
         interactionArea = tileRect("Interaction").addPos(pos);
     }

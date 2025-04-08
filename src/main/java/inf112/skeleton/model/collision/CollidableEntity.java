@@ -22,4 +22,8 @@ public interface CollidableEntity extends ViewableEntity{
     }
 
     float getMass();
+
+    default boolean collidable(){
+        return true;
+    }
 }

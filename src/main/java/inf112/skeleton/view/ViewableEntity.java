@@ -27,8 +27,6 @@ public interface ViewableEntity {
         return new Box(getLeftX(), getBottomY(), getWidth(), getHeight());
     }
 
-
-
     Direction getDir();
 
     default float getX(){

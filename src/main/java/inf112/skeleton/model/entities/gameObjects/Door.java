@@ -14,18 +14,18 @@ public class Door extends GameObject implements IDoor{
     public Door(TiledMapTileMapObject tileObj, ViewableEntity player) {
         super(tileObj, player);
 
-        TiledMapTileMapObject exitDoor = getProperty("Exit Door", TiledMapTileMapObject.class);
+        TiledMapTileMapObject exitDoor = getProp("Exit Door", TiledMapTileMapObject.class);
         if (exitDoor == null){
-            mapFile = getProperty("Map File", String.class);
-            exitDoor = Map.getObject(mapFile, getProperty("Door ID", int.class));
+            mapFile = getProp("Map File", String.class);
+            exitDoor = Map.getObject(mapFile, getProp("Door ID", int.class));
         }
         exitPos.set(exitDoor.getX(), exitDoor.getY());
-        centerExitForPlayer(getProperty("width", float.class));
+        centerExitForPlayer(getProp("width", float.class));
 
         interactionArea = tileRect("Interaction").addPos(pos);
 
-        if(getProperty("Locked", boolean.class) == null)
-            putProperty("Locked", false);
+        if(getProp("Locked", boolean.class) == null)
+            putProp("Locked", false);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Door extends GameObject implements IDoor{
 
     @Override
     public String cannotOpenMessage(){
-        return getProperty("Locked", boolean.class) ? "Door is locked." : null;
+        return getProp("Locked", boolean.class) ? "Door is locked." : null;
     }
 
     @Override

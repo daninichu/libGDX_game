@@ -11,7 +11,7 @@ public class Switch extends GameObject {
 
     public Switch(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj, player);
-        door = getProperty("Door", TiledMapTileMapObject.class).getProperties();
+        door = getProp("Door", TiledMapTileMapObject.class).getProperties();
         interactionArea = tileRect("Interaction").addPos(pos);
     }
 

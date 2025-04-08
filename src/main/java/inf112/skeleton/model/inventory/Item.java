@@ -3,7 +3,9 @@ package inf112.skeleton.model.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public interface Item {
-    int heal();
+    default int heal(){
+        return 0;
+    }
 
     TextureRegion getTexture();
 

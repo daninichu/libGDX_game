@@ -133,6 +133,7 @@
             "scaleInEditor": 1
         },
         "tilesets/desertSet.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -150,6 +151,7 @@
             "scaleInEditor": 1
         },
         "tilesets/grassSet.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "tilesets/myAtlas.tsx": {

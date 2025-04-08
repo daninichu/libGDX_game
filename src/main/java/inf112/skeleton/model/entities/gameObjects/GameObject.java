@@ -2,7 +2,6 @@ package inf112.skeleton.model.entities.gameObjects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.Box;
@@ -17,8 +16,7 @@ public class GameObject extends Entity implements IGameObject{
         health = 1;
         this.tileObj = tileObj;
         this.player = player;
-        TiledMapTile tile = tileObj.getTile();
-        this.texture = tile.getTextureRegion();
+        this.texture = tileObj.getTile().getTextureRegion();
         this.hurtbox = tileRect("Collision");
     }
 
@@ -28,11 +26,9 @@ public class GameObject extends Entity implements IGameObject{
      * @return The rectangle object from Tiled specified by name.
      */
     protected Box tileRect(String s){
-        var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
-        if(rectObj == null){
+        var rectObj = getTileProp(s, RectangleMapObject.class);
+        if(rectObj == null)
             return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
-//            return new Box(0,0,0,0);
-        }
         return new Box(rectObj.getRectangle());
     }
 
@@ -42,16 +38,25 @@ public class GameObject extends Entity implements IGameObject{
      * @param type The type of the desired property.
      * @return The property of the tile object specified by name.
      */
-    protected <T> T getProperty(String key, Class<T> type){
+    protected <T> T getProp(String key, Class<T> type){
         return tileObj.getProperties().get(key, type);
     }
 
-    protected void putProperty(String key, Object value){
-        tileObj.getProperties().put(key, value);
+    protected <T> T getTileProp(String key, Class<T> type){
+        return tileObj.getTile().getProperties().get(key, type);
+    }
+
+    protected void putProp(String key, Object val){
+        tileObj.getProperties().put(key, val);
     }
 
     public boolean moveable() {
-        return tileObj.getTile().getProperties().get("Moveable", boolean.class) != null;
+        return getTileProp("Movable", boolean.class) != null;
+    }
+
+    @Override
+    public boolean collidable(){
+        return getTileProp("Not Collidable", boolean.class) == null;
     }
 
     @Override

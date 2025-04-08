@@ -7,19 +7,19 @@
   </objectgroup>
  </tile>
  <tile id="37">
-  <objectgroup draworder="index" id="2">
-   <object id="1" name="Collision" x="4" y="14" width="24" height="16"/>
-  </objectgroup>
+  <properties>
+   <property name="Not Collidable" type="bool" value="false"/>
+  </properties>
  </tile>
  <tile id="38">
-  <objectgroup draworder="index" id="2">
-   <object id="1" name="Collision" x="5" y="13" width="24" height="14"/>
-  </objectgroup>
+  <properties>
+   <property name="Not Collidable" type="bool" value="false"/>
+  </properties>
  </tile>
  <tile id="39">
-  <objectgroup draworder="index" id="2">
-   <object id="1" name="Collision" x="4" y="14" width="24" height="16"/>
-  </objectgroup>
+  <properties>
+   <property name="Not Collidable" type="bool" value="false"/>
+  </properties>
  </tile>
  <tile id="45" type="Sign">
   <properties>

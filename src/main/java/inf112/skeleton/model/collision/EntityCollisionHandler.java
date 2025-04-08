@@ -21,14 +21,15 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     public void updateGrid(Array<? extends CollidableEntity> entities) {
         grid.clear();
         for(CollidableEntity entity : entities){
-            if(!(entity instanceof ItemDrop || entity instanceof FloorEntity))
-                for(Point cell : getOccupiedCells(entity.locateHurtbox()))
-                    addToGrid(cell, entity);
+            if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
+                continue;
+            for(Point cell : getOccupiedCells(entity.locateHurtbox()))
+                addToGrid(cell, entity);
         }
     }
 
     public void handleCollision(CollidableEntity entity) {
-        if(entity instanceof ItemDrop || entity instanceof FloorEntity)
+        if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
             return;
         ObjectSet<CollidableEntity> localEntities = getLocalObjects(entity.locateHurtbox());
 
