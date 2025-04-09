@@ -110,6 +110,10 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     @Override
     public void update(float deltaTime){
+        if(hitstunTimer > 0){
+            hitstunTimer -= deltaTime;
+            return;
+        }
         super.update(deltaTime);
         switch (stateMachine.getState()){
             case NonAttack -> {
@@ -217,6 +221,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             this.damage = 3;
             this.momentum = speed * 0.5f;
             this.knockback = MyGame.TILE_SIZE*8;
+            this.hitStun = 0.15f;
             this.startup = 0.2f;
             this.duration = 0.15f;
             this.cooldown = 0.2f;

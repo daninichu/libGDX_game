@@ -69,7 +69,7 @@ Without Tiled, this would not have been possible.</property>
   <object id="5389" gid="12" x="96" y="608" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
-    <property name="Locked" type="bool" value="false"/>
+    <property name="Locked" type="bool" value="true"/>
     <property name="Map File" value="test1.tmx"/>
    </properties>
   </object>

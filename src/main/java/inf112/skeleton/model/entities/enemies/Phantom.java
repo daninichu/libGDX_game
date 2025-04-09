@@ -38,28 +38,13 @@ public class Phantom extends Enemy{
         return itemDrops;
     }
 
-    @Override
-    protected void placeHitboxes(){
-        attack.placeHitboxes(velocity.cpy());
-    }
-
-    @Override
-    public Array<Circle> getHitboxes(){
-        Array<Circle> result = new Array<>();
-        for(Circle hitbox : attack.getHitboxes()){
-            Circle adjustedHitbox = new Circle(hitbox);
-            adjustedHitbox.setPosition(getCenterPos());
-            result.add(adjustedHitbox);
-        }
-        return result;
-    }
-
     public class PhantomAttack extends Attack{
         private Circle baseHitbox = new Circle(0, 0, getWidth()/2f);
 
         private PhantomAttack(){
             this.damage = 2;
             this.knockback = MyGame.TILE_SIZE * 8;
+            this.hitStun = 0.1f;
             this.momentum = speed * 4;
             this.startup = 0.3f;
             this.duration = 0.4f;

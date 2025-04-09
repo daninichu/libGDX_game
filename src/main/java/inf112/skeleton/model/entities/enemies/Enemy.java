@@ -1,6 +1,8 @@
 package inf112.skeleton.model.entities.enemies;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.*;
 import inf112.skeleton.model.attack.AttackableEntity;
@@ -97,6 +99,10 @@ public abstract class Enemy extends Entity{
 
     @Override
     public void update(float deltaTime) {
+        if(hitstunTimer > 0){
+            hitstunTimer -= deltaTime;
+            return;
+        }
         super.update(deltaTime);
         float distance = getCenterPos().dst(player.getCenterPos());
         if (distance <= attackRange)
@@ -145,7 +151,20 @@ public abstract class Enemy extends Entity{
         animation.setDirection(dir);
     }
 
-    protected void placeHitboxes(){}
+    @Override
+    public Array<Circle> getHitboxes(){
+        Array<Circle> result = new Array<>();
+        for(Circle hitbox : attack.getHitboxes()){
+            Circle adjustedHitbox = new Circle(hitbox);
+            adjustedHitbox.setPosition(getCenterPos());
+            result.add(adjustedHitbox);
+        }
+        return result;
+    }
+
+    protected void placeHitboxes(){
+        attack.placeHitboxes(velocity.cpy());
+    }
 
     public State getState() {
         return stateMachine.getState();

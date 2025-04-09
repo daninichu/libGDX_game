@@ -26,6 +26,9 @@ public class Slime extends Enemy {
     }
 
     @Override
+    protected void placeHitboxes(){}
+
+    @Override
     public Array<Circle> getHitboxes(){
         switch(stateMachine.getState()){
             case Dying, Dead -> {

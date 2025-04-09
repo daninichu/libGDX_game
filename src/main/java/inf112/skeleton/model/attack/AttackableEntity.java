@@ -13,6 +13,10 @@ public interface AttackableEntity extends ViewableEntity{
 
     int getDamage();
 
+    float getHitstun();
+
+    void setHitstunTimer(float hitstunTimer);
+
     Iterable<Circle> getHitboxes();
 
     Vector2 knockbackVector(Vector2 targetPos);

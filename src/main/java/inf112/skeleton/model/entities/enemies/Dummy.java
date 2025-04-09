@@ -1,6 +1,7 @@
 package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
@@ -36,9 +37,9 @@ public class Dummy extends Enemy{
     @Override
     public Array<ItemDrop> getItemDrops(){
         Array<ItemDrop> itemDrops = new Array<>();
-//        if(MathUtils.random() <= 0.1f)
+        if(MathUtils.random() <= 0.1f)
             itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
-            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+//            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
         return itemDrops;
     }
 }

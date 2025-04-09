@@ -22,35 +22,7 @@ public class Bat extends Enemy {
         this.speed = 6f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 2, 12, 10);
         this.attack = new BatAttack();
-        this.attackRange = MyGame.TILE_SIZE * 3f;
-    }
-
-//    @Override
-//    protected void addTransitions(){
-//        blueprint.addTransition(State.Idle,     Event.Timeout,  State.Roaming);
-//        blueprint.addTransition(State.Roaming,  Event.Timeout,  State.Idle);
-//        blueprint.addTransition(State.Stunned,  Event.Timeout,  State.Idle);
-//        blueprint.addTransition(State.Dying,    Event.Timeout,  State.Dead);
-//    }
-//
-//    @Override
-//    protected void addExitFunctions(){}
-
-
-    @Override
-    protected void placeHitboxes(){
-        attack.placeHitboxes(velocity.cpy());
-    }
-
-    @Override
-    public Array<Circle> getHitboxes(){
-        Array<Circle> result = new Array<>();
-        for(Circle hitbox : attack.getHitboxes()){
-            Circle adjustedHitbox = new Circle(hitbox);
-            adjustedHitbox.setPosition(getCenterPos());
-            result.add(adjustedHitbox);
-        }
-        return result;
+        this.attackRange = MyGame.TILE_SIZE * 3.5f;
     }
 
     public class BatAttack extends Attack{
