@@ -2,7 +2,6 @@ package inf112.skeleton.model.collision;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.gameObjects.GameObject;
@@ -31,9 +30,7 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     public void handleCollision(CollidableEntity entity) {
         if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
             return;
-        ObjectSet<CollidableEntity> localEntities = getLocalObjects(entity.locateHurtbox());
-
-        for(CollidableEntity localEntity : localEntities){
+        for(CollidableEntity localEntity : getLocalObjects(entity.locateHurtbox())){
             if(entity.locateHurtbox().overlaps(localEntity.locateHurtbox()))
                 if(entity instanceof GameObject || localEntity instanceof GameObject)
                     push(entity, localEntity);

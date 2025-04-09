@@ -25,7 +25,6 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
         Vector2 prevPos = entity.getPrevPos();
         if(destPos.equals(prevPos))
             return;
-
         ObjectSet<Rectangle> localBoxes = getLocalObjects(entity.locateHurtbox());
 
         if(collidesAny(entity.locateHurtbox(), localBoxes)){

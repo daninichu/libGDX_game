@@ -26,7 +26,7 @@ public class GameObject extends Entity implements IGameObject{
      * @return The rectangle object from Tiled specified by name.
      */
     protected Box tileRect(String s){
-        var rectObj = getTileProp(s, RectangleMapObject.class);
+        var rectObj = (RectangleMapObject) tileObj.getTile().getObjects().get(s);
         if(rectObj == null)
             return new Box(0, 0, texture.getRegionWidth(), texture.getRegionHeight());
         return new Box(rectObj.getRectangle());

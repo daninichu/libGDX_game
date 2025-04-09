@@ -29,9 +29,9 @@
    <object id="4" name="Interaction" x="4" y="32" width="24" height="20"/>
   </objectgroup>
  </tile>
- <tile id="5" type="Pressure Plate">
+ <tile id="5" type="PressurePlate">
   <properties>
-   <property name="Link" type="object" value="0"/>
+   <property name="Link0" type="object" value="0"/>
   </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" name="Interaction" x="0" y="2" width="32" height="30"/>

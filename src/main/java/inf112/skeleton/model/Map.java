@@ -16,6 +16,7 @@ import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
 import inf112.skeleton.model.entities.gameObjects.*;
+import inf112.skeleton.view.FloorEntity;
 import inf112.skeleton.view.ViewableEntity;
 
 /**
@@ -96,11 +97,13 @@ public class Map {
                 object = new Door(tileObj, player);
             else if (type.equals("Switch"))
                 object = new Switch(tileObj, player);
+            else if (type.equals("PressurePlate"))
+                object = new PressurePlate(tileObj, player, entityCH);
 
             if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
             objects.add(object);
-            if (!object.moveable() && object.collidable())
+            if (!object.moveable() && object.collidable() && !(object instanceof FloorEntity))
                 collisionBoxes.add(object.locateHurtbox());
         }
     }

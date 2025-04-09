@@ -13,7 +13,7 @@ import java.awt.Point;
  * Structures the map like a grid. Every cell in the grid keeps track of which
  * object they are occupied by.
  */
-public abstract class CollisionHandler<E>{
+public abstract class CollisionHandler<E> implements HashGrid<E> {
     protected ObjectMap<Point, Array<E>> grid = new ObjectMap<>();
 
     protected void addToGrid(Point cell, E e){
@@ -38,7 +38,8 @@ public abstract class CollisionHandler<E>{
         return MathUtils.floor(mapCoords / MyGame.TILE_SIZE);
     }
 
-    protected ObjectSet<E> getLocalObjects(Rectangle box){
+    @Override
+    public ObjectSet<E> getLocalObjects(Rectangle box){
         ObjectSet<E> localObjects = new ObjectSet<>();
         for(Point cell : getOccupiedCells(box))
             localObjects.addAll(grid.get(cell, new Array<>()));
