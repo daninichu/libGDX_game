@@ -13,9 +13,9 @@ public interface AttackableEntity extends ViewableEntity{
 
     int getDamage();
 
-    float getHitstun();
+    float getHitlag();
 
-    void setHitstunTimer(float hitstunTimer);
+    void setHitlagTimer(float hitlagTimer);
 
     Iterable<Circle> getHitboxes();
 

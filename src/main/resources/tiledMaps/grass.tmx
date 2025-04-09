@@ -69,16 +69,14 @@ Without Tiled, this would not have been possible.</property>
   <object id="5389" gid="12" x="96" y="608" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
-    <property name="Locked" type="bool" value="true"/>
-    <property name="Map File" value="test1.tmx"/>
+    <property name="Locked" type="bool" value="false"/>
+    <property name="Map File" value="test2.tmx"/>
    </properties>
   </object>
   <object id="5401" gid="3" x="32" y="704" width="64" height="64"/>
   <object id="5402" gid="3" x="128" y="704" width="64" height="64"/>
-  <object id="5403" gid="53" x="-22" y="599" width="32" height="32"/>
-  <object id="5404" gid="54" x="24" y="622" width="32" height="32"/>
-  <object id="5405" gid="55" x="-58" y="662" width="32" height="32"/>
-  <object id="5406" gid="13" x="-7" y="700" width="32" height="32">
+  <object id="5404" gid="54" x="0" y="512" width="32" height="32"/>
+  <object id="5406" gid="13" x="0" y="704" width="32" height="32">
    <properties>
     <property name="Link0" type="object" value="5389"/>
    </properties>

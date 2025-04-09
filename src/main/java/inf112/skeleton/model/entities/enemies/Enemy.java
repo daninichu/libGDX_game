@@ -99,8 +99,8 @@ public abstract class Enemy extends Entity{
 
     @Override
     public void update(float deltaTime) {
-        if(hitstunTimer > 0){
-            hitstunTimer -= deltaTime;
+        if(hitlagTimer > 0){
+            hitlagTimer -= deltaTime;
             return;
         }
         super.update(deltaTime);
@@ -130,15 +130,13 @@ public abstract class Enemy extends Entity{
         timer -= deltaTime;
         if (timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
-        if(stateMachine.getState() != State.Dying && stateMachine.getState() != State.Dead && health <= 0)
-            stateMachine.forceState(State.Dying);
     }
 
     @Override
     public void getAttacked(AttackableEntity attacker) {
-        if(gotHit(attacker) && stateMachine.getState() != State.Dying){
+        if(gotHit(attacker) && getState() != State.Dying){
             super.getAttacked(attacker);
-            stateMachine.forceState(State.Stunned);
+            stateMachine.forceState(health > 0 ? State.Stunned : State.Dying);
 
             dir = Direction.leftOrRight(velocity).opposite();
             animation.setDirection(dir);

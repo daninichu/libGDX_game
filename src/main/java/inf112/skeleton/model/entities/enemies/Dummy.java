@@ -39,7 +39,6 @@ public class Dummy extends Enemy{
         Array<ItemDrop> itemDrops = new Array<>();
         if(MathUtils.random() <= 0.1f)
             itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
-//            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
         return itemDrops;
     }
 }

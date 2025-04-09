@@ -110,8 +110,8 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     @Override
     public void update(float deltaTime){
-        if(hitstunTimer > 0){
-            hitstunTimer -= deltaTime;
+        if(hitlagTimer > 0){
+            hitlagTimer -= deltaTime;
             return;
         }
         super.update(deltaTime);
@@ -218,13 +218,22 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     private class PlayerAttack extends Attack{
         private PlayerAttack(){
-            this.damage = 3;
+            this.damage = 7;
             this.momentum = speed * 0.5f;
-            this.knockback = MyGame.TILE_SIZE*8;
-            this.hitStun = 0.15f;
-            this.startup = 0.2f;
-            this.duration = 0.15f;
-            this.cooldown = 0.2f;
+            this.knockback = MyGame.TILE_SIZE * 20f;
+            this.hitlag = 0.65f;
+            this.startup = 0.35f;
+            this.duration = 0.25f;
+            this.cooldown = 0.35f;
+
+
+//            this.damage = 3;
+//            this.momentum = speed * 0.5f;
+//            this.knockback = MyGame.TILE_SIZE * 8;
+//            this.hitlag = 0.125f;
+//            this.startup = 0.2f;
+//            this.duration = 0.15f;
+//            this.cooldown = 0.2f;
         }
 
         @Override

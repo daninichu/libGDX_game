@@ -65,10 +65,10 @@ but you'll be locked in one direction.</property>
   <object id="66" gid="10" x="364" y="287" width="16" height="16"/>
   <object id="67" gid="10" x="279" y="297" width="16" height="16"/>
   <object id="68" gid="10" x="124" y="304" width="16" height="16"/>
-  <object id="69" gid="10" x="91" y="266" width="16" height="16"/>
+  <object id="69" gid="10" x="149" y="305" width="16" height="16"/>
   <object id="70" gid="10" x="91" y="291" width="16" height="16"/>
   <object id="71" gid="10" x="118" y="291" width="16" height="16"/>
-  <object id="72" gid="10" x="167" y="255" width="16" height="16"/>
+  <object id="72" gid="10" x="211" y="311" width="16" height="16"/>
   <object id="73" gid="10" x="167" y="282" width="16" height="16"/>
   <object id="74" gid="10" x="381" y="266" width="16" height="16"/>
   <object id="75" gid="10" x="385" y="293" width="16" height="16"/>
@@ -89,10 +89,10 @@ but you'll be locked in one direction.</property>
   <object id="90" gid="10" x="55" y="251" width="16" height="16"/>
   <object id="91" gid="10" x="7" y="293" width="16" height="16"/>
   <object id="92" gid="10" x="84" y="309" width="16" height="16"/>
-  <object id="93" gid="10" x="420" y="249" width="16" height="16"/>
-  <object id="94" gid="10" x="421" y="278" width="16" height="16"/>
+  <object id="93" gid="10" x="415" y="280" width="16" height="16"/>
+  <object id="94" gid="10" x="351" y="304" width="16" height="16"/>
   <object id="95" gid="10" x="421" y="307" width="16" height="16"/>
-  <object id="96" gid="10" x="483" y="258" width="16" height="16"/>
+  <object id="96" gid="10" x="491" y="284" width="16" height="16"/>
   <object id="97" gid="10" x="482" y="310" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="Collision">

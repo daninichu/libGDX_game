@@ -50,7 +50,7 @@ public class GameObject extends Entity implements IGameObject{
         tileObj.getProperties().put(key, val);
     }
 
-    public boolean moveable() {
+    public boolean movable() {
         return getTileProp("Movable", boolean.class) != null;
     }
 

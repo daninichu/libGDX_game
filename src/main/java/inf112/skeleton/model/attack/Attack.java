@@ -11,7 +11,7 @@ public abstract class Attack {
     protected Vector2 direction = new Vector2(1, 0);
     protected int damage;
     protected float knockback;
-    protected float hitStun;
+    protected float hitlag;
     protected float momentum;
     protected float startup;
     protected float duration;
@@ -44,8 +44,8 @@ public abstract class Attack {
         return damage;
     }
 
-    public float getHitStun() {
-        return hitStun;
+    public float getHitlag() {
+        return hitlag;
     }
 
     public float getMomentum(){

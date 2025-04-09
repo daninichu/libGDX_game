@@ -30,7 +30,7 @@ public class Slime extends Enemy {
 
     @Override
     public Array<Circle> getHitboxes(){
-        switch(stateMachine.getState()){
+        switch(getState()){
             case Dying, Dead -> {
                 return new Array<>();
             }

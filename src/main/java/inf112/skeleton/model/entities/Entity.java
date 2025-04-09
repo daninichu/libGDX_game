@@ -25,7 +25,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected Attack attack = new Attack(){};
     protected int maxHealth;
     protected int health;
-    protected float hitstunTimer;
+    protected float hitlagTimer;
     protected float mass;
 
     public Entity(float x, float y) {
@@ -51,8 +51,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
         attacker.addHit(this);
         health -= attacker.getDamage();
         velocity.set(attacker.knockbackVector(getCenterPos()));
-        hitstunTimer = attacker.getHitstun();
-        attacker.setHitstunTimer(hitstunTimer);
+        setHitlagTimer(attacker.getHitlag());
+        attacker.setHitlagTimer(hitlagTimer);
     }
 
     @Override
@@ -66,13 +66,14 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     }
 
     @Override
-    public float getHitstun(){
-        return attack.getHitStun();
+    public float getHitlag(){
+        return attack.getHitlag();
     }
 
     @Override
-    public void setHitstunTimer(float hitstunTimer){
-        this.hitstunTimer = hitstunTimer;
+    public void setHitlagTimer(float hitlag){
+        if(hitlagTimer <= 0)
+            hitlagTimer = hitlag;
     }
 
     @Override

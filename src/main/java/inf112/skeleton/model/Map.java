@@ -17,7 +17,6 @@ import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
 import inf112.skeleton.model.entities.gameObjects.*;
 import inf112.skeleton.view.FloorEntity;
-import inf112.skeleton.view.ViewableEntity;
 
 /**
  * A class that keeps track of positions of entities.
@@ -103,7 +102,7 @@ public class Map {
             if (object == null)
                 throw new RuntimeException("Error while loading object: " + type);
             objects.add(object);
-            if (!object.moveable() && object.collidable() && !(object instanceof FloorEntity))
+            if (!object.movable() && object.collidable() && !(object instanceof FloorEntity))
                 collisionBoxes.add(object.locateHurtbox());
         }
     }
@@ -117,11 +116,13 @@ public class Map {
 
     private void spawnEnemies() {
         for(int i = 0; i < 3000; i++){
+//            enemies.add(new Dummy(i*10, 0, player));
         }
-//            enemies.add(new Dummy(0, 50, player));
-//            enemies.add(new Phantom(0, 50, player));
+            enemies.add(new Phantom(0, 50, player));
 //            enemies.add(new Bat(50, 50, player));
-//            enemies.add(new Slime(50, 50, player));
+//            enemies.add(new Bat(50, 50, player));
+//            enemies.add(new Bat(50, 50, player));
+            enemies.add(new Slime(50, 50, player));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {

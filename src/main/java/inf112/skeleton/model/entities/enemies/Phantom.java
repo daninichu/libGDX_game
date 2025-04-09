@@ -1,7 +1,5 @@
 package inf112.skeleton.model.entities.enemies;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
@@ -44,7 +42,7 @@ public class Phantom extends Enemy{
         private PhantomAttack(){
             this.damage = 2;
             this.knockback = MyGame.TILE_SIZE * 8;
-            this.hitStun = 0.1f;
+            this.hitlag = 0.1f;
             this.momentum = speed * 4;
             this.startup = 0.3f;
             this.duration = 0.4f;
