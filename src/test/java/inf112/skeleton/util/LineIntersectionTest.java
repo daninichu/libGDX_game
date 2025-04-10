@@ -49,5 +49,62 @@ public class LineIntersectionTest {
     // Line to Box
 
     @Test
-    void test() {}
+    void testLineMovesHorizontally() {
+        Box box = new Box(100, 100, 100, 100);
+        for(int x = 0; x <= 300; x++){
+            Line l = new Line(x, 0, x, 300);
+            if(x < 100){
+                assertFalse(l.intersects(box), l + " should not have intersected " + box);
+                assertFalse(box.intersects(l), l + " should not have intersected " + box);
+            }
+            else if(100 <= x && x <= 200){
+                assertTrue(l.intersects(box), l + " should have intersected " + box);
+                assertTrue(box.intersects(l), l + " should have intersected " + box);
+            }
+            else if(200 < x){
+                assertFalse(l.intersects(box), l + " should not have intersected " + box);
+                assertFalse(box.intersects(l), l + " should not have intersected " + box);
+            }
+        }
+    }
+
+    @Test
+    void testLineMovesVertically() {
+        Box box = new Box(100, 100, 100, 100);
+        for(int y = 0; y <= 300; y++){
+            Line l = new Line(0, y, 300, y);
+            if(y < 100){
+                assertFalse(l.intersects(box), l + " should not have intersected " + box);
+                assertFalse(box.intersects(l), l + " should not have intersected " + box);
+            }
+            else if(100 <= y && y <= 200){
+                assertTrue(l.intersects(box), l + " should have intersected " + box);
+                assertTrue(box.intersects(l), l + " should have intersected " + box);
+            }
+            else if(200 < y){
+                assertFalse(l.intersects(box), l + " should not have intersected " + box);
+                assertFalse(box.intersects(l), l + " should not have intersected " + box);
+            }
+        }
+    }
+
+    @Test
+    void testLineMovesDiagonally() {
+        Box box = new Box(100, 100, 100, 100);
+        for(int t = 0; t <= 300; t++){
+            Line l = new Line(t - 100, t + 100, t + 100, t - 100);
+            if(t < 100){
+                assertFalse(l.intersects(box), l + " should not have intersected " + box);
+                assertFalse(box.intersects(l), l + " should not have intersected " + box);
+            }
+            else if(100 <= t && t <= 200){
+                assertTrue(l.intersects(box), l + " should have intersected " + box);
+                assertTrue(box.intersects(l), l + " should have intersected " + box);
+            }
+            else if(200 < t){
+                assertFalse(l.intersects(box), l + " should not have intersected " + box);
+                assertFalse(box.intersects(l), l + " should not have intersected " + box);
+            }
+        }
+    }
 }

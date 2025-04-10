@@ -76,23 +76,19 @@ public class Line{
         return set(x2, y2, x1, y1);
     }
 
-    public static boolean intersects(Line l1, Line l2) {
-        float a = (l2.x2 - l2.x1) * (l2.y1 - l1.y1) - (l2.y2 - l2.y1) * (l2.x1 - l1.x1);
-        float b = (l2.x2 - l2.x1) * (l1.y2 - l1.y1) - (l2.y2 - l2.y1) * (l1.x2 - l1.x1);
-        float c = (l1.x2 - l1.x1) * (l2.y1 - l1.y1) - (l1.y2 - l1.y1) * (l2.x1 - l1.x1);
+    public boolean intersects(Line l) {
+        float a = (l.x2 - l.x1) * (l.y1 - y1) - (l.y2 - l.y1) * (l.x1 - x1);
+        float b = (l.x2 - l.x1) * (y2 - y1) - (l.y2 - l.y1) * (x2 - x1);
+        float c = (x2 - x1) * (l.y1 - y1) - (y2 - y1) * (l.x1 - x1);
 
         if(b == 0)
             return a == 0;
         return 0 <= a/b && a/b <= 1 && 0 <= c/b && c/b <= 1;
     }
 
-    public boolean intersects(Line line) {
-        return intersects(this, line);
-    }
-
     public boolean intersects(Box r){
         for(Line edge : r.getEdges())
-            if(intersects(this, edge))
+            if(intersects(edge))
                 return true;
         return false;
     }
