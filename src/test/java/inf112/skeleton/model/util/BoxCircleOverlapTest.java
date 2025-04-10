@@ -1,7 +1,8 @@
-package inf112.skeleton.model;
+package inf112.skeleton.model.util;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import inf112.skeleton.util.Box;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

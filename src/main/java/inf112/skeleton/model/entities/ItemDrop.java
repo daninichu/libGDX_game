@@ -1,7 +1,7 @@
 package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Item;
 

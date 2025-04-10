@@ -3,7 +3,7 @@ package inf112.skeleton.model.entities.gameObjects;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.Map;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class Door extends GameObject implements IDoor{

@@ -108,13 +108,14 @@
         },
         "test2.tmx": {
             "expandedObjectLayers": [
-                3
+                3,
+                2
             ],
             "scale": 1.03,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 93.6893203883495,
-                "y": 260.67961165048547
+                "x": 394.6601941747573,
+                "y": 278.15533980582524
             }
         },
         "test3.tmx": {

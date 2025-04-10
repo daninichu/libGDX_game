@@ -1,4 +1,4 @@
-package inf112.skeleton.model;
+package inf112.skeleton.util;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;

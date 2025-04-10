@@ -160,10 +160,6 @@ public abstract class Enemy extends Entity{
         return result;
     }
 
-    protected void placeHitboxes(){
-        attack.placeHitboxes(velocity.cpy());
-    }
-
     public State getState() {
         return stateMachine.getState();
     }

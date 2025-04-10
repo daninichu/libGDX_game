@@ -3,7 +3,7 @@ package inf112.skeleton.model.entities.gameObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.view.FloorEntity;
 import inf112.skeleton.view.ViewableEntity;
@@ -31,7 +31,7 @@ public class PressurePlate extends GameObject implements FloorEntity{
             return;
         steppedOn = !steppedOn;
         for(MapProperties link : links)
-            link.put("Locked", !link.get("Locked", Boolean.class));
+            link.put("Locked", !link.get("Locked", boolean.class));
     }
 
     private boolean collidesAny(){

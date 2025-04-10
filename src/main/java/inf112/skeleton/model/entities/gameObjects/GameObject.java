@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import inf112.skeleton.model.entities.Entity;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class GameObject extends Entity implements IGameObject{

@@ -22,7 +22,7 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
         for(CollidableEntity entity : entities){
             if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
                 continue;
-            for(Point cell : getOccupiedCells(entity.locateHurtbox()))
+            for(Point cell : HashGrid.getOccupiedCells(entity.locateHurtbox()))
                 addToGrid(cell, entity);
         }
     }

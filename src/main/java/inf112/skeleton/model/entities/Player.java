@@ -15,7 +15,7 @@ import inf112.skeleton.model.entities.gameObjects.IGameObject;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
@@ -147,10 +147,6 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         if(downMove)    velocity.y--;
     }
 
-    private void placeHitboxes(){
-        attack.placeHitboxes(velocity.cpy());
-    }
-
     @Override
     public Array<Circle> getHitboxes(){
         Array<Circle> result = new Array<>();
@@ -221,19 +217,19 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             this.damage = 7;
             this.momentum = speed * 0.5f;
             this.knockback = MyGame.TILE_SIZE * 20f;
-            this.hitlag = 0.65f;
+            this.hitlag = 0.5f;
             this.startup = 0.35f;
             this.duration = 0.25f;
             this.cooldown = 0.35f;
 
 
-//            this.damage = 3;
-//            this.momentum = speed * 0.5f;
-//            this.knockback = MyGame.TILE_SIZE * 8;
-//            this.hitlag = 0.125f;
-//            this.startup = 0.2f;
-//            this.duration = 0.15f;
-//            this.cooldown = 0.2f;
+            this.damage = 3;
+            this.momentum = speed * 0.5f;
+            this.knockback = MyGame.TILE_SIZE * 8;
+            this.hitlag = 0.125f;
+            this.startup = 0.2f;
+            this.duration = 0.15f;
+            this.cooldown = 0.2f;
         }
 
         @Override

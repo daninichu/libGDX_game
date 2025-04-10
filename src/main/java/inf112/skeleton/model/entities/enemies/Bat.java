@@ -3,11 +3,10 @@ package inf112.skeleton.model.entities.enemies;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Bat extends Enemy {
@@ -25,7 +24,7 @@ public class Bat extends Enemy {
         this.attackRange = MyGame.TILE_SIZE * 3.5f;
     }
 
-    public class BatAttack extends Attack{
+    private class BatAttack extends Attack{
         private BatAttack(){
             this.damage = 0;
             this.knockback = MyGame.TILE_SIZE * 8;

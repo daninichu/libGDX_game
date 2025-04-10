@@ -16,7 +16,7 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
      */
     public StaticCollisionHandler(Array<Rectangle> collisionBoxes) {
         for (Rectangle box : collisionBoxes)
-            for(Point cell : getOccupiedCells(box))
+            for(Point cell : HashGrid.getOccupiedCells(box))
                 addToGrid(cell, box);
     }
 

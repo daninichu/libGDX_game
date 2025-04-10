@@ -2,7 +2,7 @@ package inf112.skeleton.model.entities.gameObjects;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.ViewableEntity;
 
 public class Switch extends GameObject {

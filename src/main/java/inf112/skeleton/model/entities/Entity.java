@@ -8,7 +8,7 @@ import inf112.skeleton.model.Direction;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.view.ViewableEntity;
 import inf112.skeleton.view.AnimationHandler;
 
@@ -79,6 +79,10 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     @Override
     public Vector2 knockbackVector(Vector2 targetPos){
         return attack.knockbackVector(targetPos);
+    }
+
+    protected void placeHitboxes(){
+        attack.placeHitboxes(velocity.cpy());
     }
 
     public Array<Circle> getHitboxes(){

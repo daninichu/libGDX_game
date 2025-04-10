@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.Box;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.view.AnimationHandler;
@@ -36,7 +36,7 @@ public class Phantom extends Enemy{
         return itemDrops;
     }
 
-    public class PhantomAttack extends Attack{
+    private class PhantomAttack extends Attack{
         private Circle baseHitbox = new Circle(0, 0, getWidth()/2f);
 
         private PhantomAttack(){
