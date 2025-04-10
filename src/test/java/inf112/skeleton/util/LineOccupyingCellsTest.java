@@ -1,4 +1,4 @@
-package inf112.skeleton.model.util;
+package inf112.skeleton.util;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;

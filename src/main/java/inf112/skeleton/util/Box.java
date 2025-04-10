@@ -51,4 +51,17 @@ public class Box extends Rectangle{
         float clampY = Math.max(y, Math.min(circle.y, getTopY()));
         return Vector2.dst(circle.x, circle.y, clampX, clampY) < circle.radius;
     }
+
+    public boolean intersects(Line l) {
+        return l.intersects(this);
+    }
+
+    public Line[] getEdges() {
+        return new Line[]{
+            new Line(x, y, getRightX(), y),
+            new Line(getRightX(), y, getRightX(), getTopY()),
+            new Line(getRightX(), getTopY(), x, getTopY()),
+            new Line(x, getTopY(), x, y)
+        };
+    }
 }

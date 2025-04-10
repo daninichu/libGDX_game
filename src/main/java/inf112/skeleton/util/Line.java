@@ -1,6 +1,7 @@
 package inf112.skeleton.util;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Line{
@@ -25,6 +26,14 @@ public class Line{
      */
     public Line(Vector2 start, Vector2 end) {
         this(start.x, start.y, end.x, end.y);
+    }
+
+    public Vector2 getP1(){
+        return new Vector2(x1, y1);
+    }
+
+    public Vector2 getP2(){
+        return new Vector2(x2, y2);
     }
 
     public float dx(){
@@ -67,9 +76,26 @@ public class Line{
         return set(x2, y2, x1, y1);
     }
 
-    //    public boolean intersects(Line line) {
-//
-//    }
+    public static boolean intersects(Line l1, Line l2) {
+        float a = (l2.x2 - l2.x1) * (l2.y1 - l1.y1) - (l2.y2 - l2.y1) * (l2.x1 - l1.x1);
+        float b = (l2.x2 - l2.x1) * (l1.y2 - l1.y1) - (l2.y2 - l2.y1) * (l1.x2 - l1.x1);
+        float c = (l1.x2 - l1.x1) * (l2.y1 - l1.y1) - (l1.y2 - l1.y1) * (l2.x1 - l1.x1);
+
+        if(b == 0)
+            return a == 0;
+        return 0 <= a/b && a/b <= 1 && 0 <= c/b && c/b <= 1;
+    }
+
+    public boolean intersects(Line line) {
+        return intersects(this, line);
+    }
+
+    public boolean intersects(Box r){
+        for(Line edge : r.getEdges())
+            if(intersects(this, edge))
+                return true;
+        return false;
+    }
 
     @Override
     public boolean equals(Object obj){

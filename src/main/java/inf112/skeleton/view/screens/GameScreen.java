@@ -12,13 +12,17 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
+import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.model.entities.gameObjects.IGameObject;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
+
+import java.awt.Point;
 
 public class GameScreen extends AbstractScreen{
     public static final float VIEW_WIDTH = 24*MyGame.TILE_SIZE;
@@ -130,6 +134,13 @@ public class GameScreen extends AbstractScreen{
     private void renderDebug(){
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.BLUE);
+        for(ViewableEntity e : entities){
+            for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox())){
+                int scl = MyGame.TILE_SIZE;
+                shapeRenderer.rect(cell.x * scl, cell.y * scl, scl, scl);
+            }
+        }
         shapeRenderer.setColor(Color.WHITE);
         for(Rectangle r : map.getCollisionBoxes()){
             shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
