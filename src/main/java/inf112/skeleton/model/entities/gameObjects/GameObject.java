@@ -13,7 +13,6 @@ public class GameObject extends Entity implements IGameObject{
 
     public GameObject(TiledMapTileMapObject tileObj, ViewableEntity player){
         super(tileObj.getX(), tileObj.getY());
-        health = 1;
         this.tileObj = tileObj;
         this.player = player;
         this.texture = tileObj.getTile().getTextureRegion();
@@ -57,6 +56,11 @@ public class GameObject extends Entity implements IGameObject{
     @Override
     public boolean collidable(){
         return getTileProp("Not Collidable", boolean.class) == null;
+    }
+
+    @Override
+    public boolean dead(){
+        return false;
     }
 
     @Override

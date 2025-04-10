@@ -140,7 +140,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox())){
                 int scl = MyGame.TILE_SIZE;
-                shapeRenderer.rect(cell.x * scl, cell.y * scl, scl, scl);
+//                shapeRenderer.rect(cell.x * scl, cell.y * scl, scl, scl);
             }
         }
         shapeRenderer.setColor(Color.WHITE);
@@ -153,10 +153,14 @@ public class GameScreen extends AbstractScreen{
 //                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
             if(e instanceof Enemy enemy){
+                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.vision);
                 Line lineOfSight = enemy.getLineOfSight();
                 if(lineOfSight != null){
                     shapeRenderer.rectLine(lineOfSight.getP1(), lineOfSight.getP2(), 2);
                 }
+//                batch.begin();
+//                font.draw(batch, ""+enemy.getState(), e.getCenterX(), e.getTopY()+20);
+//                batch.end();
             }
         }
         shapeRenderer.end();

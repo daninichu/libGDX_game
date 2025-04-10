@@ -36,7 +36,6 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     }
     private final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
 
-    private float timer;
     private float invincibleTimer;
     private boolean rightMove, leftMove, upMove, downMove;
     private Inventory inventory = new Inventory();
@@ -135,7 +134,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         }
 
         invincibleTimer -= deltaTime;
-        timer -= deltaTime;
+//        timer -= deltaTime;
         if(timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
     }
@@ -202,14 +201,6 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             return false;
         health = Math.min(maxHealth, health + item.heal());
         return true;
-    }
-
-    @Override
-    public IGameObject interact(Array.ArrayIterable<? extends IGameObject> objects){
-        for(IGameObject object : objects)
-            if(object.canInteract())
-                return object;
-        return null;
     }
 
     private class PlayerAttack extends Attack{

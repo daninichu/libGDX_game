@@ -20,6 +20,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected Vector2 prevPos;
     protected Vector2 velocity = new Vector2();
     protected float speed;
+    protected float timer;
 
     protected Box hurtbox;
     protected Attack attack = new Attack(){};
@@ -94,6 +95,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
      * @param deltaTime The time interval between each frame.
      */
     public void update(float deltaTime){
+        timer -= deltaTime;
         prevPos.set(pos);
         if(animation != null){
             animation.update(deltaTime);

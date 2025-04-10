@@ -45,5 +45,13 @@ public interface HashGrid<E> {
         return occupiedCells;
     }
 
-    ObjectSet<E> getLocalObjects(Rectangle r);
+    default ObjectSet<E> getLocalObjects(Rectangle r){
+        return getLocalObjects(getOccupiedCells(r));
+    }
+
+    default ObjectSet<E> getLocalObjects(Line l){
+        return getLocalObjects(getOccupiedCells(l));
+    }
+
+    ObjectSet<E> getLocalObjects(Array<Point> cells);
 }

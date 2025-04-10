@@ -116,25 +116,26 @@ public class Map {
 
     private void spawnEnemies() {
         for(int i = 0; i < 3000; i++){
-//            enemies.add(new Dummy(i*10, 0, player));
+//            new Dummy(i*10, 0, player);
         }
-            enemies.add(new Phantom(0, 50, player));
+            enemies.add(new Phantom(0, 100, player, staticCH));
 //            enemies.add(new Bat(50, 50, player));
 //            enemies.add(new Bat(50, 50, player));
 //            enemies.add(new Bat(50, 50, player));
-            enemies.add(new Slime(50, 50, player));
+//            enemies.add(new Slime(50, 50, player, staticCH));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
             TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
             String type = tileObj.getTile().getProperties().get("type", String.class);
-            switch(type){
-                case "Dummy" -> enemies.add(new Dummy(tileObj, player));
-                case "Phantom" -> enemies.add(new Phantom(tileObj, player));
-                case "Slime" -> enemies.add(new Slime(tileObj, player));
-                case "Bat" -> enemies.add(new Bat(tileObj, player));
+            Enemy enemy = switch(type){
+                case "Bat"      -> new Bat(tileObj, player, staticCH);
+                case "Dummy"    -> new Dummy(tileObj, player, staticCH);
+                case "Slime"    -> new Slime(tileObj, player, staticCH);
+                case "Phantom"  -> new Phantom(tileObj, player, staticCH);
                 default -> throw new RuntimeException("Error while loading enemy: " + type);
-            }
+            };
+            enemies.add(enemy);
         }
     }
 

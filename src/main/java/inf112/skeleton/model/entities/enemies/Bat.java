@@ -2,20 +2,22 @@ package inf112.skeleton.model.entities.enemies;
 
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
+import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.util.Box;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Bat extends Enemy {
-    public Bat(TiledMapTileMapObject tileObj, AttackableEntity player){
-        this(tileObj.getX(), tileObj.getY(), player);
+    public Bat(TiledMapTileMapObject tileObj, AttackableEntity player, HashGrid<Rectangle> grid){
+        this(tileObj.getX(), tileObj.getY(), player, grid);
     }
 
-    public Bat(float x, float y, AttackableEntity player){
-        super(x, y, player);
+    public Bat(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
+        super(x, y, player, grid);
         this.animation = new AnimationHandler("pinkbat", dir);
         this.health = 1;
         this.speed = 6f * MyGame.TILE_SIZE;
