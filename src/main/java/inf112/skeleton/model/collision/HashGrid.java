@@ -9,6 +9,10 @@ import inf112.skeleton.util.Line;
 
 import java.awt.Point;
 
+/**
+ * Can efficiently determine which
+ * @param <E> The type of objects present in the grid.
+ */
 public interface HashGrid<E> {
     static int toCellNum(float mapCoords){
         return MathUtils.floor(mapCoords / MyGame.TILE_SIZE);
@@ -41,5 +45,5 @@ public interface HashGrid<E> {
         return occupiedCells;
     }
 
-    ObjectSet<E> getLocalObjects(Rectangle box);
+    ObjectSet<E> getLocalObjects(Rectangle r);
 }

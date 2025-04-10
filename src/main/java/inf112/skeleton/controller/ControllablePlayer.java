@@ -12,7 +12,12 @@ public interface ControllablePlayer {
 
     void setDownMove(boolean t);
 
-    IGameObject interact(Array.ArrayIterable<? extends IGameObject> objects);
+    default IGameObject interact(Array.ArrayIterable<? extends IGameObject> objects){
+        for(IGameObject object : objects)
+            if(object.canInteract())
+                return object;
+        return null;
+    }
 
     void attackPressed();
 }

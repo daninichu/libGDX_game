@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import inf112.skeleton.util.Line;
 
 import java.awt.Point;
 
@@ -21,9 +22,9 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
     }
 
     @Override
-    public ObjectSet<E> getLocalObjects(Rectangle box){
+    public ObjectSet<E> getLocalObjects(Rectangle r){
         ObjectSet<E> localObjects = new ObjectSet<>();
-        for(Point cell : HashGrid.getOccupiedCells(box))
+        for(Point cell : HashGrid.getOccupiedCells(r))
             localObjects.addAll(grid.get(cell, new Array<>()));
         return localObjects;
     }
@@ -31,6 +32,13 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
     public static boolean collidesAny(Rectangle box, Iterable<Rectangle> localBoxes) {
         for (Rectangle localBox : localBoxes)
             if(box.overlaps(localBox))
+                return true;
+        return false;
+    }
+
+    public static boolean collidesAny(Line line, Iterable<Rectangle> localBoxes) {
+        for (Rectangle localBox : localBoxes)
+            if(line.intersects(localBox))
                 return true;
         return false;
     }

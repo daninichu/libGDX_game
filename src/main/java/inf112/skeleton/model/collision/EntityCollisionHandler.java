@@ -27,6 +27,7 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
         }
     }
 
+    @Override
     public void handleCollision(CollidableEntity entity) {
         if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
             return;

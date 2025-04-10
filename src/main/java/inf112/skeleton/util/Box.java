@@ -56,12 +56,16 @@ public class Box extends Rectangle{
         return l.intersects(this);
     }
 
-    public Line[] getEdges() {
+    public static Line[] getEdges(Rectangle r) {
         return new Line[]{
-            new Line(x, y, getRightX(), y),
-            new Line(getRightX(), y, getRightX(), getTopY()),
-            new Line(getRightX(), getTopY(), x, getTopY()),
-            new Line(x, getTopY(), x, y)
+            new Line(r.x, r.y, r.x + r.width, r.y),
+            new Line(r.x + r.width, r.y, r.x + r.width, r.y + r.height),
+            new Line(r.x + r.width, r.y + r.height, r.x, r.y + r.height),
+            new Line(r.x, r.y + r.height, r.x, r.y)
         };
+    }
+
+    public Line[] getEdges() {
+        return getEdges(this);
     }
 }

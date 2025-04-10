@@ -18,7 +18,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.collision.HashGrid;
+import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.gameObjects.IGameObject;
+import inf112.skeleton.util.Line;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
@@ -149,6 +151,12 @@ public class GameScreen extends AbstractScreen{
             Rectangle r = e.locateHurtbox();
             if(r != null){
 //                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+            }
+            if(e instanceof Enemy enemy){
+                Line lineOfSight = enemy.getLineOfSight();
+                if(lineOfSight != null){
+                    shapeRenderer.rectLine(lineOfSight.getP1(), lineOfSight.getP2(), 2);
+                }
             }
         }
         shapeRenderer.end();

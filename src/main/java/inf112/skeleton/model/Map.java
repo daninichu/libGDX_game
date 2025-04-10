@@ -58,9 +58,9 @@ public class Map {
         tiledMap = mapLoader.load(startPath + mapFile);
         reset();
         loadObjects();
-        spawnEnemies();
         loadCollisionBoxes();
         staticCH = new StaticCollisionHandler(collisionBoxes);
+        spawnEnemies();
     }
 
     private void reset(){

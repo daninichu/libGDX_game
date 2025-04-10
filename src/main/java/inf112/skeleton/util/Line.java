@@ -27,14 +27,14 @@ public class Line{
     public Line(Vector2 start, Vector2 end) {
         this(start.x, start.y, end.x, end.y);
     }
-//
-//    public Vector2 getP1(){
-//        return new Vector2(x1, y1);
-//    }
-//
-//    public Vector2 getP2(){
-//        return new Vector2(x2, y2);
-//    }
+
+    public Vector2 getP1(){
+        return new Vector2(x1, y1);
+    }
+
+    public Vector2 getP2(){
+        return new Vector2(x2, y2);
+    }
 
     public float dx(){
         return x2 - x1;
@@ -86,8 +86,8 @@ public class Line{
         return 0 <= a/b && a/b <= 1 && 0 <= c/b && c/b <= 1;
     }
 
-    public boolean intersects(Box r){
-        for(Line edge : r.getEdges())
+    public boolean intersects(Rectangle r){
+        for(Line edge : Box.getEdges(r))
             if(intersects(edge))
                 return true;
         return false;
