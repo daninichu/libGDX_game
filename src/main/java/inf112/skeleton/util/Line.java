@@ -27,14 +27,14 @@ public class Line{
     public Line(Vector2 start, Vector2 end) {
         this(start.x, start.y, end.x, end.y);
     }
-
-    public Vector2 getP1(){
-        return new Vector2(x1, y1);
-    }
-
-    public Vector2 getP2(){
-        return new Vector2(x2, y2);
-    }
+//
+//    public Vector2 getP1(){
+//        return new Vector2(x1, y1);
+//    }
+//
+//    public Vector2 getP2(){
+//        return new Vector2(x2, y2);
+//    }
 
     public float dx(){
         return x2 - x1;
@@ -43,38 +43,38 @@ public class Line{
     public float dy(){
         return y2 - y1;
     }
-
-    public float len(){
-        return Vector2.dst(x1, y1, x2, y2);
-    }
-
-    public float solveForX(float y){
-        return x1 + (dx()) * (y - y1) / (dy());
-    }
-
-    public float solveForY(float x){
-        return y1 + (dy()) * (x - x1) / (dx());
-    }
-
-    public float angleDeg(){
-        return MathUtils.atan2Deg360(dy(), dx());
-    }
-
-    public Vector2 toVector(){
-        return new Vector2(dx(), dy());
-    }
-
-    public Line set(float x1, float y1, float x2, float y2){
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
-        return this;
-    }
-
-    public Line flip(){
-        return set(x2, y2, x1, y1);
-    }
+//
+//    public float len(){
+//        return Vector2.dst(x1, y1, x2, y2);
+//    }
+//
+//    public float solveForX(float y){
+//        return x1 + (dx()) * (y - y1) / (dy());
+//    }
+//
+//    public float solveForY(float x){
+//        return y1 + (dy()) * (x - x1) / (dx());
+//    }
+//
+//    public float angleDeg(){
+//        return MathUtils.atan2Deg360(dy(), dx());
+//    }
+//
+//    public Vector2 toVector(){
+//        return new Vector2(dx(), dy());
+//    }
+//
+//    public Line set(float x1, float y1, float x2, float y2){
+//        this.x1 = x1;
+//        this.y1 = y1;
+//        this.x2 = x2;
+//        this.y2 = y2;
+//        return this;
+//    }
+//
+//    public Line flip(){
+//        return set(x2, y2, x1, y1);
+//    }
 
     public boolean intersects(Line l) {
         float a = (l.x2 - l.x1) * (l.y1 - y1) - (l.y2 - l.y1) * (l.x1 - x1);

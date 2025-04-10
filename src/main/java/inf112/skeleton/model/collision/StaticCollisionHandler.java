@@ -38,11 +38,4 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
             }
         }
     }
-
-    public static boolean collidesAny(Rectangle box, Iterable<Rectangle> localBoxes) {
-        for (Rectangle localBox : localBoxes)
-            if(box.overlaps(localBox))
-                return true;
-        return false;
-    }
 }

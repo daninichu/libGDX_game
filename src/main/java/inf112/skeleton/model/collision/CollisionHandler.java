@@ -28,5 +28,12 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
         return localObjects;
     }
 
+    public static boolean collidesAny(Rectangle box, Iterable<Rectangle> localBoxes) {
+        for (Rectangle localBox : localBoxes)
+            if(box.overlaps(localBox))
+                return true;
+        return false;
+    }
+
     public abstract void handleCollision(CollidableEntity entity);
 }
