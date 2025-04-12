@@ -2,7 +2,6 @@ package inf112.skeleton.model.collision;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
@@ -16,22 +15,18 @@ import java.awt.Point;
  * @param <E> The type of objects present in the grid.
  */
 public interface HashGrid<E> {
-    static int toCellNum(float mapCoords){
-        return MathUtils.floor(mapCoords / MyGame.TILE_SIZE);
-    }
-
-    static Point toCell(Vector2 mapPos){
-        return new Point(toCellNum(mapPos.x), toCellNum(mapPos.y));
+    static Point toCell(float mapX, float mapY) {
+        int cellX = MathUtils.floor(mapX / MyGame.TILE_SIZE);
+        int cellY = MathUtils.floor(mapY / MyGame.TILE_SIZE);
+        return new Point(cellX, cellY);
     }
 
     static Array<Point> getOccupiedCells(Rectangle r){
         Array<Point> occupiedCells = new Array<>();
-        int x1 = toCellNum(r.x);
-        int x2 = toCellNum(r.x + r.width);
-        int y1 = toCellNum(r.y);
-        int y2 = toCellNum(r.y + r.height);
-        for(int x = x1; x <= x2; x++)
-            for(int y = y1; y <= y2; y++)
+        Point p1 = toCell(r.x, r.y);
+        Point p2 = toCell(r.x + r.width, r.y + r.height);
+        for(int x = p1.x; x <= p2.x; x++)
+            for(int y = p1.y; y <= p2.y; y++)
                 occupiedCells.add(new Point(x, y));
         return occupiedCells;
     }
@@ -44,7 +39,7 @@ public interface HashGrid<E> {
         float xStep = l.dx() / steps;
         float yStep = l.dy() / steps;
         for (int t = 0; t <= steps; t++) {
-            Point cell = new Point(toCellNum(l.x1 + t * xStep), toCellNum(l.y1 + t * yStep));
+            Point cell = toCell(l.x1 + t * xStep, l.y1 + t * yStep);
             if (set.add(cell))
                 occupiedCells.add(cell);
         }

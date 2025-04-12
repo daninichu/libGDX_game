@@ -20,21 +20,21 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
                 addToGrid(cell, box);
     }
 
-    public void handleCollision(CollidableEntity entity) {
-        Vector2 destPos = entity.getPos();
-        Vector2 prevPos = entity.getPrevPos();
+    public void handleCollision(CollidableEntity e) {
+        Vector2 destPos = e.getPos();
+        Vector2 prevPos = e.getPrevPos();
         if(destPos.equals(prevPos))
             return;
-        ObjectSet<Rectangle> localBoxes = getLocalObjects(entity.locateHurtbox());
+        ObjectSet<Rectangle> localBoxes = getLocalObjects(e.locateHurtbox());
 
-        if(collidesAny(entity.locateHurtbox(), localBoxes)){
-            entity.setPos(prevPos.x, destPos.y); // Backtrack horizontally, proceed vertically
+        if(collidesAny(e.locateHurtbox(), localBoxes)){
+            e.setPos(prevPos.x, destPos.y); // Backtrack horizontally, proceed vertically
 
-            if(collidesAny(entity.locateHurtbox(), localBoxes)){
-                entity.setPos(destPos.x, prevPos.y); // Backtrack vertically, proceed horizontally
+            if(collidesAny(e.locateHurtbox(), localBoxes)){
+                e.setPos(destPos.x, prevPos.y); // Backtrack vertically, proceed horizontally
 
-                if(collidesAny(entity.locateHurtbox(), localBoxes))
-                    entity.setPos(prevPos); // Backtrack altogether
+                if(collidesAny(e.locateHurtbox(), localBoxes))
+                    e.setPos(prevPos); // Backtrack altogether
             }
         }
     }

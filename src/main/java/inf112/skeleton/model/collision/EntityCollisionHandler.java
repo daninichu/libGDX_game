@@ -19,24 +19,24 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
      */
     public void updateGrid(Array<? extends CollidableEntity> entities) {
         grid.clear();
-        for(CollidableEntity entity : entities){
-            if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
+        for(CollidableEntity e : entities){
+            if(e instanceof ItemDrop || e instanceof FloorEntity || !e.collidable())
                 continue;
-            for(Point cell : HashGrid.getOccupiedCells(entity.locateHurtbox()))
-                addToGrid(cell, entity);
+            for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox()))
+                addToGrid(cell, e);
         }
     }
 
     @Override
-    public void handleCollision(CollidableEntity entity) {
-        if(entity instanceof ItemDrop || entity instanceof FloorEntity || !entity.collidable())
+    public void handleCollision(CollidableEntity e) {
+        if(e instanceof ItemDrop || e instanceof FloorEntity || !e.collidable())
             return;
-        for(CollidableEntity localEntity : getLocalObjects(entity.locateHurtbox())){
-            if(entity.locateHurtbox().overlaps(localEntity.locateHurtbox()))
-                if(entity instanceof GameObject || localEntity instanceof GameObject)
-                    push(entity, localEntity);
+        for(CollidableEntity localE : getLocalObjects(e.locateHurtbox())){
+            if(e.locateHurtbox().overlaps(localE.locateHurtbox()))
+                if(e instanceof GameObject || localE instanceof GameObject)
+                    push(e, localE);
                 else
-                    repel(entity, localEntity);
+                    repel(e, localE);
         }
     }
 

@@ -15,25 +15,10 @@ public class Line{
     }
 
     /**
-     * Create a line by attaching a vector to a starting point.
-     */
-    public Line(float startX, float startY, Vector2 vector) {
-        this(startX, startY, vector.x, vector.y);
-    }
-
-    /**
      * Draw a line from a start position vector to an end position vector.
      */
     public Line(Vector2 start, Vector2 end) {
         this(start.x, start.y, end.x, end.y);
-    }
-
-    public Vector2 getP1(){
-        return new Vector2(x1, y1);
-    }
-
-    public Vector2 getP2(){
-        return new Vector2(x2, y2);
     }
 
     public float dx(){
@@ -55,11 +40,6 @@ public class Line{
 //    public float solveForY(float x){
 //        return y1 + (dy()) * (x - x1) / (dx());
 //    }
-//
-//    public float angleDeg(){
-//        return MathUtils.atan2Deg360(dy(), dx());
-//    }
-//
 //    public Vector2 toVector(){
 //        return new Vector2(dx(), dy());
 //    }
@@ -70,10 +50,6 @@ public class Line{
 //        this.x2 = x2;
 //        this.y2 = y2;
 //        return this;
-//    }
-//
-//    public Line flip(){
-//        return set(x2, y2, x1, y1);
 //    }
 
     public boolean intersects(Line l) {

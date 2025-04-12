@@ -11,47 +11,40 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PathFinderTest {
+    PathFinder pathFinder;
     Point start = new Point(0, 0);
 
-    int heuristic(Point p1, Point p2) {
-        return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
+    void tester(Point goal, int expectedDist) {
+        Queue<Point> path = pathFinder.findPath(start, goal);
+        assertEquals(expectedDist, path.size);
+        assertEquals(start, path.first());
+        assertEquals(goal, path.last());
     }
 
     @Test
     void testNoObstacles() {
         HashGrid<Rectangle> grid = new StaticCollisionHandler(new Array<>());
-        PathFinder pathFinder = new PathFinder(grid);
+        pathFinder = new PathFinder(grid);
 
         for(int deg = 0; deg < 360; deg++){
             int x = (int) (100 * MathUtils.cosDeg(deg));
             int y = (int) (100 * MathUtils.sinDeg(deg));
-            Point goal = new Point(x, y);
-            Queue<Point> path = pathFinder.findPath(start, goal);
+            int minDist = Math.abs(x) + Math.abs(y) + 1;
 
-            assertEquals(heuristic(start, goal) + 1, path.size);
-            assertEquals(start, path.first());
-            assertEquals(goal, path.last());
+            tester(new Point(x, y), minDist);
         }
     }
 
     @Test
     public void testWithObstacles() {
-        Array<Rectangle> rectangles = new Array<>();
-        rectangles.add(new Rectangle(1, 1, 1, 1));  // Obstacle at (1,1)
-        rectangles.add(new Rectangle(2, 2, 1, 1));  // Obstacle at (2,2)
-        HashGrid<Rectangle> grid = new StaticCollisionHandler(rectangles);
+        Array<Rectangle> collisionBoxes = new Array<>();
+        collisionBoxes.add(new Rectangle(20, -50, 16, 200));
+        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        pathFinder = new PathFinder(grid);
 
-        PathFinder pathFinder = new PathFinder(grid);
-
-        Point goal = new Point(3, 3);
-
-        Queue<Point> path = pathFinder.findPath(start, goal);
-
-        assertEquals(heuristic(start, goal) + 1, path.size);
-        assertEquals(start, path.first());
-        assertEquals(goal, path.last());
+        tester(new Point(3, 0), 14);
+        tester(new Point(5, 6), 20);
     }
 }
