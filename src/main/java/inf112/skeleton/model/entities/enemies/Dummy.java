@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.collision.HashGrid;
+import inf112.skeleton.model.inventory.SpeedCrystal;
 import inf112.skeleton.util.Box;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.inventory.HealthPotion;
@@ -39,7 +40,8 @@ public class Dummy extends Enemy{
     public Array<ItemDrop> getItemDrops(){
         Array<ItemDrop> itemDrops = new Array<>();
 //        if(MathUtils.random() <= 0.1f)
-            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+//            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new SpeedCrystal()));
         return itemDrops;
     }
 }

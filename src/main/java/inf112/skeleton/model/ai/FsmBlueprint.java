@@ -1,4 +1,4 @@
-package inf112.skeleton.model;
+package inf112.skeleton.model.ai;
 
 import java.util.HashMap;
 import java.util.Map;

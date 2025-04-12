@@ -6,12 +6,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
-import inf112.skeleton.model.Direction;
-import inf112.skeleton.model.FsmBlueprint;
-import inf112.skeleton.model.StateMachine;
+import inf112.skeleton.util.Direction;
+import inf112.skeleton.model.ai.FsmBlueprint;
+import inf112.skeleton.model.ai.StateMachine;
 import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.attack.AttackableEntity;
-import inf112.skeleton.model.entities.gameObjects.IGameObject;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
@@ -199,7 +198,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     public boolean useItem(Item item){
         if(item == null)
             return false;
-        health = Math.min(maxHealth, health + item.heal());
+//        health = Math.min(maxHealth, health + item.heal());
+        health += item.heal();
+        speed *= item.speedMultiplier();
         return true;
     }
 

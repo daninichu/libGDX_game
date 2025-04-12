@@ -10,7 +10,7 @@ import inf112.skeleton.view.FloorEntity;
 import java.awt.Point;
 
 /**
- * Is for checking and resolving collision between entities.
+ * Is for checking and resolving collision between movable entities.
  */
 public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     /**

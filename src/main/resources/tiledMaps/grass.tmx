@@ -44,7 +44,7 @@ Without Tiled, this would not have been possible.</property>
   <object id="3942" gid="12" x="160" y="512" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3943"/>
-    <property name="Locked" type="bool" value="false"/>
+    <property name="Locked" type="bool" value="true"/>
    </properties>
   </object>
   <object id="3943" gid="12" x="160" y="416" width="32" height="32">
@@ -66,7 +66,7 @@ Without Tiled, this would not have been possible.</property>
     <property name="Door" type="object" value="3943"/>
    </properties>
   </object>
-  <object id="5389" gid="12" x="96" y="608" width="32" height="32">
+  <object id="5389" gid="12" x="32" y="608" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
     <property name="Locked" type="bool" value="false"/>
@@ -78,6 +78,7 @@ Without Tiled, this would not have been possible.</property>
   <object id="5406" gid="13" x="0" y="704" width="32" height="32">
    <properties>
     <property name="Link0" type="object" value="5389"/>
+    <property name="Link1" type="object" value="3942"/>
    </properties>
   </object>
  </objectgroup>

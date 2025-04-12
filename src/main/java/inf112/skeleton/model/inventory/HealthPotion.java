@@ -2,9 +2,10 @@ package inf112.skeleton.model.inventory;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import inf112.skeleton.util.Box;
 
 public class HealthPotion implements Item {
-    private static final TextureRegion texture = new TextureRegion(new Texture("Props_Items/health_potion_item.png"));;
+    private static final TextureRegion tex = new TextureRegion(new Texture("Props_Items/health_potion_item.png"));;
 
     @Override
     public int heal(){
@@ -13,7 +14,12 @@ public class HealthPotion implements Item {
 
     @Override
     public TextureRegion getTexture(){
-        return texture;
+        return tex;
+    }
+
+    @Override
+    public Box getHurtbox(){
+        return new Box(0, 0, tex.getRegionWidth(), tex.getRegionHeight());
     }
 
     @Override

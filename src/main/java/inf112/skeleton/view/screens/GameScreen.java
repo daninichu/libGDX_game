@@ -150,13 +150,13 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
             if(e instanceof Enemy enemy){
-                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.vision);
+//                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.vision);
                 Line lineOfSight = enemy.getLineOfSight();
                 if(lineOfSight != null){
-                    shapeRenderer.rectLine(lineOfSight.getP1(), lineOfSight.getP2(), 2);
+//                    shapeRenderer.rectLine(lineOfSight.getP1(), lineOfSight.getP2(), 2);
                 }
 //                batch.begin();
 //                font.draw(batch, ""+enemy.getState(), e.getCenterX(), e.getTopY()+20);

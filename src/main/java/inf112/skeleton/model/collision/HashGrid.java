@@ -2,6 +2,7 @@ package inf112.skeleton.model.collision;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
@@ -10,12 +11,17 @@ import inf112.skeleton.util.Line;
 import java.awt.Point;
 
 /**
- * Can efficiently determine which
+ * Every cell in the grid keeps track of which object they are occupied by.
+ * Can efficiently retrieve objects in specific cells.
  * @param <E> The type of objects present in the grid.
  */
 public interface HashGrid<E> {
     static int toCellNum(float mapCoords){
         return MathUtils.floor(mapCoords / MyGame.TILE_SIZE);
+    }
+
+    static Point toCell(Vector2 mapPos){
+        return new Point(toCellNum(mapPos.x), toCellNum(mapPos.y));
     }
 
     static Array<Point> getOccupiedCells(Rectangle r){

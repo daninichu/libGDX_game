@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import inf112.skeleton.model.Direction;
+import inf112.skeleton.util.Direction;
 
 public class AnimationHandler implements Disposable {
     public enum State{

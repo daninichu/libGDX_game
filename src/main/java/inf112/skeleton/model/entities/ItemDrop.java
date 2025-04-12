@@ -1,9 +1,9 @@
 package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import inf112.skeleton.util.Box;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Item;
+import inf112.skeleton.util.Box;
 
 public class ItemDrop extends Entity{
     private IInventoryPlayer player;
@@ -35,10 +35,12 @@ public class ItemDrop extends Entity{
         if(followPlayer){
             speed = Math.min(100, speed + acceleration * deltaTime);
             velocity.set(player.getCenterPos().sub(getCenterPos()));
-            if(locateHurtbox().overlaps(player.locateHurtbox()))
-                if(player.getInventory().addItem(item))
+            if(player.locateHurtbox().contains(getCenterPos()))
+//            if(player.locateHurtbox().contains(getCenterPos()))
+                if(player.getInventory().addItem(item)){
+                    player.useItem(item);
                     item = null;
-                else{
+                } else{
                     followPlayer = false;
                     speed = 60;
                     velocity.scl(-1).setLength(speed);

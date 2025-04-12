@@ -77,13 +77,14 @@
         },
         "grass.tmx": {
             "expandedObjectLayers": [
+                6,
                 7
             ],
             "scale": 1.56,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 240.06410256410254,
-                "y": 475.96153846153845
+                "x": 148.39743589743586,
+                "y": 499.03846153846155
             }
         },
         "o.tsx": {
@@ -111,11 +112,11 @@
                 3,
                 2
             ],
-            "scale": 1.03,
-            "selectedLayer": 2,
+            "scale": 1.6488,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 319.9029126213593,
-                "y": 159.7087378640777
+                "x": 142.22464822901506,
+                "y": 293.243571081999
             }
         },
         "test3.tmx": {
@@ -214,19 +215,20 @@
         "tilesets/desertSet.tsx",
         "tilesets/64Objects.tsx",
         "tilesets/objects.tsx",
-        "test2.tmx"
+        "test2.tmx",
+        "tilesets/phantom.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "bool",
+    "property.type": "object",
     "recentFiles": [
-        "test2.tmx",
-        "tilesets/objects.tsx",
-        "tilesets/64Objects.tsx",
-        "tilesets/desertSet.tsx",
         "grass.tmx",
+        "tilesets/desertSet.tsx",
+        "tilesets/64Objects.tsx",
+        "tilesets/objects.tsx",
+        "test2.tmx",
+        "tilesets/phantom.tsx",
         "tilesets/entities.tsx",
         "tilesets/myAtlas.tsx",
-        "tilesets/phantom.tsx",
         "tilesets/dummy.tsx",
         "test3.tmx",
         "test1.tmx",

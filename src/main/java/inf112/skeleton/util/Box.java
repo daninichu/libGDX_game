@@ -3,6 +3,7 @@ package inf112.skeleton.util;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.MyGame;
 
 /**
  * Can detect overlap with circles.
@@ -67,5 +68,9 @@ public class Box extends Rectangle{
 
     public Line[] getEdges() {
         return getEdges(this);
+    }
+
+    public static Box cell(){
+        return new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
     }
 }

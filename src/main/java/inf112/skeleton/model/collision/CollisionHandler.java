@@ -9,8 +9,8 @@ import inf112.skeleton.util.Line;
 import java.awt.Point;
 
 /**
- * Structures the map like a grid. Every cell in the grid keeps track of which
- * object they are occupied by.
+ * Structures the map like a grid. This class is used for resolving collision,
+ * in addition to efficiently keeping track of and retrieving collidable objects.
  */
 public abstract class CollisionHandler<E> implements HashGrid<E> {
     protected ObjectMap<Point, Array<E>> grid = new ObjectMap<>();
@@ -20,22 +20,6 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
             grid.put(cell, new Array<>());
         grid.get(cell).add(e);
     }
-//
-//    @Override
-//    public ObjectSet<E> getLocalObjects(Rectangle r){
-////        ObjectSet<E> localObjects = new ObjectSet<>();
-////        for(Point cell : HashGrid.getOccupiedCells(r))
-////            localObjects.addAll(grid.get(cell, new Array<>()));
-//        return getLocalObjects(HashGrid.getOccupiedCells(r));
-//    }
-//
-//    @Override
-//    public ObjectSet<E> getLocalObjects(Line l){
-////        ObjectSet<E> localObjects = new ObjectSet<>();
-////        for(Point cell : HashGrid.getOccupiedCells(l))
-////            localObjects.addAll(grid.get(cell, new Array<>()));
-//        return getLocalObjects(HashGrid.getOccupiedCells(l));
-//    }
 
     @Override
     public ObjectSet<E> getLocalObjects(Array<Point> cells){
