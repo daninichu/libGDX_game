@@ -38,13 +38,46 @@ public class PathFinderTest {
     }
 
     @Test
-    public void testWithObstacles() {
+    void testAroundWall() {
         Array<Rectangle> collisionBoxes = new Array<>();
-        collisionBoxes.add(new Rectangle(20, -50, 16, 200));
+        collisionBoxes.add(new Rectangle().setPosition(20, -50).merge(40, 150));
         HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
         pathFinder = new PathFinder(grid);
 
         tester(new Point(3, 0), 14);
         tester(new Point(5, 6), 20);
+    }
+
+    @Test
+    void testFromDeadEnd() {
+        Array<Rectangle> collisionBoxes = new Array<>();
+        collisionBoxes.addAll(
+            new Rectangle().setPosition(-30, -50).merge(-10, 150),
+            new Rectangle().setPosition(-30, -50).merge(20, -20),
+            new Rectangle().setPosition(20, -90).merge(40, 100)
+        );
+        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        pathFinder = new PathFinder(grid);
+
+        tester(new Point(-3, -6), 30);
+        tester(new Point(3, -7), 25);
+    }
+
+    @Test
+    void testZicZac() {
+        Array<Rectangle> collisionBoxes = new Array<>();
+        collisionBoxes.addAll(
+            new Rectangle().setPosition(-30, 170).merge(210, 180),
+            new Rectangle().setPosition(-30, -90).merge(-20, 170),
+            new Rectangle().setPosition(-30, -90).merge(210, -80),
+            new Rectangle().setPosition(30, -80).merge(40, 130),
+            new Rectangle().setPosition(90, -40).merge(100, 170),
+            new Rectangle().setPosition(150, -80).merge(160, 130)
+        );
+        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        pathFinder = new PathFinder(grid);
+
+        tester(new Point(11, -3), 59);
+        tester(new Point(-4, 8), 75);
     }
 }

@@ -2,6 +2,7 @@ package inf112.skeleton.model.collision;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import inf112.skeleton.app.MyGame;
@@ -19,6 +20,10 @@ public interface HashGrid<E> {
         int cellX = MathUtils.floor(mapX / MyGame.TILE_SIZE);
         int cellY = MathUtils.floor(mapY / MyGame.TILE_SIZE);
         return new Point(cellX, cellY);
+    }
+
+    static Vector2 toMapPos(Point cell) {
+        return new Vector2(cell.x * MyGame.TILE_SIZE, cell.y * MyGame.TILE_SIZE);
     }
 
     static Array<Point> getOccupiedCells(Rectangle r){

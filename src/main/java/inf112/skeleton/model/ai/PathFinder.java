@@ -62,8 +62,6 @@ public class PathFinder{
     public Queue<Point> findPath(Point start, Point goal) {
         heap.clear();
         visited.clear();
-//        Point start = HashGrid.toCell(startPos.x, startPos.y);
-//        Point goal = HashGrid.toCell(goalPos.x, goalPos.y);
 
         heap.add(new Node(start, 0, hCost(start, goal)));
         while (!heap.isEmpty()) {
