@@ -5,8 +5,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.Queue;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.ai.FsmBlueprint;
+import inf112.skeleton.model.ai.PathFinder;
 import inf112.skeleton.model.ai.StateMachine;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.collision.CollisionHandler;
@@ -16,31 +18,39 @@ import inf112.skeleton.util.Direction;
 import inf112.skeleton.util.Line;
 import inf112.skeleton.view.AnimationHandler;
 
+import java.awt.*;
+
 public abstract class Enemy extends Entity{
     public enum State {
         Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned, Dying, Dead
     }
     public enum Event{
-        Timeout, PlayerVisible, PlayerNotVisible, PlayerFar, PlayerClose
+        Timeout, PlayerClose, PlayerVisible, PlayerNotVisible, PlayerFar
     }
     protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     protected StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
     protected HashGrid<Rectangle> grid;
-    protected Line lineOfSight;
+    protected PathFinder pathFinder;
+    protected Queue<Point> path;
+    protected Line ray;
     protected AttackableEntity player;
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
 
-    public Enemy(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid) {
+    public Enemy(float x, float y, AttackableEntity player) {
         super(x, y);
         this.player = player;
-        this.grid = grid;
         this.dir = Direction.RIGHT;
 
         addTransitions();
         addEnterFunctions();
         addExitFunctions();
+    }
+
+    public void setPathFinder(HashGrid<Rectangle> grid, PathFinder pathFinder) {
+        this.grid = grid;
+        this.pathFinder = pathFinder;
     }
 
     protected void addTransitions(){
@@ -51,7 +61,7 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.Roaming,          Event.PlayerVisible,    State.Chase);
         blueprint.addTransition(State.Chase,            Event.PlayerFar,        State.Idle);
         blueprint.addTransition(State.Chase,            Event.PlayerClose,      State.AttackStartup);
-        blueprint.addTransition(State.Chase,            Event.PlayerNotVisible,      State.Idle);
+        blueprint.addTransition(State.Chase,            Event.PlayerNotVisible, State.Idle);
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attack);
         blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
@@ -114,7 +124,7 @@ public abstract class Enemy extends Entity{
             return;
         }
         super.update(deltaTime);
-        updateState(deltaTime);
+        updateState();
         switch(stateMachine.getState()){
             case Idle, Roaming -> updateDirection();
             case Chase -> {
@@ -129,27 +139,34 @@ public abstract class Enemy extends Entity{
         player.getAttacked(this);
     }
 
-    private void updateState(float deltaTime){
-        if (timer <= 0)
-            stateMachine.fireEvent(Event.Timeout);
+    private void updateState(){
         float distance = getCenterPos().dst(player.getCenterPos());
         if (distance <= vision){
-            lineOfSight = new Line(getCenterPos(), player.getCenterPos());
-            ObjectSet<Rectangle> walls = grid.getLocalObjects(lineOfSight);
-            if(!CollisionHandler.collidesAny(lineOfSight, walls))
+            if(playerVisible())
                 stateMachine.fireEvent(distance <= attackRange? Event.PlayerClose : Event.PlayerVisible);
             else
                 stateMachine.fireEvent(Event.PlayerNotVisible);
         }
         else{
-            lineOfSight = null;
+            ray = null;
             stateMachine.fireEvent(Event.PlayerFar);
         }
+        if (timer <= 0)
+            stateMachine.fireEvent(Event.Timeout);
+    }
+
+    private boolean playerVisible(){
+        ray = new Line(getCenterPos(), player.getCenterPos());
+        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
+    }
+
+    private void followPath(){
+        path = pathFinder.findPath(getCenterPos(), player.getCenterPos());
     }
 
     @Override
     public void getAttacked(AttackableEntity attacker) {
-        if(gotHit(attacker) && getState() != State.Dying){
+        if(gotHit(attacker) && getState() != State.Dying && getState() != State.Dead){
             super.getAttacked(attacker);
             stateMachine.forceState(health > 0 ? State.Stunned : State.Dying);
 
@@ -175,8 +192,8 @@ public abstract class Enemy extends Entity{
         return result;
     }
 
-    public Line getLineOfSight() {
-        return lineOfSight;
+    public Line getRay() {
+        return ray;
     }
 
     public State getState() {

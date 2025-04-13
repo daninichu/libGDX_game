@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PathFinderTest {
     PathFinder pathFinder;
@@ -79,5 +80,23 @@ public class PathFinderTest {
 
         tester(new Point(11, -3), 59);
         tester(new Point(-4, 8), 75);
+    }
+
+    @Test
+    void testNoPath() {
+        Array<Rectangle> collisionBoxes = new Array<>();
+        collisionBoxes.addAll(
+            new Rectangle().setPosition(-50, -50).merge(50, -50),
+            new Rectangle().setPosition(-50, 50).merge(50, 50),
+            new Rectangle().setPosition(-50, -50).merge(-50, 50),
+            new Rectangle().setPosition(50, -50).merge(50, 50)
+        );
+        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        pathFinder = new PathFinder(grid);
+
+        Point goal = new Point(100, 0);
+        Queue<Point> path = pathFinder.findPath(start, goal);
+
+        assertNull(path);
     }
 }

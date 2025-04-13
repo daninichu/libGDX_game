@@ -198,8 +198,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     public boolean useItem(Item item){
         if(item == null)
             return false;
-//        health = Math.min(maxHealth, health + item.heal());
-        health += item.heal();
+        health = Math.min(maxHealth, health + item.heal());
         speed *= item.speedMultiplier();
         return true;
     }
@@ -222,6 +221,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             this.startup = 0.2f;
             this.duration = 0.15f;
             this.cooldown = 0.2f;
+
         }
 
         @Override

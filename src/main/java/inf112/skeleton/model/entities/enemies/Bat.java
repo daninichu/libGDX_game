@@ -12,12 +12,12 @@ import inf112.skeleton.util.Box;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Bat extends Enemy {
-    public Bat(TiledMapTileMapObject tileObj, AttackableEntity player, HashGrid<Rectangle> grid){
-        this(tileObj.getX(), tileObj.getY(), player, grid);
+    public Bat(TiledMapTileMapObject tileObj, AttackableEntity player){
+        this(tileObj.getX(), tileObj.getY(), player);
     }
 
-    public Bat(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
-        super(x, y, player, grid);
+    public Bat(float x, float y, AttackableEntity player){
+        super(x, y, player);
         this.animation = new AnimationHandler("pinkbat", dir);
         this.health = 1;
         this.speed = 6f * MyGame.TILE_SIZE;

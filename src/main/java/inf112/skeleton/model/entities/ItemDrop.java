@@ -8,12 +8,11 @@ import inf112.skeleton.util.Box;
 public class ItemDrop extends Entity{
     private IInventoryPlayer player;
     private Item item;
-    private final float acceleration = 100;
     private boolean followPlayer;
 
     /**
      * The position should be the center position of whoever instantiated this.
-     * @param item The item this object will contain.
+     * @param item The item this object will hold.
      */
     public ItemDrop(float centerX, float centerY, Item item) {
         super(centerX, centerY);
@@ -33,21 +32,19 @@ public class ItemDrop extends Entity{
     public void update(float deltaTime){
         prevPos.set(pos);
         if(followPlayer){
-            speed = Math.min(100, speed + acceleration * deltaTime);
+            speed = Math.min(100, speed + 80 * deltaTime);
             velocity.set(player.getCenterPos().sub(getCenterPos()));
             if(player.locateHurtbox().contains(getCenterPos()))
-//            if(player.locateHurtbox().contains(getCenterPos()))
-                if(player.getInventory().addItem(item)){
-                    player.useItem(item);
+                if(player.getInventory().addItem(item))
                     item = null;
-                } else{
+                else{
                     followPlayer = false;
                     speed = 60;
                     velocity.scl(-1).setLength(speed);
                 }
         }
         else {
-            speed = Math.max(0, speed - acceleration * deltaTime);
+            speed = Math.max(0, speed - 80 * deltaTime);
             if(getCenterPos().dst(player.getCenterPos()) < 24 && speed == 0)
                 followPlayer = true;
         }

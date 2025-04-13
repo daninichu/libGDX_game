@@ -6,19 +6,19 @@ import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.model.collision.HashGrid;
+import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.model.inventory.SpeedCrystal;
 import inf112.skeleton.util.Box;
 import inf112.skeleton.model.entities.ItemDrop;
-import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Dummy extends Enemy{
-    public Dummy(TiledMapTileMapObject tileObj, AttackableEntity player, HashGrid<Rectangle> grid){
-        this(tileObj.getX(), tileObj.getY(), player, grid);
+    public Dummy(TiledMapTileMapObject tileObj, AttackableEntity player){
+        this(tileObj.getX(), tileObj.getY(), player);
     }
 
-    public Dummy(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
-        super(x, y, player, grid);
+    public Dummy(float x, float y, AttackableEntity player){
+        super(x, y, player);
         animation = new AnimationHandler("char", dir);
         health = 1;
         speed = 2.5f * MyGame.TILE_SIZE;
@@ -40,8 +40,8 @@ public class Dummy extends Enemy{
     public Array<ItemDrop> getItemDrops(){
         Array<ItemDrop> itemDrops = new Array<>();
 //        if(MathUtils.random() <= 0.1f)
-//            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
-            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new SpeedCrystal()));
+            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new HealthPotion()));
+//            itemDrops.add(new ItemDrop(getCenterX(), getCenterY(), new SpeedCrystal()));
         return itemDrops;
     }
 }

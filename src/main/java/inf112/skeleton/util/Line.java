@@ -1,6 +1,5 @@
 package inf112.skeleton.util;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -28,29 +27,6 @@ public class Line{
     public float dy(){
         return y2 - y1;
     }
-//
-//    public float len(){
-//        return Vector2.dst(x1, y1, x2, y2);
-//    }
-//
-//    public float solveForX(float y){
-//        return x1 + (dx()) * (y - y1) / (dy());
-//    }
-//
-//    public float solveForY(float x){
-//        return y1 + (dy()) * (x - x1) / (dx());
-//    }
-//    public Vector2 toVector(){
-//        return new Vector2(dx(), dy());
-//    }
-//
-//    public Line set(float x1, float y1, float x2, float y2){
-//        this.x1 = x1;
-//        this.y1 = y1;
-//        this.x2 = x2;
-//        this.y2 = y2;
-//        return this;
-//    }
 
     public boolean intersects(Line l) {
         float a = (l.x2 - l.x1) * (l.y1 - y1) - (l.y2 - l.y1) * (l.x1 - x1);

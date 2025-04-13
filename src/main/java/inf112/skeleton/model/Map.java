@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.model.ai.PathFinder;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
@@ -16,6 +19,7 @@ import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
 import inf112.skeleton.model.entities.gameObjects.*;
+import inf112.skeleton.model.factory.EntityFactory;
 import inf112.skeleton.view.FloorEntity;
 
 /**
@@ -25,6 +29,9 @@ public class Map {
     private static final TmxMapLoader mapLoader = new TmxMapLoader();
     private static final String startPath = "tiledMaps/";
     private TiledMap tiledMap;
+
+    private EntityFactory<Enemy> enemyFactory = new EntityFactory<>();
+    private EntityFactory<GameObject> gameObjectFactory = new EntityFactory<>();
 
     private Player player;
     private Array<Enemy> enemies;
@@ -36,6 +43,17 @@ public class Map {
 
     public Map(Player player) {
         this.player = player;
+
+        enemyFactory.addConstructor("Dummy", t -> new Dummy(t, player));
+        enemyFactory.addConstructor("Bat", t -> new Bat(t, player));
+        enemyFactory.addConstructor("Phantom", t -> new Phantom(t, player));
+        enemyFactory.addConstructor("Slime", t -> new Slime(t, player));
+
+        gameObjectFactory.addConstructor(null, t -> new GameObject(t, player));
+        gameObjectFactory.addConstructor("Door", t -> new Door(t, player));
+        gameObjectFactory.addConstructor("Sign", t -> new Sign(t, player));
+        gameObjectFactory.addConstructor("Switch", t -> new Switch(t, player));
+        gameObjectFactory.addConstructor("PressurePlate", t -> new PressurePlate(t, player, entityCH));
     }
 
     /**
@@ -85,22 +103,7 @@ public class Map {
             return;
         for(MapObject obj : tiledMap.getLayers().get("Objects").getObjects()){
             TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
-            GameObject object = null;
-
-            String type = tileObj.getTile().getProperties().get("type", String.class);
-            if(type == null)
-                object = new GameObject(tileObj, player);
-            else if (type.equals("Sign"))
-                object = new Sign(tileObj, player);
-            else if (type.equals("Door"))
-                object = new Door(tileObj, player);
-            else if (type.equals("Switch"))
-                object = new Switch(tileObj, player);
-            else if (type.equals("PressurePlate"))
-                object = new PressurePlate(tileObj, player, entityCH);
-
-            if (object == null)
-                throw new RuntimeException("Error while loading object: " + type);
+            GameObject object = gameObjectFactory.create(tileObj);
             objects.add(object);
             if (!object.movable() && object.collidable() && !(object instanceof FloorEntity))
                 collisionBoxes.add(object.locateHurtbox());
@@ -115,28 +118,25 @@ public class Map {
     }
 
     private void spawnEnemies() {
+        PathFinder pathFinder = new PathFinder(staticCH);
+
         for(int i = 0; i < 3000; i++){
 //            new Dummy(i*10, 0, player);
         }
-            enemies.add(new Phantom(0, 100, player, staticCH));
-//            enemies.add(new Bat(50, 50, player));
-//            enemies.add(new Bat(50, 50, player));
-//            enemies.add(new Bat(50, 50, player));
-//            enemies.add(new Slime(50, 50, player, staticCH));
+        enemies.add(new Phantom(0, 100, player));
+//        enemies.add(new Bat(50, 50, player));
+//        enemies.add(new Bat(50, 50, player));
+//        enemies.add(new Bat(50, 50, player));
+//        enemies.add(new Slime(50, 50, player));
+        enemies.forEach(e -> e.setPathFinder(staticCH, pathFinder));
         if(tiledMap.getLayers().get("Enemies") == null)
             return;
         for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
             TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
-            String type = tileObj.getTile().getProperties().get("type", String.class);
-            Enemy enemy = switch(type){
-                case "Bat"      -> new Bat(tileObj, player, staticCH);
-                case "Dummy"    -> new Dummy(tileObj, player, staticCH);
-                case "Slime"    -> new Slime(tileObj, player, staticCH);
-                case "Phantom"  -> new Phantom(tileObj, player, staticCH);
-                default -> throw new RuntimeException("Error while loading enemy: " + type);
-            };
+            Enemy enemy = enemyFactory.create(tileObj);
             enemies.add(enemy);
         }
+        enemies.forEach(e -> e.setPathFinder(staticCH, pathFinder));
     }
 
     public TiledMap getTiledMap() {

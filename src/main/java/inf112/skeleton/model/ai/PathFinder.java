@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
 public class PathFinder{
     private HashGrid<Rectangle> grid;
     private PriorityQueue<Node> heap = new PriorityQueue<>();
-    private ObjectSet<Point> visited = new ObjectSet<>();
+    private ObjectSet<Point> done = new ObjectSet<>();
 
     public PathFinder(HashGrid<Rectangle> grid) {
         this.grid = grid;
@@ -50,7 +50,7 @@ public class PathFinder{
             new Point(cell.x - 1, cell.y), new Point(cell.x, cell.y - 1)
         };
         for (Point adj : adjCells)
-            if(!visited.contains(adj) && grid.getLocalObjects(new Array<>(new Point[]{adj})).isEmpty())
+            if(!done.contains(adj) && grid.getLocalObjects(new Array<>(new Point[]{adj})).isEmpty())
                 freeAdjCells.add(adj);
         return freeAdjCells;
     }
@@ -61,7 +61,7 @@ public class PathFinder{
 
     public Queue<Point> findPath(Point start, Point goal) {
         heap.clear();
-        visited.clear();
+        done.clear();
 
         heap.add(new Node(start, 0, hCost(start, goal)));
         while (!heap.isEmpty()) {
@@ -69,7 +69,7 @@ public class PathFinder{
             if (curr.pos.equals(goal))
                 return retracePath(curr);
 
-            visited.add(curr.pos);
+            done.add(curr.pos);
             for (Point cell : getFreeAdjCells(curr.pos)) {
                 Node node = new Node(cell, curr.gCost + 1, hCost(cell, goal));
                 node.parent = curr;
