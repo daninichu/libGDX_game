@@ -1,4 +1,4 @@
-package inf112.skeleton.model.entities.gameObjects;
+package inf112.skeleton.model.entities.gameobjects;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;

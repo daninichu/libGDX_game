@@ -1,7 +1,7 @@
 package inf112.skeleton.controller;
 
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.entities.gameObjects.IGameObject;
+import inf112.skeleton.model.entities.gameobjects.IGameObject;
 
 public interface ControllablePlayer {
     default IGameObject interact(Array.ArrayIterable<? extends IGameObject> objects){

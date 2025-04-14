@@ -1,16 +1,13 @@
-package inf112.skeleton.model.entities.gameObjects;
+package inf112.skeleton.model.entities.gameobjects;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.model.collision.CollisionHandler;
-import inf112.skeleton.util.Box;
 import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.view.FloorEntity;
 import inf112.skeleton.view.ViewableEntity;
-
-import java.awt.*;
 
 public class PressurePlate extends GameObject implements FloorEntity{
     private HashGrid<? extends ViewableEntity> grid;

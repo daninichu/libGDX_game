@@ -1,4 +1,4 @@
-package inf112.skeleton.model.gameObjects;
+package inf112.skeleton.model.gameobjects;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.model.entities.gameObjects.Door;
+import inf112.skeleton.model.entities.gameobjects.Door;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

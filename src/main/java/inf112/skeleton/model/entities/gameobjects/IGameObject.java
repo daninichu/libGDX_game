@@ -1,4 +1,4 @@
-package inf112.skeleton.model.entities.gameObjects;
+package inf112.skeleton.model.entities.gameobjects;
 
 import inf112.skeleton.view.ViewableEntity;
 

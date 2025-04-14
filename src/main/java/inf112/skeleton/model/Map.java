@@ -1,5 +1,6 @@
 package inf112.skeleton.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -8,21 +9,21 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.ai.PathFinder;
+import inf112.skeleton.model.ai.Pathfinder;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
 import inf112.skeleton.model.entities.ItemDrop;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
-import inf112.skeleton.model.entities.gameObjects.*;
+import inf112.skeleton.model.entities.gameobjects.*;
 import inf112.skeleton.model.factory.EntityFactory;
 import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.model.inventory.SpeedCrystal;
 import inf112.skeleton.view.FloorEntity;
 
 /**
- * A class that keeps track of positions of entities.
+ * A class that keeps track of positions of entities and updates the logic.
  */
 public class Map {
     private static final TmxMapLoader mapLoader = new TmxMapLoader();
@@ -38,6 +39,7 @@ public class Map {
     private Array<GameObject> objects;
     private Array<ItemDrop> itemDrops;
     private Array<Rectangle> collisionBoxes;
+
     private StaticCollisionHandler staticCH = new StaticCollisionHandler();
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
 
@@ -93,31 +95,28 @@ public class Map {
     }
 
     public void update(float deltaTime) {
+        long now = System.nanoTime();
         Array<Entity> entities = getEntities();
         entities.forEach(e -> e.update(deltaTime));
         entityCH.updateGrid(entities);
         entities.forEach(e -> entityCH.handleCollision(e));
         entities.forEach(e -> staticCH.handleCollision(e));
+        Gdx.app.log("Update Time", (float)(System.nanoTime() - now)/1000000 + " ms");
     }
 
-    private void loadCollisionBoxes(){
-        if(tiledMap.getLayers().get("Collision") != null)
-            for(MapObject obj : tiledMap.getLayers().get("Collision").getObjects())
-                collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
-    }
 
     private <E extends Entity> Array<E> loadTileObjects(EntityFactory<E> factory, String layer){
         Array<E> arr = new Array<>();
         if(tiledMap.getLayers().get(layer) != null)
             for(MapObject obj : tiledMap.getLayers().get(layer).getObjects())
-                arr.add(factory.create((TiledMapTileMapObject) obj));
+                arr.add(factory.create(obj));
         return arr;
     }
 
     private void spawnEnemies() {
         enemies.addAll(loadTileObjects(enemyFactory, "Enemies"));
-        PathFinder pathFinder = new PathFinder(staticCH);
-        enemies.forEach(e -> e.setPathFinder(staticCH, pathFinder));
+        Pathfinder pathFinder = new Pathfinder(staticCH);
+        enemies.forEach(e -> e.setup(staticCH, pathFinder));
     }
 
     private void spawnObjects() {
@@ -129,6 +128,12 @@ public class Map {
 
     private void spawnItems() {
         itemDrops.addAll(loadTileObjects(itemFactory, "Items"));
+    }
+
+    private void loadCollisionBoxes(){
+        if(tiledMap.getLayers().get("Collision") != null)
+            for(MapObject obj : tiledMap.getLayers().get("Collision").getObjects())
+                collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
     }
 
     public Array<Entity> getEntities() {

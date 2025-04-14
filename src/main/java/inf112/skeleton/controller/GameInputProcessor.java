@@ -3,7 +3,7 @@ package inf112.skeleton.controller;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.entities.gameObjects.*;
+import inf112.skeleton.model.entities.gameobjects.*;
 
 public class GameInputProcessor extends InputAdapter {
     private ControllablePlayer player;

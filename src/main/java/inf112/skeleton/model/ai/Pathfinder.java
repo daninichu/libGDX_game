@@ -2,6 +2,7 @@ package inf112.skeleton.model.ai;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.BinaryHeap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.Queue;
 import inf112.skeleton.model.collision.CollisionHandler;
@@ -9,40 +10,34 @@ import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.util.Box;
 
 import java.awt.*;
-import java.util.PriorityQueue;
 
 /**
  * Uses the A* algorithm.
  */
-public class PathFinder{
+public class Pathfinder{
     private static final int MAX_SEARCH_BOUND = 400;
     private HashGrid<Rectangle> grid;
-    private PriorityQueue<Node> heap = new PriorityQueue<>();
+    private BinaryHeap<Node> heap = new BinaryHeap<>();
     private ObjectSet<Point> done = new ObjectSet<>();
 
-    public PathFinder(HashGrid<Rectangle> grid) {
+    public Pathfinder(HashGrid<Rectangle> grid) {
         this.grid = grid;
     }
 
-    private static class Node implements Comparable<Node>{
+    private static class Node extends BinaryHeap.Node{
         Point pos;
         Node parent;
-        int gCost, fCost;
+        int gCost;
 
         public Node(Point pos, int gCost, int hCost) {
+            super(gCost + hCost);
             this.pos = pos;
             this.gCost = gCost;
-            this.fCost = gCost + hCost;
-        }
-
-        @Override
-        public int compareTo(Node o){
-            return Integer.compare(fCost, o.fCost);
         }
     }
 
-    private static int hCost(Point start, Point end) {
-        return Math.abs(start.x - end.x) + Math.abs(start.y - end.y);
+    private static int hCost(Point p1, Point p2) {
+        return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
     }
 
     private static Point[] adjCells(Point cell) {
@@ -62,19 +57,17 @@ public class PathFinder{
         heap.add(new Node(start, 0, hCost(start, goal)));
         int i = 0;
         while (!heap.isEmpty() && i++ < MAX_SEARCH_BOUND) {
-            Node curr = heap.poll();
-            if(!done.add(curr.pos))
-                continue;
-            for (Point adj : adjCells(curr.pos)) {
-                Node node = new Node(adj, curr.gCost + 1, hCost(adj, goal));
-                node.parent = curr;
-                if (node.pos.equals(goal))
-                    return retracePath(node);
-
-                ObjectSet<Rectangle> boxes = grid.getLocalObjects(adj);
-                if(!done.contains(adj) && !CollisionHandler.collidesAny(Box.cell(adj), boxes))
-                    heap.add(node);
-            }
+            Node curr = heap.pop();
+            if(done.add(curr.pos))
+                for(Point adj : adjCells(curr.pos)){
+                    Node node = new Node(adj, curr.gCost + 1, hCost(adj, goal));
+                    node.parent = curr;
+                    if(adj.equals(goal))
+                        return retracePath(node);
+                    ObjectSet<Rectangle> boxes = grid.getLocalObjects(adj);
+                    if(!done.contains(adj) && !CollisionHandler.collidesAny(Box.cell(adj), boxes))
+                        heap.add(node);
+                }
         }
         return new Queue<>();
     }

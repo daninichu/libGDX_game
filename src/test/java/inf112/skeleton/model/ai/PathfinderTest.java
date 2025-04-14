@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
-import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +11,9 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PathFinderTest {
+public class PathfinderTest{
     StaticCollisionHandler grid = new StaticCollisionHandler();
-    PathFinder pathFinder;
+    Pathfinder pathFinder;
     Point start = new Point(0, 0);
 
     void tester(Point goal, int expectedDist) {
@@ -27,7 +26,7 @@ public class PathFinderTest {
     @Test
     void testNoObstacles() {
         grid.updateGrid(new Array<>());
-        pathFinder = new PathFinder(grid);
+        pathFinder = new Pathfinder(grid);
 
         for(int deg = 0; deg < 360; deg++){
             int x = (int) (20 * MathUtils.cosDeg(deg));
@@ -43,7 +42,7 @@ public class PathFinderTest {
         Array<Rectangle> collisionBoxes = new Array<>();
         collisionBoxes.add(new Rectangle().setPosition(20, -50).merge(40, 150));
         grid.updateGrid(collisionBoxes);
-        pathFinder = new PathFinder(grid);
+        pathFinder = new Pathfinder(grid);
 
         tester(new Point(3, 0), 14);
         tester(new Point(5, 6), 20);
@@ -58,7 +57,7 @@ public class PathFinderTest {
             new Rectangle().setPosition(20, -90).merge(40, 100)
         );
         grid.updateGrid(collisionBoxes);
-        pathFinder = new PathFinder(grid);
+        pathFinder = new Pathfinder(grid);
 
         tester(new Point(-3, -6), 30);
         tester(new Point(3, -7), 25);
@@ -76,7 +75,7 @@ public class PathFinderTest {
             new Rectangle().setPosition(150, -80).merge(160, 130)
         );
         grid.updateGrid(collisionBoxes);
-        pathFinder = new PathFinder(grid);
+        pathFinder = new Pathfinder(grid);
 
         tester(new Point(11, -3), 59);
         tester(new Point(-4, 8), 75);
@@ -92,7 +91,7 @@ public class PathFinderTest {
             new Rectangle().setPosition(50, -50).merge(50, 50)
         );
         grid.updateGrid(collisionBoxes);
-        pathFinder = new PathFinder(grid);
+        pathFinder = new Pathfinder(grid);
 
         Point goal = new Point(100, 0);
         Queue<Point> path = pathFinder.findPath(start, goal);
