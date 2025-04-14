@@ -1,13 +1,10 @@
 package inf112.skeleton.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
-import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -20,6 +17,8 @@ import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.enemies.*;
 import inf112.skeleton.model.entities.gameObjects.*;
 import inf112.skeleton.model.factory.EntityFactory;
+import inf112.skeleton.model.inventory.HealthPotion;
+import inf112.skeleton.model.inventory.SpeedCrystal;
 import inf112.skeleton.view.FloorEntity;
 
 /**
@@ -31,14 +30,15 @@ public class Map {
     private TiledMap tiledMap;
 
     private EntityFactory<Enemy> enemyFactory = new EntityFactory<>();
-    private EntityFactory<GameObject> gameObjectFactory = new EntityFactory<>();
+    private EntityFactory<GameObject> gameObjFactory = new EntityFactory<>();
+    private EntityFactory<ItemDrop> itemFactory = new EntityFactory<>();
 
     private Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
     private Array<ItemDrop> itemDrops;
     private Array<Rectangle> collisionBoxes;
-    private StaticCollisionHandler staticCH;
+    private StaticCollisionHandler staticCH = new StaticCollisionHandler();
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
 
     public Map(Player player) {
@@ -49,11 +49,14 @@ public class Map {
         enemyFactory.addConstructor("Phantom", t -> new Phantom(t, player));
         enemyFactory.addConstructor("Slime", t -> new Slime(t, player));
 
-        gameObjectFactory.addConstructor(null, t -> new GameObject(t, player));
-        gameObjectFactory.addConstructor("Door", t -> new Door(t, player));
-        gameObjectFactory.addConstructor("Sign", t -> new Sign(t, player));
-        gameObjectFactory.addConstructor("Switch", t -> new Switch(t, player));
-        gameObjectFactory.addConstructor("PressurePlate", t -> new PressurePlate(t, player, entityCH));
+        gameObjFactory.addConstructor(null, t -> new GameObject(t, player));
+        gameObjFactory.addConstructor("Door", t -> new Door(t, player));
+        gameObjFactory.addConstructor("Sign", t -> new Sign(t, player));
+        gameObjFactory.addConstructor("Switch", t -> new Switch(t, player));
+        gameObjFactory.addConstructor("PressurePlate", t -> new PressurePlate(t, player, entityCH));
+
+        itemFactory.addConstructor("HealthPotion", t -> new ItemDrop(t, new HealthPotion()));
+        itemFactory.addConstructor("SpeedCrystal", t -> new ItemDrop(t, new SpeedCrystal()));
     }
 
     /**
@@ -75,10 +78,11 @@ public class Map {
     public void loadMap(String mapFile) {
         tiledMap = mapLoader.load(startPath + mapFile);
         reset();
-        loadObjects();
-        loadCollisionBoxes();
-        staticCH = new StaticCollisionHandler(collisionBoxes);
         spawnEnemies();
+        spawnObjects();
+        spawnItems();
+        loadCollisionBoxes();
+        staticCH.updateGrid(collisionBoxes);
     }
 
     private void reset(){
@@ -89,58 +93,42 @@ public class Map {
     }
 
     public void update(float deltaTime) {
-        long time = System.nanoTime();
         Array<Entity> entities = getEntities();
         entities.forEach(e -> e.update(deltaTime));
         entityCH.updateGrid(entities);
         entities.forEach(e -> entityCH.handleCollision(e));
         entities.forEach(e -> staticCH.handleCollision(e));
-        Gdx.app.log("Update Time", (System.nanoTime()-time)/1000000f+" ms");
-    }
-
-    private void loadObjects(){
-        if(tiledMap.getLayers().get("Objects") == null)
-            return;
-        for(MapObject obj : tiledMap.getLayers().get("Objects").getObjects()){
-            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
-            GameObject object = gameObjectFactory.create(tileObj);
-            objects.add(object);
-            if (!object.movable() && object.collidable() && !(object instanceof FloorEntity))
-                collisionBoxes.add(object.locateHurtbox());
-        }
     }
 
     private void loadCollisionBoxes(){
-        if(tiledMap.getLayers().get("Collision") == null)
-            return;
-        for (MapObject obj : tiledMap.getLayers().get("Collision").getObjects())
-            collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
+        if(tiledMap.getLayers().get("Collision") != null)
+            for(MapObject obj : tiledMap.getLayers().get("Collision").getObjects())
+                collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
+    }
+
+    private <E extends Entity> Array<E> loadTileObjects(EntityFactory<E> factory, String layer){
+        Array<E> arr = new Array<>();
+        if(tiledMap.getLayers().get(layer) != null)
+            for(MapObject obj : tiledMap.getLayers().get(layer).getObjects())
+                arr.add(factory.create((TiledMapTileMapObject) obj));
+        return arr;
     }
 
     private void spawnEnemies() {
+        enemies.addAll(loadTileObjects(enemyFactory, "Enemies"));
         PathFinder pathFinder = new PathFinder(staticCH);
-
-        for(int i = 0; i < 3000; i++){
-//            new Dummy(i*10, 0, player);
-        }
-        enemies.add(new Phantom(0, 100, player));
-//        enemies.add(new Bat(50, 50, player));
-//        enemies.add(new Bat(50, 50, player));
-//        enemies.add(new Bat(50, 50, player));
-//        enemies.add(new Slime(50, 50, player));
-        enemies.forEach(e -> e.setPathFinder(staticCH, pathFinder));
-        if(tiledMap.getLayers().get("Enemies") == null)
-            return;
-        for (MapObject obj : tiledMap.getLayers().get("Enemies").getObjects()) {
-            TiledMapTileMapObject tileObj = (TiledMapTileMapObject) obj;
-            Enemy enemy = enemyFactory.create(tileObj);
-            enemies.add(enemy);
-        }
         enemies.forEach(e -> e.setPathFinder(staticCH, pathFinder));
     }
 
-    public TiledMap getTiledMap() {
-        return tiledMap;
+    private void spawnObjects() {
+        objects.addAll(loadTileObjects(gameObjFactory, "Objects"));
+        for(GameObject obj : objects)
+            if(!obj.movable() && obj.collidable() && !(obj instanceof FloorEntity))
+                collisionBoxes.add(obj.locateHurtbox());
+    }
+
+    private void spawnItems() {
+        itemDrops.addAll(loadTileObjects(itemFactory, "Items"));
     }
 
     public Array<Entity> getEntities() {
@@ -152,7 +140,7 @@ public class Map {
         return entities;
     }
 
-    private <T extends Entity> Array<T> filter(Array<T> arr) {
+    private <E extends Entity> Array<E> filter(Array<E> arr) {
         for(int i = 0; i < arr.size; i++)
             if(arr.get(i).dead()){
                 Array<ItemDrop> drops = (arr.removeIndex(i--).getItemDrops());
@@ -169,11 +157,15 @@ public class Map {
         return new Array.ArrayIterable<>(hitboxes);
     }
 
+    public TiledMap getTiledMap() {
+        return tiledMap;
+    }
+
     public Array.ArrayIterable<Rectangle> getCollisionBoxes() {
         return new Array.ArrayIterable<>(collisionBoxes);
     }
 
-    public Array.ArrayIterable<GameObject> getObjects(){
+    public Array.ArrayIterable<GameObject> getGameObjects(){
         return new Array.ArrayIterable<>(objects);
     }
 }

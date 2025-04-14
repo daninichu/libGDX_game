@@ -1,5 +1,7 @@
 package inf112.skeleton.model.ai;
 
+import inf112.skeleton.model.entities.enemies.Enemy;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +29,9 @@ public class StateMachine<S, E>{
     }
 
     public void fireEvent(E event) {
+        if(!event.toString().equals(Enemy.Event.Timeout.toString())){
+//            System.out.println(event);
+        }
         S targetState = blueprint.getTargetState(state, event);
         if(targetState != null && !targetState.equals(state))
             transition(targetState);

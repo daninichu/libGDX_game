@@ -1,6 +1,7 @@
 package inf112.skeleton.model.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import inf112.skeleton.model.inventory.IInventoryPlayer;
 import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.util.Box;
@@ -9,6 +10,10 @@ public class ItemDrop extends Entity{
     private IInventoryPlayer player;
     private Item item;
     private boolean followPlayer;
+
+    public ItemDrop(TiledMapTileMapObject tileObj, Item item){
+        this(tileObj.getX(), tileObj.getY(), item);
+    }
 
     /**
      * The position should be the center position of whoever instantiated this.

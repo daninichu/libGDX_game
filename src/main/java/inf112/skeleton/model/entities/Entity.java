@@ -29,7 +29,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected float hitlagTimer;
     protected float mass;
 
-    public Entity(float x, float y) {
+    protected Entity(float x, float y) {
         this.pos = new Vector2(x, y);
         this.prevPos = pos.cpy();
     }

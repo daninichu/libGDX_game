@@ -118,7 +118,7 @@ public class GameScreen extends AbstractScreen{
                 font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
             }
         }
-        for(IGameObject object : map.getObjects()){
+        for(IGameObject object : map.getGameObjects()){
             if(object.canInteract()){
                 font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 40);
             }
@@ -139,7 +139,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox())){
                 int scl = MyGame.TILE_SIZE;
-//                shapeRenderer.rect(cell.x * scl, cell.y * scl, scl, scl);
+                shapeRenderer.rect(cell.x * scl, cell.y * scl, scl, scl);
             }
         }
         shapeRenderer.setColor(Color.WHITE);
@@ -149,7 +149,7 @@ public class GameScreen extends AbstractScreen{
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
             if(r != null){
-//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
+                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
             if(e instanceof Enemy enemy){
 //                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.vision);
@@ -157,10 +157,10 @@ public class GameScreen extends AbstractScreen{
                 if(l != null){
                     shapeRenderer.rectLine(l.x1, l.y1, l.x2, l.y2, 1);
                 }
-//                batch.begin();
-//                font.draw(batch, ""+enemy.getState(), e.getCenterX(), e.getTopY()+20);
-//                batch.end();
             }
+//            batch.begin();
+//            font.draw(batch, ""+HashGrid.toCell(e.getCenterX(),e.getCenterY()), e.getCenterX(), e.getTopY()+20);
+//            batch.end();
         }
         shapeRenderer.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);

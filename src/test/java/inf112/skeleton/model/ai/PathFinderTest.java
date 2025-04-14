@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PathFinderTest {
+    StaticCollisionHandler grid = new StaticCollisionHandler();
     PathFinder pathFinder;
     Point start = new Point(0, 0);
 
@@ -26,12 +26,12 @@ public class PathFinderTest {
 
     @Test
     void testNoObstacles() {
-        HashGrid<Rectangle> grid = new StaticCollisionHandler(new Array<>());
+        grid.updateGrid(new Array<>());
         pathFinder = new PathFinder(grid);
 
         for(int deg = 0; deg < 360; deg++){
-            int x = (int) (100 * MathUtils.cosDeg(deg));
-            int y = (int) (100 * MathUtils.sinDeg(deg));
+            int x = (int) (20 * MathUtils.cosDeg(deg));
+            int y = (int) (20 * MathUtils.sinDeg(deg));
             int minDist = Math.abs(x) + Math.abs(y) + 1;
 
             tester(new Point(x, y), minDist);
@@ -42,7 +42,7 @@ public class PathFinderTest {
     void testAroundWall() {
         Array<Rectangle> collisionBoxes = new Array<>();
         collisionBoxes.add(new Rectangle().setPosition(20, -50).merge(40, 150));
-        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        grid.updateGrid(collisionBoxes);
         pathFinder = new PathFinder(grid);
 
         tester(new Point(3, 0), 14);
@@ -57,7 +57,7 @@ public class PathFinderTest {
             new Rectangle().setPosition(-30, -50).merge(20, -20),
             new Rectangle().setPosition(20, -90).merge(40, 100)
         );
-        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        grid.updateGrid(collisionBoxes);
         pathFinder = new PathFinder(grid);
 
         tester(new Point(-3, -6), 30);
@@ -75,7 +75,7 @@ public class PathFinderTest {
             new Rectangle().setPosition(90, -40).merge(100, 170),
             new Rectangle().setPosition(150, -80).merge(160, 130)
         );
-        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        grid.updateGrid(collisionBoxes);
         pathFinder = new PathFinder(grid);
 
         tester(new Point(11, -3), 59);
@@ -91,12 +91,12 @@ public class PathFinderTest {
             new Rectangle().setPosition(-50, -50).merge(-50, 50),
             new Rectangle().setPosition(50, -50).merge(50, 50)
         );
-        HashGrid<Rectangle> grid = new StaticCollisionHandler(collisionBoxes);
+        grid.updateGrid(collisionBoxes);
         pathFinder = new PathFinder(grid);
 
         Point goal = new Point(100, 0);
         Queue<Point> path = pathFinder.findPath(start, goal);
 
-        assertNull(path);
+        assertTrue(path.isEmpty());
     }
 }

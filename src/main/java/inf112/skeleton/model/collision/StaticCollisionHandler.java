@@ -11,10 +11,9 @@ import java.awt.Point;
  * For checking and resolving collision between moving entities and static objects.
  */
 public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
-    /**
-     * Fill the grid with collision boxes and assign them to the cells that they occupy.
-     */
-    public StaticCollisionHandler(Array<Rectangle> collisionBoxes) {
+    @Override
+    public void updateGrid(Array<? extends Rectangle> collisionBoxes) {
+        grid.clear();
         for (Rectangle box : collisionBoxes)
             for(Point cell : HashGrid.getOccupiedCells(box))
                 addToGrid(cell, box);

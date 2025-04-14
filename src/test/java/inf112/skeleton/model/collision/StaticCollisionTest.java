@@ -17,6 +17,7 @@ import static org.mockito.Mockito.mock;
 public class StaticCollisionTest {
     Player player;
     Array<Rectangle> collisionBoxes;
+    StaticCollisionHandler collisionHandler = new StaticCollisionHandler();
 
     @BeforeEach
     void setUp() {
@@ -35,7 +36,7 @@ public class StaticCollisionTest {
     @Test
     void testStopWhenCollides() {
         collisionBoxes.add(new Rectangle(50, 0, 100, 100));
-        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
+        collisionHandler.updateGrid(collisionBoxes);
 
         player.setRightMove(true);
         while(!StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes)){
@@ -53,7 +54,7 @@ public class StaticCollisionTest {
     @Test
     void testCantMoveDown() {
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
-        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
+        collisionHandler.updateGrid(collisionBoxes);
 
         assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
 
@@ -76,7 +77,7 @@ public class StaticCollisionTest {
     void testCantMoveDiagonally() {
         collisionBoxes.add(new Rectangle(-50, 0, 50, 100));
         collisionBoxes.add(new Rectangle(0, -50, 100, 50));
-        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
+        collisionHandler.updateGrid(collisionBoxes);
 
         assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
 
@@ -99,7 +100,7 @@ public class StaticCollisionTest {
     @Test
     void testSlideAgainstBox() {
         collisionBoxes.add(new Rectangle(0, -50, 1000, 50));
-        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
+        collisionHandler.updateGrid(collisionBoxes);
 
         assertFalse(StaticCollisionHandler.collidesAny(player.locateHurtbox(), collisionBoxes));
 
@@ -128,7 +129,7 @@ public class StaticCollisionTest {
         collisionBoxes.add(new Rectangle(-20, -50, 10, 50));
         collisionBoxes.add(new Rectangle(-40, -50, 10, 50));
         collisionBoxes.add(new Rectangle(-60, -50, 10, 50));
-        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
+        collisionHandler.updateGrid(collisionBoxes);
 
         float stuckY = player.getY();
         player.setLeftMove(true);
@@ -153,7 +154,7 @@ public class StaticCollisionTest {
     void testSlipThroughGap(){
         collisionBoxes.add(new Rectangle(-100, 0, 100, 100));
         collisionBoxes.add(new Rectangle(-100, 150, 100, 100));
-        StaticCollisionHandler collisionHandler = new StaticCollisionHandler(collisionBoxes);
+        collisionHandler.updateGrid(collisionBoxes);
 
         float stuckX = player.getX();
         player.setLeftMove(true);

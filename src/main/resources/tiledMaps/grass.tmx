@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="5409">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="5419">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
  <tileset firstgid="8" source="tilesets/objects.tsx"/>
  <tileset firstgid="16" source="tilesets/desertSet.tsx"/>
+ <tileset firstgid="64" source="tilesets/sprites.tsx"/>
  <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -44,7 +45,7 @@ Without Tiled, this would not have been possible.</property>
   <object id="3942" gid="12" x="160" y="512" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3943"/>
-    <property name="Locked" type="bool" value="true"/>
+    <property name="Locked" type="bool" value="false"/>
    </properties>
   </object>
   <object id="3943" gid="12" x="160" y="416" width="32" height="32">
@@ -66,27 +67,36 @@ Without Tiled, this would not have been possible.</property>
     <property name="Door" type="object" value="3943"/>
    </properties>
   </object>
-  <object id="5389" gid="12" x="32" y="608" width="32" height="32">
+  <object id="5389" gid="12" x="96" y="608" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="test2.tmx"/>
    </properties>
   </object>
-  <object id="5401" gid="3" x="32" y="704" width="64" height="64"/>
-  <object id="5402" gid="3" x="128" y="704" width="64" height="64"/>
-  <object id="5406" gid="13" x="0" y="704" width="32" height="32">
+  <object id="5401" gid="3" x="104" y="704" width="64" height="64"/>
+  <object id="5402" gid="3" x="192" y="704" width="64" height="64"/>
+  <object id="5406" gid="13" x="48" y="704" width="32" height="32">
    <properties>
     <property name="Link0" type="object" value="5389"/>
     <property name="Link1" type="object" value="3942"/>
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="10" name="Enemies">
+  <object id="5418" gid="65" x="48" y="424" width="16" height="16"/>
+ </objectgroup>
  <objectgroup id="6" name="Collision">
   <object id="2608" x="160" y="448" width="160" height="16"/>
   <object id="2609" x="320" y="320" width="16" height="128"/>
   <object id="2627" x="160" y="304" width="160" height="16"/>
   <object id="2628" x="144" y="320" width="16" height="128"/>
+  <object id="5409" x="-192" y="528" width="40" height="168"/>
+  <object id="5410" x="-184" y="512" width="160" height="32"/>
+  <object id="5412" x="-120" y="576" width="16" height="120"/>
+  <object id="5413" x="-72" y="536" width="16" height="120"/>
+  <object id="5414" x="-24" y="576" width="16" height="120"/>
+  <object id="5417" x="-184" y="688" width="224" height="32"/>
  </objectgroup>
  <layer id="8" name="Overlay" width="30" height="20">
   <data encoding="csv">

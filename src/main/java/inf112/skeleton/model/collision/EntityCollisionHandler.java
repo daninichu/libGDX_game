@@ -17,6 +17,7 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
      * Unlike static objects, entities can move around. The grid must be constantly updated.
      * @param entities The entities with their updated positions.
      */
+    @Override
     public void updateGrid(Array<? extends CollidableEntity> entities) {
         grid.clear();
         for(CollidableEntity e : entities){
