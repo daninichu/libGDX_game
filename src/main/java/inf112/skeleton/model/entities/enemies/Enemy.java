@@ -3,6 +3,7 @@ package inf112.skeleton.model.entities.enemies;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.Queue;
@@ -25,20 +26,21 @@ public abstract class Enemy extends Entity{
         Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned, Dying, Dead
     }
     public enum Event{
-        Timeout, PlayerClose, PlayerVisible, PlayerNotVisible, PlayerFar
+        Timeout, PlayerClose, PlayerVisible, PlayerNotVisible, PlayerFar, GiveUp
     }
     protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     protected StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
     protected HashGrid<Rectangle> grid;
     protected PathFinder pathFinder;
-    protected Queue<Point> path;
+    protected Queue<Point> path = new Queue<>();
     protected Line ray;
     protected AttackableEntity player;
-    public static final float vision = MyGame.TILE_SIZE * 8;
+    protected Vector2 target = new Vector2();
+    public static final float vision = MyGame.TILE_SIZE * 80;
     protected float attackRange;
 
-    public Enemy(float x, float y, AttackableEntity player) {
+    protected Enemy(float x, float y, AttackableEntity player) {
         super(x, y);
         this.player = player;
         this.dir = Direction.RIGHT;
@@ -59,9 +61,9 @@ public abstract class Enemy extends Entity{
         blueprint.addTransition(State.Idle,             Event.PlayerVisible,    State.Chase);
         blueprint.addTransition(State.Roaming,          Event.Timeout,          State.Idle);
         blueprint.addTransition(State.Roaming,          Event.PlayerVisible,    State.Chase);
-        blueprint.addTransition(State.Chase,            Event.PlayerFar,        State.Idle);
+//        blueprint.addTransition(State.Chase,            Event.PlayerFar,        State.Idle);
         blueprint.addTransition(State.Chase,            Event.PlayerClose,      State.AttackStartup);
-        blueprint.addTransition(State.Chase,            Event.PlayerNotVisible, State.Idle);
+        blueprint.addTransition(State.Chase,            Event.GiveUp,           State.Idle);
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attack);
         blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.Chase);
@@ -125,11 +127,12 @@ public abstract class Enemy extends Entity{
         }
         super.update(deltaTime);
         updateState();
-        switch(stateMachine.getState()){
+        switch(getState()){
             case Idle, Roaming -> updateDirection();
             case Chase -> {
-                float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
-                velocity.setAngleRad(angle);
+//                float angle = player.getCenterPos().sub(getCenterPos()).angleRad();
+//                velocity.setAngleRad(angle);
+                followPath();
                 updateDirection();
             }
             case Stunned, Dying -> velocity.scl((float) Math.pow(0.01f, deltaTime));
@@ -137,15 +140,24 @@ public abstract class Enemy extends Entity{
         move(deltaTime);
         getAttacked(player);
         player.getAttacked(this);
+//        System.out.println(getState());
     }
 
     private void updateState(){
+        // Player close =
+            // Sees player      = Chase
+            // Not sees player  = Idle / Roaming
+        // While Chase
+            // Player close     = Attack
+            // Sees player      = Directly to player
+            // Player far       = Follow path
+            // Not sees player  = Follow path
+            // Path is empty    = Idle
         float distance = getCenterPos().dst(player.getCenterPos());
         if (distance <= vision){
-            if(playerVisible())
+            if(playerVisible()){
                 stateMachine.fireEvent(distance <= attackRange? Event.PlayerClose : Event.PlayerVisible);
-            else
-                stateMachine.fireEvent(Event.PlayerNotVisible);
+            }
         }
         else{
             ray = null;
@@ -156,12 +168,30 @@ public abstract class Enemy extends Entity{
     }
 
     private boolean playerVisible(){
-        ray = new Line(getCenterPos(), player.getCenterPos());
-        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
+        return true;
+//        ray = new Line(getCenterPos(), player.getCenterPos());
+//        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
     }
 
     private void followPath(){
-        path = pathFinder.findPath(getCenterPos(), player.getCenterPos());
+        if(path.isEmpty() || !HashGrid.toCell(player.getCenterX(), player.getCenterY()).equals(path.last()))
+            path = pathFinder.findPath(getCenterPos(), player.getCenterPos());
+//        System.out.println(path);
+        if(path.isEmpty()){
+            stateMachine.fireEvent(Event.GiveUp);
+            return;
+        }
+        if(HashGrid.toCell(getCenterX(), getCenterY()).equals(path.first()))
+            path.removeFirst();
+
+        if(path.isEmpty()){
+            return;
+        }
+        target.set(HashGrid.toMapPos(path.first()));
+        target.add(MyGame.TILE_SIZE / 2f, MyGame.TILE_SIZE / 2f);
+
+        float angle = target.sub(getCenterPos()).angleRad();
+        velocity.setAngleRad(angle);
     }
 
     @Override

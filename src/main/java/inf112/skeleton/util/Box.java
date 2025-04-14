@@ -69,6 +69,7 @@ public class Box extends Rectangle{
     }
 
     public static Box cell(Point p){
-        return new Box(p.x * MyGame.TILE_SIZE, p.y * MyGame.TILE_SIZE, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        int scl = MyGame.TILE_SIZE;
+        return new Box(p.x * scl, p.y * scl, scl, scl);
     }
 }
