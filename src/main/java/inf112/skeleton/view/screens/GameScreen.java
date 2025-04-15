@@ -19,6 +19,7 @@ import inf112.skeleton.model.Map;
 import inf112.skeleton.model.collision.HashGrid;
 import inf112.skeleton.model.entities.enemies.Enemy;
 import inf112.skeleton.model.entities.gameobjects.IGameObject;
+import inf112.skeleton.util.Box;
 import inf112.skeleton.util.Line;
 import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
@@ -108,14 +109,13 @@ public class GameScreen extends AbstractScreen{
         entities.sort(comparator);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-//        mapRenderer.renderTileLayer((TiledMapTileLayer) map.getTiledMap().getLayers().get("Ground"));
         for(ViewableEntity e : entities){
             if(e.getTexture() != null){
                 Vector2 p = e.drawPos();
                 batch.draw(e.getTexture(), p.x, p.y);
             }
             if(e.getHealth() > 0){
-//                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
+                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
             }
         }
         for(IGameObject object : map.getGameObjects()){
@@ -138,11 +138,12 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setColor(Color.BLUE);
         for(ViewableEntity e : entities){
             for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox())){
-                int scl = MyGame.TILE_SIZE;
-                shapeRenderer.rect(cell.x * scl, cell.y * scl, scl, scl);
+                Rectangle r = Box.cell(cell);
+//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
         }
         shapeRenderer.setColor(Color.WHITE);
+//        shapeRenderer.circle(player.getCenterPos().x, player.getCenterPos().y, Enemy.vision);
         for(Rectangle r : map.getCollisionBoxes()){
             shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         }
@@ -152,15 +153,11 @@ public class GameScreen extends AbstractScreen{
 //                shapeRenderer.rect(r.x, r.y, r.width, r.height);
             }
             if(e instanceof Enemy enemy){
-//                shapeRenderer.circle(e.getCenterX(), e.getCenterY(), Enemy.vision);
                 Line l = enemy.getRay();
                 if(l != null){
-//                    shapeRenderer.rectLine(l.x1, l.y1, l.x2, l.y2, 1);
+                    shapeRenderer.rectLine(l.x1, l.y1, l.x2, l.y2, 1);
                 }
             }
-//            batch.begin();
-//            font.draw(batch, ""+HashGrid.toCell(e.getCenterX(),e.getCenterY()), e.getCenterX(), e.getTopY()+20);
-//            batch.end();
         }
         shapeRenderer.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);

@@ -24,7 +24,7 @@ public class Slime extends Enemy {
 
         this.attack = new SlimeAttack();
         this.speed = 1.5f * MyGame.TILE_SIZE;
-        this.hurtbox = new Box(0, 0, 16, 16);
+        this.hurtbox = new Box(3, 2, 10, 10);
     }
 
     @Override

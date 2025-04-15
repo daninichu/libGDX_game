@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="5419">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="5422">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
@@ -84,7 +84,10 @@ Without Tiled, this would not have been possible.</property>
   </object>
  </objectgroup>
  <objectgroup id="10" name="Enemies">
-  <object id="5418" gid="65" x="48" y="424" width="16" height="16"/>
+  <object id="5418" gid="65" x="88" y="544" width="16" height="16"/>
+  <object id="5419" gid="67" x="112" y="560" width="16" height="16"/>
+  <object id="5420" gid="66" x="8" y="512" width="16" height="16"/>
+  <object id="5421" gid="66" x="48" y="528" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="6" name="Collision">
   <object id="2608" x="160" y="448" width="160" height="16"/>
@@ -96,7 +99,7 @@ Without Tiled, this would not have been possible.</property>
   <object id="5412" x="-120" y="576" width="16" height="120"/>
   <object id="5413" x="-72" y="536" width="16" height="120"/>
   <object id="5414" x="-24" y="576" width="16" height="120"/>
-  <object id="5417" x="-184" y="688" width="224" height="32"/>
+  <object id="5417" x="-184" y="688" width="176" height="32"/>
  </objectgroup>
  <layer id="8" name="Overlay" width="30" height="20">
   <data encoding="csv">

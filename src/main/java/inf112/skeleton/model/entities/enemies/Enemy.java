@@ -21,21 +21,21 @@ import inf112.skeleton.view.AnimationHandler;
 import java.awt.*;
 
 public abstract class Enemy extends Entity{
-    public enum State {
+    protected enum State {
         Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned, Dying, Dead
     }
-    public enum Event{
+    protected enum Event{
         Timeout, PlayerClose, PlayerVisible, PlayerNotVisible, GiveUp
     }
     protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     protected StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
-    protected HashGrid<Rectangle> grid;
-    protected Pathfinder pathFinder;
-    protected Queue<Point> path = new Queue<>();
-    protected Line ray;
-    protected AttackableEntity player;
-    protected Vector2 target = new Vector2();
+    private HashGrid<Rectangle> grid;
+    private Pathfinder pathFinder;
+    private Queue<Point> path = new Queue<>();
+    private Line ray;
+    private AttackableEntity player;
+    private Vector2 target = new Vector2();
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
 

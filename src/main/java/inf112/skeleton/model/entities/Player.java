@@ -18,10 +18,10 @@ import inf112.skeleton.util.Box;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
-    public enum State{
+    private enum State{
         NonAttack, AttackStartup, Attack, AttackEnd, Stunned
     }
-    public enum Event{
+    private enum Event{
         Timeout, AttackPressed
     }
     private static final FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();

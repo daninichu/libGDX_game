@@ -20,7 +20,7 @@ public class Bat extends Enemy {
         super(x, y, player);
         this.animation = new AnimationHandler("pinkbat", dir);
         this.health = 1;
-        this.speed = 6f * MyGame.TILE_SIZE;
+        this.speed = 5.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 2, 12, 10);
         this.attack = new BatAttack();
         this.attackRange = MyGame.TILE_SIZE * 3.5f;

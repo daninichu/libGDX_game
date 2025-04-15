@@ -39,8 +39,6 @@ public class Phantom extends Enemy{
     }
 
     private class PhantomAttack extends Attack{
-        private Circle baseHitbox = new Circle(0, 0, getWidth()/2f);
-
         private PhantomAttack(){
             this.damage = 2;
             this.knockback = MyGame.TILE_SIZE * 8;
@@ -54,7 +52,7 @@ public class Phantom extends Enemy{
         @Override
         public void placeHitboxes(Vector2 direction){
             this.direction = direction;
-            hitboxes.add(baseHitbox);
+            hitboxes.add(new Circle(0, 0, getWidth()/2f));
         }
     }
 }
