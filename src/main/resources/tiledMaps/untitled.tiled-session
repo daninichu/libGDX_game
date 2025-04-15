@@ -90,12 +90,36 @@
                 "y": 394.9799815214044
             }
         },
+        "grass1.tmx": {
+            "expandedObjectLayers": [
+                4,
+                3
+            ],
+            "scale": 1.0056,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 546.4399363564041,
+                "y": 238.16626889419257
+            }
+        },
+        "grass2.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 1.0056,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": -37.29116945107398,
+                "y": 247.11614956245026
+            }
+        },
         "map1.tmx": {
-            "scale": 0.9642,
+            "scale": 0.5283,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 232.31694669155777,
-                "y": 225.57560672059736
+                "x": 518.644709445391,
+                "y": 298.12606473594553
             }
         },
         "map2.tmx": {
@@ -231,8 +255,9 @@
     "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
     "last.worldFilePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps",
     "loadedWorlds": [
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myWorld.world",
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myWorld.world"
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass_world.world",
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass_world.world",
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass.world"
     ],
     "map.fixedSize": true,
     "map.height": 30,
@@ -252,7 +277,7 @@
         "tilesets/sprites.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "string",
+    "property.type": "int",
     "recentFiles": [
         "test1.tmx",
         "tilesets/items.tsx",

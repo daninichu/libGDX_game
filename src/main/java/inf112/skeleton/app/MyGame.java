@@ -4,8 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.GameInputProcessor;
 import inf112.skeleton.controller.InventoryInputProcessor;
+import inf112.skeleton.model.LoadZone;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.gameobjects.IDialogue;
@@ -23,7 +26,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class MyGame extends Game{
     public enum State {
         Title, Play, Dialogue, Inventory
-        //, LoadStart, Loading, LoadEnd
     }
     public enum LoadState {
         NotLoading, LoadStart, LoadEnd
@@ -51,12 +53,13 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(7*32, 5*32);
+        player = new Player(10*32, 5*32);
 //        player = new Player(192, 192);
         ui = new UI(player);
-        map = new Map(player);
+        map = new Map(this, player);
         long time = System.nanoTime();
-        map.loadMap("map1.tmx");
+//        map.loadMap("grass.tmx");
+        map.loadMap("grass1.tmx");
         Gdx.app.log("Load time", (System.nanoTime()-time)/1000000f+" ms");
 
         gameProcessor = new GameInputProcessor(this, player);
@@ -78,7 +81,7 @@ public class MyGame extends Game{
         return map;
     }
 
-    public void changeMap(String mapFile){
+    private void changeMap(String mapFile){
         map.loadMap(mapFile);
     }
 
@@ -87,6 +90,13 @@ public class MyGame extends Game{
         loadState = LoadState.LoadStart;
         if(door.getMapFile() != null)
             changeMap(door.getMapFile());
+    }
+
+    public void enterLoadZone(LoadZone loadZone){
+        player.setPos(loadZone.exit);
+        player.addPos(-player.getWidth()/2, -player.getHeight()/2);
+        loadState = LoadState.LoadStart;
+        changeMap(loadZone.mapFile);
     }
 
     @Override

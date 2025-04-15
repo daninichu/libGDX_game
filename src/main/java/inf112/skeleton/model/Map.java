@@ -1,13 +1,17 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.ai.Pathfinder;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
@@ -29,21 +33,23 @@ public class Map {
     private static final String startPath = "tiledMaps/";
     private TiledMap tiledMap;
 
-    private EntityFactory<Enemy> enemyFactory = new EntityFactory<>();
-    private EntityFactory<GameObject> gameObjFactory = new EntityFactory<>();
-    private EntityFactory<ItemDrop> itemFactory = new EntityFactory<>();
-
+    private final MyGame game;
     private Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
     private Array<ItemDrop> itemDrops;
     private Array<Rectangle> collisionBoxes;
-    private Array<RectangleMapObject> loadZones;
+    private Array<LoadZone> loadZones;
+
+    private EntityFactory<Enemy> enemyFactory = new EntityFactory<>();
+    private EntityFactory<GameObject> gameObjFactory = new EntityFactory<>();
+    private EntityFactory<ItemDrop> itemFactory = new EntityFactory<>();
 
     private StaticCollisionHandler staticCH = new StaticCollisionHandler();
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
 
-    public Map(Player player) {
+    public Map(MyGame game, Player player) {
+        this.game = game;
         this.player = player;
 
         enemyFactory.addConstructor("Dummy", t -> new Dummy(t, player));
@@ -67,9 +73,9 @@ public class Map {
      * @param id The ID of the desired object within specified file.
      * @return The desired tile object.
      */
-    public static TiledMapTileMapObject getObject(String mapFile, int id) {
+    public static <T extends MapObject> T getObject(String mapFile, int id) {
         mapLoader.load(startPath + mapFile);
-        return (TiledMapTileMapObject) mapLoader.getIdToObject().get(id);
+        return (T) mapLoader.getIdToObject().get(id);
     }
 
     /**
@@ -97,13 +103,15 @@ public class Map {
     }
 
     public void update(float deltaTime) {
-        long now = System.nanoTime();
         Array<Entity> entities = getEntities();
         entities.forEach(e -> e.update(deltaTime));
         entityCH.updateGrid(entities);
         entities.forEach(e -> entityCH.handleCollision(e));
         entities.forEach(e -> staticCH.handleCollision(e));
-//        Gdx.app.log("Update Time", (float)(System.nanoTime() - now)/1000000 + " ms");
+
+        for(LoadZone loadZone : loadZones)
+            if(loadZone.contains(player.getCenterPos()))
+                game.enterLoadZone(loadZone);
     }
 
 
@@ -141,7 +149,9 @@ public class Map {
 
     private void placeLoadZones() {
         for(MapObject obj : tiledMap.getLayers().get("Load Zones").getObjects()){
-            loadZones.add((RectangleMapObject) obj);
+            RectangleMapObject rectObj = (RectangleMapObject) obj;
+            if(rectObj.getRectangle().width != 0 && rectObj.getRectangle().height != 0)
+                loadZones.add(new LoadZone(rectObj));
         }
     }
 

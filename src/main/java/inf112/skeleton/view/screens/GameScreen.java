@@ -28,8 +28,8 @@ import inf112.skeleton.view.ViewableEntity;
 import java.awt.Point;
 
 public class GameScreen extends AbstractScreen{
-    public static final float VIEW_WIDTH = 24*MyGame.TILE_SIZE;
-    public static final float VIEW_HEIGHT = 18*MyGame.TILE_SIZE;
+    public static final float VIEW_WIDTH = 20*MyGame.TILE_SIZE;
+    public static final float VIEW_HEIGHT = 15*MyGame.TILE_SIZE;
     private static final DrawOrderComparator comparator = new DrawOrderComparator();
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
 
@@ -65,7 +65,11 @@ public class GameScreen extends AbstractScreen{
         MapProperties mapProps = map.getTiledMap().getProperties();
         mapWidth = mapProps.get("width", int.class) * mapProps.get("tilewidth", int.class);
         mapHeight = mapProps.get("height", int.class) * mapProps.get("tileheight", int.class);
-        camera.position.set(player.getCenterPos(), 0);
+
+        float x = Math.min(Math.max(player.getCenterX(), viewport.getWorldWidth()/2), mapWidth - viewport.getWorldWidth()/2);
+        float y = Math.min(Math.max(player.getCenterY(), viewport.getWorldHeight()/2), mapHeight - viewport.getWorldHeight()/2);
+        camera.position.set(x, y, 0);
+        viewport.apply();
     }
 
     @Override
@@ -108,7 +112,7 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void draw(){
-        ScreenUtils.clear(0.5f, 0.5f, 0.5f, 0);
+        ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
         entities.sort(comparator);
