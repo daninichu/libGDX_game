@@ -1,6 +1,5 @@
 package inf112.skeleton.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -39,6 +38,7 @@ public class Map {
     private Array<GameObject> objects;
     private Array<ItemDrop> itemDrops;
     private Array<Rectangle> collisionBoxes;
+    private Array<RectangleMapObject> loadZones;
 
     private StaticCollisionHandler staticCH = new StaticCollisionHandler();
     private EntityCollisionHandler entityCH = new EntityCollisionHandler();
@@ -85,6 +85,7 @@ public class Map {
         spawnItems();
         loadCollisionBoxes();
         staticCH.updateGrid(collisionBoxes);
+        placeLoadZones();
     }
 
     private void reset(){
@@ -92,6 +93,7 @@ public class Map {
         objects = new Array<>();
         itemDrops = new Array<>();
         collisionBoxes = new Array<>();
+        loadZones = new Array<>();
     }
 
     public void update(float deltaTime) {
@@ -101,7 +103,7 @@ public class Map {
         entityCH.updateGrid(entities);
         entities.forEach(e -> entityCH.handleCollision(e));
         entities.forEach(e -> staticCH.handleCollision(e));
-        Gdx.app.log("Update Time", (float)(System.nanoTime() - now)/1000000 + " ms");
+//        Gdx.app.log("Update Time", (float)(System.nanoTime() - now)/1000000 + " ms");
     }
 
 
@@ -128,12 +130,19 @@ public class Map {
 
     private void spawnItems() {
         itemDrops.addAll(loadTileObjects(itemFactory, "Items"));
+        itemDrops.forEach(item -> item.setPlayer(player));
     }
 
     private void loadCollisionBoxes(){
         if(tiledMap.getLayers().get("Collision") != null)
             for(MapObject obj : tiledMap.getLayers().get("Collision").getObjects())
                 collisionBoxes.add(((RectangleMapObject) obj).getRectangle());
+    }
+
+    private void placeLoadZones() {
+        for(MapObject obj : tiledMap.getLayers().get("Load Zones").getObjects()){
+            loadZones.add((RectangleMapObject) obj);
+        }
     }
 
     public Array<Entity> getEntities() {
@@ -148,9 +157,9 @@ public class Map {
     private <E extends Entity> Array<E> filter(Array<E> arr) {
         for(int i = 0; i < arr.size; i++)
             if(arr.get(i).dead()){
-                Array<ItemDrop> drops = (arr.removeIndex(i--).getItemDrops());
-                drops.forEach(drop -> drop.setPlayer(player));
-                itemDrops.addAll(drops);
+                Array<ItemDrop> items = (arr.removeIndex(i--).getItemDrops());
+                items.forEach(item -> item.setPlayer(player));
+                itemDrops.addAll(items);
             }
         return arr;
     }

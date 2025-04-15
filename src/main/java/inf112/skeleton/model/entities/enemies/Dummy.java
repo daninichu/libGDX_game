@@ -22,7 +22,7 @@ public class Dummy extends Enemy{
         animation = new AnimationHandler("char", dir);
         health = 1;
         speed = 2.5f * MyGame.TILE_SIZE;
-        this.hurtbox = new Box(0, 0, MyGame.TILE_SIZE, MyGame.TILE_SIZE);
+        this.hurtbox = new Box(2, 0, 12, 12);
     }
 
     @Override

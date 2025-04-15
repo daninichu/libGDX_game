@@ -58,13 +58,15 @@
         },
         "desert.tmx": {
             "expandedObjectLayers": [
+                4,
+                7,
                 3
             ],
-            "scale": 3.73,
-            "selectedLayer": 1,
+            "scale": 0.9039,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 351.87667560321717,
-                "y": 400.1340482573727
+                "x": 106.20643876535016,
+                "y": 326.9166943245934
             }
         },
         "doorTest.tmx": {
@@ -78,13 +80,30 @@
         "grass.tmx": {
             "expandedObjectLayers": [
                 7,
+                11,
                 6
             ],
-            "scale": 1.98,
+            "scale": 0.6494,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": -33.08080808080808,
-                "y": 565.4040404040404
+                "x": 304.89682784108413,
+                "y": 394.9799815214044
+            }
+        },
+        "map1.tmx": {
+            "scale": 0.9642,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 232.31694669155777,
+                "y": 225.57560672059736
+            }
+        },
+        "map2.tmx": {
+            "scale": 0.5865,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 42.62574595055412,
+                "y": 256.60699062233584
             }
         },
         "o.tsx": {
@@ -97,13 +116,12 @@
         },
         "test1.tmx": {
             "expandedObjectLayers": [
-                3,
                 4
             ],
             "scale": 2.15,
-            "selectedLayer": 2,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 199.7674418604651,
+                "x": 184.1860465116279,
                 "y": 223.48837209302326
             }
         },
@@ -112,11 +130,11 @@
                 2,
                 3
             ],
-            "scale": 2.2,
-            "selectedLayer": 2,
+            "scale": 1.3545,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 109.31818181818181,
-                "y": 306.59090909090907
+                "x": 145.44112218530825,
+                "y": 257.2905131044666
             }
         },
         "test3.tmx": {
@@ -126,8 +144,8 @@
             "scale": 0.87,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.11494252873564,
-                "y": 159.19540229885058
+                "x": 206.89655172413788,
+                "y": 174.13793103448273
             }
         },
         "tilesets/64Objects.tsx": {
@@ -155,6 +173,10 @@
         "tilesets/grassSet.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1
+        },
+        "tilesets/items.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 8.1934
         },
         "tilesets/myAtlas.tsx": {
             "scaleInDock": 1,
@@ -209,11 +231,16 @@
     "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
     "last.worldFilePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps",
     "loadedWorlds": [
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myworld.world"
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myWorld.world",
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myWorld.world"
     ],
-    "map.height": 10,
+    "map.fixedSize": true,
+    "map.height": 30,
     "map.lastUsedFormat": "tmx",
-    "map.width": 20,
+    "map.renderOrder": "1",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 30,
     "openFiles": [
         "grass.tmx",
         "tilesets/desertSet.tsx",
@@ -225,8 +252,10 @@
         "tilesets/sprites.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "object",
+    "property.type": "string",
     "recentFiles": [
+        "test1.tmx",
+        "tilesets/items.tsx",
         "tilesets/sprites.tsx",
         "desert.tmx",
         "tilesets/phantom.tsx",
@@ -236,10 +265,9 @@
         "tilesets/desertSet.tsx",
         "grass.tmx",
         "tilesets/entities.tsx",
-        "tilesets/myAtlas.tsx",
-        "tilesets/dummy.tsx",
-        "test3.tmx"
+        "tilesets/myAtlas.tsx"
     ],
+    "resizeMap.removeObjects": true,
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 0,
@@ -247,5 +275,6 @@
     "tileset.tileSize": {
         "height": 16,
         "width": 16
-    }
+    },
+    "tileset.type": 0
 }

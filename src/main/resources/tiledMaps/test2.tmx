@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="98">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="98">
  <tileset firstgid="1" source="tilesets/objects.tsx"/>
- <tileset firstgid="9" source="tilesets/phantom.tsx"/>
- <tileset firstgid="10" source="tilesets/dummy.tsx"/>
+ <tileset firstgid="9" source="tilesets/sprites.tsx"/>
  <layer id="1" name="Ground" width="20" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -18,87 +17,61 @@
 </data>
  </layer>
  <objectgroup id="2" name="Objects">
-  <object id="3" gid="5" x="576" y="96" width="32" height="32">
-   <properties>
-    <property name="Door ID" type="int" value="1"/>
-    <property name="Locked" type="bool" value="false"/>
-    <property name="Map File" value="test3.tmx"/>
-   </properties>
-  </object>
-  <object id="4" gid="5" x="32" y="288" width="32" height="32">
+  <object id="4" gid="5" x="112" y="176" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="1"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="test1.tmx"/>
    </properties>
   </object>
-  <object id="35" gid="5" x="448" y="288" width="32" height="32">
-   <properties>
-    <property name="Exit Door" type="object" value="36"/>
-    <property name="Locked" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="36" gid="5" x="448" y="96" width="32" height="32">
-   <properties>
-    <property name="Exit Door" type="object" value="35"/>
-    <property name="Locked" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="37" gid="2" x="512" y="96" width="32" height="32">
-   <properties>
-    <property name="Text">You will get to play around with combat in the next room.
-Press SPACE to attack.
-If you spam SPACE, then you can do consecutive attacks,
-but you'll be locked in one direction.</property>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="3" name="Enemies">
-  <object id="58" gid="10" x="125" y="265" width="16" height="16"/>
-  <object id="59" gid="10" x="258" y="265" width="16" height="16"/>
-  <object id="60" gid="10" x="150" y="272" width="16" height="16"/>
-  <object id="61" gid="10" x="310" y="272" width="16" height="16"/>
-  <object id="62" gid="10" x="233" y="283" width="16" height="16"/>
-  <object id="63" gid="10" x="188" y="304" width="16" height="16"/>
-  <object id="64" gid="10" x="193" y="266" width="16" height="16"/>
-  <object id="65" gid="10" x="326" y="263" width="16" height="16"/>
-  <object id="66" gid="10" x="364" y="287" width="16" height="16"/>
-  <object id="67" gid="10" x="279" y="297" width="16" height="16"/>
-  <object id="68" gid="10" x="124" y="304" width="16" height="16"/>
-  <object id="69" gid="10" x="149" y="305" width="16" height="16"/>
-  <object id="70" gid="10" x="91" y="291" width="16" height="16"/>
-  <object id="71" gid="10" x="118" y="291" width="16" height="16"/>
-  <object id="72" gid="10" x="211" y="311" width="16" height="16"/>
-  <object id="73" gid="10" x="167" y="282" width="16" height="16"/>
-  <object id="74" gid="10" x="381" y="266" width="16" height="16"/>
-  <object id="75" gid="10" x="385" y="293" width="16" height="16"/>
-  <object id="76" gid="10" x="331" y="307" width="16" height="16"/>
-  <object id="77" gid="10" x="332" y="287" width="16" height="16"/>
-  <object id="78" gid="10" x="374" y="307" width="16" height="16"/>
-  <object id="79" gid="10" x="238" y="270" width="16" height="16"/>
-  <object id="80" gid="10" x="263" y="277" width="16" height="16"/>
-  <object id="81" gid="10" x="301" y="309" width="16" height="16"/>
-  <object id="82" gid="10" x="306" y="271" width="16" height="16"/>
-  <object id="83" gid="10" x="237" y="309" width="16" height="16"/>
-  <object id="84" gid="10" x="204" y="271" width="16" height="16"/>
-  <object id="85" gid="10" x="204" y="296" width="16" height="16"/>
-  <object id="86" gid="10" x="231" y="296" width="16" height="16"/>
-  <object id="87" gid="10" x="280" y="260" width="16" height="16"/>
-  <object id="88" gid="10" x="280" y="287" width="16" height="16"/>
-  <object id="89" gid="10" x="16" y="256" width="16" height="16"/>
-  <object id="90" gid="10" x="64" y="248" width="16" height="16"/>
-  <object id="91" gid="10" x="7" y="293" width="16" height="16"/>
-  <object id="92" gid="10" x="84" y="309" width="16" height="16"/>
-  <object id="93" gid="10" x="415" y="280" width="16" height="16"/>
-  <object id="94" gid="10" x="351" y="304" width="16" height="16"/>
-  <object id="95" gid="10" x="421" y="307" width="16" height="16"/>
-  <object id="96" gid="10" x="491" y="284" width="16" height="16"/>
-  <object id="97" gid="10" x="482" y="310" width="16" height="16"/>
+  <object id="58" gid="9" x="205" y="153" width="16" height="16"/>
+  <object id="59" gid="9" x="338" y="153" width="16" height="16"/>
+  <object id="60" gid="9" x="230" y="160" width="16" height="16"/>
+  <object id="61" gid="9" x="390" y="160" width="16" height="16"/>
+  <object id="62" gid="9" x="313" y="171" width="16" height="16"/>
+  <object id="63" gid="9" x="268" y="192" width="16" height="16"/>
+  <object id="64" gid="9" x="273" y="154" width="16" height="16"/>
+  <object id="65" gid="9" x="406" y="151" width="16" height="16"/>
+  <object id="66" gid="9" x="444" y="175" width="16" height="16"/>
+  <object id="67" gid="9" x="359" y="185" width="16" height="16"/>
+  <object id="68" gid="9" x="204" y="192" width="16" height="16"/>
+  <object id="69" gid="9" x="229" y="193" width="16" height="16"/>
+  <object id="70" gid="9" x="171" y="179" width="16" height="16"/>
+  <object id="71" gid="9" x="198" y="179" width="16" height="16"/>
+  <object id="72" gid="9" x="291" y="199" width="16" height="16"/>
+  <object id="73" gid="9" x="247" y="170" width="16" height="16"/>
+  <object id="74" gid="9" x="461" y="154" width="16" height="16"/>
+  <object id="75" gid="9" x="465" y="181" width="16" height="16"/>
+  <object id="76" gid="9" x="411" y="195" width="16" height="16"/>
+  <object id="77" gid="9" x="412" y="175" width="16" height="16"/>
+  <object id="78" gid="9" x="454" y="195" width="16" height="16"/>
+  <object id="79" gid="9" x="318" y="158" width="16" height="16"/>
+  <object id="80" gid="9" x="343" y="165" width="16" height="16"/>
+  <object id="81" gid="9" x="381" y="197" width="16" height="16"/>
+  <object id="82" gid="9" x="386" y="159" width="16" height="16"/>
+  <object id="83" gid="9" x="317" y="197" width="16" height="16"/>
+  <object id="84" gid="9" x="284" y="159" width="16" height="16"/>
+  <object id="85" gid="9" x="284" y="184" width="16" height="16"/>
+  <object id="86" gid="9" x="311" y="184" width="16" height="16"/>
+  <object id="87" gid="9" x="360" y="148" width="16" height="16"/>
+  <object id="88" gid="9" x="360" y="175" width="16" height="16"/>
+  <object id="89" gid="9" x="96" y="144" width="16" height="16"/>
+  <object id="90" gid="9" x="144" y="136" width="16" height="16"/>
+  <object id="91" gid="9" x="87" y="181" width="16" height="16"/>
+  <object id="92" gid="9" x="164" y="197" width="16" height="16"/>
+  <object id="93" gid="9" x="495" y="168" width="16" height="16"/>
+  <object id="94" gid="9" x="431" y="192" width="16" height="16"/>
+  <object id="95" gid="9" x="501" y="195" width="16" height="16"/>
+  <object id="96" gid="9" x="571" y="172" width="16" height="16"/>
+  <object id="97" gid="9" x="562" y="198" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="Collision">
-  <object id="1" x="-1" y="192" width="513" height="32"/>
-  <object id="2" x="0" y="320" width="511" height="32"/>
-  <object id="5" x="-32" y="224" width="32" height="96"/>
-  <object id="6" x="512" y="224" width="32" height="96"/>
+  <object id="1" x="79" y="80" width="513" height="32"/>
+  <object id="2" x="80" y="208" width="511" height="32"/>
+  <object id="5" x="48" y="112" width="32" height="96"/>
+  <object id="6" x="592" y="112" width="32" height="96"/>
  </objectgroup>
+ <objectgroup id="5" name="Load Zones"/>
 </map>

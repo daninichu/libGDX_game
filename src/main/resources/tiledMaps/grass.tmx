@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="5422">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="5430">
  <tileset firstgid="1" source="tilesets/grassSet.tsx"/>
  <tileset firstgid="3" source="tilesets/64Objects.tsx"/>
  <tileset firstgid="7" source="tilesets/tree.tsx"/>
  <tileset firstgid="8" source="tilesets/objects.tsx"/>
  <tileset firstgid="16" source="tilesets/desertSet.tsx"/>
  <tileset firstgid="64" source="tilesets/sprites.tsx"/>
- <layer id="1" name="Ground" width="30" height="20" offsetx="-480" offsety="320">
+ <layer id="1" name="Ground" width="30" height="20">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -31,52 +31,52 @@
 </data>
  </layer>
  <objectgroup id="7" name="Objects">
-  <object id="2624" gid="9" x="256" y="384" width="32" height="32">
+  <object id="2624" gid="9" x="448" y="304" width="32" height="32">
    <properties>
     <property name="Text" value="This door will take you to the desert."/>
    </properties>
   </object>
-  <object id="3938" gid="4" x="64" y="512" width="64" height="64">
+  <object id="3938" gid="4" x="256" y="432" width="64" height="64">
    <properties>
     <property name="Text">It's a board filled with praise for Tiled.
 Without Tiled, this would not have been possible.</property>
    </properties>
   </object>
-  <object id="3942" gid="12" x="160" y="512" width="32" height="32">
+  <object id="3942" gid="12" x="352" y="432" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3943"/>
     <property name="Locked" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="3943" gid="12" x="160" y="416" width="32" height="32">
+  <object id="3943" gid="12" x="352" y="336" width="32" height="32">
    <properties>
     <property name="Exit Door" type="object" value="3942"/>
     <property name="Locked" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="3946" gid="12" x="288" y="384" width="32" height="32">
+  <object id="3946" gid="12" x="480" y="304" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="6"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="desert.tmx"/>
    </properties>
   </object>
-  <object id="3948" gid="7" x="256" y="608" width="128" height="128"/>
-  <object id="5384" gid="8" x="192" y="416" width="32" height="32">
+  <object id="3948" gid="7" x="448" y="528" width="128" height="128"/>
+  <object id="5384" gid="8" x="384" y="336" width="32" height="32">
    <properties>
     <property name="Door" type="object" value="3943"/>
    </properties>
   </object>
-  <object id="5389" gid="12" x="96" y="608" width="32" height="32">
+  <object id="5389" gid="12" x="288" y="528" width="32" height="32">
    <properties>
     <property name="Door ID" type="int" value="4"/>
     <property name="Locked" type="bool" value="false"/>
     <property name="Map File" value="test2.tmx"/>
    </properties>
   </object>
-  <object id="5401" gid="3" x="104" y="704" width="64" height="64"/>
-  <object id="5402" gid="3" x="192" y="704" width="64" height="64"/>
-  <object id="5406" gid="13" x="48" y="704" width="32" height="32">
+  <object id="5401" gid="3" x="296" y="624" width="64" height="64"/>
+  <object id="5402" gid="3" x="384" y="624" width="64" height="64"/>
+  <object id="5406" gid="13" x="240" y="624" width="32" height="32">
    <properties>
     <property name="Link0" type="object" value="5389"/>
     <property name="Link1" type="object" value="3942"/>
@@ -84,45 +84,34 @@ Without Tiled, this would not have been possible.</property>
   </object>
  </objectgroup>
  <objectgroup id="10" name="Enemies">
-  <object id="5418" gid="65" x="88" y="544" width="16" height="16"/>
-  <object id="5419" gid="67" x="112" y="560" width="16" height="16"/>
-  <object id="5420" gid="66" x="8" y="512" width="16" height="16"/>
-  <object id="5421" gid="66" x="48" y="528" width="16" height="16"/>
+  <object id="5418" gid="65" x="280" y="464" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="6" name="Collision">
-  <object id="2608" x="160" y="448" width="160" height="16"/>
-  <object id="2609" x="320" y="320" width="16" height="128"/>
-  <object id="2627" x="160" y="304" width="160" height="16"/>
-  <object id="2628" x="144" y="320" width="16" height="128"/>
-  <object id="5409" x="-192" y="528" width="40" height="168"/>
-  <object id="5410" x="-184" y="512" width="160" height="32"/>
-  <object id="5412" x="-120" y="576" width="16" height="120"/>
-  <object id="5413" x="-72" y="536" width="16" height="120"/>
-  <object id="5414" x="-24" y="576" width="16" height="120"/>
-  <object id="5417" x="-184" y="688" width="176" height="32"/>
+  <object id="2608" x="352" y="368" width="160" height="16"/>
+  <object id="2609" x="512" y="240" width="16" height="128"/>
+  <object id="2627" x="352" y="224" width="160" height="16"/>
+  <object id="2628" x="336" y="240" width="16" height="128"/>
+  <object id="5409" x="0" y="400" width="40" height="168"/>
+  <object id="5410" x="8" y="384" width="160" height="32"/>
+  <object id="5412" x="72" y="448" width="16" height="120"/>
+  <object id="5413" x="120" y="408" width="16" height="120"/>
+  <object id="5414" x="168" y="448" width="16" height="120"/>
+  <object id="5417" x="8" y="560" width="176" height="32"/>
+  <object id="5425" x="0" y="640" width="960" height="32"/>
+  <object id="5426" x="0" y="-32" width="960" height="32"/>
+  <object id="5427" x="-32" y="0" width="32" height="640"/>
+  <object id="5428" x="960" y="0" width="32" height="256"/>
+  <object id="5429" x="960" y="384" width="32" height="256"/>
  </objectgroup>
- <layer id="8" name="Overlay" width="30" height="20">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-</data>
- </layer>
+ <objectgroup id="11" name="Load Zones">
+  <object id="5422" x="928" y="256" width="32" height="128">
+   <properties>
+    <property name="ID" type="int" value="12"/>
+    <property name="Map File" value="desert.tmx"/>
+   </properties>
+  </object>
+  <object id="5423" x="864" y="320">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

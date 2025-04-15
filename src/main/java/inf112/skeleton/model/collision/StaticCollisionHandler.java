@@ -19,6 +19,7 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
                 addToGrid(cell, box);
     }
 
+    @Override
     public void handleCollision(CollidableEntity e) {
         Vector2 destPos = e.getPos();
         Vector2 prevPos = e.getPrevPos();

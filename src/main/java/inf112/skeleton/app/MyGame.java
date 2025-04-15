@@ -51,13 +51,12 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(0, 0);
+        player = new Player(7*32, 5*32);
 //        player = new Player(192, 192);
         ui = new UI(player);
         map = new Map(player);
-//        map.prepareNewMap("grass.tmx");
         long time = System.nanoTime();
-        map.loadMap("grass.tmx");
+        map.loadMap("map1.tmx");
         Gdx.app.log("Load time", (System.nanoTime()-time)/1000000f+" ms");
 
         gameProcessor = new GameInputProcessor(this, player);

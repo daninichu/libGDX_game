@@ -158,9 +158,10 @@ public abstract class Enemy extends Entity{
     }
 
     private boolean playerVisible(){
-        if(ray == null)
-            return false;
-        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
+        return true;
+//        if(ray == null)
+//            return false;
+//        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
     }
 
     private void followPath(){

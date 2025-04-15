@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,6 +33,8 @@ public class GameScreen extends AbstractScreen{
     private static final DrawOrderComparator comparator = new DrawOrderComparator();
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
 
+    private float mapWidth;
+    private float mapHeight;
     private Map map;
     private ViewableEntity player;
     private Array<? extends ViewableEntity> entities;
@@ -59,6 +62,9 @@ public class GameScreen extends AbstractScreen{
 
     public void reset(){
         mapRenderer.setMap(map.getTiledMap());
+        MapProperties mapProps = map.getTiledMap().getProperties();
+        mapWidth = mapProps.get("width", int.class) * mapProps.get("tilewidth", int.class);
+        mapHeight = mapProps.get("height", int.class) * mapProps.get("tileheight", int.class);
         camera.position.set(player.getCenterPos(), 0);
     }
 
@@ -103,7 +109,6 @@ public class GameScreen extends AbstractScreen{
 
     private void draw(){
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 0);
-//        ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
         entities.sort(comparator);
@@ -115,7 +120,7 @@ public class GameScreen extends AbstractScreen{
                 batch.draw(e.getTexture(), p.x, p.y);
             }
             if(e.getHealth() > 0){
-                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 50);
+                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 30);
             }
         }
         for(IGameObject object : map.getGameObjects()){
@@ -128,7 +133,9 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void followPlayerWithCamera(float deltaTime){
-        camera.position.lerp(new Vector3(player.getCenterPos(), 0), 5*deltaTime);
+        float x = Math.min(Math.max(player.getCenterX(), viewport.getWorldWidth()/2), mapWidth - viewport.getWorldWidth()/2);
+        float y = Math.min(Math.max(player.getCenterY(), viewport.getWorldHeight()/2), mapHeight - viewport.getWorldHeight()/2);
+        camera.position.lerp(new Vector3(x, y, 0), 5*deltaTime);
         viewport.apply();
     }
 

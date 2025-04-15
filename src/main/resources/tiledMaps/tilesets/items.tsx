@@ -3,4 +3,5 @@
  <image source="items.png" width="128" height="16"/>
  <tile id="0" type="HealthPotion"/>
  <tile id="2" type="SpeedCrystal"/>
+ <tile id="3" type="Key"/>
 </tileset>

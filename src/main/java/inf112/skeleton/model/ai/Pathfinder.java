@@ -15,7 +15,6 @@ import java.awt.*;
  * Uses the A* algorithm.
  */
 public class Pathfinder{
-    private static final int MAX_SEARCH_BOUND = 400;
     private HashGrid<Rectangle> grid;
     private BinaryHeap<Node> heap = new BinaryHeap<>();
     private ObjectSet<Point> done = new ObjectSet<>();
@@ -56,7 +55,7 @@ public class Pathfinder{
         heap.clear();
         heap.add(new Node(start, 0, hCost(start, goal)));
         int i = 0;
-        while (!heap.isEmpty() && i++ < MAX_SEARCH_BOUND) {
+        while (!heap.isEmpty() && i++ < 200) { // Max search bound
             Node curr = heap.pop();
             if(done.add(curr.pos))
                 for(Point adj : adjCells(curr.pos)){

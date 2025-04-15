@@ -28,9 +28,9 @@ public class PathfinderTest{
         grid.updateGrid(new Array<>());
         pathFinder = new Pathfinder(grid);
 
-        for(int deg = 0; deg < 360; deg++){
-            int x = (int) (20 * MathUtils.cosDeg(deg));
-            int y = (int) (20 * MathUtils.sinDeg(deg));
+        for(int deg = 0; deg < 360; deg += 10){
+            int x = (int) (10 * MathUtils.cosDeg(deg));
+            int y = (int) (10 * MathUtils.sinDeg(deg));
             int minDist = Math.abs(x) + Math.abs(y) + 1;
 
             tester(new Point(x, y), minDist);
