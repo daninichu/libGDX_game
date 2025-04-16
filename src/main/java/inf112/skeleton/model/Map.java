@@ -1,18 +1,13 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
-import inf112.skeleton.model.ai.Pathfinder;
 import inf112.skeleton.model.collision.EntityCollisionHandler;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Entity;
@@ -33,11 +28,12 @@ public class Map {
     private static final String startPath = "tiledMaps/";
     private TiledMap tiledMap;
 
-    private final MyGame game;
+    private MyGame game;
     private Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
     private Array<ItemDrop> itemDrops;
+
     private Array<Rectangle> collisionBoxes;
     private Array<LoadZone> loadZones;
 
@@ -52,10 +48,10 @@ public class Map {
         this.game = game;
         this.player = player;
 
-        enemyFactory.addConstructor("Dummy", t -> new Dummy(t, player));
-        enemyFactory.addConstructor("Bat", t -> new Bat(t, player));
-        enemyFactory.addConstructor("Phantom", t -> new Phantom(t, player));
-        enemyFactory.addConstructor("Slime", t -> new Slime(t, player));
+        enemyFactory.addConstructor("Dummy", t -> new Dummy(t, player, staticCH));
+        enemyFactory.addConstructor("Bat", t -> new Bat(t, player, staticCH));
+        enemyFactory.addConstructor("Phantom", t -> new Phantom(t, player, staticCH));
+        enemyFactory.addConstructor("Slime", t -> new Slime(t, player, staticCH));
 
         gameObjFactory.addConstructor(null, t -> new GameObject(t, player));
         gameObjFactory.addConstructor("Door", t -> new Door(t, player));
@@ -125,8 +121,6 @@ public class Map {
 
     private void spawnEnemies() {
         enemies.addAll(loadTileObjects(enemyFactory, "Enemies"));
-        Pathfinder pathFinder = new Pathfinder(staticCH);
-        enemies.forEach(e -> e.setup(staticCH, pathFinder));
     }
 
     private void spawnObjects() {

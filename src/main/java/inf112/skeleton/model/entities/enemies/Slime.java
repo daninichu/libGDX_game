@@ -13,14 +13,14 @@ import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Slime extends Enemy {
-    public Slime(TiledMapTileMapObject tileObj, AttackableEntity player){
-        this(tileObj.getX(), tileObj.getY(), player);
+    public Slime(TiledMapTileMapObject tileObj, AttackableEntity player, HashGrid<Rectangle> grid){
+        this(tileObj.getX(), tileObj.getY(), player, grid);
     }
 
-    public Slime(float x, float y, AttackableEntity player){
-        super(x, y, player);
+    public Slime(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
+        super(x, y, player, grid);
         this.animation = new AnimationHandler("pinkslime", dir);
-        this.health = 15;
+        this.health = 12;
 
         this.attack = new SlimeAttack();
         this.speed = 1.5f * MyGame.TILE_SIZE;

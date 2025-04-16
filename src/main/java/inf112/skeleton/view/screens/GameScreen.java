@@ -67,9 +67,7 @@ public class GameScreen extends AbstractScreen{
         mapWidth = mapProps.get("width", int.class) * mapProps.get("tilewidth", int.class);
         mapHeight = mapProps.get("height", int.class) * mapProps.get("tileheight", int.class);
 
-        float x = Math.min(Math.max(player.getCenterX(), viewport.getWorldWidth()/2), mapWidth - viewport.getWorldWidth()/2);
-        float y = Math.min(Math.max(player.getCenterY(), viewport.getWorldHeight()/2), mapHeight - viewport.getWorldHeight()/2);
-        camera.position.set(x, y, 0);
+        camera.position.set(calculateCameraPos());
         viewport.apply();
     }
 
@@ -136,17 +134,25 @@ public class GameScreen extends AbstractScreen{
         }
         for(IGameObject object : map.getGameObjects()){
             if(object.canInteract()){
-                font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 40);
+                font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 30);
             }
         }
         batch.end();
         renderDebug();
     }
 
-    private void followPlayerWithCamera(float deltaTime){
+    private Vector3 calculateCameraPos(){
         float x = Math.min(Math.max(player.getCenterX(), viewport.getWorldWidth()/2), mapWidth - viewport.getWorldWidth()/2);
         float y = Math.min(Math.max(player.getCenterY(), viewport.getWorldHeight()/2), mapHeight - viewport.getWorldHeight()/2);
-        camera.position.lerp(new Vector3(x, y, 0), 5*deltaTime);
+        if(mapWidth < viewport.getWorldWidth())
+            x = mapWidth / 2;
+        if(mapHeight < viewport.getWorldHeight())
+            y = mapHeight / 2;
+        return new Vector3(x, y, 0);
+    }
+
+    private void followPlayerWithCamera(float deltaTime){
+        camera.position.lerp(calculateCameraPos(), 5*deltaTime);
         viewport.apply();
     }
 

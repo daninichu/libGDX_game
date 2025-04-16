@@ -21,17 +21,17 @@ import inf112.skeleton.view.AnimationHandler;
 import java.awt.*;
 
 public abstract class Enemy extends Entity{
-    protected enum State {
+    public enum State {
         Idle, Roaming, Chase, AttackStartup, Attack, AttackEnd, Stunned, Dying, Dead
     }
-    protected enum Event{
+    public enum Event{
         Timeout, PlayerClose, PlayerVisible, PlayerNotVisible, GiveUp
     }
     protected FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     protected StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.Idle);
 
-    private HashGrid<Rectangle> grid;
-    private Pathfinder pathFinder;
+    private final HashGrid<Rectangle> grid;
+    private final Pathfinder pathFinder;
     private Queue<Point> path = new Queue<>();
     private Line ray;
     private AttackableEntity player;
@@ -39,23 +39,16 @@ public abstract class Enemy extends Entity{
     public static final float vision = MyGame.TILE_SIZE * 8;
     protected float attackRange;
 
-    protected Enemy(float x, float y, AttackableEntity player) {
+    protected Enemy(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid) {
         super(x, y);
         this.player = player;
+        this.grid = grid;
+        this.pathFinder = new Pathfinder(grid);
         this.dir = Direction.RIGHT;
 
         addTransitions();
         addEnterFunctions();
         addExitFunctions();
-    }
-
-    /**
-     * @param grid To know where collision boxes are located and is needed for line of sight.
-     * @param pathFinder The pathfinder must have knowledge about where collision boxes are located.
-     */
-    public void setup(HashGrid<Rectangle> grid, Pathfinder pathFinder) {
-        this.grid = grid;
-        this.pathFinder = pathFinder;
     }
 
     protected void addTransitions(){
@@ -158,10 +151,9 @@ public abstract class Enemy extends Entity{
     }
 
     private boolean playerVisible(){
-        return true;
-//        if(ray == null)
-//            return false;
-//        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
+        if(ray == null)
+            return false;
+        return !CollisionHandler.collidesAny(ray, grid.getLocalObjects(ray));
     }
 
     private void followPath(){

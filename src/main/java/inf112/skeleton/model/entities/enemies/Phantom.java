@@ -16,14 +16,14 @@ import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.view.AnimationHandler;
 
 public class Phantom extends Enemy{
-    public Phantom(TiledMapTileMapObject tileObj, AttackableEntity player){
-        this(tileObj.getX(), tileObj.getY(), player);
+    public Phantom(TiledMapTileMapObject tileObj, AttackableEntity player, HashGrid<Rectangle> grid){
+        this(tileObj.getX(), tileObj.getY(), player, grid);
     }
 
-    public Phantom(float x, float y, AttackableEntity player){
-        super(x, y, player);
+    public Phantom(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
+        super(x, y, player, grid);
         this.animation = new AnimationHandler("phantom", dir);
-        this.health = 20;
+        this.health = 16;
         this.speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 2, 12, 12);
         this.attack = new PhantomAttack();
@@ -45,7 +45,7 @@ public class Phantom extends Enemy{
             this.hitlag = 0.1f;
             this.momentum = speed * 4;
             this.startup = 0.3f;
-            this.duration = 0.4f;
+            this.duration = 0.35f;
             this.cooldown = 0.8f;
         }
 

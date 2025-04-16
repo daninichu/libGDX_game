@@ -81,11 +81,11 @@
             "expandedObjectLayers": [
                 4
             ],
-            "scale": 3.3846,
-            "selectedLayer": 3,
+            "scale": 1.0202,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 180.37581989009038,
-                "y": 304.76274892158597
+                "x": 255.34208978631642,
+                "y": 281.8074887277005
             }
         },
         "grass.tmx": {
@@ -94,11 +94,11 @@
                 11,
                 6
             ],
-            "scale": 0.6494,
+            "scale": 0.51,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 418.07822605481977,
-                "y": 394.9799815214044
+                "x": 502.9411764705883,
+                "y": 357.84313725490193
             }
         },
         "grass1.tmx": {
@@ -106,11 +106,11 @@
                 4,
                 3
             ],
-            "scale": 1.4807,
+            "scale": 0.6222,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 802.6609036266632,
-                "y": 164.44924697778083
+                "x": 818.8685310189649,
+                "y": 139.02282224365155
             }
         },
         "grass2.tmx": {
@@ -118,11 +118,11 @@
                 2,
                 3
             ],
-            "scale": 4.7645,
+            "scale": 0.9074,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 212.08941127085737,
-                "y": 69.99685171581488
+                "x": 117.36830504738816,
+                "y": 118.47035486003966
             }
         },
         "map1.tmx": {
@@ -271,7 +271,8 @@
     "last.worldFilePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps",
     "loadedWorlds": [
         "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass.world",
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/dungeon.world"
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/dungeon.world",
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/myWorld.world"
     ],
     "map.fixedSize": true,
     "map.height": 30,
@@ -291,14 +292,14 @@
         "tilesets/sprites.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "int",
+    "property.type": "string",
     "recentFiles": [
+        "grass.tmx",
         "test3.tmx",
         "test2.tmx",
         "test1.tmx",
         "desert.tmx",
         "map2.tmx",
-        "grass.tmx",
         "map1.tmx",
         "tilesets/desertSet.tsx",
         "tilesets/items.tsx",

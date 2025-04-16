@@ -4,8 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.GameInputProcessor;
 import inf112.skeleton.controller.InventoryInputProcessor;
 import inf112.skeleton.model.LoadZone;
@@ -53,14 +51,12 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(7*32, 5*32);
+        player = new Player(7*32, 8*32);
 //        player = new Player(192, 192);
         ui = new UI(player);
         map = new Map(this, player);
-        long time = System.nanoTime();
-        map.loadMap("grass1.tmx");
+        map.loadMap("grass2.tmx");
 //        map.loadMap("dungeon.tmx");
-        Gdx.app.log("Load time", (System.nanoTime()-time)/1000000f+" ms");
 
         gameProcessor = new GameInputProcessor(this, player);
         inventoryProcessor = new InventoryInputProcessor(this, player);

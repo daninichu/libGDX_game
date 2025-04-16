@@ -32,13 +32,12 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     public void handleCollision(CollidableEntity e) {
         if(e instanceof ItemDrop || e instanceof FloorEntity || !e.collidable())
             return;
-        for(CollidableEntity localE : getLocalObjects(e.locateHurtbox())){
+        for(CollidableEntity localE : getLocalObjects(e.locateHurtbox()))
             if(e.locateHurtbox().overlaps(localE.locateHurtbox()))
                 if(e instanceof GameObject || localE instanceof GameObject)
                     push(e, localE);
                 else
                     repel(e, localE);
-        }
     }
 
     private static void repel(CollidableEntity e1, CollidableEntity e2) {

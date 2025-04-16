@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import inf112.skeleton.model.ai.Pathfinder;
 import inf112.skeleton.model.collision.StaticCollisionHandler;
 import inf112.skeleton.model.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,13 +28,13 @@ public class EnemyTest{
 
     @Test
     void testInitialState() {
-        Enemy enemy = new Phantom(300, 0, player);
+        Enemy enemy = new Phantom(300, 0, player, grid);
         assertEquals(Enemy.State.Idle, enemy.getState());
     }
 
     @Test
     void testRoaming(){
-        Enemy enemy = new Phantom(300, 0, player);
+        Enemy enemy = new Phantom(300, 0, player, grid);
         for(int i = 0; i < 1000; i++){
             if(!enemy.getState().equals(Enemy.State.Idle))
                 break;
@@ -51,8 +50,7 @@ public class EnemyTest{
 
     @Test
     void testSeesPlayer(){
-        Enemy enemy = new Phantom(300, 0, player);
-        enemy.setup(grid, new Pathfinder(grid));
+        Enemy enemy = new Phantom(300, 0, player, grid);
         assertNotEquals(Enemy.State.Chase, enemy.getState());
 
         player.setRightMove(true);
@@ -66,8 +64,7 @@ public class EnemyTest{
 
     @Test
     void testDoesntSeePlayer(){
-        Enemy enemy = new Phantom(100, 0, player);
-        enemy.setup(grid, new Pathfinder(grid));
+        Enemy enemy = new Phantom(100, 0, player, grid);
 
         enemy.update(0.1f);
         assertNotNull(enemy.getRay());
@@ -87,8 +84,7 @@ public class EnemyTest{
 
     @Test
     void testAttackPlayer(){
-        Enemy enemy = new Phantom(100, 0, player);
-        enemy.setup(grid, new Pathfinder(grid));
+        Enemy enemy = new Phantom(100, 0, player, grid);
 
         while(enemy.getCenterPos().dst(player.getCenterPos()) > enemy.attackRange)
             enemy.update(0.1f);

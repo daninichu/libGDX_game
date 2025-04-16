@@ -2,8 +2,12 @@
 <tileset version="1.10" tiledversion="1.11.2" name="Overworld_Tileset" tilewidth="16" tileheight="16" tilecount="234" columns="18">
  <image source="Overworld_Tileset.png" width="288" height="208"/>
  <tile id="61" type="Sign">
+  <properties>
+   <property name="Text" value=""/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" name="Collision" x="2" y="4" width="12" height="9"/>
+   <object id="2" name="Interaction" x="0" y="13" width="16" height="12"/>
   </objectgroup>
  </tile>
  <tile id="75">
