@@ -53,13 +53,13 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(10*32, 5*32);
+        player = new Player(7*32, 5*32);
 //        player = new Player(192, 192);
         ui = new UI(player);
         map = new Map(this, player);
         long time = System.nanoTime();
-//        map.loadMap("grass.tmx");
         map.loadMap("grass1.tmx");
+//        map.loadMap("dungeon.tmx");
         Gdx.app.log("Load time", (System.nanoTime()-time)/1000000f+" ms");
 
         gameProcessor = new GameInputProcessor(this, player);
@@ -94,6 +94,7 @@ public class MyGame extends Game{
 
     public void enterLoadZone(LoadZone loadZone){
         player.setPos(loadZone.exit);
+        player.addPos(-player.getLeftX() + player.getX(), -player.getBottomY() + player.getY());
         player.addPos(-player.getWidth()/2, -player.getHeight()/2);
         loadState = LoadState.LoadStart;
         changeMap(loadZone.mapFile);

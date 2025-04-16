@@ -65,7 +65,7 @@
             "scale": 0.9039,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 106.20643876535016,
+                "x": 187.5207434450713,
                 "y": 326.9166943245934
             }
         },
@@ -77,6 +77,17 @@
                 "y": 320.370789057201
             }
         },
+        "dungeon.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 3.3846,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 180.37581989009038,
+                "y": 304.76274892158597
+            }
+        },
         "grass.tmx": {
             "expandedObjectLayers": [
                 7,
@@ -86,7 +97,7 @@
             "scale": 0.6494,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 304.89682784108413,
+                "x": 418.07822605481977,
                 "y": 394.9799815214044
             }
         },
@@ -95,11 +106,11 @@
                 4,
                 3
             ],
-            "scale": 1.0056,
-            "selectedLayer": 3,
+            "scale": 1.4807,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 546.4399363564041,
-                "y": 238.16626889419257
+                "x": 802.6609036266632,
+                "y": 164.44924697778083
             }
         },
         "grass2.tmx": {
@@ -107,18 +118,22 @@
                 2,
                 3
             ],
-            "scale": 1.0056,
-            "selectedLayer": 2,
+            "scale": 4.7645,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": -37.29116945107398,
-                "y": 247.11614956245026
+                "x": 212.08941127085737,
+                "y": 69.99685171581488
             }
         },
         "map1.tmx": {
+            "expandedObjectLayers": [
+                4,
+                5
+            ],
             "scale": 0.5283,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 518.644709445391,
+                "x": 657.7702063221654,
                 "y": 298.12606473594553
             }
         },
@@ -126,7 +141,7 @@
             "scale": 0.5865,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 42.62574595055412,
+                "x": 167.9454390451832,
                 "y": 256.60699062233584
             }
         },
@@ -145,7 +160,7 @@
             "scale": 2.15,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 184.1860465116279,
+                "x": 218.37209302325581,
                 "y": 223.48837209302326
             }
         },
@@ -157,7 +172,7 @@
             "scale": 1.3545,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 145.44112218530825,
+                "x": 199.7046880767811,
                 "y": 257.2905131044666
             }
         },
@@ -168,7 +183,7 @@
             "scale": 0.87,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 206.89655172413788,
+                "x": 291.37931034482756,
                 "y": 174.13793103448273
             }
         },
@@ -179,7 +194,7 @@
         "tilesets/desertSet.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
-            "scaleInEditor": 5.6
+            "scaleInEditor": 3.22
         },
         "tilesets/door.tsx": {
             "scaleInDock": 0.6264,
@@ -255,9 +270,8 @@
     "last.imagePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/tilesets",
     "last.worldFilePath": "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps",
     "loadedWorlds": [
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass_world.world",
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass_world.world",
-        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass.world"
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/grass.world",
+        "/Users/daniel/INF112/inf-112-25-v-libgdx-template-1/src/main/resources/tiledMaps/dungeon.world"
     ],
     "map.fixedSize": true,
     "map.height": 30,
@@ -265,7 +279,7 @@
     "map.renderOrder": "1",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 30,
+    "map.width": 40,
     "openFiles": [
         "grass.tmx",
         "tilesets/desertSet.tsx",
@@ -279,18 +293,18 @@
     "project": "untitled.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "test3.tmx",
+        "test2.tmx",
         "test1.tmx",
+        "desert.tmx",
+        "map2.tmx",
+        "grass.tmx",
+        "map1.tmx",
+        "tilesets/desertSet.tsx",
         "tilesets/items.tsx",
         "tilesets/sprites.tsx",
-        "desert.tmx",
         "tilesets/phantom.tsx",
-        "test2.tmx",
-        "tilesets/objects.tsx",
-        "tilesets/64Objects.tsx",
-        "tilesets/desertSet.tsx",
-        "grass.tmx",
-        "tilesets/entities.tsx",
-        "tilesets/myAtlas.tsx"
+        "tilesets/objects.tsx"
     ],
     "resizeMap.removeObjects": true,
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",

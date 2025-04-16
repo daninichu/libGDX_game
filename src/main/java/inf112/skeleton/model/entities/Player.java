@@ -214,13 +214,13 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             this.cooldown = 0.35f;
 
 
-//            this.damage = 3;
-//            this.momentum = speed * 0.5f;
-//            this.knockback = MyGame.TILE_SIZE * 8;
-//            this.hitlag = 0.125f;
-//            this.startup = 0.2f;
-//            this.duration = 0.15f;
-//            this.cooldown = 0.2f;
+            this.damage = 3;
+            this.momentum = speed * 0.5f;
+            this.knockback = MyGame.TILE_SIZE * 8;
+            this.hitlag = 0.125f;
+            this.startup = 0.2f;
+            this.duration = 0.15f;
+            this.cooldown = 0.2f;
 
         }
 

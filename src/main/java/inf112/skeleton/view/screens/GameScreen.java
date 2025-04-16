@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
@@ -112,6 +113,9 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void draw(){
+        if(game.getLoadState() == MyGame.LoadState.LoadStart){
+            return;
+        }
         ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
@@ -126,6 +130,9 @@ public class GameScreen extends AbstractScreen{
             if(e.getHealth() > 0){
                 font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 30);
             }
+        }
+        if(mapRenderer.getMap().getLayers().get("Overlay") != null){
+            mapRenderer.renderTileLayer((TiledMapTileLayer) mapRenderer.getMap().getLayers().get("Overlay"));
         }
         for(IGameObject object : map.getGameObjects()){
             if(object.canInteract()){
@@ -156,7 +163,7 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.setColor(Color.WHITE);
 //        shapeRenderer.circle(player.getCenterPos().x, player.getCenterPos().y, Enemy.vision);
         for(Rectangle r : map.getCollisionBoxes()){
-            shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+//            shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         }
         for(ViewableEntity e : entities){
             Rectangle r = e.locateHurtbox();
@@ -166,7 +173,7 @@ public class GameScreen extends AbstractScreen{
             if(e instanceof Enemy enemy){
                 Line l = enemy.getRay();
                 if(l != null){
-                    shapeRenderer.rectLine(l.x1, l.y1, l.x2, l.y2, 1);
+//                    shapeRenderer.rectLine(l.x1, l.y1, l.x2, l.y2, 1);
                 }
             }
         }
