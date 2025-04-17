@@ -12,6 +12,7 @@ import inf112.skeleton.model.entities.Player;
 import inf112.skeleton.model.entities.gameobjects.IDialogue;
 import inf112.skeleton.model.entities.gameobjects.IDoor;
 import inf112.skeleton.view.UI;
+import inf112.skeleton.view.screens.GameOverScreen;
 import inf112.skeleton.view.screens.GameScreen;
 import inf112.skeleton.view.screens.InventoryScreen;
 import inf112.skeleton.view.screens.MainMenuScreen;
@@ -23,7 +24,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public class MyGame extends Game{
     public enum State {
-        Title, Play, Dialogue, Inventory
+        Title, Play, Dialogue, Inventory, GameOver
     }
     public enum LoadState {
         NotLoading, LoadStart, LoadEnd
@@ -40,6 +41,7 @@ public class MyGame extends Game{
     private MainMenuScreen mainMenuScreen;
     private GameScreen gameScreen;
     private InventoryScreen inventoryScreen;
+    private GameOverScreen gameOverScreen;
 
     private InputMultiplexer inputMultiplexer;
     private GameInputProcessor gameProcessor;
@@ -51,12 +53,12 @@ public class MyGame extends Game{
 
     @Override
     public void create(){
-        player = new Player(7*32, 8*32);
+        player = new Player(7*32, 2*32);
 //        player = new Player(192, 192);
         ui = new UI(player);
         map = new Map(this, player);
-        map.loadMap("grass2.tmx");
-//        map.loadMap("dungeon.tmx");
+//        map.loadMap("grass2.tmx");
+        map.loadMap("dungeon.tmx");
 
         gameProcessor = new GameInputProcessor(this, player);
         inventoryProcessor = new InventoryInputProcessor(this, player);
@@ -66,9 +68,11 @@ public class MyGame extends Game{
         gameScreen = new GameScreen(this, player);
         mainMenuScreen = new MainMenuScreen(this);
         inventoryScreen = new InventoryScreen(this, player.getInventory());
+        gameOverScreen = new GameOverScreen(this, player);
         screens.put(GameScreen.class, gameScreen);
         screens.put(MainMenuScreen.class, mainMenuScreen);
         screens.put(InventoryScreen.class, inventoryScreen);
+        screens.put(GameOverScreen.class, gameOverScreen);
 
         setScreen(mainMenuScreen);
     }

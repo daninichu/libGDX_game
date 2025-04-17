@@ -108,6 +108,9 @@ public class GameScreen extends AbstractScreen{
                 game.setScreen(InventoryScreen.class);
             }
         }
+        if(player.getHealth() <= 0){
+            game.setScreen(GameOverScreen.class);
+        }
     }
 
     private void draw(){

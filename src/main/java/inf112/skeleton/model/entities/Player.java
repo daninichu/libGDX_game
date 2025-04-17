@@ -19,7 +19,7 @@ import inf112.skeleton.view.AnimationHandler;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     private enum State{
-        NonAttack, AttackStartup, Attack, AttackEnd, Shielded, Stunned
+        NonAttack, AttackStartup, Attack, AttackEnd, Shielded, Stunned, Dying, Dead
     }
     private enum Event{
         Timeout, AttackPressed, ShiftPressed, ShiftReleased
@@ -34,6 +34,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.NonAttack);
         blueprint.addTransition(State.AttackEnd,        Event.AttackPressed,    State.AttackStartup);
         blueprint.addTransition(State.Stunned,          Event.Timeout,          State.NonAttack);
+        blueprint.addTransition(State.Dying,            Event.Timeout,          State.Dead);
     }
     private static final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
 
@@ -58,7 +59,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         this.speed = 5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 0, 12, 12);
         this.attack = new PlayerAttack();
-        this.maxHealth = this.health = 20;
+        this.maxHealth = this.health = 2;
 //        this.mass = 10;
 
         addEnterFunctions();
@@ -99,6 +100,10 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             timer = 0.75f;
             animation.setState(AnimationHandler.State.HIT);
         });
+        stateMachine.onEnter(State.Dying, () -> {
+            timer = 1f;
+            animation.setState(AnimationHandler.State.DEATH);
+        });
     }
 
     private void addExitFunctions(){
@@ -118,6 +123,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             return;
         }
         super.update(deltaTime);
+        invincibleTimer -= deltaTime;
+        if(timer <= 0)
+            stateMachine.fireEvent(Event.Timeout);
         switch (stateMachine.getState()){
             case NonAttack -> {
                 velocity.set(0,0);
@@ -135,11 +143,13 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 move(deltaTime);
                 velocity.scl((float) Math.pow(0.1f, deltaTime));
             }
+            case Dying, Dead -> {
+                return;
+            }
         }
-        invincibleTimer -= deltaTime;
-        if(timer <= 0)
-            stateMachine.fireEvent(Event.Timeout);
         stateMachine.fireEvent(shiftPressed ? Event.ShiftPressed : Event.ShiftReleased);
+        if(health <= 0)
+            stateMachine.forceState(State.Dying);
     }
 
     private void updateMotion(){
@@ -215,6 +225,11 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         health = Math.min(maxHealth, health + item.heal());
         speed *= item.speedMultiplier();
         return true;
+    }
+
+    @Override
+    public boolean dead(){
+        return stateMachine.getState().equals(State.Dead);
     }
 
     private class PlayerAttack extends Attack{

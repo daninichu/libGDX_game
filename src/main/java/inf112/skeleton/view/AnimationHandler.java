@@ -47,7 +47,7 @@ public class AnimationHandler implements Disposable {
     public TextureRegion getCurrentFrame() {
         if(currentAnimation == null)
             throw new NullPointerException("No animation for " + state + " " + direction);
-        return currentAnimation.getKeyFrame(timer, true);
+        return currentAnimation.getKeyFrame(timer, state != State.DEATH);
     }
 
 
