@@ -11,9 +11,6 @@ public interface ControllablePlayer {
         return null;
     }
 
-
-
-
     void setRightMove(boolean t);
 
     void setLeftMove(boolean t);
@@ -21,6 +18,8 @@ public interface ControllablePlayer {
     void setUpMove(boolean t);
 
     void setDownMove(boolean t);
+
+    void setShiftPressed(boolean t);
 
     void attackPressed();
 }

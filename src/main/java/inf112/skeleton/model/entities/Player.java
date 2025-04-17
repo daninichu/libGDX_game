@@ -19,24 +19,26 @@ import inf112.skeleton.view.AnimationHandler;
 
 public class Player extends Entity implements ControllablePlayer, IInventoryPlayer{
     private enum State{
-        NonAttack, AttackStartup, Attack, AttackEnd, Stunned
+        NonAttack, AttackStartup, Attack, AttackEnd, Shielded, Stunned
     }
     private enum Event{
-        Timeout, AttackPressed
+        Timeout, AttackPressed, ShiftPressed, ShiftReleased
     }
     private static final FsmBlueprint<State, Event> blueprint = new FsmBlueprint<>();
     static {
-        blueprint.addTransition(State.NonAttack,        Event.AttackPressed,     State.AttackStartup);
-        blueprint.addTransition(State.AttackStartup,    Event.Timeout,           State.Attack);
-        blueprint.addTransition(State.Attack,        Event.Timeout,           State.AttackEnd);
-        blueprint.addTransition(State.AttackEnd,        Event.Timeout,           State.NonAttack);
-        blueprint.addTransition(State.AttackEnd,        Event.AttackPressed,     State.AttackStartup);
-        blueprint.addTransition(State.Stunned,          Event.Timeout,           State.NonAttack);
+        blueprint.addTransition(State.NonAttack,        Event.AttackPressed,    State.AttackStartup);
+        blueprint.addTransition(State.NonAttack,        Event.ShiftPressed,     State.Shielded);
+        blueprint.addTransition(State.Shielded,         Event.ShiftReleased,    State.NonAttack);
+        blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attack);
+        blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
+        blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.NonAttack);
+        blueprint.addTransition(State.AttackEnd,        Event.AttackPressed,    State.AttackStartup);
+        blueprint.addTransition(State.Stunned,          Event.Timeout,          State.NonAttack);
     }
-    private final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
+    private static final StateMachine<State, Event> stateMachine = new StateMachine<>(blueprint, State.NonAttack);
 
     private float invincibleTimer;
-    private boolean rightMove, leftMove, upMove, downMove;
+    private boolean rightMove, leftMove, upMove, downMove, shiftPressed;
     private Inventory inventory = new Inventory();
 
     public Player(float x, float y){
@@ -66,6 +68,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     private void addEnterFunctions(){
         stateMachine.onEnter(State.NonAttack, () -> {
             animation.setState(AnimationHandler.State.IDLE);
+        });
+        stateMachine.onEnter(State.Shielded, () -> {
+            animation.setState(AnimationHandler.State.SHIELDED);
         });
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
@@ -131,11 +136,10 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                 velocity.scl((float) Math.pow(0.1f, deltaTime));
             }
         }
-
         invincibleTimer -= deltaTime;
-//        timer -= deltaTime;
         if(timer <= 0)
             stateMachine.fireEvent(Event.Timeout);
+        stateMachine.fireEvent(shiftPressed ? Event.ShiftPressed : Event.ShiftReleased);
     }
 
     private void updateMotion(){
@@ -158,6 +162,11 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     @Override
     public void getAttacked(AttackableEntity attacker){
+        if(stateMachine.getState().equals(State.Shielded))
+            if(dir.opposite().equals(Direction.fromVector(attacker.knockbackVector(getCenterPos())))){
+                invincibleTimer = 0.3f;
+                return;
+            }
         if(invincibleTimer <= 0 && gotHit(attacker)){
             super.getAttacked(attacker);
             stateMachine.forceState(State.Stunned);
@@ -182,6 +191,11 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     @Override
     public void setDownMove(boolean t){
         downMove = t;
+    }
+
+    @Override
+    public void setShiftPressed(boolean t){
+        shiftPressed = t;
     }
 
     @Override

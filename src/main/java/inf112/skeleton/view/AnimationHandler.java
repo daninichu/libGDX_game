@@ -10,7 +10,7 @@ import inf112.skeleton.util.Direction;
 
 public class AnimationHandler implements Disposable {
     public enum State{
-        IDLE, RUN, ATTACK, HIT, DEATH
+        IDLE, RUN, ATTACK, HIT, SHIELDED, DEATH
     }
     private static final TextureAtlas atlas = new TextureAtlas("atlas/myAtlas.atlas");
     private ObjectMap<State, ObjectMap<Direction, Animation<TextureRegion>>> animations = new ObjectMap<>();

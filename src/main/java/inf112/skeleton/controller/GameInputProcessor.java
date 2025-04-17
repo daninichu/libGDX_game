@@ -21,6 +21,7 @@ public class GameInputProcessor extends InputAdapter {
             case Input.Keys.D -> player.setRightMove(true);
             case Input.Keys.W -> player.setUpMove(true);
             case Input.Keys.S -> player.setDownMove(true);
+            case Input.Keys.SHIFT_LEFT -> player.setShiftPressed(true);
         }
         if(game.getLoadState() != MyGame.LoadState.NotLoading)
             return false;
@@ -71,6 +72,7 @@ public class GameInputProcessor extends InputAdapter {
             case Input.Keys.D -> player.setRightMove(false);
             case Input.Keys.W -> player.setUpMove(false);
             case Input.Keys.S -> player.setDownMove(false);
+            case Input.Keys.SHIFT_LEFT -> player.setShiftPressed(false);
         }
         switch(game.getState()){
             case Play, Dialogue -> {}
