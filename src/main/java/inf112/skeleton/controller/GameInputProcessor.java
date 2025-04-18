@@ -43,11 +43,11 @@ public class GameInputProcessor extends InputAdapter {
                     if(door.cannotOpenMessage() == null)
                         game.enterDoor(door);
                     else{
-                        game.ui.setDialogue(door.cannotOpenMessage());
+                        game.setDialogue(door.cannotOpenMessage());
                         game.setState(MyGame.State.Dialogue);
                     }
                 else if(object instanceof IDialogue dialogueObj) {
-                    game.setDialogue(dialogueObj);
+                    game.setDialogue(dialogueObj.dialogue());
                     game.setState(MyGame.State.Dialogue);
                 }
                 else if(object != null)

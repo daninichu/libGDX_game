@@ -157,6 +157,11 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     }
 
     @Override
+    public int getMaxHealth(){
+        return maxHealth;
+    }
+
+    @Override
     public float getMass(){
         return mass;
     }

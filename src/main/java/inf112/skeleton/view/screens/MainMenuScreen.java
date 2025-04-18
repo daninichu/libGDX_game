@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.MyGame;
 
 public class MainMenuScreen extends AbstractScreen {
     private Stage stage;
-    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
     private Label title;
     private Label start;
 
@@ -23,26 +23,24 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void show(){
         super.show();
-        viewport = new ExtendViewport(40, 30);
-        stage = new Stage(viewport, batch);
-        font.setUseIntegerPositions(false);
-        font.getData().setScale(0.2f);
+        uiViewport = new FitViewport(200, 150);
+        stage = new Stage(uiViewport, uiBatch);
+        font.getData().setScale(1);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
 
-        title = new Label("Welcome to our game!", labelStyle);
+        title = new Label("Welcome to my game!", labelStyle);
         stage.addActor(title);
 
         start = new Label("Press SPACE to start", labelStyle);
-        start.setFontScale(0.1f);
+        start.setFontScale(0.5f);
         stage.addActor(start);
     }
 
     @Override
     public void render(float deltaTime){
-        super.render(deltaTime);
-        viewport.apply();
+        uiViewport.apply();
         stage.act();
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
@@ -59,12 +57,14 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height){
-        viewport.update(width, height, true);
+        uiViewport.update(width, height);
+
         title.setAlignment(Align.center);
-        title.setPosition(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2);
+        title.setPosition(uiViewport.getWorldWidth()/2, uiViewport.getWorldHeight()/2);
         title.setSize(1,1);
+
         start.setAlignment(Align.center);
-        start.setPosition(viewport.getWorldWidth()/2, viewport.getWorldHeight()/3);
+        start.setPosition(uiViewport.getWorldWidth()/2, uiViewport.getWorldHeight()/3);
         start.setSize(1,1);
     }
 
@@ -72,6 +72,5 @@ public class MainMenuScreen extends AbstractScreen {
     public void dispose(){
         super.dispose();
         stage.dispose();
-        font.dispose();
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="13">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="14">
  <tileset firstgid="1" source="tilesets/Overworld_Tileset.tsx"/>
+ <tileset firstgid="235" source="tilesets/Overworld_Tileset.tsx"/>
  <layer id="1" name="Tile Layer 1" width="40" height="30">
   <data encoding="csv">
 25,25,25,19,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,22,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,
@@ -35,6 +36,13 @@
 25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25
 </data>
  </layer>
+ <objectgroup id="5" name="Objects">
+  <object id="13" gid="296" x="176" y="76" width="16" height="16">
+   <properties>
+    <property name="Text" value="BEWARE! There are monsters in this dungeon."/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer id="4" name="Tile Layer 2" width="40" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

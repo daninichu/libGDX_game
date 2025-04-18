@@ -71,4 +71,6 @@ public interface ViewableEntity {
     TextureRegion getTexture();
 
     int getHealth();
+
+    int getMaxHealth();
 }

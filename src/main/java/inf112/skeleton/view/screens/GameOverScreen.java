@@ -27,8 +27,8 @@ public class GameOverScreen extends AbstractScreen{
     @Override
     public void show(){
         super.show();
-        this.viewport = new ExtendViewport(GameScreen.VIEW_WIDTH, GameScreen.VIEW_HEIGHT);
-        stage = new Stage(viewport, batch);
+        this.gameViewport = new ExtendViewport(GameScreen.VIEW_WIDTH, GameScreen.VIEW_HEIGHT);
+        stage = new Stage(gameViewport, gameBatch);
         font.setUseIntegerPositions(false);
         font.getData().setScale(2f);
 
@@ -50,31 +50,35 @@ public class GameOverScreen extends AbstractScreen{
     }
 
     private void deathAnimation(float deltaTime){
-        viewport.getCamera().position.set(player.getCenterPos(), 0);
-        viewport.apply();
+        gameViewport.getCamera().position.set(player.getCenterPos(), 0);
+        gameViewport.apply();
 
-        batch.setProjectionMatrix(stage.getCamera().combined);
-        batch.begin();
+        gameBatch.setProjectionMatrix(stage.getCamera().combined);
+        gameBatch.begin();
         Vector2 drawPos = player.drawPos();
-        batch.draw(player.getTexture(), drawPos.x, drawPos.y);
-        batch.end();
+        gameBatch.draw(player.getTexture(), drawPos.x, drawPos.y);
+        gameBatch.end();
 
         fadeTime += deltaTime;
         if(fadeTime > fadeDuration)
             player.update(deltaTime);
+        if(player.dead())
+            fadeTime = 0;
     }
 
     private void gameOverText(float deltaTime){
-        unfadeFromBlack(deltaTime);
+        stage.getViewport().apply();
         stage.act();
         stage.draw();
+        unfadeFromBlack(deltaTime);
     }
 
     @Override
     public void resize(int width, int height){
-        viewport.update(width, height, true);
+        gameViewport.update(width, height, true);
+        stage.getViewport().update(width, height, true);
         text.setAlignment(Align.center);
-        text.setPosition(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2);
+        text.setPosition(gameViewport.getWorldWidth()/2, gameViewport.getWorldHeight()/2);
         text.setSize(1,1);
     }
 

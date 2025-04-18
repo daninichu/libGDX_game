@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 
@@ -13,14 +17,19 @@ import inf112.skeleton.app.MyGame;
  * An abstract class that leaves unneeded methods empty.
  */
 public abstract class AbstractScreen implements Screen{
-    /** Is needed to switch screens.*/
+    protected static final BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
+    static {
+        font.setUseIntegerPositions(false);
+    }
     protected final MyGame game;
-    /** Responsible for drawing images and sprites.*/
-    protected SpriteBatch batch;
-    /** Responsible for drawing simple shapes.*/
     protected ShapeRenderer shapeRenderer;
-    protected Viewport viewport;
-    private OrthographicCamera tempCamera = new OrthographicCamera();
+
+    protected SpriteBatch gameBatch;
+    protected Viewport gameViewport;
+    protected SpriteBatch uiBatch;
+    protected Viewport uiViewport;
+
+    private static final OrthographicCamera tempCamera = new OrthographicCamera();
 
     protected float fadeDuration = 0.25f;
     protected float fadeTime;
@@ -35,8 +44,9 @@ public abstract class AbstractScreen implements Screen{
      */
     @Override
     public void show(){
-        batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+        gameBatch = new SpriteBatch();
+        uiBatch = new SpriteBatch();
     }
 
     /**
@@ -45,6 +55,18 @@ public abstract class AbstractScreen implements Screen{
      */
     @Override
     public void render(float deltaTime){}
+
+    protected void draw(SpriteBatch batch, TextureRegion tex, Vector2 p){
+        batch.draw(tex, p.x, p.y);
+    }
+
+    protected void draw(SpriteBatch batch, String text, Vector2 p){
+        font.draw(batch, text, p.x, p.y);
+    }
+
+    protected void draw(Rectangle r){
+        shapeRenderer.rect(r.x, r.y, r.width, r.height);
+    }
 
     protected void fadeToBlack(float delta){
         fadeTime += delta;
@@ -80,6 +102,16 @@ public abstract class AbstractScreen implements Screen{
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
+    /**
+     * Java garbage collector won't dispose unused objects and must be disposed manually.
+     */
+    @Override
+    public void dispose(){
+        shapeRenderer.dispose();
+        gameBatch.dispose();
+        uiBatch.dispose();
+    }
+
     @Override
     public void resize(int width, int height){}
     @Override
@@ -88,13 +120,4 @@ public abstract class AbstractScreen implements Screen{
     public void resume(){}
     @Override
     public void hide(){}
-
-    /**
-     * Java garbage collector won't dispose unused objects and must be disposed manually.
-     */
-    @Override
-    public void dispose(){
-        batch.dispose();
-        shapeRenderer.dispose();
-    }
 }

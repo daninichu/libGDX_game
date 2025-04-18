@@ -13,9 +13,13 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.collision.HashGrid;
@@ -27,12 +31,12 @@ import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
 import java.awt.Point;
+import java.text.DecimalFormat;
 
 public class GameScreen extends AbstractScreen{
     public static final float VIEW_WIDTH = 20*MyGame.TILE_SIZE;
     public static final float VIEW_HEIGHT = 15*MyGame.TILE_SIZE;
     private static final DrawOrderComparator comparator = new DrawOrderComparator();
-    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
 
     private float mapWidth;
     private float mapHeight;
@@ -42,22 +46,31 @@ public class GameScreen extends AbstractScreen{
 
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
+    private Stage stage;
+    private Label.LabelStyle labelStyle;
+    private Label dialogue;
 
     public GameScreen(MyGame game, ViewableEntity player) {
         super(game);
         this.player = player;
-        font.setUseIntegerPositions(false);
-        font.getData().setScale(VIEW_HEIGHT/400);
     }
 
     @Override
     public void show() {
         super.show();
+        font.getData().setScale(VIEW_HEIGHT/400);
 
-        this.map = game.getMap();
-        this.mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap(), batch);
-        this.camera = new OrthographicCamera();
-        this.viewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
+        camera = new OrthographicCamera();
+        gameViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
+        uiViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT);
+
+        stage = new Stage(uiViewport);
+        labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        dialogue = new Label("", labelStyle);
+        stage.addActor(dialogue);
+
+        map = game.getMap();
+        mapRenderer = new OrthogonalTiledMapRenderer(map.getTiledMap(), gameBatch);
         reset();
     }
 
@@ -68,13 +81,13 @@ public class GameScreen extends AbstractScreen{
         mapHeight = mapProps.get("height", int.class) * mapProps.get("tileheight", int.class);
 
         camera.position.set(calculateCameraPos());
-        viewport.apply();
+        gameViewport.apply();
     }
 
     @Override
     public void render(float deltaTime) {
         entities = map.getEntities();
-        viewport.apply();
+        gameViewport.apply();
         switch(game.getLoadState()){
             case LoadStart -> {
                 fadeToBlack(deltaTime);
@@ -85,7 +98,7 @@ public class GameScreen extends AbstractScreen{
                 return;
             }
             case LoadEnd -> {
-                draw();
+                renderGame();
                 unfadeFromBlack(deltaTime);
                 if(resetFadeTimer())
                     game.setLoadState(MyGame.LoadState.NotLoading);
@@ -96,12 +109,13 @@ public class GameScreen extends AbstractScreen{
             case Play -> {
                 map.update(deltaTime);
                 followPlayerWithCamera(deltaTime);
-                draw();
+                renderGame();
             }
             case Dialogue -> {
                 followPlayerWithCamera(deltaTime);
-                draw();
-                game.ui.renderDialogue();
+                renderGame();
+                renderDialogue();
+//                game.ui.renderDialogue();
             }
             case Inventory -> {
                 game.setLoadState(MyGame.LoadState.LoadStart);
@@ -113,50 +127,92 @@ public class GameScreen extends AbstractScreen{
         }
     }
 
-    private void draw(){
+    private void renderGame(){
         if(game.getLoadState() == MyGame.LoadState.LoadStart){
             return;
         }
         ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
+
         entities.sort(comparator);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
+        gameBatch.setProjectionMatrix(camera.combined);
+        gameBatch.begin();
         for(ViewableEntity e : entities){
             if(e.getTexture() != null){
-                Vector2 p = e.drawPos();
-                batch.draw(e.getTexture(), p.x, p.y);
-            }
-            if(e.getHealth() > 0){
-                font.draw(batch, e.getHealth()+" HP", e.getCenterX()-10, e.getCenterY() + 30);
+                draw(gameBatch, e.getTexture(), e.drawPos());
             }
         }
         if(mapRenderer.getMap().getLayers().get("Overlay") != null){
             mapRenderer.renderTileLayer((TiledMapTileLayer) mapRenderer.getMap().getLayers().get("Overlay"));
         }
-        for(IGameObject object : map.getGameObjects()){
-            if(object.canInteract()){
-                font.draw(batch, "E", object.getCenterX(), object.getCenterY() + 30);
-            }
-        }
-        batch.end();
+        gameBatch.end();
+        renderUi();
         renderDebug();
     }
 
+    private void renderUi(){
+        float barX = 20;
+        float barY = uiViewport.getWorldHeight() - 20;
+        float barWidth = 60;
+        float barHeight = 8;
+        float healthPercentage = (float) player.getHealth() / player.getMaxHealth();
+        float healthBarWidth = barWidth * healthPercentage;
+
+        uiBatch.setProjectionMatrix(uiViewport.getCamera().combined);
+        shapeRenderer.setProjectionMatrix(uiViewport.getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0.8f, 0.3f, 0.3f, 1);
+        shapeRenderer.rect(barX, barY, healthBarWidth, barHeight);
+        shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(0.9f, 0.8f, 0.8f, 1);
+        shapeRenderer.rect(barX, barY, barWidth, barHeight);
+        shapeRenderer.end();
+
+        uiBatch.begin();
+        String hpText = player.getHealth()+"/"+ player.getMaxHealth()+"HP";
+        draw(uiBatch, hpText, new Vector2(barX + barWidth + 4, barY));
+
+        for(IGameObject object : map.getGameObjects())
+            if(object.canInteract())
+                draw(uiBatch, "E: Interact", new Vector2(barX, barY - 10));
+        uiBatch.end();
+    }
+
+    private void centerDialogueLabel() {
+        float x = (stage.getWidth() - dialogue.getWidth()) / 2;
+        float y = 80;
+        dialogue.setPosition(x, y);
+    }
+
+    public void setDialogue(String newDialogue) {
+        stage.clear();
+        dialogue = new Label(newDialogue, labelStyle);
+        centerDialogueLabel();
+        stage.addActor(dialogue);
+    }
+
+    private void renderDialogue() {
+        uiViewport.apply();
+        stage.act();
+        stage.draw();
+    }
+
     private Vector3 calculateCameraPos(){
-        float x = Math.min(Math.max(player.getCenterX(), viewport.getWorldWidth()/2), mapWidth - viewport.getWorldWidth()/2);
-        float y = Math.min(Math.max(player.getCenterY(), viewport.getWorldHeight()/2), mapHeight - viewport.getWorldHeight()/2);
-        if(mapWidth < viewport.getWorldWidth())
+        float x = Math.min(Math.max(player.getCenterX(), gameViewport.getWorldWidth()/2), mapWidth - gameViewport.getWorldWidth()/2);
+        float y = Math.min(Math.max(player.getCenterY(), gameViewport.getWorldHeight()/2), mapHeight - gameViewport.getWorldHeight()/2);
+        if(mapWidth < gameViewport.getWorldWidth())
             x = mapWidth / 2;
-        if(mapHeight < viewport.getWorldHeight())
+        if(mapHeight < gameViewport.getWorldHeight())
             y = mapHeight / 2;
         return new Vector3(x, y, 0);
     }
 
     private void followPlayerWithCamera(float deltaTime){
         camera.position.lerp(calculateCameraPos(), 5*deltaTime);
-        viewport.apply();
+        gameViewport.apply();
     }
 
     private void renderDebug(){
@@ -200,13 +256,14 @@ public class GameScreen extends AbstractScreen{
 
     @Override
     public void resize(int width, int height){
-        viewport.update(width, height);
-        game.ui.resize(width, height);
+        gameViewport.update(width, height);
+        uiViewport.update(width, height, true);
+        centerDialogueLabel();
     }
 
     @Override
     public void dispose(){
         super.dispose();
-        game.ui.dispose();
+        stage.dispose();
     }
 }

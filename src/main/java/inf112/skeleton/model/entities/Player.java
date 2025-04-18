@@ -59,7 +59,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         this.speed = 5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 0, 12, 12);
         this.attack = new PlayerAttack();
-        this.maxHealth = this.health = 2;
+        this.maxHealth = this.health = 20;
 //        this.mass = 10;
 
         addEnterFunctions();

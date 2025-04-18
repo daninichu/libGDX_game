@@ -20,8 +20,8 @@ public class InventoryScreen extends AbstractScreen{
     @Override
     public void show(){
         super.show();
-        viewport = new ExtendViewport(400, 200);
-        viewport = new ExtendViewport(24*MyGame.TILE_SIZE, 18*MyGame.TILE_SIZE);
+        gameViewport = new ExtendViewport(400, 200);
+        gameViewport = new ExtendViewport(24*MyGame.TILE_SIZE, 18*MyGame.TILE_SIZE);
     }
 
     @Override
@@ -53,20 +53,20 @@ public class InventoryScreen extends AbstractScreen{
     private void draw(){
         ScreenUtils.clear(0.55f, 0.45f, 0.3f, 1);
 
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
+        gameBatch.setProjectionMatrix(gameViewport.getCamera().combined);
+        gameBatch.begin();
         int i = 1;
-        float h = viewport.getWorldHeight() / Inventory.SIZE;
+        float h = gameViewport.getWorldHeight() / Inventory.SIZE;
         for(Item item : inventory){
             if(item != null){
-                font.draw(batch, item.toString(), 0, i*h);
+                font.draw(gameBatch, item.toString(), 0, i*h);
             }
         }
-        batch.end();
+        gameBatch.end();
     }
 
     @Override
     public void resize(int width, int height){
-        viewport.update(width, height, true);
+        gameViewport.update(width, height, true);
     }
 }

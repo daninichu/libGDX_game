@@ -9,9 +9,7 @@ import inf112.skeleton.controller.InventoryInputProcessor;
 import inf112.skeleton.model.LoadZone;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
-import inf112.skeleton.model.entities.gameobjects.IDialogue;
 import inf112.skeleton.model.entities.gameobjects.IDoor;
-import inf112.skeleton.view.UI;
 import inf112.skeleton.view.screens.GameOverScreen;
 import inf112.skeleton.view.screens.GameScreen;
 import inf112.skeleton.view.screens.InventoryScreen;
@@ -46,7 +44,7 @@ public class MyGame extends Game{
     private InputMultiplexer inputMultiplexer;
     private GameInputProcessor gameProcessor;
     private InventoryInputProcessor inventoryProcessor;
-    public UI ui;
+//    public UI ui;
 
     private Player player;
     private Map map;
@@ -55,7 +53,7 @@ public class MyGame extends Game{
     public void create(){
         player = new Player(7*32, 2*32);
 //        player = new Player(192, 192);
-        ui = new UI(player);
+//        ui = new UI(player);
         map = new Map(this, player);
 //        map.loadMap("grass2.tmx");
         map.loadMap("dungeon.tmx");
@@ -107,8 +105,8 @@ public class MyGame extends Game{
 //        Gdx.app.log("Frametime", (System.nanoTime()-time)/1000000f+" ms");
     }
 
-    public void setDialogue(IDialogue dialogueObj){
-        ui.setDialogue(dialogueObj.dialogue());
+    public void setDialogue(String dialogue){
+        gameScreen.setDialogue(dialogue);
     }
 
     public State getState(){
