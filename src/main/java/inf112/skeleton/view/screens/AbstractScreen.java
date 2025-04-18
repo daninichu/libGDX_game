@@ -60,10 +60,6 @@ public abstract class AbstractScreen implements Screen{
         batch.draw(tex, p.x, p.y);
     }
 
-    protected void draw(SpriteBatch batch, String text, Vector2 p){
-        font.draw(batch, text, p.x, p.y);
-    }
-
     protected void draw(Rectangle r){
         shapeRenderer.rect(r.x, r.y, r.width, r.height);
     }

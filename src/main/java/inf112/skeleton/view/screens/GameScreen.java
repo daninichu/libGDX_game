@@ -58,11 +58,11 @@ public class GameScreen extends AbstractScreen{
     @Override
     public void show() {
         super.show();
-        font.getData().setScale(VIEW_HEIGHT/400);
+        font.getData().setScale(0.3f);
 
         camera = new OrthographicCamera();
         gameViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
-        uiViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT);
+        uiViewport = new ExtendViewport(160, 120);
 
         stage = new Stage(uiViewport);
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
@@ -115,22 +115,32 @@ public class GameScreen extends AbstractScreen{
                 followPlayerWithCamera(deltaTime);
                 renderGame();
                 renderDialogue();
-//                game.ui.renderDialogue();
             }
             case Inventory -> {
                 game.setLoadState(MyGame.LoadState.LoadStart);
                 game.setScreen(InventoryScreen.class);
             }
+            case GameOver -> {
+                renderGame();
+                fadeToBlack(deltaTime/2);
+                camera.position.lerp(new Vector3(player.getCenterPos(), 0), 8*deltaTime);
+                gameBatch.setProjectionMatrix(camera.combined);
+                gameBatch.begin();
+                draw(gameBatch, player.getTexture(), player.drawPos());
+                gameBatch.end();
+                if(resetFadeTimer()){
+                    reset();
+                    game.setScreen(GameOverScreen.class);
+                }
+            }
         }
-        if(player.getHealth() <= 0){
-            game.setScreen(GameOverScreen.class);
-        }
+        if(player.getHealth() <= 0)
+            game.setState(MyGame.State.GameOver);
     }
 
     private void renderGame(){
-        if(game.getLoadState() == MyGame.LoadState.LoadStart){
+        if(game.getLoadState() == MyGame.LoadState.LoadStart)
             return;
-        }
         ScreenUtils.clear(Color.CLEAR);
         mapRenderer.setView(camera);
         mapRenderer.render();
@@ -139,9 +149,8 @@ public class GameScreen extends AbstractScreen{
         gameBatch.setProjectionMatrix(camera.combined);
         gameBatch.begin();
         for(ViewableEntity e : entities){
-            if(e.getTexture() != null){
+            if(e.getTexture() != null)
                 draw(gameBatch, e.getTexture(), e.drawPos());
-            }
         }
         if(mapRenderer.getMap().getLayers().get("Overlay") != null){
             mapRenderer.renderTileLayer((TiledMapTileLayer) mapRenderer.getMap().getLayers().get("Overlay"));
@@ -152,14 +161,13 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void renderUi(){
-        float barX = 20;
-        float barY = uiViewport.getWorldHeight() - 20;
-        float barWidth = 60;
-        float barHeight = 8;
+        float barX = 10;
+        float barY = stage.getHeight() - 10;
+        float barWidth = 30;
+        float barHeight = 4;
         float healthPercentage = (float) player.getHealth() / player.getMaxHealth();
         float healthBarWidth = barWidth * healthPercentage;
 
-        uiBatch.setProjectionMatrix(uiViewport.getCamera().combined);
         shapeRenderer.setProjectionMatrix(uiViewport.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.8f, 0.3f, 0.3f, 1);
@@ -171,19 +179,21 @@ public class GameScreen extends AbstractScreen{
         shapeRenderer.rect(barX, barY, barWidth, barHeight);
         shapeRenderer.end();
 
+        uiBatch.setProjectionMatrix(uiViewport.getCamera().combined);
         uiBatch.begin();
-        String hpText = player.getHealth()+"/"+ player.getMaxHealth()+"HP";
-        draw(uiBatch, hpText, new Vector2(barX + barWidth + 4, barY));
+        font.draw(uiBatch, player.getHealth()+"/"+ player.getMaxHealth()+"HP", barX + barWidth + 4, barY);
 
         for(IGameObject object : map.getGameObjects())
-            if(object.canInteract())
-                draw(uiBatch, "E: Interact", new Vector2(barX, barY - 10));
+            if(object.canInteract()){
+                font.draw(uiBatch, "E: Interact", barX, barY - 10);
+                break;
+            }
         uiBatch.end();
     }
 
     private void centerDialogueLabel() {
         float x = (stage.getWidth() - dialogue.getWidth()) / 2;
-        float y = 80;
+        float y = 40;
         dialogue.setPosition(x, y);
     }
 
