@@ -129,7 +129,6 @@ public class GameScreen extends AbstractScreen{
                 draw(gameBatch, player.getTexture(), player.drawPos());
                 gameBatch.end();
                 if(resetFadeTimer()){
-                    reset();
                     game.setScreen(GameOverScreen.class);
                 }
             }
@@ -163,7 +162,7 @@ public class GameScreen extends AbstractScreen{
     private void renderUi(){
         float barX = 10;
         float barY = stage.getHeight() - 10;
-        float barWidth = 30;
+        float barWidth = player.getMaxHealth();
         float barHeight = 4;
         float healthPercentage = (float) player.getHealth() / player.getMaxHealth();
         float healthBarWidth = barWidth * healthPercentage;

@@ -66,6 +66,14 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         addExitFunctions();
     }
 
+    public void restart(float x, float y){
+        pos.set(x, y);
+        health = maxHealth;
+        dir = Direction.DOWN;
+        animation.setDirection(dir);
+        stateMachine.forceState(State.NonAttack);
+    }
+
     private void addEnterFunctions(){
         stateMachine.onEnter(State.NonAttack, () -> {
             animation.setState(AnimationHandler.State.IDLE);

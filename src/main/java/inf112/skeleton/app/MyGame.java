@@ -52,11 +52,8 @@ public class MyGame extends Game{
     @Override
     public void create(){
         player = new Player(7*32, 2*32);
-//        player = new Player(192, 192);
-//        ui = new UI(player);
         map = new Map(this, player);
-//        map.loadMap("grass2.tmx");
-        map.loadMap("dungeon.tmx");
+        restart();
 
         gameProcessor = new GameInputProcessor(this, player);
         inventoryProcessor = new InventoryInputProcessor(this, player);
@@ -73,6 +70,11 @@ public class MyGame extends Game{
         screens.put(GameOverScreen.class, gameOverScreen);
 
         setScreen(mainMenuScreen);
+    }
+
+    public void restart(){
+        player.restart(7*32, 2*32);
+        map.loadMap("dungeon.tmx");
     }
 
     public Map getMap() {
