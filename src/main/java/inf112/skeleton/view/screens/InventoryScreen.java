@@ -1,5 +1,6 @@
 package inf112.skeleton.view.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -12,14 +13,20 @@ import inf112.skeleton.view.ViewableInventory;
 public class InventoryScreen extends AbstractScreen{
     private ViewableInventory inventory;
     private Label[] itemLabels = new Label[Inventory.SIZE];
-    private Label description = new Label("", labelStyle);
+    private Label itemDescription = new Label("", labelStyle);
 
     public InventoryScreen(MyGame game, ViewableInventory inventory){
         super(game);
         this.inventory = inventory;
+    }
 
-        uiViewport = new ExtendViewport(400, 200);
-        stage = new Stage(uiViewport);
+    @Override
+    public void show(){
+        super.show();
+        font.getData().setScale(1f);
+
+        uiViewport = new ExtendViewport(400, 300);
+        stage = new Stage(uiViewport, uiBatch);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -30,32 +37,8 @@ public class InventoryScreen extends AbstractScreen{
             itemLabels[i] = new Label("Empty", labelStyle);
             itemsTable.add(itemLabels[i]).expandX().pad(5).row();
         }
-
-        table.add(itemsTable).width(200).pad(10).top(); // Inventory on the left
-        table.add(description).expand().fill().pad(10); // Description on the right
-    }
-
-    private void updateUI() {
-        for (int i = 0; i < Inventory.SIZE; i++) {
-            itemLabels[i].setText(inventory.viewItem(i) == null? "Empty" : inventory.viewItem(i).toString());
-
-            if (i == inventory.getIndex()) {
-                itemLabels[i].setColor(0, 1, 0, 1); // Highlight: green
-            } else {
-                itemLabels[i].setColor(1, 1, 1, 1); // Default: white
-            }
-        }
-        setDescription(inventory.viewItem(inventory.getIndex()));
-    }
-
-    private void setDescription(Item item){
-        description.setText(item == null ? "" : item.description());
-    }
-
-    @Override
-    public void show(){
-        super.show();
-        font.getData().setScale(1f);
+        table.add(itemsTable).width(200).pad(10); // Inventory on the left
+        table.add(itemDescription).expand().fill().pad(10); // Description on the right
     }
 
     @Override
@@ -85,16 +68,18 @@ public class InventoryScreen extends AbstractScreen{
     }
 
     private void renderInventory(){
-        ScreenUtils.clear(0, 0, 0, 1);
+        ScreenUtils.clear(Color.DARK_GRAY);
 
-        updateUI();
+        for (int i = 0; i < Inventory.SIZE; i++) {
+            itemLabels[i].setText(inventory.viewItem(i) == null? "Empty" : inventory.viewItem(i).toString());
+            itemLabels[i].setColor(i == inventory.getIndex() ? Color.GREEN : Color.WHITE);
+        }
+        setItemDescription(inventory.viewItem(inventory.getIndex()));
         stage.act();
         stage.draw();
     }
 
-
-    @Override
-    public void resize(int width, int height){
-        super.resize(width, height);
+    private void setItemDescription(Item item){
+        itemDescription.setText(item == null ? "" : item.description());
     }
 }
