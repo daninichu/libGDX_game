@@ -22,8 +22,8 @@ public class InventoryInputProcessor extends InputAdapter{
         if(game.getLoadState() != MyGame.LoadState.NotLoading || game.getState() != MyGame.State.Inventory)
             return false;
         switch(keycode){
-            case Input.Keys.A -> inventory.indexDown();
-            case Input.Keys.D -> inventory.indexUp();
+            case Input.Keys.W -> inventory.indexDown();
+            case Input.Keys.S -> inventory.indexUp();
             case Input.Keys.SPACE -> player.useItem(inventory.getItem());
             case Input.Keys.Q -> game.setState(MyGame.State.Play);
         }

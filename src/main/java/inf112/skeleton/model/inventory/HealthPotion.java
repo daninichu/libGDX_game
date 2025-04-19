@@ -29,6 +29,6 @@ public class HealthPotion implements Item {
 
     @Override
     public String description(){
-        return "Restores 10 HP";
+        return "Restores " + heal() + " HP";
     }
 }

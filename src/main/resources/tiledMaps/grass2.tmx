@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="14">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-up" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="61">
  <tileset firstgid="1" source="tilesets/Overworld_Tileset.tsx"/>
  <tileset firstgid="235" source="tilesets/Overworld_Tileset.tsx"/>
+ <tileset firstgid="469" source="tilesets/sprites.tsx"/>
  <layer id="1" name="Tile Layer 1" width="40" height="30">
   <data encoding="csv">
 25,25,25,19,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,22,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,
@@ -36,13 +37,6 @@
 25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25
 </data>
  </layer>
- <objectgroup id="5" name="Objects">
-  <object id="13" gid="296" x="176" y="76" width="16" height="16">
-   <properties>
-    <property name="Text" value="BEWARE! There are monsters in this dungeon."/>
-   </properties>
-  </object>
- </objectgroup>
  <layer id="4" name="Tile Layer 2" width="40" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -77,6 +71,55 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="5" name="Objects">
+  <object id="13" gid="296" x="176" y="76" width="16" height="16">
+   <properties>
+    <property name="Text" value="BEWARE! There are monsters in this dungeon."/>
+   </properties>
+  </object>
+  <object id="15" gid="296" x="176" y="240" width="16" height="16"/>
+  <object id="16" gid="296" x="176" y="256" width="16" height="16"/>
+  <object id="17" gid="296" x="176" y="272" width="16" height="16"/>
+  <object id="18" gid="62" x="176" y="288" width="16" height="16"/>
+  <object id="19" gid="62" x="176" y="304" width="16" height="16"/>
+  <object id="20" gid="62" x="176" y="320" width="16" height="16"/>
+  <object id="21" gid="62" x="224" y="240" width="16" height="16"/>
+  <object id="22" gid="62" x="224" y="256" width="16" height="16"/>
+  <object id="23" gid="62" x="224" y="272" width="16" height="16"/>
+  <object id="26" gid="62" x="224" y="320" width="16" height="16"/>
+  <object id="27" gid="62" x="272" y="240" width="16" height="16"/>
+  <object id="28" gid="62" x="272" y="256" width="16" height="16"/>
+  <object id="29" gid="62" x="272" y="272" width="16" height="16"/>
+  <object id="30" gid="62" x="272" y="288" width="16" height="16"/>
+  <object id="33" gid="296" x="192" y="320" width="16" height="16"/>
+  <object id="34" gid="296" x="208" y="320" width="16" height="16"/>
+  <object id="37" gid="62" x="240" y="320" width="16" height="16"/>
+  <object id="38" gid="62" x="256" y="320" width="16" height="16"/>
+  <object id="39" gid="296" x="272" y="320" width="16" height="16"/>
+  <object id="40" gid="296" x="272" y="304" width="16" height="16"/>
+  <object id="41" gid="296" x="224" y="224" width="16" height="16"/>
+  <object id="42" gid="296" x="224" y="208" width="16" height="16"/>
+  <object id="43" gid="296" x="240" y="208" width="16" height="16"/>
+  <object id="44" gid="296" x="256" y="208" width="16" height="16"/>
+  <object id="45" gid="296" x="272" y="208" width="16" height="16"/>
+  <object id="46" gid="296" x="288" y="208" width="16" height="16"/>
+  <object id="47" gid="296" x="304" y="208" width="16" height="16"/>
+  <object id="48" gid="296" x="320" y="208" width="16" height="16"/>
+  <object id="49" gid="296" x="320" y="224" width="16" height="16"/>
+  <object id="50" gid="296" x="320" y="240" width="16" height="16"/>
+  <object id="51" gid="296" x="320" y="256" width="16" height="16"/>
+  <object id="52" gid="296" x="320" y="272" width="16" height="16"/>
+  <object id="53" gid="296" x="320" y="288" width="16" height="16"/>
+  <object id="54" gid="296" x="320" y="304" width="16" height="16"/>
+  <object id="55" gid="296" x="320" y="320" width="16" height="16"/>
+  <object id="56" gid="296" x="288" y="320" width="16" height="16"/>
+  <object id="57" gid="296" x="304" y="320" width="16" height="16"/>
+  <object id="58" gid="296" x="176" y="224" width="16" height="16"/>
+  <object id="59" gid="296" x="176" y="208" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="6" name="Enemies">
+  <object id="60" gid="470" x="296" y="292" width="16" height="16"/>
+ </objectgroup>
  <objectgroup id="2" name="Load Zones">
   <object id="1" x="0" y="224" width="32" height="32">
    <properties>

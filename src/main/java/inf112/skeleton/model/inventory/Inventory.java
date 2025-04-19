@@ -1,9 +1,8 @@
 package inf112.skeleton.model.inventory;
 
-import java.util.Arrays;
-import java.util.Iterator;
+import inf112.skeleton.view.ViewableInventory;
 
-public class Inventory implements Iterable<Item> {
+public class Inventory implements ViewableInventory{
     public static final int SIZE = 10;
     private Item[] items = new Item[SIZE];
     private int index;
@@ -23,6 +22,14 @@ public class Inventory implements Iterable<Item> {
         return item;
     }
 
+    @Override
+    public Item viewItem(int index){
+        if(index < 0 || index >= this.items.length)
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        return items[index];
+    }
+
+    @Override
     public int getIndex(){
         return index;
     }
@@ -33,11 +40,6 @@ public class Inventory implements Iterable<Item> {
 
     public void indexDown(){
         index = Math.max(index - 1, 0);
-    }
-
-    @Override
-    public Iterator<Item> iterator(){
-        return Arrays.stream(items).iterator();
     }
 
     @Override

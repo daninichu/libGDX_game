@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.controller.ControllablePlayer;
+import inf112.skeleton.model.inventory.HealthPotion;
 import inf112.skeleton.util.Direction;
 import inf112.skeleton.model.ai.FsmBlueprint;
 import inf112.skeleton.model.ai.StateMachine;
@@ -59,11 +60,15 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         this.speed = 5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 0, 12, 12);
         this.attack = new PlayerAttack();
-        this.maxHp = this.hp = 2;
-//        this.mass = 10;
+        this.maxHp = this.hp = 20;
 
         addEnterFunctions();
         addExitFunctions();
+
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
+        inventory.addItem(new HealthPotion());
     }
 
     public void restart(float x, float y){

@@ -1,26 +1,61 @@
 package inf112.skeleton.view.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
+import inf112.skeleton.view.ViewableInventory;
 
 public class InventoryScreen extends AbstractScreen{
-    private Iterable<Item> inventory;
+    private ViewableInventory inventory;
+    private Label[] itemLabels = new Label[Inventory.SIZE];
+    private Label description = new Label("", labelStyle);
 
-    public InventoryScreen(MyGame game, Inventory inventory){
+    public InventoryScreen(MyGame game, ViewableInventory inventory){
         super(game);
         this.inventory = inventory;
+
+        uiViewport = new ExtendViewport(400, 200);
+        stage = new Stage(uiViewport);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
+        Table itemsTable = new Table(); // Subtable to hold item slots
+        for (int i = 0; i < Inventory.SIZE; i++) {
+            itemLabels[i] = new Label("Empty", labelStyle);
+            itemsTable.add(itemLabels[i]).expandX().pad(5).row();
+        }
+
+        table.add(itemsTable).width(200).pad(10).top(); // Inventory on the left
+        table.add(description).expand().fill().pad(10); // Description on the right
+    }
+
+    private void updateUI() {
+        for (int i = 0; i < Inventory.SIZE; i++) {
+            itemLabels[i].setText(inventory.viewItem(i) == null? "Empty" : inventory.viewItem(i).toString());
+
+            if (i == inventory.getIndex()) {
+                itemLabels[i].setColor(0, 1, 0, 1); // Highlight: green
+            } else {
+                itemLabels[i].setColor(1, 1, 1, 1); // Default: white
+            }
+        }
+        setDescription(inventory.viewItem(inventory.getIndex()));
+    }
+
+    private void setDescription(Item item){
+        description.setText(item == null ? "" : item.description());
     }
 
     @Override
     public void show(){
         super.show();
-        gameViewport = new ExtendViewport(400, 200);
-        gameViewport = new ExtendViewport(24*MyGame.TILE_SIZE, 18*MyGame.TILE_SIZE);
+        font.getData().setScale(1f);
     }
 
     @Override
@@ -33,7 +68,7 @@ public class InventoryScreen extends AbstractScreen{
                 return;
             }
             case LoadEnd -> {
-                draw();
+                renderInventory();
                 unfadeFromBlack(deltaTime);
                 if(resetFadeTimer())
                     game.setLoadState(MyGame.LoadState.NotLoading);
@@ -41,7 +76,7 @@ public class InventoryScreen extends AbstractScreen{
             }
         }
         switch(game.getState()){
-            case Inventory -> draw();
+            case Inventory -> renderInventory();
             case Play -> {
                 game.setLoadState(MyGame.LoadState.LoadStart);
                 game.setScreen(GameScreen.class);
@@ -49,23 +84,17 @@ public class InventoryScreen extends AbstractScreen{
         }
     }
 
-    private void draw(){
-        ScreenUtils.clear(0.55f, 0.45f, 0.3f, 1);
+    private void renderInventory(){
+        ScreenUtils.clear(0, 0, 0, 1);
 
-        gameBatch.setProjectionMatrix(gameViewport.getCamera().combined);
-        gameBatch.begin();
-        int i = 1;
-        float h = gameViewport.getWorldHeight() / Inventory.SIZE;
-        for(Item item : inventory){
-            if(item != null){
-                font.draw(gameBatch, item.toString(), 0, i*h);
-            }
-        }
-        gameBatch.end();
+        updateUI();
+        stage.act();
+        stage.draw();
     }
+
 
     @Override
     public void resize(int width, int height){
-        gameViewport.update(width, height, true);
+        super.resize(width, height);
     }
 }
