@@ -16,18 +16,14 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     protected AnimationHandler animation;
     protected TextureRegion texture;
     protected Direction dir = Direction.DOWN;
-    protected Vector2 pos;
-    protected Vector2 prevPos;
+    protected Vector2 pos, prevPos;
     protected Vector2 velocity = new Vector2();
     protected float speed;
-    protected float timer;
+    protected float timer, hitlagTimer;
 
     protected Box hurtbox;
     protected Attack attack = new Attack(){};
-    protected int maxHealth;
-    protected int health;
-    protected float hitlagTimer;
-    protected float mass;
+    protected int maxHp, hp;
 
     protected Entity(float x, float y) {
         this.pos = new Vector2(x, y);
@@ -50,7 +46,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     @Override
     public void getAttacked(AttackableEntity attacker) {
         attacker.addHit(this);
-        health -= attacker.getDamage();
+        hp -= attacker.getDamage();
         velocity.set(attacker.knockbackVector(getCenterPos()));
         setHitlagTimer(attacker.getHitlag());
         attacker.setHitlagTimer(hitlagTimer);
@@ -152,23 +148,18 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     }
 
     @Override
-    public int getHealth(){
-        return health;
+    public int getHp(){
+        return hp;
     }
 
     @Override
-    public int getMaxHealth(){
-        return maxHealth;
-    }
-
-    @Override
-    public float getMass(){
-        return mass;
+    public int getMaxHp(){
+        return maxHp;
     }
 
     @Override
     public boolean dead(){
-        return health <= 0;
+        return hp <= 0;
     }
 
     @Override

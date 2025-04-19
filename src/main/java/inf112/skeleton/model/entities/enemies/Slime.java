@@ -20,7 +20,7 @@ public class Slime extends Enemy {
     public Slime(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
         super(x, y, player, grid);
         this.animation = new AnimationHandler("pinkslime", dir);
-        this.health = 10;
+        this.hp = 10;
 
         this.attack = new SlimeAttack();
         this.speed = 1.5f * MyGame.TILE_SIZE;

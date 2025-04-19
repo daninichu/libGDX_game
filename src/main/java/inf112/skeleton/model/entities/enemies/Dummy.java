@@ -19,7 +19,7 @@ public class Dummy extends Enemy{
     public Dummy(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
         super(x, y, player, grid);
         animation = new AnimationHandler("char", dir);
-        health = 1;
+        hp = 1;
         speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 0, 12, 12);
     }

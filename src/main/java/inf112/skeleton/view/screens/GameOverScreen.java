@@ -15,9 +15,7 @@ import inf112.skeleton.model.entities.Player;
 
 public class GameOverScreen extends AbstractScreen{
     private Player player;
-    private Stage stage;
-    private Label gameOverText;
-    private Label restartText;
+    private Label gameOverText, restartText;
 
     public GameOverScreen(MyGame game, Player player) {
         super(game);
@@ -30,14 +28,15 @@ public class GameOverScreen extends AbstractScreen{
         super.show();
         fadeTime = 0;
         gameViewport = new ExtendViewport(GameScreen.VIEW_WIDTH, GameScreen.VIEW_HEIGHT);
-        uiViewport = new FitViewport(GameScreen.VIEW_WIDTH, GameScreen.VIEW_HEIGHT);
+        uiViewport = new FitViewport(200, 150);
         stage = new Stage(uiViewport, uiBatch);
-        font.getData().setScale(1.6f);
+        font.getData().setScale(1);
 
-        gameOverText = new Label("Game Over", new Label.LabelStyle(font, Color.WHITE));
+        gameOverText = new Label("Game Over", labelStyle);
         stage.addActor(gameOverText);
-        restartText = new Label("Press SPACE to restart", new Label.LabelStyle(font, Color.WHITE));
-        restartText.setFontScale(0.6f);
+
+        restartText = new Label("Press SPACE to restart", labelStyle);
+        restartText.setFontScale(0.5f);
         stage.addActor(restartText);
     }
 
@@ -90,8 +89,7 @@ public class GameOverScreen extends AbstractScreen{
 
     @Override
     public void resize(int width, int height){
-        gameViewport.update(width, height);
-        uiViewport.update(width, height, true);
+        super.resize(width, height);
 
         gameOverText.setAlignment(Align.center);
         gameOverText.setPosition(stage.getWidth()/2, stage.getHeight()/2);
@@ -104,7 +102,7 @@ public class GameOverScreen extends AbstractScreen{
 
     @Override
     public void dispose(){
+        super.dispose();
         stage.dispose();
-        font.dispose();
     }
 }

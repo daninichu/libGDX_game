@@ -39,9 +39,9 @@ public class AttackTest {
 
     @Test
     void testDamage(){
-        float maxHP = player.getHealth();
+        float maxHP = player.getHp();
         player.getAttacked(attacker);
-        assertEquals(maxHP - 3, player.getHealth());
+        assertEquals(maxHP - 3, player.getHp());
     }
 
     @Test
@@ -60,12 +60,12 @@ public class AttackTest {
     void testAttackRange(){
         player.setPos(50 + player.getX() - player.getLeftX(), 0);
 
-        float maxHP = player.getHealth();
+        float maxHP = player.getHp();
         player.getAttacked(attacker);
-        assertEquals(maxHP, player.getHealth());
+        assertEquals(maxHP, player.getHp());
 
         player.addPos(-1, 0);
         player.getAttacked(attacker);
-        assertEquals(maxHP - 3, player.getHealth());
+        assertEquals(maxHP - 3, player.getHp());
     }
 }

@@ -23,7 +23,7 @@ public class Phantom extends Enemy{
     public Phantom(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
         super(x, y, player, grid);
         this.animation = new AnimationHandler("phantom", dir);
-        this.health = 15;
+        this.hp = 15;
         this.speed = 2.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 2, 12, 12);
         this.attack = new PhantomAttack();

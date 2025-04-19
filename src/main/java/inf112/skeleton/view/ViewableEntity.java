@@ -70,7 +70,7 @@ public interface ViewableEntity {
 
     TextureRegion getTexture();
 
-    int getHealth();
+    int getHp();
 
-    int getMaxHealth();
+    int getMaxHp();
 }

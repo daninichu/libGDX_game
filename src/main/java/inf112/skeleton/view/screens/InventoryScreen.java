@@ -9,7 +9,6 @@ import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
 
 public class InventoryScreen extends AbstractScreen{
-    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
     private Iterable<Item> inventory;
 
     public InventoryScreen(MyGame game, Inventory inventory){

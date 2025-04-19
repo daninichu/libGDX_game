@@ -44,7 +44,6 @@ public class MyGame extends Game{
     private InputMultiplexer inputMultiplexer;
     private GameInputProcessor gameProcessor;
     private InventoryInputProcessor inventoryProcessor;
-//    public UI ui;
 
     private Player player;
     private Map map;
@@ -127,7 +126,7 @@ public class MyGame extends Game{
         this.loadState = loadState;
     }
 
-    public void setScreen(Class<? extends Screen> screenClassName){
-        setScreen(screens.get(screenClassName));
+    public void setScreen(Class<? extends Screen> screenClass){
+        setScreen(screens.get(screenClass));
     }
 }

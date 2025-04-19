@@ -59,7 +59,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         this.speed = 5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 0, 12, 12);
         this.attack = new PlayerAttack();
-        this.maxHealth = this.health = 2;
+        this.maxHp = this.hp = 2;
 //        this.mass = 10;
 
         addEnterFunctions();
@@ -68,7 +68,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     public void restart(float x, float y){
         pos.set(x, y);
-        health = maxHealth;
+        hp = maxHp;
         dir = Direction.DOWN;
         animation.setDirection(dir);
         stateMachine.forceState(State.NonAttack);
@@ -156,7 +156,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             }
         }
         stateMachine.fireEvent(shiftPressed ? Event.ShiftPressed : Event.ShiftReleased);
-        if(health <= 0)
+        if(hp <= 0)
             stateMachine.forceState(State.Dying);
     }
 
@@ -230,7 +230,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
     public boolean useItem(Item item){
         if(item == null)
             return false;
-        health = Math.min(maxHealth, health + item.heal());
+        hp = Math.min(maxHp, hp + item.heal());
         speed *= item.speedMultiplier();
         return true;
     }

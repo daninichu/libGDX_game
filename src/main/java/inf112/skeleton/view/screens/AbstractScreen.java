@@ -2,6 +2,7 @@ package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,24 +11,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 
-/**
- * An abstract class that leaves unneeded methods empty.
- */
 public abstract class AbstractScreen implements Screen{
     protected static final BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
+    protected static final Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
     static {
         font.setUseIntegerPositions(false);
     }
     protected final MyGame game;
-    protected ShapeRenderer shapeRenderer;
 
-    protected SpriteBatch gameBatch;
-    protected Viewport gameViewport;
-    protected SpriteBatch uiBatch;
-    protected Viewport uiViewport;
+    protected Stage stage;
+    protected SpriteBatch gameBatch, uiBatch;
+    protected Viewport gameViewport, uiViewport;
+    protected ShapeRenderer shapeRenderer;
 
     private static final OrthographicCamera tempCamera = new OrthographicCamera();
 
@@ -98,6 +98,14 @@ public abstract class AbstractScreen implements Screen{
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
+    @Override
+    public void resize(int width, int height){
+        if(gameViewport != null)
+            gameViewport.update(width, height);
+        if(uiViewport != null)
+            uiViewport.update(width, height, true);
+    }
+
     /**
      * Java garbage collector won't dispose unused objects and must be disposed manually.
      */
@@ -108,8 +116,6 @@ public abstract class AbstractScreen implements Screen{
         uiBatch.dispose();
     }
 
-    @Override
-    public void resize(int width, int height){}
     @Override
     public void pause(){}
     @Override

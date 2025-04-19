@@ -4,22 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.collision.HashGrid;
@@ -31,23 +27,19 @@ import inf112.skeleton.view.DrawOrderComparator;
 import inf112.skeleton.view.ViewableEntity;
 
 import java.awt.Point;
-import java.text.DecimalFormat;
 
 public class GameScreen extends AbstractScreen{
     public static final float VIEW_WIDTH = 20*MyGame.TILE_SIZE;
     public static final float VIEW_HEIGHT = 15*MyGame.TILE_SIZE;
     private static final DrawOrderComparator comparator = new DrawOrderComparator();
 
-    private float mapWidth;
-    private float mapHeight;
+    private float mapWidth, mapHeight;
     private Map map;
     private ViewableEntity player;
     private Array<? extends ViewableEntity> entities;
 
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Stage stage;
-    private Label.LabelStyle labelStyle;
     private Label dialogue;
 
     public GameScreen(MyGame game, ViewableEntity player) {
@@ -65,7 +57,6 @@ public class GameScreen extends AbstractScreen{
         uiViewport = new ExtendViewport(160, 120);
 
         stage = new Stage(uiViewport);
-        labelStyle = new Label.LabelStyle(font, Color.WHITE);
         dialogue = new Label("", labelStyle);
         stage.addActor(dialogue);
 
@@ -133,7 +124,7 @@ public class GameScreen extends AbstractScreen{
                 }
             }
         }
-        if(player.getHealth() <= 0)
+        if(player.getHp() <= 0)
             game.setState(MyGame.State.GameOver);
     }
 
@@ -162,9 +153,9 @@ public class GameScreen extends AbstractScreen{
     private void renderUi(){
         float barX = 10;
         float barY = stage.getHeight() - 10;
-        float barWidth = player.getMaxHealth();
+        float barWidth = player.getMaxHp();
         float barHeight = 4;
-        float healthPercentage = (float) player.getHealth() / player.getMaxHealth();
+        float healthPercentage = (float) player.getHp() / player.getMaxHp();
         float healthBarWidth = barWidth * healthPercentage;
 
         shapeRenderer.setProjectionMatrix(uiViewport.getCamera().combined);
@@ -180,7 +171,7 @@ public class GameScreen extends AbstractScreen{
 
         uiBatch.setProjectionMatrix(uiViewport.getCamera().combined);
         uiBatch.begin();
-        font.draw(uiBatch, player.getHealth()+"/"+ player.getMaxHealth()+"HP", barX + barWidth + 4, barY);
+        font.draw(uiBatch, player.getHp()+"/"+ player.getMaxHp()+"HP", barX + barWidth + 4, barY);
 
         for(IGameObject object : map.getGameObjects())
             if(object.canInteract()){
@@ -265,8 +256,7 @@ public class GameScreen extends AbstractScreen{
 
     @Override
     public void resize(int width, int height){
-        gameViewport.update(width, height);
-        uiViewport.update(width, height, true);
+        super.resize(width, height);
         centerDialogueLabel();
     }
 

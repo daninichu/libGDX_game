@@ -13,9 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.skeleton.app.MyGame;
 
 public class MainMenuScreen extends AbstractScreen {
-    private Stage stage;
-    private Label title;
-    private Label start;
+    private Label title, start;
 
     public MainMenuScreen(MyGame game){
         super(game);
@@ -28,9 +26,6 @@ public class MainMenuScreen extends AbstractScreen {
         uiViewport = new FitViewport(200, 150);
         stage = new Stage(uiViewport, uiBatch);
         font.getData().setScale(1);
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
 
         title = new Label("Welcome to my game!", labelStyle);
         stage.addActor(title);
@@ -60,7 +55,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height){
-        uiViewport.update(width, height);
+        super.resize(width, height);
 
         title.setAlignment(Align.center);
         title.setPosition(uiViewport.getWorldWidth()/2, uiViewport.getWorldHeight()/2);

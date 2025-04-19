@@ -179,7 +179,7 @@ public abstract class Enemy extends Entity{
     public void getAttacked(AttackableEntity attacker) {
         if(gotHit(attacker) && getState() != State.Dying && getState() != State.Dead){
             super.getAttacked(attacker);
-            stateMachine.forceState(health > 0 ? State.Stunned : State.Dying);
+            stateMachine.forceState(hp > 0 ? State.Stunned : State.Dying);
 
             dir = Direction.leftOrRight(velocity).opposite();
             animation.setDirection(dir);

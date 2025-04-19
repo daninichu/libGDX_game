@@ -19,7 +19,7 @@ public class Bat extends Enemy {
     public Bat(float x, float y, AttackableEntity player, HashGrid<Rectangle> grid){
         super(x, y, player, grid);
         this.animation = new AnimationHandler("pinkbat", dir);
-        this.health = 1;
+        this.hp = 1;
         this.speed = 5.5f * MyGame.TILE_SIZE;
         this.hurtbox = new Box(2, 2, 12, 10);
         this.attack = new BatAttack();
