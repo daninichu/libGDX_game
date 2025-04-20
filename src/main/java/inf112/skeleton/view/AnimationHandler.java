@@ -50,9 +50,6 @@ public class AnimationHandler implements Disposable {
         return currentAnimation.getKeyFrame(timer, state != State.DEATH);
     }
 
-
-
-
     public void setFrameDuration(float duration, State state) {
         timer *= duration / currentAnimation.getFrameDuration();
         for(Direction direction : Direction.values())

@@ -4,11 +4,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Json;
 import inf112.skeleton.controller.GameInputProcessor;
 import inf112.skeleton.controller.InventoryInputProcessor;
 import inf112.skeleton.model.LoadZone;
 import inf112.skeleton.model.Map;
 import inf112.skeleton.model.entities.Player;
+import inf112.skeleton.model.entities.gameobjects.IBonfire;
 import inf112.skeleton.model.entities.gameobjects.IDoor;
 import inf112.skeleton.view.screens.GameOverScreen;
 import inf112.skeleton.view.screens.GameScreen;
@@ -71,9 +73,17 @@ public class MyGame extends Game{
         setScreen(mainMenuScreen);
     }
 
+    public void saveGame(IBonfire bonfire){
+        SaveData saveData = new SaveData();
+        saveData.set(bonfire.getMapFile(), bonfire.getSpawnPos(), player.getHp());
+
+        Gdx.files.local(SaveData.filePath).writeString(new Json().toJson(saveData), false);
+    }
+
     public void restart(){
-        player.restart(7*32, 2*32);
-        map.loadMap("dungeon.tmx");
+        SaveData saveData = SaveData.load();
+        player.restart(saveData.spawnPos.x, saveData.spawnPos.y, saveData.playerHp);
+        map.loadMap(saveData.mapFile);
     }
 
     public Map getMap() {

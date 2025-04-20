@@ -50,6 +50,11 @@ public class GameInputProcessor extends InputAdapter {
                     game.setDialogue(dialogueObj.dialogue());
                     game.setState(MyGame.State.Dialogue);
                 }
+                else if(object instanceof IBonfire bonfire) {
+                    game.saveGame(bonfire);
+                    game.setDialogue("Game Saved");
+                    game.setState(MyGame.State.Dialogue);
+                }
                 else if(object != null)
                     object.interact();
             }

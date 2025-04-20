@@ -30,6 +30,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         blueprint.addTransition(State.NonAttack,        Event.AttackPressed,    State.AttackStartup);
         blueprint.addTransition(State.NonAttack,        Event.ShiftPressed,     State.Shielded);
         blueprint.addTransition(State.Shielded,         Event.ShiftReleased,    State.NonAttack);
+        blueprint.addTransition(State.Shielded,         Event.AttackPressed,    State.AttackStartup);
         blueprint.addTransition(State.AttackStartup,    Event.Timeout,          State.Attack);
         blueprint.addTransition(State.Attack,           Event.Timeout,          State.AttackEnd);
         blueprint.addTransition(State.AttackEnd,        Event.Timeout,          State.NonAttack);
@@ -71,9 +72,9 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         inventory.addItem(new HealthPotion());
     }
 
-    public void restart(float x, float y){
+    public void restart(float x, float y, int hp){
         pos.set(x, y);
-        hp = maxHp;
+        this.hp = hp;
         dir = Direction.DOWN;
         animation.setDirection(dir);
         stateMachine.forceState(State.NonAttack);

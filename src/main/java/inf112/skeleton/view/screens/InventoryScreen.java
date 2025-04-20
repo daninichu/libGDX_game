@@ -10,6 +10,8 @@ import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
 import inf112.skeleton.view.ViewableInventory;
 
+import java.util.Arrays;
+
 public class InventoryScreen extends AbstractScreen{
     private ViewableInventory inventory;
     private Label[] itemLabels = new Label[Inventory.SIZE];
@@ -31,7 +33,6 @@ public class InventoryScreen extends AbstractScreen{
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-
         Table itemsTable = new Table(); // Subtable to hold item slots
         for (int i = 0; i < Inventory.SIZE; i++) {
             itemLabels[i] = new Label("Empty", labelStyle);

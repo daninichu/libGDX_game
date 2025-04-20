@@ -58,6 +58,7 @@ public class Map {
         gameObjFactory.addConstructor("Sign", t -> new Sign(t, player));
         gameObjFactory.addConstructor("Switch", t -> new Switch(t, player));
         gameObjFactory.addConstructor("PressurePlate", t -> new PressurePlate(t, player, entityCH));
+        gameObjFactory.addConstructor("Bonfire", t -> new Bonfire(t, player));
 
         itemFactory.addConstructor("HealthPotion", t -> new ItemDrop(t, new HealthPotion()));
         itemFactory.addConstructor("SpeedCrystal", t -> new ItemDrop(t, new SpeedCrystal()));
