@@ -111,7 +111,6 @@ public class Map {
                 game.enterLoadZone(loadZone);
     }
 
-
     private <E extends Entity> Array<E> loadTileObjects(EntityFactory<E> factory, String layer){
         Array<E> arr = new Array<>();
         if(tiledMap.getLayers().get(layer) != null)

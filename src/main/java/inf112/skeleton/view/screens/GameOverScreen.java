@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -14,7 +14,7 @@ import inf112.skeleton.model.entities.Player;
 
 public class GameOverScreen extends AbstractScreen{
     private Player player;
-    private Label gameOverText, restartText;
+    private Label gameOverText, loadSave;
 
     public GameOverScreen(MyGame game, Player player) {
         super(game);
@@ -26,17 +26,20 @@ public class GameOverScreen extends AbstractScreen{
     public void show(){
         super.show();
         fadeTime = 0;
+        font.getData().setScale(1);
         gameViewport = new ExtendViewport(GameScreen.VIEW_WIDTH, GameScreen.VIEW_HEIGHT);
         uiViewport = new FitViewport(200, 150);
         stage = new Stage(uiViewport, uiBatch);
-        font.getData().setScale(1);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
 
         gameOverText = new Label("Game Over", labelStyle);
-        stage.addActor(gameOverText);
-
-        restartText = new Label("Press SPACE to restart", labelStyle);
-        restartText.setFontScale(0.5f);
-        stage.addActor(restartText);
+        loadSave = new Label("Press SPACE to load last save", labelStyle);
+        loadSave.setFontScale(0.5f);
+        table.add(gameOverText).pad(10).row();
+        table.add(loadSave);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class GameOverScreen extends AbstractScreen{
             renderText();
             fadeToBlack(deltaTime);
             if(resetFadeTimer()){
-                game.restart();
+                game.loadGame();
                 game.setState(MyGame.State.Play);
                 game.setScreen(GameScreen.class);
             }
@@ -84,19 +87,6 @@ public class GameOverScreen extends AbstractScreen{
         uiViewport.apply();
         stage.act();
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height){
-        super.resize(width, height);
-
-        gameOverText.setAlignment(Align.center);
-        gameOverText.setPosition(stage.getWidth()/2, stage.getHeight()/2);
-        gameOverText.setSize(1,1);
-
-        restartText.setAlignment(Align.center);
-        restartText.setPosition(stage.getWidth()/2, stage.getHeight()/3);
-        restartText.setSize(1,1);
     }
 
     @Override

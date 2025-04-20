@@ -54,7 +54,7 @@ public class MyGame extends Game{
     public void create(){
         player = new Player(7*32, 2*32);
         map = new Map(this, player);
-        restart();
+        loadGame();
 
         gameProcessor = new GameInputProcessor(this, player);
         inventoryProcessor = new InventoryInputProcessor(this, player);
@@ -73,6 +73,11 @@ public class MyGame extends Game{
         setScreen(mainMenuScreen);
     }
 
+    public void newGame(){
+        Gdx.files.local(SaveData.filePath).writeString(new Json().toJson(SaveData.defaultSaveData()), false);
+        loadGame();
+    }
+
     public void saveGame(IBonfire bonfire){
         SaveData saveData = new SaveData();
         saveData.set(bonfire.getMapFile(), bonfire.getSpawnPos(), player.getHp());
@@ -80,7 +85,7 @@ public class MyGame extends Game{
         Gdx.files.local(SaveData.filePath).writeString(new Json().toJson(saveData), false);
     }
 
-    public void restart(){
+    public void loadGame(){
         SaveData saveData = SaveData.load();
         player.restart(saveData.spawnPos.x, saveData.spawnPos.y, saveData.playerHp);
         map.loadMap(saveData.mapFile);

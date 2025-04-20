@@ -26,7 +26,7 @@ public class SaveData {
         return new Json().fromJson(SaveData.class, saveDataJson);
     }
 
-    private static SaveData defaultSaveData() {
+    public static SaveData defaultSaveData() {
         SaveData saveData = new SaveData();
         saveData.set("grass2.tmx", new Vector2(16*8, 16*8), 20);
         return saveData;

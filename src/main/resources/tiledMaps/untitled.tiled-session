@@ -119,13 +119,15 @@
         "grass2.tmx": {
             "expandedObjectLayers": [
                 2,
-                3
+                3,
+                6,
+                5
             ],
-            "scale": 1.9701,
-            "selectedLayer": 3,
+            "scale": 3.83,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 230.9527435155576,
-                "y": 251.00248718339168
+                "x": 171.80156657963443,
+                "y": 180.54830287206266
             }
         },
         "map1.tmx": {
