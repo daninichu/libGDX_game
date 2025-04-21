@@ -7,6 +7,10 @@ public class Inventory implements ViewableInventory{
     private Item[] items = new Item[SIZE];
     private int index;
 
+    public void set(Inventory inventory) {
+        this.items = inventory.items.clone();
+    }
+
     public boolean addItem(Item item) {
         for (int i = 0; i < this.items.length; i++)
             if(this.items[i] == null){

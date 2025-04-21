@@ -72,9 +72,11 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
         inventory.addItem(new HealthPotion());
     }
 
-    public void restart(float x, float y, int hp){
+    public void restart(float x, float y, int hp, int maxHp, Inventory inventory){
         pos.set(x, y);
         this.hp = hp;
+        this.maxHp = maxHp;
+        this.inventory.set(inventory);
         dir = Direction.DOWN;
         animation.setDirection(dir);
         stateMachine.forceState(State.NonAttack);

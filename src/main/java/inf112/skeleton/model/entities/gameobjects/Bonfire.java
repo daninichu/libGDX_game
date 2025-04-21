@@ -33,7 +33,12 @@ public class Bonfire extends GameObject implements IBonfire{
     }
 
     @Override
-    public Vector2 getSpawnPos() {
-        return spawnPos.cpy();
+    public float spawnX(){
+        return spawnPos.x;
+    }
+
+    @Override
+    public float spawnY(){
+        return spawnPos.y;
     }
 }

@@ -1,1 +1,1 @@
-{mapFile:grass2.tmx,spawnPos:{x:160,y:274},playerHp:2}
+{mapFile:grass1.tmx,x:128,y:128,hp:20,maxHp:20,inventory:{}}

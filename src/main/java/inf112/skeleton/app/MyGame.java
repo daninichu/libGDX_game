@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.Json;
 import inf112.skeleton.controller.GameInputProcessor;
 import inf112.skeleton.controller.InventoryInputProcessor;
 import inf112.skeleton.model.LoadZone;
@@ -74,20 +73,19 @@ public class MyGame extends Game{
     }
 
     public void newGame(){
-        Gdx.files.local(SaveData.filePath).writeString(new Json().toJson(SaveData.defaultSaveData()), false);
+        SaveData.save(SaveData.defaultSaveData());
         loadGame();
     }
 
-    public void saveGame(IBonfire bonfire){
+    public void saveGame(IBonfire b){
         SaveData saveData = new SaveData();
-        saveData.set(bonfire.getMapFile(), bonfire.getSpawnPos(), player.getHp());
-
-        Gdx.files.local(SaveData.filePath).writeString(new Json().toJson(saveData), false);
+        saveData.set(b.getMapFile(), b.spawnX(), b.spawnY(), player.getHp(), player.getMaxHp(), player.getInventory());
+        SaveData.save(saveData);
     }
 
     public void loadGame(){
         SaveData saveData = SaveData.load();
-        player.restart(saveData.spawnPos.x, saveData.spawnPos.y, saveData.playerHp);
+        player.restart(saveData.x, saveData.y, saveData.hp, saveData.maxHp, saveData.inventory);
         map.loadMap(saveData.mapFile);
     }
 
