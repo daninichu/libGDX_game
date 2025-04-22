@@ -23,7 +23,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     protected Box hurtbox;
     protected Attack attack = new Attack(){};
-    protected int maxHp, hp;
+    protected int hp, maxHp;
 
     protected Entity(float x, float y) {
         this.pos = new Vector2(x, y);
@@ -93,9 +93,8 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     public void update(float deltaTime){
         timer -= deltaTime;
         prevPos.set(pos);
-        if(animation != null){
+        if(animation != null)
             animation.update(deltaTime);
-        }
     }
 
     /**
@@ -142,9 +141,7 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
 
     @Override
     public Vector2 drawPos(){
-        if(animation == null)
-            return getPos();
-        return getPos().add(animation.getOffset());
+        return animation == null? getPos() : getPos().add(animation.getOffset());
     }
 
     @Override

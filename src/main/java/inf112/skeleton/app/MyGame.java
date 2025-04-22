@@ -84,9 +84,9 @@ public class MyGame extends Game{
     }
 
     public void loadGame(){
-        SaveData saveData = SaveData.load();
-        player.restart(saveData.x, saveData.y, saveData.hp, saveData.maxHp, saveData.inventory);
-        map.loadMap(saveData.mapFile);
+        SaveData data = SaveData.load();
+        player.restart(data.x, data.y, data.hp, data.maxHp, data.inventory);
+        map.loadMap(data.mapFile);
     }
 
     public Map getMap() {

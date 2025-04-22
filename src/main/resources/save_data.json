@@ -1,1 +1,23 @@
-{mapFile:grass1.tmx,x:128,y:128,hp:20,maxHp:20,inventory:{}}
+{
+  mapFile:grass2.tmx,
+  x:160,
+  y:274,
+  hp:10,
+  maxHp:20,
+  inventory:{
+    items:[
+      {
+        class:inf112.skeleton.model.inventory.HealthPotion
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  }
+}

@@ -6,8 +6,9 @@ import com.badlogic.gdx.utils.Json;
 import inf112.skeleton.model.inventory.Inventory;
 
 public class SaveData {
+    private static final String filePath = "src/main/resources/save_data.json";
     private static final Json json = new Json();
-    public static final String filePath = "src/main/resources/save_data.json";
+
     public String mapFile;
     public float x, y;
     public int hp, maxHp;
@@ -37,6 +38,6 @@ public class SaveData {
     }
 
     public static void save(SaveData saveData) {
-        Gdx.files.local(SaveData.filePath).writeString(json.toJson(saveData), false);
+        Gdx.files.local(filePath).writeString(json.toJson(saveData), false);
     }
 }

@@ -36,7 +36,7 @@ public class GameOverScreen extends AbstractScreen{
         stage.addActor(table);
 
         gameOverText = new Label("Game Over", labelStyle);
-        loadSave = new Label("Press SPACE to load last save", labelStyle);
+        loadSave = new Label("Press SPACE to reload from last save", labelStyle);
         loadSave.setFontScale(0.5f);
         table.add(gameOverText).pad(10).row();
         table.add(loadSave);
