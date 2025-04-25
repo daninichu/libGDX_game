@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        cfg.setTitle("hello-world");
+        cfg.setTitle("My Game");
         cfg.setWindowedMode(MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 
         new Lwjgl3Application(new MyGame(), cfg);
