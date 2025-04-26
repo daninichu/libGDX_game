@@ -65,7 +65,7 @@ public class GameScreen extends AbstractScreen{
         reset();
     }
 
-    public void reset(){
+    private void reset(){
         mapRenderer.setMap(map.getTiledMap());
         MapProperties mapProps = map.getTiledMap().getProperties();
         mapWidth = mapProps.get("width", int.class) * mapProps.get("tilewidth", int.class);
@@ -151,31 +151,19 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void renderUi(){
-        float barX = 10;
-        float barY = stage.getHeight() - 10;
-        float barWidth = player.getMaxHp();
-        float barHeight = 4;
-        float healthPercentage = (float) player.getHp() / player.getMaxHp();
-        float healthBarWidth = barWidth * healthPercentage;
+        Rectangle healthBar = new Rectangle(10, stage.getHeight() - 10, player.getHp(), 4);
+        Rectangle bar = new Rectangle(healthBar).setWidth(player.getMaxHp());
 
         shapeRenderer.setProjectionMatrix(uiViewport.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.8f, 0.3f, 0.3f, 1);
-        shapeRenderer.rect(barX, barY, healthBarWidth, barHeight);
-        shapeRenderer.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(0.9f, 0.8f, 0.8f, 1);
-        shapeRenderer.rect(barX, barY, barWidth, barHeight);
-        shapeRenderer.end();
+        draw(healthBar, new Color(0.8f, 0.3f, 0.3f, 1), ShapeRenderer.ShapeType.Filled);
+        draw(bar, new Color(0.9f, 0.8f, 0.8f, 1), ShapeRenderer.ShapeType.Line);
 
         uiBatch.setProjectionMatrix(uiViewport.getCamera().combined);
         uiBatch.begin();
-        font.draw(uiBatch, player.getHp()+"/"+ player.getMaxHp()+"HP", barX + barWidth + 4, barY);
-
+        font.draw(uiBatch, player.getHp()+"/"+ player.getMaxHp()+"HP", bar.x + bar.width + 4, bar.y);
         for(IGameObject object : map.getGameObjects())
             if(object.canInteract()){
-                font.draw(uiBatch, "E: Interact", barX, barY - 10);
+                font.draw(uiBatch, "E: Interact", bar.x, bar.y - 10);
                 break;
             }
         uiBatch.end();

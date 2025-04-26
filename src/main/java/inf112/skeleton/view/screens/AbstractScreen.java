@@ -64,6 +64,17 @@ public abstract class AbstractScreen implements Screen{
         shapeRenderer.rect(r.x, r.y, r.width, r.height);
     }
 
+    protected void draw(Rectangle r, Color color, ShapeRenderer.ShapeType shapeType) {
+        shapeRenderer.begin(shapeType);
+        draw(r, color);
+        shapeRenderer.end();
+    }
+
+    protected void draw(Rectangle r, Color color){
+        shapeRenderer.setColor(color);
+        shapeRenderer.rect(r.x, r.y, r.width, r.height);
+    }
+
     protected void fadeToBlack(float delta){
         fadeTime += delta;
         float alpha = Math.min(fadeTime / fadeDuration, 1.0f);

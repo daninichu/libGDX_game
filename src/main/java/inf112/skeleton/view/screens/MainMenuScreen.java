@@ -59,6 +59,7 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void render(float deltaTime){
         ScreenUtils.clear(Color.CLEAR);
+        uiViewport.apply();
         if(areYouSureClicked)
             renderAreYouSure();
         else

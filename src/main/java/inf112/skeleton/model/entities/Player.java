@@ -87,11 +87,12 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
             animation.setState(AnimationHandler.State.IDLE);
         });
         stateMachine.onEnter(State.Shielded, () -> {
+            velocity.setZero();
             animation.setState(AnimationHandler.State.SHIELDED);
         });
         stateMachine.onEnter(State.AttackStartup, () -> {
             timer = attack.getStartup();
-            if(velocity.isZero()){
+            if(dir.toVector().dot(velocity) <= 0){
                 switch(dir){
                     case LEFT   -> velocity.set(-1, 0);
                     case RIGHT  -> velocity.set(1, 0);
@@ -155,7 +156,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
                     animation.setState(AnimationHandler.State.IDLE);
             }
             case Attack -> move(deltaTime);
-            case Stunned -> {
+            case Stunned, Shielded -> {
                 move(deltaTime);
                 velocity.scl((float) Math.pow(0.1f, deltaTime));
             }
@@ -188,18 +189,32 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     @Override
     public void getAttacked(AttackableEntity attacker){
-        if(stateMachine.getState().equals(State.Shielded))
-            if(dir.opposite().equals(Direction.fromVector(attacker.knockbackVector(getCenterPos())))){
-                invincibleTimer = 0.3f;
-                return;
-            }
-        if(invincibleTimer <= 0 && gotHit(attacker)){
-            super.getAttacked(attacker);
-            stateMachine.forceState(State.Stunned);
-            dir = Direction.fromVector(velocity).opposite();
-            animation.setDirection(dir);
-            invincibleTimer = 1.8f;
+        Vector2 knockback = attacker.knockbackVector(getCenterPos());
+        float dot = knockback.cpy().nor().dot(dir.opposite().toVector());
+        if(!gotHit(attacker)){
+            return;
         }
+        if(stateMachine.getState() == State.Shielded && dot > 0.5){
+            attacker.addHit(this);
+            velocity.set(knockback.scl(0.5f));
+            setHitlagTimer(attacker.getHitlag());
+            attacker.setHitlagTimer(hitlagTimer);
+            return;
+        }
+        if(invincibleTimer > 0){
+            return;
+        }
+        //        attacker.addHit(this);
+        //        hp -= attacker.getDamage();
+        //        velocity.set(attacker.knockbackVector(getCenterPos()));
+        //        setHitlagTimer(attacker.getHitlag());
+        //        attacker.setHitlagTimer(hitlagTimer);
+
+        super.getAttacked(attacker);
+        stateMachine.forceState(State.Stunned);
+        dir = Direction.fromVector(velocity).opposite();
+        animation.setDirection(dir);
+        invincibleTimer = 1.8f;
     }
 
     @Override
@@ -245,7 +260,7 @@ public class Player extends Entity implements ControllablePlayer, IInventoryPlay
 
     @Override
     public boolean dead(){
-        return stateMachine.getState().equals(State.Dead);
+        return stateMachine.getState() == State.Dead;
     }
 
     private class PlayerAttack extends Attack{

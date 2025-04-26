@@ -31,4 +31,16 @@ public enum Direction{
             case DOWN -> UP;
         };
     }
+
+    /**
+     * @return A normalised vector in whatever direction this object is.
+     */
+    public Vector2 toVector() {
+        return switch(this){
+            case LEFT -> new Vector2(-1, 0);
+            case RIGHT -> new Vector2(1, 0);
+            case UP -> new Vector2(0, 1);
+            case DOWN -> new Vector2(0, -1);
+        };
+    }
 }

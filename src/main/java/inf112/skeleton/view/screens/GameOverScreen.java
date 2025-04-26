@@ -14,7 +14,6 @@ import inf112.skeleton.model.entities.Player;
 
 public class GameOverScreen extends AbstractScreen{
     private Player player;
-    private Label gameOverText, loadSave;
 
     public GameOverScreen(MyGame game, Player player) {
         super(game);
@@ -35,10 +34,11 @@ public class GameOverScreen extends AbstractScreen{
         table.setFillParent(true);
         stage.addActor(table);
 
-        gameOverText = new Label("Game Over", labelStyle);
-        loadSave = new Label("Press SPACE to reload from last save", labelStyle);
-        loadSave.setFontScale(0.5f);
+        Label gameOverText = new Label("Game Over", labelStyle);
         table.add(gameOverText).pad(10).row();
+
+        Label loadSave = new Label("Press SPACE to reload from last save", labelStyle);
+        loadSave.setFontScale(0.5f);
         table.add(loadSave);
     }
 
