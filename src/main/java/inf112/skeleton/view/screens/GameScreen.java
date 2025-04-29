@@ -38,7 +38,7 @@ public class GameScreen extends AbstractScreen{
     private ViewableEntity player;
     private Array<? extends ViewableEntity> entities;
 
-    private OrthographicCamera camera;
+    private OrthographicCamera camera = new OrthographicCamera();
     private OrthogonalTiledMapRenderer mapRenderer;
     private Label dialogue;
 
@@ -52,8 +52,7 @@ public class GameScreen extends AbstractScreen{
         super.show();
         font.getData().setScale(0.3f);
 
-        camera = new OrthographicCamera();
-        gameViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
+        gameViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT);
         uiViewport = new ExtendViewport(160, 120);
 
         stage = new Stage(uiViewport);
@@ -71,7 +70,7 @@ public class GameScreen extends AbstractScreen{
         mapWidth = mapProps.get("width", int.class) * mapProps.get("tilewidth", int.class);
         mapHeight = mapProps.get("height", int.class) * mapProps.get("tileheight", int.class);
 
-        camera.position.set(calculateCameraPos());
+        camera.position.set(calculateCameraPos(false));
         gameViewport.apply();
     }
 
@@ -114,7 +113,7 @@ public class GameScreen extends AbstractScreen{
             case GameOver -> {
                 renderGame();
                 fadeToBlack(deltaTime/2);
-                camera.position.lerp(new Vector3(player.getCenterPos(), 0), 8*deltaTime);
+                camera.position.lerp(calculateCameraPos(true), 8*deltaTime);
                 gameBatch.setProjectionMatrix(camera.combined);
                 gameBatch.begin();
                 draw(gameBatch, player.getTexture(), player.drawPos());
@@ -147,7 +146,7 @@ public class GameScreen extends AbstractScreen{
         }
         gameBatch.end();
         renderUi();
-        renderDebug();
+//        renderDebug();
     }
 
     private void renderUi(){
@@ -162,10 +161,8 @@ public class GameScreen extends AbstractScreen{
         uiBatch.begin();
         font.draw(uiBatch, player.getHp()+"/"+ player.getMaxHp()+"HP", bar.x + bar.width + 4, bar.y);
         for(IGameObject object : map.getGameObjects())
-            if(object.canInteract()){
+            if(object.canInteract())
                 font.draw(uiBatch, "E: Interact", bar.x, bar.y - 10);
-                break;
-            }
         uiBatch.end();
     }
 
@@ -188,7 +185,9 @@ public class GameScreen extends AbstractScreen{
         stage.draw();
     }
 
-    private Vector3 calculateCameraPos(){
+    private Vector3 calculateCameraPos(boolean atPlayer){
+        if(atPlayer)
+            return new Vector3(player.getCenterPos(), 0);
         float x = Math.min(Math.max(player.getCenterX(), gameViewport.getWorldWidth()/2), mapWidth - gameViewport.getWorldWidth()/2);
         float y = Math.min(Math.max(player.getCenterY(), gameViewport.getWorldHeight()/2), mapHeight - gameViewport.getWorldHeight()/2);
         if(mapWidth < gameViewport.getWorldWidth())
@@ -199,46 +198,29 @@ public class GameScreen extends AbstractScreen{
     }
 
     private void followPlayerWithCamera(float deltaTime){
-        camera.position.lerp(calculateCameraPos(), 5*deltaTime);
+        camera.position.lerp(calculateCameraPos(false), 5*deltaTime);
         gameViewport.apply();
     }
 
     private void renderDebug(){
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLUE);
+        for(ViewableEntity e : entities)
+            for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox()))
+                draw(Box.cell(cell), Color.BLUE);
+        for(Rectangle r : map.getCollisionBoxes())
+            draw(r, Color.WHITE);
         for(ViewableEntity e : entities){
-            for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox())){
-                Rectangle r = Box.cell(cell);
-//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
-            }
-        }
-        shapeRenderer.setColor(Color.WHITE);
-//        shapeRenderer.circle(player.getCenterPos().x, player.getCenterPos().y, Enemy.vision);
-        for(Rectangle r : map.getCollisionBoxes()){
-//            shapeRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-        }
-        for(ViewableEntity e : entities){
-            Rectangle r = e.locateHurtbox();
-            if(r != null){
-//                shapeRenderer.rect(r.x, r.y, r.width, r.height);
-            }
-            if(e instanceof Enemy enemy){
-                Line l = enemy.getRay();
-                if(l != null){
-//                    shapeRenderer.rectLine(l.x1, l.y1, l.x2, l.y2, 1);
-                }
-            }
+            draw(e.locateHurtbox(), Color.WHITE);
+            if(e instanceof Enemy enemy)
+                if(enemy.getRay() != null)
+                    draw(enemy.getRay(), Color.WHITE);
         }
         shapeRenderer.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.setColor(1,0,0,0.3f);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for(Circle hitbox : map.getHitboxes()){
-//            shapeRenderer.circle(hitbox.x, hitbox.y, hitbox.radius);
-        }
-        shapeRenderer.end();
+        for(Circle hitbox : map.getHitboxes())
+            draw(hitbox, new Color(1, 0, 0, 0.3f), ShapeRenderer.ShapeType.Filled);
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
@@ -246,11 +228,5 @@ public class GameScreen extends AbstractScreen{
     public void resize(int width, int height){
         super.resize(width, height);
         centerDialogueLabel();
-    }
-
-    @Override
-    public void dispose(){
-        super.dispose();
-        stage.dispose();
     }
 }

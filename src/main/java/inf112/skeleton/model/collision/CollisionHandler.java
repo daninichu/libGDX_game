@@ -21,7 +21,7 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
         grid.get(cell).add(e);
     }
 
-    public abstract void updateGrid(Array<? extends E> grid);
+    public abstract void updateGrid(Array<? extends E> arr);
 
     @Override
     public ObjectSet<E> getLocalObjects(Array<Point> cells){

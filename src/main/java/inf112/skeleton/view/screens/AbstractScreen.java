@@ -1,7 +1,7 @@
 package inf112.skeleton.view.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,27 +9,29 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.MyGame;
+import inf112.skeleton.util.Line;
 
-public abstract class AbstractScreen implements Screen{
+public abstract class AbstractScreen extends ScreenAdapter{
     protected static final BitmapFont font = new BitmapFont(Gdx.files.internal("font/MaruMonica.fnt"));
     protected static final Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
     static {
         font.setUseIntegerPositions(false);
     }
+    private static final OrthographicCamera tempCamera = new OrthographicCamera();
     protected final MyGame game;
 
     protected Stage stage;
     protected SpriteBatch gameBatch, uiBatch;
     protected Viewport gameViewport, uiViewport;
     protected ShapeRenderer shapeRenderer;
-
-    private static final OrthographicCamera tempCamera = new OrthographicCamera();
 
     protected float fadeDuration = 0.25f;
     protected float fadeTime;
@@ -49,30 +51,26 @@ public abstract class AbstractScreen implements Screen{
         uiBatch = new SpriteBatch();
     }
 
-    /**
-     * Is called every frame. It's where we should decide what happens each frame.
-     * @param deltaTime The time interval between each frame.
-     */
-    @Override
-    public void render(float deltaTime){}
-
     protected void draw(SpriteBatch batch, TextureRegion tex, Vector2 p){
         batch.draw(tex, p.x, p.y);
     }
 
-    protected void draw(Rectangle r){
-        shapeRenderer.rect(r.x, r.y, r.width, r.height);
-    }
-
-    protected void draw(Rectangle r, Color color, ShapeRenderer.ShapeType shapeType) {
-        shapeRenderer.begin(shapeType);
-        draw(r, color);
-        shapeRenderer.end();
-    }
-
-    protected void draw(Rectangle r, Color color){
+    protected void draw(Shape2D shape, Color color){
         shapeRenderer.setColor(color);
-        shapeRenderer.rect(r.x, r.y, r.width, r.height);
+        if(shape instanceof Rectangle r)
+            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+        else if(shape instanceof Circle c)
+            shapeRenderer.circle(c.x, c.y, c.radius);
+        else if(shape instanceof Line l)
+            shapeRenderer.line(l.x1, l.y1, l.x2, l.y2);
+        else
+            throw new IllegalArgumentException("Shape is not a Rectangle, Circle or Line.");
+    }
+
+    protected void draw(Shape2D shape, Color color, ShapeRenderer.ShapeType shapeType) {
+        shapeRenderer.begin(shapeType);
+        draw(shape, color);
+        shapeRenderer.end();
     }
 
     protected void fadeToBlack(float delta){
@@ -122,15 +120,9 @@ public abstract class AbstractScreen implements Screen{
      */
     @Override
     public void dispose(){
+        stage.dispose();
         shapeRenderer.dispose();
         gameBatch.dispose();
         uiBatch.dispose();
     }
-
-    @Override
-    public void pause(){}
-    @Override
-    public void resume(){}
-    @Override
-    public void hide(){}
 }

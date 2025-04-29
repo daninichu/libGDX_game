@@ -9,10 +9,9 @@ import inf112.skeleton.model.attack.Attack;
 import inf112.skeleton.model.collision.CollidableEntity;
 import inf112.skeleton.model.attack.AttackableEntity;
 import inf112.skeleton.util.Box;
-import inf112.skeleton.view.ViewableEntity;
 import inf112.skeleton.view.AnimationHandler;
 
-public abstract class Entity implements ViewableEntity, CollidableEntity, AttackableEntity{
+public abstract class Entity implements CollidableEntity, AttackableEntity{
     protected AnimationHandler animation;
     protected TextureRegion texture;
     protected Direction dir = Direction.DOWN;
@@ -152,11 +151,6 @@ public abstract class Entity implements ViewableEntity, CollidableEntity, Attack
     @Override
     public int getMaxHp(){
         return maxHp;
-    }
-
-    @Override
-    public boolean dead(){
-        return hp <= 0;
     }
 
     @Override

@@ -20,8 +20,6 @@ public interface ViewableEntity {
 
     Vector2 drawPos();
 
-    boolean dead();
-
     default Box locateHurtbox(){
         return new Box(getLeftX(), getBottomY(), getWidth(), getHeight());
     }
@@ -73,4 +71,8 @@ public interface ViewableEntity {
     int getHp();
 
     int getMaxHp();
+
+    default boolean dead(){
+        return getHp() <= 0;
+    }
 }

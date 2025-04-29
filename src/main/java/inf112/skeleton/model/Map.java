@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -115,7 +116,7 @@ public class Map {
         Array<E> arr = new Array<>();
         if(tiledMap.getLayers().get(layer) != null)
             for(MapObject obj : tiledMap.getLayers().get(layer).getObjects())
-                arr.add(factory.create(obj));
+                arr.add(factory.create((TiledMapTileMapObject) obj));
         return arr;
     }
 

@@ -12,7 +12,6 @@ import inf112.skeleton.app.MyGame;
 
 public class MainMenuScreen extends AbstractScreen {
     private Stage stage2;
-    private Label title, start, newGame, areYouSure;
     private boolean areYouSureClicked;
 
     public MainMenuScreen(MyGame game){
@@ -31,10 +30,10 @@ public class MainMenuScreen extends AbstractScreen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        title = new Label("Welcome to my game!", labelStyle);
-        start = new Label("Press SPACE to load game", labelStyle);
+        Label title = new Label("Welcome to my game!", labelStyle);
+        Label start = new Label("Press SPACE to load game", labelStyle);
         start.setFontScale(0.5f);
-        newGame = new Label("Press ENTER to start new game", labelStyle);
+        Label newGame = new Label("Press ENTER to start new game", labelStyle);
         newGame.setFontScale(0.5f);
         table.add(title).pad(10).row();
         table.add(newGame).pad(8).row();
@@ -44,7 +43,7 @@ public class MainMenuScreen extends AbstractScreen {
         table = new Table();
         table.setFillParent(true);
         stage2.addActor(table);
-        areYouSure = new Label("""
+        Label areYouSure = new Label("""
             Are you sure you want to start a new game?
             This cannot be undone.
 
@@ -98,6 +97,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose(){
         super.dispose();
-        stage.dispose();
+        stage2.dispose();
     }
 }
