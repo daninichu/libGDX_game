@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.skeleton.app.MyGame;
 import inf112.skeleton.model.inventory.Inventory;
 import inf112.skeleton.model.inventory.Item;
@@ -38,6 +41,14 @@ public class InventoryScreen extends AbstractScreen{
         }
         table.add(itemsTable).width(200).pad(10); // Inventory on the left
         table.add(itemDescription).expand().fill().pad(10); // Description on the right
+
+        table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
+        Label controls = new Label("W: Up    S: Down    Q: Exit    SPACE: Use", labelStyle);
+        controls.setFontScale(0.8f);
+        table.add(controls).expandY().padBottom(20).bottom();
     }
 
     @Override
@@ -68,7 +79,6 @@ public class InventoryScreen extends AbstractScreen{
 
     private void renderInventory(){
         ScreenUtils.clear(Color.DARK_GRAY);
-
         for (int i = 0; i < Inventory.SIZE; i++) {
             itemLabels[i].setText(inventory.viewItem(i) == null? "Empty" : inventory.viewItem(i).toString());
             itemLabels[i].setColor(i == inventory.getIndex() ? Color.GREEN : Color.WHITE);

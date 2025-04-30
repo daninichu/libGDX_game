@@ -52,10 +52,10 @@ public class GameScreen extends AbstractScreen{
         super.show();
         font.getData().setScale(0.3f);
 
-        gameViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT);
+        gameViewport = new ExtendViewport(VIEW_WIDTH, VIEW_HEIGHT, camera);
         uiViewport = new ExtendViewport(160, 120);
 
-        stage = new Stage(uiViewport);
+        stage = new Stage(uiViewport, uiBatch);
         dialogue = new Label("", labelStyle);
         stage.addActor(dialogue);
 
@@ -160,23 +160,20 @@ public class GameScreen extends AbstractScreen{
         uiBatch.setProjectionMatrix(uiViewport.getCamera().combined);
         uiBatch.begin();
         font.draw(uiBatch, player.getHp()+"/"+ player.getMaxHp()+"HP", bar.x + bar.width + 4, bar.y);
+        font.draw(uiBatch, "Q: Inventory", bar.x, bar.y - 10);
         for(IGameObject object : map.getGameObjects())
             if(object.canInteract())
-                font.draw(uiBatch, "E: Interact", bar.x, bar.y - 10);
+                font.draw(uiBatch, "E: Interact", bar.x, bar.y - 20);
         uiBatch.end();
     }
 
     private void centerDialogueLabel() {
-        float x = (stage.getWidth() - dialogue.getWidth()) / 2;
-        float y = 40;
-        dialogue.setPosition(x, y);
+        dialogue.setPosition((stage.getWidth() - dialogue.getWidth()) / 2, 40);
     }
 
     public void setDialogue(String newDialogue) {
-        stage.clear();
-        dialogue = new Label(newDialogue, labelStyle);
+        stage.getActors().set(0, dialogue = new Label(newDialogue, labelStyle));
         centerDialogueLabel();
-        stage.addActor(dialogue);
     }
 
     private void renderDialogue() {

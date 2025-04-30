@@ -99,11 +99,8 @@ public abstract class AbstractScreen extends ScreenAdapter{
 
         tempCamera.setToOrtho(false); // false to set the origin at the bottom left
         shapeRenderer.setProjectionMatrix(tempCamera.combined);
-        shapeRenderer.setColor(0, 0, 0, alpha);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.rect(0, 0, tempCamera.viewportWidth, tempCamera.viewportHeight);
-        shapeRenderer.end();
-
+        Rectangle r = new Rectangle(0, 0, tempCamera.viewportWidth, tempCamera.viewportHeight);
+        draw(r, new Color(0, 0, 0, alpha), ShapeRenderer.ShapeType.Filled);
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 

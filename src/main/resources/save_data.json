@@ -1,1 +1,1 @@
-{mapFile:grass2.tmx,x:160,y:274,hp:20,maxHp:20,inventory:{}}
+{mapFile:grass2.tmx,x:160,y:274,hp:14,maxHp:20,inventory:{items:[{class:inf112.skeleton.model.inventory.HealthPotion},null,null,null,null,null,null,null,null,null]}}
