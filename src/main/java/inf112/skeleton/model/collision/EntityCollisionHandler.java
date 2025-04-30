@@ -1,5 +1,6 @@
 package inf112.skeleton.model.collision;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
@@ -29,6 +30,14 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     }
 
     @Override
+    public boolean collidesAny(CollidableEntity e){
+        Array<Rectangle> localBoxes = new Array<>();
+        for(CollidableEntity l : getLocalObjects(e.locateHurtbox()))
+            localBoxes.add(l.locateHurtbox());
+        return collidesAny(e.locateHurtbox(), localBoxes);
+    }
+
+    @Override
     public void handleCollision(CollidableEntity e) {
         if(e instanceof ItemDrop || e instanceof FloorEntity || !e.collidable())
             return;
@@ -51,23 +60,12 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
     private static void push(CollidableEntity e1, CollidableEntity e2) {
         float overlapX = Math.min(e1.getRightX() - e2.getLeftX(), e2.getRightX() - e1.getLeftX());
         float overlapY = Math.min(e1.getTopY() - e2.getBottomY(), e2.getTopY() - e1.getBottomY());
-
-        if (overlapX < overlapY) {
-            if (e1.getLeftX() < e2.getLeftX()) {
-                e1.addPos(-overlapX / 2f, 0);
-                e2.addPos(overlapX / 2f, 0);
-            } else {
-                e1.addPos(overlapX / 2f, 0);
-                e2.addPos(-overlapX / 2f, 0);
-            }
-        } else {
-            if (e1.getBottomY() < e2.getBottomY()) {
-                e1.addPos(0, -overlapY / 2f);
-                e2.addPos(0, overlapY / 2f);
-            } else {
-                e1.addPos(0, overlapY / 2f);
-                e2.addPos(0, -overlapY / 2f);
-            }
-        }
+        float dx = 0, dy = 0;
+        if(overlapX < overlapY)
+            dx = e1.getLeftX() < e2.getLeftX() ? overlapX : -overlapX;
+        else
+            dy = e1.getBottomY() < e2.getBottomY() ? overlapY : -overlapY;
+        e1.addPos(-dx / 2f, -dy / 2f);
+        e2.addPos(dx / 2f, dy / 2f);
     }
 }

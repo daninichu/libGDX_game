@@ -28,7 +28,7 @@ public class Pathfinder{
         Node parent;
         int gCost;
 
-        public Node(Point pos, int gCost, int hCost) {
+        Node(Point pos, int gCost, int hCost) {
             super(gCost + hCost);
             this.pos = pos;
             this.gCost = gCost;
@@ -55,7 +55,7 @@ public class Pathfinder{
         heap.clear();
         heap.add(new Node(start, 0, hCost(start, goal)));
         int i = 0;
-        while (!heap.isEmpty() && i++ < 200) { // Max search bound
+        while(!heap.isEmpty() && i++ < 200){ // Max search bound
             Node curr = heap.pop();
             if(done.add(curr.pos))
                 for(Point adj : adjCells(curr.pos)){

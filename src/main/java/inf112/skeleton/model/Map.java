@@ -29,8 +29,8 @@ public class Map {
     private static final String startPath = "tiledMaps/";
     private TiledMap tiledMap;
 
-    private MyGame game;
-    private Player player;
+    private final MyGame game;
+    private final Player player;
     private Array<Enemy> enemies;
     private Array<GameObject> objects;
     private Array<ItemDrop> itemDrops;
@@ -38,12 +38,12 @@ public class Map {
     private Array<Rectangle> collisionBoxes;
     private Array<LoadZone> loadZones;
 
-    private EntityFactory<Enemy> enemyFactory = new EntityFactory<>();
-    private EntityFactory<GameObject> gameObjFactory = new EntityFactory<>();
-    private EntityFactory<ItemDrop> itemFactory = new EntityFactory<>();
+    private final EntityFactory<Enemy> enemyFactory = new EntityFactory<>();
+    private final EntityFactory<GameObject> gameObjFactory = new EntityFactory<>();
+    private final EntityFactory<ItemDrop> itemFactory = new EntityFactory<>();
 
-    private StaticCollisionHandler staticCH = new StaticCollisionHandler();
-    private EntityCollisionHandler entityCH = new EntityCollisionHandler();
+    private final StaticCollisionHandler staticCH = new StaticCollisionHandler();
+    private final EntityCollisionHandler entityCH = new EntityCollisionHandler();
 
     public Map(MyGame game, Player player) {
         this.game = game;
@@ -169,15 +169,14 @@ public class Map {
         return arr;
     }
 
-    public Array.ArrayIterable<Circle> getHitboxes() {
-        Array<Circle> hitboxes = new Array<>();
-        for(Entity e : getEntities())
-            hitboxes.addAll(e.getHitboxes());
-        return new Array.ArrayIterable<>(hitboxes);
-    }
-
     public TiledMap getTiledMap() {
         return tiledMap;
+    }
+
+    public Array.ArrayIterable<Circle> getHitboxes() {
+        Array<Circle> hitboxes = new Array<>();
+        getEntities().forEach(e -> hitboxes.addAll(e.getHitboxes()));
+        return new Array.ArrayIterable<>(hitboxes);
     }
 
     public Array.ArrayIterable<Rectangle> getCollisionBoxes() {

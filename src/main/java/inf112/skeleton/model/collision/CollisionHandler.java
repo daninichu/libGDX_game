@@ -45,5 +45,7 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
         return false;
     }
 
+    public abstract boolean collidesAny(E e);
+
     public abstract void handleCollision(CollidableEntity entity);
 }

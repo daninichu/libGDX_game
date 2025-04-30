@@ -79,10 +79,10 @@
         },
         "dungeon.tmx": {
             "expandedObjectLayers": [
-                4,
-                7,
+                6,
                 3,
-                6
+                4,
+                7
             ],
             "scale": 4.1259,
             "selectedLayer": 6,
@@ -106,28 +106,28 @@
         },
         "grass1.tmx": {
             "expandedObjectLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 1.1544,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 577.7893277893278,
-                "y": 164.15453915453912
+                "x": 319.6465696465697,
+                "y": 240.38461538461536
             }
         },
         "grass2.tmx": {
             "expandedObjectLayers": [
                 2,
-                3,
                 6,
+                3,
                 5
             ],
             "scale": 3.83,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 171.80156657963443,
-                "y": 180.54830287206266
+                "x": 320.1044386422976,
+                "y": 240.0783289817232
             }
         },
         "map1.tmx": {
