@@ -1,6 +1,5 @@
 package inf112.skeleton.model.collision;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import inf112.skeleton.app.MyGame;
@@ -27,14 +26,6 @@ public class EntityCollisionHandler extends CollisionHandler<CollidableEntity> {
             for(Point cell : HashGrid.getOccupiedCells(e.locateHurtbox()))
                 addToGrid(cell, e);
         }
-    }
-
-    @Override
-    public boolean collidesAny(CollidableEntity e){
-        Array<Rectangle> localBoxes = new Array<>();
-        for(CollidableEntity l : getLocalObjects(e.locateHurtbox()))
-            localBoxes.add(l.locateHurtbox());
-        return collidesAny(e.locateHurtbox(), localBoxes);
     }
 
     @Override

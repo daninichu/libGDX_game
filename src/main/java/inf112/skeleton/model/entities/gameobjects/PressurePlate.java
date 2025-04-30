@@ -14,7 +14,7 @@ public class PressurePlate extends GameObject implements FloorEntity{
     private Array<MapProperties> links = new Array<>();
     private boolean steppedOn;
 
-    public PressurePlate(TiledMapTileMapObject tileObj, ViewableEntity player, HashGrid<? extends ViewableEntity> grid) {
+    public PressurePlate(TiledMapTileMapObject tileObj, ViewableEntity player, HashGrid<? extends ViewableEntity> grid){
         super(tileObj, player);
         this.grid = grid;
 
@@ -29,8 +29,8 @@ public class PressurePlate extends GameObject implements FloorEntity{
     @Override
     public void update(float deltaTime){
         Array<Rectangle> localHurtboxes = new Array<>();
-        for(ViewableEntity obj : grid.getLocalObjects(locateHurtbox()))
-            localHurtboxes.add(obj.locateHurtbox());
+        for(ViewableEntity e : grid.getLocalObjects(locateHurtbox()))
+            localHurtboxes.add(e.locateHurtbox());
 
         if(steppedOn == CollisionHandler.collidesAny(locateHurtbox(), localHurtboxes))
             return;

@@ -83,8 +83,6 @@
     <property name="Map File" value="grass2.tmx"/>
    </properties>
   </object>
-  <object id="64" gid="243" x="112" y="320" width="64" height="64"/>
-  <object id="65" gid="243" x="192" y="352" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="6" name="Enemies"/>
  <objectgroup id="2" name="Load Zones">

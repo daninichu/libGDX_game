@@ -20,14 +20,6 @@ public class StaticCollisionHandler extends CollisionHandler<Rectangle>{
     }
 
     @Override
-    public boolean collidesAny(Rectangle box){
-        for(Rectangle localBox : getLocalObjects(box))
-            if(box.overlaps(localBox))
-                return true;
-        return false;
-    }
-
-    @Override
     public void handleCollision(CollidableEntity e) {
         Vector2 destPos = e.getPos();
         Vector2 prevPos = e.getPrevPos();

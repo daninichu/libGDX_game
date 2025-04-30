@@ -31,21 +31,19 @@ public abstract class CollisionHandler<E> implements HashGrid<E> {
         return localObjects;
     }
 
-    public static boolean collidesAny(Rectangle box, Iterable<Rectangle> localBoxes) {
+    public static boolean collidesAny(Rectangle box, Iterable<? extends Rectangle> localBoxes) {
         for (Rectangle localBox : localBoxes)
             if(box.overlaps(localBox))
                 return true;
         return false;
     }
 
-    public static boolean collidesAny(Line line, Iterable<Rectangle> localBoxes) {
+    public static boolean collidesAny(Line line, Iterable<? extends Rectangle> localBoxes) {
         for (Rectangle localBox : localBoxes)
             if(line.intersects(localBox))
                 return true;
         return false;
     }
-
-    public abstract boolean collidesAny(E e);
 
     public abstract void handleCollision(CollidableEntity entity);
 }
